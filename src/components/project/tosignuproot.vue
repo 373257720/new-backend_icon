@@ -2,98 +2,45 @@
   <div id="tosignuproot">
     <div class="tosignuproot">
       <div class="top">
-        <aside class="fl"></aside>
-        <article class="fr">
-           <header >MACHINE INFORMATION</header>
+        <aside ></aside>
+        <article >
+           <header >MACHINE INFORMATION<span>SEE ALL</span></header>
           <el-main>
-            <el-table stripe :data="tableData" border style="width:100%;">
-              <el-table-column fixed prop="createTime" label="注册时间" align="center"></el-table-column>
-              <el-table-column prop="projectName" label="项目名称" align="center"></el-table-column>
-              <el-table-column prop="projectCompany" label="公司名称" align="center"></el-table-column>
+            <el-table     :row-class-name="tableRowClassName"  max-height="500" :data="tableData" border style="width:100%;">
+              <el-table-column fixed prop="date" label="Transa tion ID" align="center"></el-table-column>
+              <el-table-column prop="name" label="Type" align="center"></el-table-column>
+              <el-table-column prop="city" label="Days" align="center"></el-table-column>
             </el-table>
           </el-main>
         </article>
       </div>
-      <div class="bottom">
-        <header>MACHINE INFORMATION</header>
-        <main>
-          <el-main>
-            <el-table stripe :data="tableData" border style="width:100%;">
-              <el-table-column fixed prop="createTime" label="注册时间" align="center"></el-table-column>
-              <el-table-column prop="projectName" label="项目名称" align="center"></el-table-column>
-              <el-table-column prop="projectCompany" label="公司名称" align="center"></el-table-column>
-              <el-table-column prop="signstatus" label="验证状态" align="center"></el-table-column>
-              <el-table-column prop="projectstatus" label="项目状态" align="center"></el-table-column>
-              <el-table-column label="操作" align="center">
-                <template slot-scope="scope">
-                  <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                  <el-button
-                    @click="deleterow(scope.row)"
-                    type="text"
-                    prop="projectLifeCycle"
-                    v-if="scope.row.projectLifeCycle===0"
-                    size="small"
-                  >删除</el-button>
-                  <el-button type="text" size="small">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-main>
-        </main>
-      </div>
-      <!-- <header class="tosignup_header"> -->
-      <!-- <div class="block">
-        <el-date-picker
-          v-model="value1"
-          type="daterange"
-          range-separator="至"
-          value-format="timestamp"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['00:00:00', '23:59:59']"
-        ></el-date-picker>
-      </div>-->
-      <!-- <el-select v-model="value" placeholder="请选择" class="block">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>-->
-      <!-- <el-input placeholder="项目名称" v-model="searchkey" clearable></el-input> -->
-      <!-- <el-button
-        type="primary"
-        icon="el-icon-search"
-        class="block"
-        @click="search(value,value1[0]/1000, value1[1]/1000, 1, pagesize)"
-      >搜索</el-button>-->
-      <!-- <router-link to="/home/project/tosignup/addproject_ch/">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" class="addbtn">添加项目</el-button>
-      </router-link>
-    </header>
-    <el-main>
-      <el-table :data="tableData" border style="width:100%;">
-        <el-table-column fixed prop="createTime" label="注册时间" align="center"></el-table-column>
-        <el-table-column prop="projectName" label="项目名称" align="center"></el-table-column>
-        <el-table-column prop="projectCompany" label="公司名称" align="center"></el-table-column>
-        <el-table-column prop="signstatus" label="验证状态" align="center"></el-table-column>
-        <el-table-column prop="projectstatus" label="项目状态" align="center"></el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button
-              @click="deleterow(scope.row)"
-              type="text"
-              prop="projectLifeCycle"
-              v-if="scope.row.projectLifeCycle===0"
-              size="small"
-            >删除</el-button>
-            <el-button  type="text" size="small">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-main>
+        <div class="bottom">
+          <header>MACHINE INFORMATION</header>
+          <main>
+            <el-main>
+              <el-table  :row-class-name="tableRowClassName"  :data="tableData" border style="width:100%;">
+                <el-table-column fixed prop="date" label="Machine Information" align="center"></el-table-column>
+                <el-table-column prop="name" label="ATM Address" align="center"></el-table-column>
+                <el-table-column prop="projectCompany" label="Dispenser" align="center"></el-table-column>
+                <el-table-column prop="signstatus" label="Cashbox" align="center"></el-table-column>
+                <el-table-column label="操作" align="center">
+                  <template slot-scope="scope">
+                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button
+                      @click="deleterow(scope.row)"
+                      type="text"
+                      prop="projectLifeCycle"
+                      v-if="scope.row.projectLifeCycle===0"
+                      size="small"
+                    >删除</el-button>
+                    <el-button type="text" size="small">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-main>
+          </main>
+        </div>
+
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -105,7 +52,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
-      </el-dialog>-->
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -121,6 +68,40 @@ export default {
       currentpage: 1,
       pagesize: 6,
       pagetotal: null,
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1517 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1519 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1516 弄",
+          zip: 200333
+        }
+      ],
       options: [
         {
           value: -1,
@@ -143,13 +124,22 @@ export default {
           label: "项目方拒绝签约"
         }
       ],
-      tableData: []
+      // tableData: []
     };
   },
   created() {
-    this.search(this.value, null, null, this.currentpage, this.pagesize);
+    // this.search(this.value, null, null, this.currentpage, this.pagesize);
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      // console.dir(rowIndex)
+      if (rowIndex %2 == 0) {
+
+        return 'success-row';
+      }
+      // return '';
+    },
+
     deleterow(row) {
       console.log(row);
       this.$confirm("确定删除？", "提示", {
@@ -263,13 +253,15 @@ export default {
 
 <style lang='scss'>
 #tosignuproot {
+  margin-top: 60px;
   .tosignuproot {
-    width: 1505px;
     height: 780px;
     // background: yellow;
     margin-left: 60px;
+    margin-right: 60px;
     .el-main {
       padding: 0;
+      overflow: hidden;
       .el-table--border td,
       .el-table--border th,
       .el-table__body-wrapper
@@ -282,24 +274,50 @@ export default {
     div.top {
       height: 486px;
       width: 100%;
-
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 76px;
       aside {
-        width: 876px;
+        width: 50%;
         height: 100%;
-        background: blue;
+        border: 1px solid blue;
+        /*background: blue;*/
       }
       article {
-        width: 548px;
+        width: 40%;
         height: 100%;
-        background: green;
+
+        /*background: green;*/
+
+        /*.warning-row {*/
+        /*  background: rgb(236, 145, 145);*/
+        /*}*/
+        .success-row {
+          background: #f0f9eb;
+        }
+
+        /*.el-table__body tr:hover>td{*/
+        /*  background-color: #c6cfdf!important;*/
+        /*}*/
+
+        /*.el-table__body tr.current-row>td{*/
+        /*  background-color: #c6cfdf!important;*/
+        /*}*/
+
+        /*.el-table--enable-row-hover .el-table__body tr:hover>td{*/
+        /*  background-color: #212e3e !important;*/
+        /*}*/
+        span{
+
+        }
+
       }
     }
 
     div.bottom {
       height:600px;
       width: 100%;
-      background: yellow;
+      /*background: yellow;*/
       header {
         font-size: 16px;
         margin-bottom: 20px;
@@ -309,6 +327,13 @@ export default {
         width: 100%;
         // background: green;
       }
+      .warning-row {
+        background: rgb(236, 145, 145);
+      }
+      .success-row {
+        background: #f0f9eb;
+      }
+
     }
   }
 }

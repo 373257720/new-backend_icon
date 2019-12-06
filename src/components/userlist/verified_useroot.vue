@@ -1,23 +1,80 @@
 <template>
-  <div>
+  <div class="ATM_Technical_Support">
+    <header><h2>ATM Technical Support</h2></header>
+    <nav>
+      <div>
+          <section>Add</section>
+        <section>Enable</section>
+        <section>Disable</section>
+      </div>
+      <div>
+        <span>keyword:</span>
+        <el-input
+          placeholder="请输入内容"
+          v-model="input"
+          clearable>
+        </el-input>
+      </div>
+
+    </nav>
     <el-main>
       <el-table
-        :data="tableData.slice(pagesize*(currentpage-1),pagesize*currentpage)"
-        border
-        style="width:100%;"
-      >
-        <el-table-column prop="optTime" label="验证时间"  align="center"></el-table-column>
-        <el-table-column prop="bslEmail" label="注册邮箱" align="center"></el-table-column>
-        <el-table-column prop="userCountryCh" label="国籍" align="center"></el-table-column>
-        <el-table-column prop="newname" label="名称" min-width align="center">
-        
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          align="center"
+          label="ID"
+          width="55">
         </el-table-column>
-        <el-table-column prop="createTime" label="注册时间" align="center"></el-table-column>
-        <el-table-column prop="projectstatus" label="验证状态" align="center"></el-table-column>
-        <el-table-column  label="操作"  align="center">
+        <el-table-column
+          label="ID"
+          align="center"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.date }}</template>
+        </el-table-column>
+        <el-table-column
+          label="Account"
+          align="center"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.date }}</template>
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          align="center"
+          label="Email"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          align="center"
+          label="Phone"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+        prop="address"
+        align="center"
+        label="State"
+        show-overflow-tooltip>
+      </el-table-column>
+        <el-table-column
+          prop="address"
+          align="center"
+          label="Creation time"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column  align="center" label="operation">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <!-- <el-button type="text" size="small">删除</el-button> -->
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)">Disable</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">Edit</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -36,16 +93,63 @@ export default {
   data() {
     return {
       ischeck: false,
+      input:'',
       currentpage: 1,
       pagesize: 6,
       pagetotal: null,
-      tableData: []
+      tableData: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1517 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1519 弄",
+          zip: 200333
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          province: "上海",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1516 弄",
+          zip: 200333
+        }
+      ],
+      multipleSelection: []
     };
   },
   created() {
-    this.changepage(this.currentpage, this.pagesize);
+    // this.changepage(this.currentpage, this.pagesize);
   },
   methods: {
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
     changepage(currentpage, pagesize) {
       this.$axios({
         method: "get",
@@ -56,9 +160,9 @@ export default {
       }).then(res => {
         this.tableData = [...res.data.data.lists];
         console.log(this.tableData);
-      
+
         this.tableData.forEach(item => {
-          
+
           if(item.userIdentityType==1){
               item.newname=item.userName;
           }else if(item.userIdentityType==2){
@@ -104,5 +208,38 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+  .ATM_Technical_Support{
+    margin :0 0 0 60px;
+  header{
+    position: relative;
+    height: 136px;
+    border-bottom: 1px solid #d3d3d3;
+  h2{
+    font-size: 18px;
+    position: absolute;
+    bottom:0;
+  }
+  }
+    nav{
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      div{
+        display: flex;
+        width: 300px;
+        /*justify-content: space-between;*/
+        section{
+          width: 100px;
+          background: red;
+          margin-right: 20px;
+        }
+      }
+    }
+  main{
+    /*margin-top: 60px;*/
+    width: 100%;
+
+  }
+  }
 </style>

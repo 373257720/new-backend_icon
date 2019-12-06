@@ -11,15 +11,16 @@
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="PASSWORD" v-model="username" clearable>
+        <el-input placeholder="PASSWORD" v-model="password" clearable>
           <i slot="prefix" class="icon-password"></i>
         </el-input>
       </div>
       <div class="email">
-        <el-input placeholder="EMAIL VERIFICATION CODE" v-model="username" clearable>
+        <el-input placeholder="EMAIL VERIFICATION CODE" v-model="email" clearable>
           <i slot="prefix" class="icon-email"></i>
         </el-input>
       </div>
+
       <!-- <div class="password">
         <el-input placeholder="请输入密码" v-model="password" show-password clearable></el-input>
       </div>
@@ -39,6 +40,7 @@ export default {
       username: "",
       password: "",
       remind: "",
+      email:'',
       loading: false
     };
   },
@@ -46,47 +48,49 @@ export default {
   methods: {
     login() {
       this.remind = "";
-      this.loading = true;
-           this.$goto("logo");
-      // if (this.username && this.password) {
-      //   this.$axios
-      //     .post(
-      //       `${this.$baseurl}/bsl_admin_web/user/adminLogin.do`,
-      //       this.$qs.stringify({
-      //         bslEmail: this.username,
-      //         bslPwd: this.password
-      //       }),
-      //       {
-      //         headers: {
-      //           "Content-Type": "application/x-www-form-urlencoded"
-      //         }
-      //       }
-      //     )
-      //     .then(res => {
-      //       console.log(res);
-      //       // this.loading = false;
-      //       var rescode = res.data.resultCode;
-      //       if (rescode == 10000) {
-      //         // console.log("注册成功");
-      //         this.$store.dispatch("setUser", this.username);
-      //         this.$goto("login");
-      //       } else if (rescode == 10011) {
-      //         this.remind = "登录账号不能为空";
-      //       } else if (rescode == 10012) {
-      //         this.remind = "密码不能为空";
-      //       } else if (rescode == 10013) {
-      //         this.remind = "账号不存在";
-      //       } else if ((rescode = 10014)) {
-      //         this.remind = "账号或密码不正确";
-      //       } else if ((rescode = 10015)) {
-      //         this.remind = "账号已冻结";
-      //       }
-      //     })
-      //     .catch(error => {});
-      // } else {
-      //   // this.loading = false;
-      //   this.remind = "账号和密码不能为空，请输入 ";
-      // }
+      // this.loading = true;
+      //      this.$goto("logo");
+      if (this.username && this.password) {
+        console.log(this.username , this.password)
+        this.$axios
+          .post(
+            `${this.$baseurl}/admin_api/user.back_user/login`,
+            this.$qs.stringify({
+              username: this.username,
+              password: this.password,
+              verify:'',
+            }),
+            {
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              }
+            }
+          )
+          .then(res => {
+            console.log(res);
+            // this.loading = false;
+            // var rescode = res.data.resultCode;
+            // if (rescode == 10000) {
+            //   // console.log("注册成功");
+            //   this.$store.dispatch("setUser", this.username);
+            //   this.$goto("login");
+            // } else if (rescode == 10011) {
+            //   this.remind = "登录账号不能为空";
+            // } else if (rescode == 10012) {
+            //   this.remind = "密码不能为空";
+            // } else if (rescode == 10013) {
+            //   this.remind = "账号不存在";
+            // } else if ((rescode = 10014)) {
+            //   this.remind = "账号或密码不正确";
+            // } else if ((rescode = 10015)) {
+            //   this.remind = "账号已冻结";
+            // }
+          })
+          .catch(error => {});
+      } else {
+        // this.loading = false;
+        this.remind = "账号和密码不能为空，请输入 ";
+      }
     }
   }
 };
@@ -141,7 +145,7 @@ export default {
   div.username,
   div.password {
     margin-bottom: 20px;
-    
+
   }
   div.email {
     margin-bottom: 35px;

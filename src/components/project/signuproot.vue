@@ -1,77 +1,111 @@
 <template>
-  <div>
-    <el-main>
-      <el-table :data="tableData.slice(6*(bobo-1),6*bobo)" border style="width:80%;">
-        <el-table-column fixed prop="date" label="注册时间" width="150"></el-table-column>
-        <el-table-column prop="name" label="用户名称" width="120"></el-table-column>
-        <el-table-column prop="province" label="国籍" width="120"></el-table-column>
-        <el-table-column prop="city" label="公司名称" min-width></el-table-column>
-        <el-table-column prop="address" label="验证时间" width="200"></el-table-column>
-        <el-table-column prop="zip" label="验证状态" width="120"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-main>
-    <pagevue :pagenum="tableData.length" v-on:fromchildren="fromchildren1"></pagevue>
+  <div class="account_setting">
+    <header><h2>Account Setting</h2></header>
+    <main>
+      <el-form  label-position="top" :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item  label="密码" prop="pass">
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄" prop="age">
+          <el-input v-model.number="ruleForm.age"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄" prop="age">
+          <el-input v-model.number="ruleForm.age"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </main>
+
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    handleClick(row) {
-      console.log(row);
-      this.$router.push("/home/project/signedup/signedup_check");
-    },
-    fromchildren1(data) {
-      this.bobo = data;
-      // console.log(data);
-    }
-  },
   data() {
-    return {
-      bobo: 1,
-      ischeck: false,
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
+    var checkAge = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('年龄不能为空'));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'));
+        } else {
+          if (value < 18) {
+            callback(new Error('必须年满18岁'));
+          } else {
+            callback();
+          }
         }
-      ]
+      }, 1000);
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
+    return {
+      ruleForm: {
+        pass: '',
+        checkPass: '',
+        age: ''
+      },
+      rules: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ],
+        age: [
+          { validator: checkAge, trigger: 'blur' }
+        ]
+      }
     };
   },
+  methods: {
+    // handleClick(row) {
+    //   console.log(row);
+    //   this.$router.push("/home/project/signedup/signedup_check");
+    // },
+    // fromchildren1(data) {
+    //   this.bobo = data;
+    //   // console.log(data);
+    // },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  },
+
   watch: {
     $route(to, from) {
       if (to.name == "signedup_check") {
@@ -84,5 +118,22 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss'>
+  .account_setting{
+    margin :0 0 0 60px;
+    header{
+      position: relative;
+      height: 136px;
+      border-bottom: 1px solid #d3d3d3;
+      h2{
+        font-size: 18px;
+        position: absolute;
+        bottom:0;
+      }
+    }
+    main{
+      margin-top: 60px;
+      width: 40%;
+    }
+  }
 </style>

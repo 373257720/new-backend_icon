@@ -58,7 +58,7 @@ Vue.prototype.$axios = axios
 // //设置baseurl
 var baseurl = {
   // api: "http://192.168.1.37:80",
-   api: "http://47.90.62.114:8082",
+   api: "http://atm.wearetechman.com",
 }
 Vue.prototype.$baseurl = baseurl.api
 

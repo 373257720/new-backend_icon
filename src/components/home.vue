@@ -4,7 +4,7 @@
       <h1>
         <img src="../../static/sign.png" alt />
       </h1>
-      <!-- <el-menu
+ <el-menu
         :default-active="activeName"
         @select="handleSelect"
         @open="handleOpen"
@@ -14,11 +14,14 @@
           <template slot="title">
             <i class="el-icon-message"></i>USER
           </template>
+          <router-link to="/home/userlist/verified_user">
+            <el-menu-item index="/home/userlist/verified_user">ATM Technical Support</el-menu-item>
+          </router-link>
           <router-link to="/home/project/tosignup">
-            <el-menu-item index="/home/project/tosignup">全部项目</el-menu-item>
+            <el-menu-item index="/home/project/tosignup">A</el-menu-item>
           </router-link>
           <router-link to="/home/project/signedup">
-            <el-menu-item index="/home/project/signedup">已签约</el-menu-item>
+            <el-menu-item index="/home/project/signedup">Customer Data</el-menu-item>
           </router-link>
         </el-submenu>
         <el-submenu index="2">
@@ -43,67 +46,8 @@
             <el-menu-item index="/home/userlist/check_pending">待审核用户</el-menu-item>
           </router-link>
         </el-submenu>
-      </el-menu>-->
-      <el-row class="tac">
-        <el-col :span="24">
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-          >
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>导航一</span>
-              </template>
-              <el-menu-item-group>
-                <template slot="title">分组一</template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分组2">
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              </el-menu-item-group>
-              <el-submenu index="1-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
-              </el-submenu>
-            </el-submenu>
+      </el-menu>
 
-            <el-menu-item index="2">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <i class="el-icon-document"></i>
-              <span slot="title">导航三</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航四</span>
-            </el-menu-item>
-            <el-submenu index="5">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>导航一</span>
-              </template>
-              <el-menu-item-group>
-                <template slot="title">分组一</template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分组2">
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              </el-menu-item-group>
-              <el-submenu index="1-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-          </el-menu>
-        </el-col>
-      </el-row>
     </el-aside>
 
     <!-- <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
@@ -229,29 +173,22 @@ export default {
   a {
   }
 }
-.maincontent {
-  position: absolute;
-  // position: relative;
-  // border-top: 1px solid #ebeef5;
-  padding-top: 90px;
-  // padding-bottom: 50px;
-  box-sizing: border-box;
-  overflow-y: scroll;
-  top: 50px;
-  left: 250px;
-  width: calc(100% - 250px);
-  height: calc(100% - 50px);
-}
+
 #home {
   height: calc(100% - 50px);
   margin-top: 50px;
+  width: 100%;
+  display: flex;
   .fl-aside {
     box-sizing: border-box;
-    position: absolute;
-    top: 50px;
+    .is-active{
+      margin:0;
+    }
+    /*position: absolute;*/
+    /*top: 50px;*/
     border-right: 1px solid #d3d3d3;
     width: 252px;
-    height: calc(100% - 50px);
+    /*height: calc(100% - 50px);*/
     // overflow-y: auto;
     // overflow-x: hidden;
 
@@ -274,6 +211,22 @@ export default {
       }
     }
     // background: red;
+  }
+  .maincontent {
+    /*position: absolute;*/
+    // position: relative;
+    flex:1;
+    // border-top: 1px solid #ebeef5;
+    /*padding-top: 90px;*/
+    // padding-bottom: 50px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    /*top: 50px;*/
+    /*left: 250px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*width: calc(100% - 250px);**/
+    /*height: calc(100% - 50px);*/
   }
   // text-align: center;
 }
