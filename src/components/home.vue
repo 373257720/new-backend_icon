@@ -14,14 +14,11 @@
           <template slot="title">
             <i class="el-icon-message"></i>USER
           </template>
-          <router-link to="/home/userlist/verified_user">
-            <el-menu-item index="/home/userlist/verified_user">ATM Technical Support</el-menu-item>
+          <router-link to="/home/user/atm_support">
+            <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
           </router-link>
-          <router-link to="/home/project/tosignup">
-            <el-menu-item index="/home/project/tosignup">A</el-menu-item>
-          </router-link>
-          <router-link to="/home/project/signedup">
-            <el-menu-item index="/home/project/signedup">Customer Data</el-menu-item>
+          <router-link to="/home/user/account_setting">
+            <el-menu-item index="/home/user/account_setting">Customer Data</el-menu-item>
           </router-link>
         </el-submenu>
         <el-submenu index="2">

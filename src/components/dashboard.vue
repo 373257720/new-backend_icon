@@ -18,7 +18,7 @@
           <header>MACHINE INFORMATION</header>
           <main>
             <el-main>
-              <el-table  :row-class-name="tableRowClassName"  :data="tableData" border style="width:100%;">
+              <el-table :row-style="rowClass"  stripe  :data="tableData" border style="width:100%;">
                 <el-table-column fixed prop="date" label="Machine Information" align="center"></el-table-column>
                 <el-table-column prop="name" label="ATM Address" align="center"></el-table-column>
                 <el-table-column prop="projectCompany" label="Dispenser" align="center"></el-table-column>
@@ -63,8 +63,8 @@ export default {
     return {
       fafa: this.$store.state.commondialog,
       value1: [], //日期选择
-      value: "", //项目状态
-      searchkey: "",
+      value: "", //项目状态 
+      // searchkey: "",
       currentpage: 1,
       pagesize: 6,
       pagetotal: null,
@@ -131,6 +131,12 @@ export default {
     // this.search(this.value, null, null, this.currentpage, this.pagesize);
   },
   methods: {
+    
+    rowClass (row, index) {
+      console.log(woshijinsinsianj)
+      return { "background-color": "red" }
+    },
+
     tableRowClassName({row, rowIndex}) {
       // console.dir(rowIndex)
       if (rowIndex %2 == 0) {
@@ -336,5 +342,16 @@ export default {
 
     }
   }
+}
+</style>
+<style>
+   .hover-row{
+         background-color: #c6cfdf !important;
+        } 
+   .success-row{
+    background: red !important;
+  }
+  .el-table__body tr.hover-row:hover>td{
+    background-color: none !important;
 }
 </style>
