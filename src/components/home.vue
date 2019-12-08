@@ -17,8 +17,8 @@
           <router-link to="/home/user/atm_support">
             <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
           </router-link>
-          <router-link to="/home/user/account_setting">
-            <el-menu-item index="/home/user/account_setting">Customer Data</el-menu-item>
+          <router-link to="/home/user/customer_data">
+            <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
           </router-link>
         </el-submenu>
         <el-submenu index="2">

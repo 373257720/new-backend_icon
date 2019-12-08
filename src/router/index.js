@@ -10,6 +10,7 @@ import login from '@/components/login'
 import account_setting from '@/components/user/account_setting'
 import atm_support from '@/components/user/atm_support'
 import user from '@/components/user/user'
+import customer_data from '@/components/user/customer_data'
 // import user from '@/components/user/user'
 // import signedup_check from '@/components/user/signedup_check'
 // import signeduproot from '@/components/user/signuproot'
@@ -58,11 +59,11 @@ const routes = [{
         },
         redirect: '/home/user/atm_support',
         children: [
-          // {
-          //   path: '/',
-          //   name: '',
-          //   component: tosignuproot
-          // },
+          {
+            path: 'customer_data',
+            name: 'customer_data',
+            component: customer_data
+          },
           {
             path: 'atm_support',
             name: 'atm_support',
