@@ -63,7 +63,7 @@ export default {
     return {
       fafa: this.$store.state.commondialog,
       value1: [], //日期选择
-      value: "", //项目状态 
+      value: "", //项目状态
       // searchkey: "",
       currentpage: 1,
       pagesize: 6,
@@ -131,9 +131,9 @@ export default {
     // this.search(this.value, null, null, this.currentpage, this.pagesize);
   },
   methods: {
-    
+
     rowClass (row, index) {
-      console.log(woshijinsinsianj)
+      // console.log(woshijinsinsianj)
       return { "background-color": "red" }
     },
 
@@ -347,7 +347,7 @@ export default {
 <style>
    .hover-row{
          background-color: #c6cfdf !important;
-        } 
+        }
    .success-row{
     background: red !important;
   }

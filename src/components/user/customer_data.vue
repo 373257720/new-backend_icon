@@ -7,7 +7,7 @@
         <section>Disable</section>
       </div>
       <div>
-        <span>keyword:</span>
+        <span class="keyword">keyword:</span>
         <el-input
           placeholder="请输入内容"
           v-model="input"
@@ -222,16 +222,39 @@ export default {
   }
     nav{
       display: flex;
+      margin: 20px  0 ;
       justify-content: space-between;
-      padding: 0 20px;
-      div{
+      padding: 0 50px 0 20px;
+      >div{
         display: flex;
         width: 300px;
         /*justify-content: space-between;*/
         section{
           width: 100px;
-          background: red;
+          line-height: 40px;
+          height: 40px;
+          border-radius: 5px;
+          text-align: center;
+          box-sizing: border-box;
+          border: 1px solid #d3d3d3;
+          /*background: red;*/
           margin-right: 20px;
+        }
+        span.keyword{
+          line-height: 40px;
+          /*height: 40px;*/
+          text-align: center;
+          margin-right: 20px;
+        }
+        i{
+          height: 40px;
+          /*width: 40px;*/
+          margin-left: 20px;
+          font-size: 22px;
+          line-height: 40px;
+
+          /*height: 40px;*/
+          text-align: center;
         }
       }
     }

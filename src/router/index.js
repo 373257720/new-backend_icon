@@ -4,23 +4,35 @@ import home from '@/components/home'
 import logo from '@/components/logo'
 import login from '@/components/login'
 
-
-
+// 添加这下面一段代码，就可以解决报错
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
+// dashboard
+import dashboard from '@/components/dashboard'
 // user
 import account_setting from '@/components/user/account_setting'
 import atm_support from '@/components/user/atm_support'
 import user from '@/components/user/user'
 import customer_data from '@/components/user/customer_data'
+
+
 // import user from '@/components/user/user'
 // import signedup_check from '@/components/user/signedup_check'
 // import signeduproot from '@/components/user/signuproot'
 // import signedup_user from '@/components/user/signedup_user'
 // import tosignup_check from '@/components/user/tosignup_check'
-// import investor_infor from '@/components/user/investor_infor'
+// import investor_infor from
 
-// userslist
-// import check_pending from '@/components/userlist/check_pending'
-// import check_pendingroot from '@/components/userlist/check_pendingroot'
+// settting
+import setting from '@/components/settting/setting'
+
+//audit_log
+import  audit_log from '@/components/Aduit_logs/audit_log'
+
+// complaince
+import  compliance from '@/components/compliance/compliance'
 // import verified_user from '@/components/userlist/verified_user'
 // import userroot from '@/components/userlist/verified_useroot'
 // import verified_usercheck from '@/components/userlist/verified_usercheck'
@@ -50,34 +62,75 @@ const routes = [{
       title: '首页'
     },
     redirect: '/home/user/atm_support',
-    children: [{
-        path: 'user',
-        name: 'user',
-        component: user,
-        meta: {
-          title: '项目列表'
+    children: [
+      {
+      path: 'user',
+      name: 'user',
+      component: user,
+      meta: {
+        title: '项目列表'
+      },
+      redirect: '/home/user/atm_support',
+      children: [
+        {
+          path: 'customer_data',
+          name: 'customer_data',
+          component: customer_data
         },
-        redirect: '/home/user/atm_support',
-        children: [
-          {
-            path: 'customer_data',
-            name: 'customer_data',
-            component: customer_data
-          },
-          {
-            path: 'atm_support',
-            name: 'atm_support',
-            component: atm_support,
-          },
+        {
+          path: 'atm_support',
+          name: 'atm_support',
+          component: atm_support,
+        },
 
-          {
-            path: 'account_setting',
-            name: 'account_setting',
-            component: account_setting
-          },
+        {
+          path: 'account_setting',
+          name: 'account_setting',
+          component: account_setting
+        },
 
-        ]
+      ]
+    },{
+      path: 'setting',
+      name: 'setting',
+      component:setting,
+      meta: {
+        title: ''
+      },
 
+      // redirect: '/home/setting/setting',
+      // children: [
+      //   {
+      //     path: 'setting',
+      //     name: 'setting',
+      //     component: setting
+      //   },
+      // ]
+    },
+      {
+        path: 'audit_log',
+        name: 'audit_log',
+        component:audit_log,
+        meta: {
+          title: ''
+        },
+      },
+      {
+        path: 'compliance',
+        name: 'compliance',
+        component:compliance,
+        meta: {
+          title: ''
+        },
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: dashboard,
+        meta: {
+          title: ''
+        },
+      }
         // {
         //   path: 'signedup',
         //   name: 'signedup',
@@ -101,11 +154,11 @@ const routes = [{
         //       name: 'signedup_check',
         //       component: signedup_check
         //     },
-
+        //
         //   ]
         // },
 
-      },
+
       // {
       //   path: 'userlist',
       //   name: 'userlist',

@@ -9,11 +9,22 @@
         @select="handleSelect"
         @open="handleOpen"
         @close="handleClose"
+        :unique-opened="true"
       >
-        <el-submenu index="1" :class="{ active: isActive }">
+   <el-menu-item index="1"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
+     <i class="el-icon-setting"></i>
+     <span slot="title">DASHBOARD</span>
+   </el-menu-item>
+        <el-submenu index="2" :class="{active:isActive[1]}">
           <template slot="title">
             <i class="el-icon-message"></i>USER
           </template>
+          <router-link to="/home/user/atm_support">
+            <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
+          </router-link>
+          <router-link to="/home/user/atm_support">
+            <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
+          </router-link>
           <router-link to="/home/user/atm_support">
             <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
           </router-link>
@@ -21,29 +32,43 @@
             <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
           </router-link>
         </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-menu"></i>MACHINES
-          </template>
-          <router-link to="/home/userlist/verified_user">
-            <el-menu-item index="/home/userlist/verified_user">已验证用户</el-menu-item>
-          </router-link>
-          <router-link to="/home/userlist/check_pending">
-            <el-menu-item index="/home/userlist/check_pending">待审核用户</el-menu-item>
-          </router-link>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-menu"></i>SETTING
-          </template>
-          <router-link to="/home/userlist/verified_user">
-            <el-menu-item index="/home/userlist/verified_user">已验证用户</el-menu-item>
-          </router-link>
-          <router-link to="/home/userlist/check_pending">
-            <el-menu-item index="/home/userlist/check_pending">待审核用户</el-menu-item>
-          </router-link>
-        </el-submenu>
+
+   <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+     <i class="el-icon-setting"></i>
+     <span slot="title">MACHINES</span>
+   </el-menu-item>
+
+   <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+     <i class="el-icon-setting"></i>
+     <span slot="title">TRANSACTIONS</span>
+   </el-menu-item>
+   <el-menu-item index="5"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+     <i class="el-icon-setting"></i>
+     <span slot="title">WALLET</span>
+   </el-menu-item>
+   <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+     <i class="el-icon-setting"></i>
+     <span slot="title">REPORTS</span>
+   </el-menu-item>
+   <el-menu-item index="7" :class="{active:isActive[4]}">
+            <i class="el-icon-setting"></i>
+            <span slot="title">COMPLIANCE</span>
+   </el-menu-item>
+
+   <el-menu-item index="8"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+     <i class="el-icon-setting"></i>
+     <span slot="title">SETTING</span>
+   </el-menu-item>
+   <el-menu-item index="9" :class="{active:isActive[4]}">
+     <i class="el-icon-setting"></i>
+     <span slot="title">ALERTS</span>
+   </el-menu-item>
+   <el-menu-item index="10" :class="{active:isActive[3]}">
+            <i class="el-icon-setting"></i>
+            <span slot="title">AUDIT LOG</span>
+          </el-menu-item>
       </el-menu>
+
 
     </el-aside>
 
@@ -66,32 +91,50 @@ export default {
       msg: "Welcome to Your Vue.js App",
       levelList: null,
       activeName: "/home/tosignup",
-      isActive: false
+      isActive:{
+        '1':false,
+        '2':false,
+        '3':false,
+        '4':false,
+      },
+
     };
   },
   created() {
     let href = window.location.href;
-    this.activeName = href.split("/#")[1];
+    // this.activeName = href.split("/#")[1];
   },
   mounted() {},
   methods: {
+    routerto(num){
+      this.$router.push({path:num})
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+      for(var i in this.isActive){
+        this.isActive[i]=false;
+      }
+      this.isActive[key]=true;
+
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
-      let arr = document.querySelector(".el-menu").children;
-      let b = (arr[key - 1].children[0].style.backgroundImage = "");
-      // arr[key - 1].children[0].style.backgroundRepeat = "no-repeat";
-      console.log(b);
+      // console.log(key, keyPath);
+      // let arr = document.querySelector(".el-menu").children;
+      // let b = (arr[key - 1].children[0].style.backgroundImage = "");
+      // // arr[key - 1].children[0].style.backgroundRepeat = "no-repeat";
+      // console.log(b);
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
-      let arr = document.querySelector(".el-menu").children;
-      let b = (arr[key - 1].children[0].style.backgroundImage =
-        "url('../../static/col.png')");
-      arr[key - 1].children[0].style.backgroundRepeat = "no-repeat";
-      console.log(b);
+      for(var i in this.isActive){
+        this.isActive[i]=false;
+      }
+      this.isActive[key]=true;
+      // let arr = document.querySelector(".el-menu").children;
+      // let b = (arr[key - 1].children[0].style.backgroundImage =
+      //   "url('../../static/col.png')");
+      // arr[key - 1].children[0].style.backgroundRepeat = "no-repeat";
+      // console.log(b);
     },
     getBreadcrumb() {
       let matched = this.$route.matched.filter(item => item.meta.title);
@@ -138,7 +181,9 @@ export default {
     overflow-y: scroll;
     //  height: 100%;
   }
-
+  .el-menu-item{
+    width: 100%;
+  }
   .tac::-webkit-scrollbar {
     width: 0px;
     background: none;
@@ -146,9 +191,9 @@ export default {
   // .el-submenu__title:hover {
   //   background: url(../../static/col.png) no-repeat;
   // }
-  // .active {
-  //   background: url(../../static/col.png) no-repeat;
-  // }
+ .active {
+     background: url(../../static/col.png) no-repeat;
+}
 }
 </style>
 
@@ -177,6 +222,7 @@ export default {
   width: 100%;
   display: flex;
   .fl-aside {
+
     box-sizing: border-box;
     .is-active{
       margin:0;
@@ -209,7 +255,16 @@ export default {
     }
     // background: red;
   }
-  .maincontent {
+  .el-menu{
+    height: 100%;
+    overflow-y: scroll;
+    overflow: hidden;
+  }
+  .el-menu::-webkit-scrollbar {
+    width: 0px;
+    background: none;
+  }
+    .maincontent {
     /*position: absolute;*/
     // position: relative;
     flex:1;
@@ -238,7 +293,7 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
+  /*margin: 0 10px;*/
 }
 a {
   color: #42b983;

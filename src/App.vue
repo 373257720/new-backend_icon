@@ -14,7 +14,7 @@
               <el-dropdown-item command="zh_CN">中文</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <!-- <el-dropdown @command="handleCommand" trigger="click" v-if="this.$store.state.topright">
+          <el-dropdown @command="handleCommand" trigger="click" v-if="this.$store.state.topright">
             <span class="el-dropdown-link">
               {{this.$store.state.currentUser}}
               <i class="el-icon-arrow-down el-icon--right"></i>
@@ -22,7 +22,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="login" icon="el-icon-back">退出登录</el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown> -->
+          </el-dropdown>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ export default {
         )
       );
       // console.dir(this.$store.state);
-      
+
     }
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
