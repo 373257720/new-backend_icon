@@ -4,70 +4,73 @@
       <h1>
         <img src="../../static/sign.png" alt />
       </h1>
- <el-menu
-        :default-active="activeName"
-        @select="handleSelect"
-        @open="handleOpen"
-        @close="handleClose"
-        :unique-opened="true"
-      >
-   <el-menu-item index="1"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
-     <i class="el-icon-setting"></i>
-     <span slot="title">DASHBOARD</span>
-   </el-menu-item>
-        <el-submenu index="2" :class="{active:isActive[1]}">
-          <template slot="title">
-            <i class="el-icon-message"></i>USER
-          </template>
-          <router-link to="/home/user/atm_support">
-            <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
-          </router-link>
-          <router-link to="/home/user/atm_support">
-            <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
-          </router-link>
-          <router-link to="/home/user/atm_support">
-            <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
-          </router-link>
-          <router-link to="/home/user/customer_data">
-            <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
-          </router-link>
-        </el-submenu>
+      <div class="left_body">
+        <el-menu
+          :default-active="activeName"
+          @select="handleSelect"
+          @open="handleOpen"
+          @close="handleClose"
+          :unique-opened="true"
+        >
+          <el-menu-item index="1"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
+            <i class="el-icon-setting"></i>
+            <span slot="title">DASHBOARD</span>
+          </el-menu-item>
+          <el-submenu index="2" :class="{active:isActive[1]}">
+            <template slot="title">
+              <i class="el-icon-message"></i>USER
+            </template>
+            <router-link to="/home/user/atm_support">
+              <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
+            </router-link>
+            <router-link to="/home/user/atm_support">
+              <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
+            </router-link>
+            <router-link to="/home/user/atm_support">
+              <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
+            </router-link>
+            <router-link to="/home/user/customer_data">
+              <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
+            </router-link>
+          </el-submenu>
 
-   <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-     <i class="el-icon-setting"></i>
-     <span slot="title">MACHINES</span>
-   </el-menu-item>
+          <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+            <i class="el-icon-setting"></i>
+            <span slot="title">MACHINES</span>
+          </el-menu-item>
 
-   <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-     <i class="el-icon-setting"></i>
-     <span slot="title">TRANSACTIONS</span>
-   </el-menu-item>
-   <el-menu-item index="5"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-     <i class="el-icon-setting"></i>
-     <span slot="title">WALLET</span>
-   </el-menu-item>
-   <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-     <i class="el-icon-setting"></i>
-     <span slot="title">REPORTS</span>
-   </el-menu-item>
-   <el-menu-item index="7" :class="{active:isActive[4]}">
+          <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+            <i class="el-icon-setting"></i>
+            <span slot="title">TRANSACTIONS</span>
+          </el-menu-item>
+          <el-menu-item index="5"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+            <i class="el-icon-setting"></i>
+            <span slot="title">WALLET</span>
+          </el-menu-item>
+          <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+            <i class="el-icon-setting"></i>
+            <span slot="title">REPORTS</span>
+          </el-menu-item>
+          <el-menu-item index="7" :class="{active:isActive[4]}">
             <i class="el-icon-setting"></i>
             <span slot="title">COMPLIANCE</span>
-   </el-menu-item>
+          </el-menu-item>
 
-   <el-menu-item index="8"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-     <i class="el-icon-setting"></i>
-     <span slot="title">SETTING</span>
-   </el-menu-item>
-   <el-menu-item index="9" :class="{active:isActive[4]}">
-     <i class="el-icon-setting"></i>
-     <span slot="title">ALERTS</span>
-   </el-menu-item>
-   <el-menu-item index="10" :class="{active:isActive[3]}">
+          <el-menu-item index="8"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+            <i class="el-icon-setting"></i>
+            <span slot="title">SETTING</span>
+          </el-menu-item>
+          <el-menu-item index="9" :class="{active:isActive[4]}">
+            <i class="el-icon-setting"></i>
+            <span slot="title">ALERTS</span>
+          </el-menu-item>
+          <el-menu-item index="10" :class="{active:isActive[3]}">
             <i class="el-icon-setting"></i>
             <span slot="title">AUDIT LOG</span>
           </el-menu-item>
-      </el-menu>
+        </el-menu>
+      </div>
+
 
 
     </el-aside>
@@ -221,25 +224,27 @@ export default {
   margin-top: 50px;
   width: 100%;
   display: flex;
+  .el-aside{
+    overflow: visible;
+  }
   .fl-aside {
-
     box-sizing: border-box;
     .is-active{
       margin:0;
     }
-    /*position: absolute;*/
-    /*top: 50px;*/
     border-right: 1px solid #d3d3d3;
     width: 252px;
-    /*height: calc(100% - 50px);*/
-    // overflow-y: auto;
-    // overflow-x: hidden;
-
-    // .bg{
-    //   background:url(../../static/col.png) no-repeat;
-    // }
-    ul {
+    .left_body{
       border-top: 1px solid #d3d3d3;
+      height: calc(100% - 130px);
+      overflow-y: auto;
+    }
+    .left_body::-webkit-scrollbar {
+      width: 0px;
+      background: none;
+    }
+    ul {
+
     }
     h1 {
       width: 252px;
@@ -255,15 +260,12 @@ export default {
     }
     // background: red;
   }
-  .el-menu{
-    height: 100%;
-    overflow-y: scroll;
-    overflow: hidden;
-  }
-  .el-menu::-webkit-scrollbar {
-    width: 0px;
-    background: none;
-  }
+  /*.el-menu{*/
+  /*  height: 100%;*/
+  /*  overflow-y: auto;*/
+  /*  !*overflow: hidden;*!*/
+  /*}*/
+
     .maincontent {
     /*position: absolute;*/
     // position: relative;
