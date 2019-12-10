@@ -11,9 +11,12 @@ import axios from 'axios';
 import 'element-ui/lib/theme-chalk/index.css';
 import global from '@/components/global.js';
 Vue.prototype.$global = global
-Vue.use(ElementUI);
-Vue.config.productionTip = false
 
+import locale from 'element-ui/lib/locale/lang/en'
+
+Vue.use(ElementUI, { locale })
+Vue.config.productionTip = false
+Vue.use(ElementUI);
 Vue.prototype.$goto = function goto(name, id) {
   let obj = {
     name
@@ -25,26 +28,29 @@ Vue.prototype.$goto = function goto(name, id) {
   }
   this.$router.push(obj);
 }
+Vue.prototype.$routerto = function routerTo(name, obj) {
+  this.$router.push({
+    name: name,
+    query: obj
+  })
+}
 Vue.prototype.$qs = qs;
 // //让ajax携带cookie
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {
-    if (res.data && res.data.resultCode) {
-      let code = res.data.resultCode
-      // 10101是未登录状态码
-      if (code == 10090) {
-        Confirm("登录超时,点击返回登陆页", "提示", {
-            confirmButtonText: "确定",
-            // cancelButtonText: "取消",
-            type: "warning",
-            center: true,
-            showCancelButton: false
-          })
-          .then(() => {
-            location.href = '/'
+    // endLoading();
+    // console.log(123)
+    if (res.data.ret) {
+      let code = res.data.ret;
 
-          });
-
+      if (code >= 1000) {
+        console.log(666,res.data)
+        ElementUI.MessageBox({
+          title: '提示"',
+          message: '登录超时,点击返回登陆页'
+        }).then(()=>{
+          router.push({name:'login'})
+        })
       }
     }
     return res

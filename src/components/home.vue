@@ -23,12 +23,6 @@
             <router-link to="/home/user/atm_support">
               <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
             </router-link>
-            <router-link to="/home/user/atm_support">
-              <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
-            </router-link>
-            <router-link to="/home/user/atm_support">
-              <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
-            </router-link>
             <router-link to="/home/user/customer_data">
               <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
             </router-link>
@@ -113,11 +107,11 @@ export default {
       this.$router.push({path:num})
     },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-      for(var i in this.isActive){
-        this.isActive[i]=false;
-      }
-      this.isActive[key]=true;
+      // console.log(key, keyPath);
+      // for(var i in this.isActive){
+      //   this.isActive[i]=false;
+      // }
+      // this.isActive[key]=true;
 
     },
     handleClose(key, keyPath) {
@@ -128,11 +122,11 @@ export default {
       // console.log(b);
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-      for(var i in this.isActive){
-        this.isActive[i]=false;
-      }
-      this.isActive[key]=true;
+      // console.log(key, keyPath);
+      // for(var i in this.isActive){
+      //   this.isActive[i]=false;
+      // }
+      // this.isActive[key]=true;
       // let arr = document.querySelector(".el-menu").children;
       // let b = (arr[key - 1].children[0].style.backgroundImage =
       //   "url('../../static/col.png')");
@@ -236,7 +230,7 @@ export default {
     width: 252px;
     .left_body{
       border-top: 1px solid #d3d3d3;
-      height: calc(100% - 130px);
+      height: calc(100% - 156px);
       overflow-y: auto;
     }
     .left_body::-webkit-scrollbar {

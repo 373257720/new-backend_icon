@@ -1,24 +1,34 @@
 <template>
   <div class="account_setting">
-    <header><h2>Account Setting</h2></header>
+    <header><h2>{{title}}</h2></header>
     <main>
       <el-form  label-position="top" :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item  label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-form-item  label="用户" prop="username">
+          <el-input  v-model="ruleForm.username" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass">
-          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        <el-form-item  label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model.number="ruleForm.age"></el-input>
+        <el-form-item label="确认密码" prop="repassword">
+          <el-input type="password" v-model="ruleForm.repassword" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model.number="ruleForm.age"></el-input>
+        <el-form-item label="昵称" prop="nickname">
+          <el-input v-model.number="ruleForm.nickname"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮箱" prop="email">
+          <el-input v-model.number="ruleForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <template>
+            <el-radio v-model="ruleForm.status" label="1">备选项</el-radio>
+            <el-radio v-model="ruleForm.status" label="2">备选项</el-radio>
+          </template>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button type="手机号码" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
+
       </el-form>
     </main>
 
@@ -28,6 +38,7 @@
 <script>
 export default {
   data() {
+
     var checkAge = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('年龄不能为空'));
@@ -64,15 +75,23 @@ export default {
       }
     };
     return {
+      title:'',
       ruleForm: {
-        pass: '',
-        checkPass: '',
-        age: ''
+        token:'',
+        atm_user_id:'',
+        username:'',
+        password: '',
+        repassword: '',
+        nickname: '',
+        email:'',
+        mobile:'',
+        status:'',
       },
       rules: {
-        pass: [
+        username: [
           { validator: validatePass, trigger: 'blur' }
         ],
+        
         checkPass: [
           { validator: validatePass2, trigger: 'blur' }
         ],
@@ -81,6 +100,15 @@ export default {
         ]
       }
     };
+  },
+  created() {
+    // console.log(this.$route.query)
+    if(this.$route.query.type==1){
+        this.title='增加';
+    }else if(this.$route.query.type==2){
+      this.title='编辑';
+    }
+
   },
   methods: {
     // handleClick(row) {
@@ -120,19 +148,21 @@ export default {
 
 <style lang='scss'>
   .account_setting{
-    margin :0 0 0 60px;
+    margin :0 0 0 50px;
     header{
       position: relative;
       height: 136px;
       border-bottom: 1px solid #d3d3d3;
       h2{
-        font-size: 18px;
+        font-size: 20px;
         position: absolute;
-        bottom:0;
+        bottom:20px;
+        /*font-weight: 550;*/
       }
+
     }
     main{
-      margin-top: 60px;
+      margin:30px 0 100px 20px;
       width: 40%;
     }
   }

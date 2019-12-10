@@ -4,7 +4,7 @@
       <h2>
         <img src="../../static/sign.png" alt />
       </h2>
-      <p>账号或密码不正确</p>
+      <p>{{remind}}</p>
       <div class="username">
         <el-input placeholder="USER NAME" v-model="username" clearable>
           <i slot="prefix" class="icon-user"></i>
@@ -67,24 +67,19 @@ export default {
             }
           )
           .then(res => {
-            console.log(res);
-            // this.loading = false;
-            // var rescode = res.data.resultCode;
-            // if (rescode == 10000) {
-            //   // console.log("注册成功");
-            //   this.$store.dispatch("setUser", this.username);
-            //   this.$goto("login");
-            // } else if (rescode == 10011) {
-            //   this.remind = "登录账号不能为空";
-            // } else if (rescode == 10012) {
-            //   this.remind = "密码不能为空";
-            // } else if (rescode == 10013) {
-            //   this.remind = "账号不存在";
-            // } else if ((rescode = 10014)) {
-            //   this.remind = "账号或密码不正确";
-            // } else if ((rescode = 10015)) {
-            //   this.remind = "账号已冻结";
-            // }
+            console.log(res.data.data);
+            this.loading = false;
+            var rescode = res.data.ret;
+            if (rescode == 0) {
+              this.$store.dispatch("setUser",res.data.data.nickname);
+              this.$store.dispatch("settoken_action",res.data.data.token);
+              this.$goto("home");
+              // console.log(1)
+              // this.$router.push({path:'/home'});
+            }
+            else{
+              this.remind=res.msg;
+            }
           })
           .catch(error => {});
       } else {

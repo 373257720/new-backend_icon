@@ -4,6 +4,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     currentUser: null,
+    token:'',
     topright: true,
     commondialog: false,
     formobj: {},
@@ -45,6 +46,14 @@ export default new Vuex.Store({
       //   //  state.isLogin = false;
       // }
     },
+    settoken_mutation(state, user) {
+      if (user) {
+        state.token = user
+      } else if (user == null) {
+        state.currentUser = '';
+
+      }
+    },
     submit_formdata_mutation(state, obj) {
       if (obj) {
         state.formobj = obj
@@ -62,8 +71,11 @@ export default new Vuex.Store({
     setUser(context, user) {
       context.commit('userStatus', user)
     },
+    settoken_action(context, user) {
+      context.commit('settoken_mutation', user)
+    },
     commondialogfunctionaysn(context, status) {
-      // console.log(context, status);   
+      // console.log(context, status);
       context.commit('commondialogfunction', status)
     },
 

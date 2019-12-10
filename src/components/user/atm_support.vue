@@ -1,20 +1,20 @@
 <template>
-  <div class="ATM_Technical_Support">
-    <header><h2>ATM Technical Support</h2></header>
+  <div class="customer_data">
+    <header><h2>ATM TECHNICAL SUPPORT</h2></header>
     <nav>
       <div>
-          <section>Add</section>
-        <section>Enable</section>
-        <section>Disable</section>
+        <section @click="$routerto('account_setting',{type:1})">Add</section>
+        <section @click="alledit(1)">Enable</section>
+        <section @click="alledit(2)">Disable</section>
       </div>
       <div>
         <span class="keyword">keyword:</span>
         <el-input
           placeholder="请输入内容"
-          v-model="input"
+          v-model="keyword"
           clearable>
         </el-input>
-        <i class="el-icon-search"></i>
+        <i @click="searcher"  class="el-icon-search"></i>
       </div>
 
     </nav>
@@ -36,46 +36,43 @@
         <el-table-column
           label="ID"
           align="center"
-         >
-          <template slot-scope="scope">{{ scope.row.id }}</template>
+          width="100"
+        >
+          <template slot-scope="scope">{{ scope.row.atm_user_id}}</template>
         </el-table-column>
         <el-table-column
+          prop="username"
+          align="center"
           label="Account"
-          align="center">
-          <template slot-scope="scope">{{ scope.row.account}}</template>
-        </el-table-column>
-        <el-table-column
-          prop="email"
-          align="center"
-          label="Email"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="phone"
+          prop="nickname"
           align="center"
-          label="Phone"
+          label="Name"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-        prop="state"
-        align="center"
-        label="State"
-        show-overflow-tooltip>
-      </el-table-column>
-        <el-table-column
-          prop="creationtime"
+          prop="status"
           align="center"
-          label="Creation time"
+          label="State"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="operation"  class-name="edit" width="200">
+        <el-table-column
+          prop="create_time"
+          align="center"
+          label="Creat time"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
           <template slot-scope="scope">
-            <span   @click="handleEdit(scope.$index, scope.row)">Disable</span>
+            <span class="left"  @click="handleEdit(scope.$index, scope.row)">{{scope.row.status==1?'Disable':scope.row.status==2?'Enable':'Disable'}}</span>
             <span  @click="handleDelete(scope.$index, scope.row)">Edit</span>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
+
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -86,159 +83,208 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      ischeck: false,
-      input:'',
-      currentpage: 1,
-      pagesize: 6,
-      pagetotal: null,
-      tableData: [
-        {
-          id: "2016-05-02",
-          account: "王小虎",
-         email: "上海",
-          phone: "普陀区",
-          state: "上海市普陀区金沙江路 1518 弄",
-          creationtime:'1111',
-        },
-        {
-          id: "2016-05-02",
-          account: "王小虎",
-          email: "上海",
-          phone: "普陀区",
-          state: "上海市普陀区金沙江路 1518 弄",
-        },     {
-          id: "2016-05-02",
-          account: "王小虎",
-          email: "上海",
-          phone: "普陀区",
-          state: "上海市普陀区金沙江路 1518 弄",
-        },     {
-          id: "2016-05-02",
-          account: "王小虎",
-          email: "上海",
-          phone: "普陀区",
-          state: "上海市普陀区金沙江路 1518 弄",
-        },     {
-          id: "2016-05-02",
-          account: "王小虎",
-          email: "上海",
-          phone: "普陀区",
-          state: "上海市普陀区金沙江路 1518 弄",
-        },     {
-          id: "2016-05-02",
-          account: "王小虎",
-          email: "上海",
-          phone: "普陀区",
-          state: "上海市普陀区金沙江路 1518 弄",
-        },
-      ],
-      multipleSelection: []
-    };
-  },
-  created() {
-    // this.changepage(this.currentpage, this.pagesize);
-  },
-  methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
+  export default {
+    data() {
+      return {
+        // centerDialogVisible: false,
+        ischeck: false,
+        keyword:'',
+        currentpage: 1,
+        pagesize: 10,
+        pagetotal: null,
+        tableData: [
+        ],
+        multipleSelection: []
+      };
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    created() {
+      this.changepage(this.currentpage, this.pagesize);
+
+
     },
-    tabRowClassName({row,rowIndex}){
-      let index = rowIndex;
-      if(index %2 == 0){
-        return 'warning-row'
-      }
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
+    methods: {
+      searcher(){
+        this.changepage(this.currentpage, this.pagesize,this.keyword);
+      },
+      open() {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+            .post(
+              `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+              { params:{
+                  token: this.$store.state.token,
+                  user_id: currentpage,
+                  status:2
+                }
+              },
+              {
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                }
+              }
+            ).then(res => {
+            console.log(res);
+            // if(res.data.ret==0){
+            //   this.pagetotal=res.data.data.total;
+            //   this.tableData=[...res.data.data.data];
+            //   // console.log(this.tableData)
+            // }
+          });
+          // this.$message({
+          //   type: 'success',
+          //   message: '删除成功!'
+          // });
+        }).catch(() => {
+
         });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
-    changepage(currentpage, pagesize) {
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+      },
+      alledit(num){
+        console.log(this.multipleSelection)
+        let userid_arr=[];
+        this.multipleSelection.forEach(item=>{
+          userid_arr.push(item.atm_user_id)
+        })
+        this.$axios({
+          method: 'post',
+          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
+          data: {
+            token:this.$store.state.token,
+            atm_user_id: userid_arr,
+            status:num,
+          }
+        }).then(res => {
+          console.log(res);
+          if(res.data.ret==0){
+            this.changepage(this.currentpage, this.pagesize);
+          }
+        });
+      },
+      handleEdit(index, row) {
+        console.log(index, row);
+        let tostatus;
+        if(row.status==1){
+          tostatus=2;
+        }else if(row.status==2){
+          tostatus=1;
         }
-      }).then(res => {
-        this.tableData = [...res.data.data.lists];
-        console.log(this.tableData);
-
-        this.tableData.forEach(item => {
-
-          if(item.userIdentityType==1){
-              item.newname=item.userName;
-          }else if(item.userIdentityType==2){
-            item.newname=item.userCompanyCh;
+        this.$axios({
+          method: 'post',
+          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
+          data: {
+            token:this.$store.state.token,
+            atm_user_id: row.atm_user_id,
+            status: tostatus,
           }
-          item.createTime = item.createTime
-            ? this.$global.timestampToTime(item.createTime)
-            : "-";
-          item.optTime = item.optTime
-            ? this.$global.timestampToTime(item.optTime)
-            : "-";
-          if (item.optStatus === 1) {
-            item.projectstatus = "审核通过";
-          } else if (item.optStatus === 2) {
-            item.projectstatus = "审核不通过";
+        }).then(res => {
+          // console.log(res)
+          if(res.data.ret==0){
+            if(row.status==1){
+              this.tableData[index].status=2;
+            }else if(row.status==2){
+              this.tableData[index].status=1;
+            }
+
           }
         });
 
-        var rescode = res.data.resultCode;
-        this.pagetotal = res.data.data.pageTotal;
-      });
+
+      },
+      handleDelete(index, row) {
+
+        // console.log(this.currentpage, this.pagesize)
+        this.$routerto('account_setting',{type:2,atm_user_id:row.atm_user_id})
+
+      },
+      tabRowClassName({row,rowIndex}){
+        let index = rowIndex;
+        if(index %2 == 0){
+          return 'warning-row'
+        }
+      },
+      toggleSelection(rows) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.multipleTable.toggleRowSelection(row);
+          });
+        } else {
+          this.$refs.multipleTable.clearSelection();
+        }
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      changepage(currentpage, pagesize,keyword) {
+        this.$axios
+          .get(
+            `${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
+            { params:{
+                token: this.$store.state.token,
+                page: currentpage,
+                size:pagesize,
+                keyword:keyword,
+                lang:'en-us'
+              }
+            },
+            {
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              }
+            }
+          )
+          .then(res => {
+
+            if(res.data.ret==0){
+              this.pagetotal=res.data.data.total;
+              this.tableData=[...res.data.data.data];
+              console.log(this.tableData)
+            }
+          })
+          .catch(error => {});
+      },
+      handleClick(row) {
+        this.$router.push({
+          name: "usercheck",
+          query: { idx: row.userId, userIdentityType: row.userIdentityType }
+        });
+        // this.$router.push("/home/userlist/verified_user/usercheck");
+      },
+      fromchildren1(data) {
+        // console.log(data)
+        this.currentpage=data.currentpage;
+        this.changepage(data.currentpage, data.pagesize);
+      }
     },
-    handleClick(row) {
-      this.$router.push({
-        name: "usercheck",
-        query: { idx: row.userId, userIdentityType: row.userIdentityType }
-      });
-      // this.$router.push("/home/userlist/verified_user/usercheck");
-    },
-    fromchildren1(data) {
-      this.changepage(data.currentpage, data.pagesize);
-    }
-  },
-  watch: {
-    $route(to, from) {
-      if (to.name == "usercheck") {
-        this.ischeck = !this.ischeck;
-      } else {
-        this.ischeck = false;
+    watch: {
+      $route(to, from) {
+        if (to.name == "usercheck") {
+          this.ischeck = !this.ischeck;
+        } else {
+          this.ischeck = false;
+        }
       }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-  .ATM_Technical_Support{
+  .customer_data{
     margin :0 0 0 50px;
-  header{
-    position: relative;
-    height: 136px;
-    border-bottom: 1px solid #d3d3d3;
-  h2{
-    font-size: 20px;
-    position: absolute;
-    bottom:20px;
-    /*font-weight: 550;*/
-  }
+    header{
+      position: relative;
+      height: 136px;
+      border-bottom: 1px solid #d3d3d3;
+      h2{
+        font-size: 20px;
+        position: absolute;
+        bottom:20px;
+        /*font-weight: 550;*/
+      }
 
-  }
+    }
     .el-table{
       color:#7A7A7A;
     }
@@ -253,7 +299,7 @@ export default {
       background:#EDF1F4;
     }
     .el-table_1_column_8  .el-button{
-        color: #2ABEE2;
+      color: #2ABEE2;
     }
     .edit{
       span{
@@ -261,7 +307,7 @@ export default {
         text-decoration:underline;
         cursor: pointer;
       }
-      span:nth-of-type(1){
+      span.left{
         margin-right: 20px;
       }
 
@@ -292,10 +338,12 @@ export default {
           width: 120px;
           line-height: 40px;
           height: 40px;
+          background:url(../../../static/add-disable.png) no-repeat;
           border-radius: 5px;
+          color:white;
           text-align: center;
           box-sizing: border-box;
-          border: 1px solid #d3d3d3;
+          /*border: 1px solid #d3d3d3;*/
           /*background: red;*/
           margin-right: 20px;
         }
@@ -319,16 +367,16 @@ export default {
         }
       }
     }
-  main{
-    padding:20px 20px 20px 0;
-    .el-table thead{
-      color:black;
-    }
-    /*margin-top: 60px;*/
-    /*width: 100%;*/
-    /*  padding: 0;*/
-    /*  border: 1px solid #EBEEF5;*/
+    main{
+      padding:20px 20px 20px 0;
+      .el-table thead{
+        color:black;
+      }
+      /*margin-top: 60px;*/
+      /*width: 100%;*/
+      /*  padding: 0;*/
+      /*  border: 1px solid #EBEEF5;*/
 
-  }
+    }
   }
 </style>
