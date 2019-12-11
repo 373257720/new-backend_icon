@@ -27,7 +27,8 @@ import customer_data from '@/components/user/customer_data'
 
 // settting
 import setting from '@/components/settting/setting'
-
+import  setting_edit from '@/components/settting/setting_edit'
+import  setting_list from '@/components/settting/setting_list'
 //audit_log
 import  audit_log from '@/components/Aduit_logs/audit_log'
 
@@ -59,7 +60,7 @@ const routes = [{
     name: 'home',
     component: home,
     meta: {
-      title: '首页'
+      title: ''
     },
     redirect: '/home/user/atm_support',
     children: [
@@ -68,7 +69,7 @@ const routes = [{
       name: 'user',
       component: user,
       meta: {
-        title: '项目列表'
+        title: ''
       },
       redirect: '/home/user/atm_support',
       children: [
@@ -97,6 +98,19 @@ const routes = [{
       meta: {
         title: ''
       },
+        redirect: '/home/setting/setting_list',
+        children: [
+          {
+            path: 'setting_edit',
+            name: 'setting_edit',
+            component: setting_edit
+          },
+          {
+            path: 'setting_list',
+            name: 'setting_list',
+            component: setting_list
+          },
+        ]
 
       // redirect: '/home/setting/setting',
       // children: [

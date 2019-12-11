@@ -9,7 +9,7 @@ import qs from 'qs'
 import ElementUI from 'element-ui';
 import axios from 'axios';
 import 'element-ui/lib/theme-chalk/index.css';
-import global from '@/components/global.js';
+import global from '../src/components/global';
 Vue.prototype.$global = global
 
 import locale from 'element-ui/lib/locale/lang/en'

@@ -1,38 +1,49 @@
 <template>
   <div class="account_setting">
-    <header><h2>{{title}}</h2></header>
+    <header><h2>
+      <span>ATM TECHNICAL SUPPORT</span>
+    <i class="el-icon-arrow-right"></i>
+      <span>{{title}}</span>
+    </h2>
+    </header>
     <main>
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="User Name" prop="username">
           <el-input  v-model="ruleForm.username" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item  label="密码" prop="password">
+        <el-form-item  label="Password" prop="password">
           <el-input type="password" v-model="ruleForm.password" show-password clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="repassword">
+        <el-form-item label="Confirm password" prop="repassword">
           <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="昵称" prop="nickname" >
+        <el-form-item label="Nickname" prop="nickname" >
           <el-input v-model.number="ruleForm.nickname" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="电子邮箱" prop="email"  >
+        <el-form-item label="Email" prop="email"  >
           <el-input v-model.number="ruleForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="Mobile" prop="mobile"  >
+        <el-form-item label="Phone" prop="mobile"  >
           <el-input v-model.number="ruleForm.mobile" clearable></el-input>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="State" prop="status">
           <template>
             <el-radio  v-model="ruleForm.status" label="1">Enable</el-radio>
             <el-radio v-model="ruleForm.status" label="2">Disable</el-radio>
           </template>
         </el-form-item>
-        <el-form-item>
-          <el-button  @click="submitForm('ruleForm')">提交</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
+<!--        <el-form-item>-->
+<!--          <el-button  @click="submitForm('ruleForm')">提交</el-button>-->
+<!--          <el-button @click="resetForm('ruleForm')">重置</el-button>-->
+<!--        </el-form-item>-->
+
 
       </el-form>
+      <section>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="$routerto('atm_support')">Cancel</button>
+
+      </section>
     </main>
 
   </div>
@@ -107,17 +118,41 @@ export default {
   created() {
     // console.log(this.$route.query)
     this.ruleForm.token=this.$store.state.token;
-
     if(this.$route.query.type==1){
-        this.title='ATM TECHNICAL SUPPORT  >  ADD';
+        this.title='ADD';
 
     }else if(this.$route.query.type==2){
-      this.title='ATM TECHNICAL SUPPORT  >  EDIT';
+      this.title='EDIT';
       this.ruleForm.atm_user_id=this.$route.query.atm_user_id;
+      this.getdata();
     }
 
   },
   methods: {
+    getdata(){
+      this.$axios({
+        method: 'get',
+        url: `${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,
+        params: {
+          token:this.$store.state.token,
+          atm_user_id:this.$route.query.atm_user_id,
+        },
+      }).then(res => {
+        if(res.data.ret==0){
+          console.log(res)
+        for( let key in res.data.data){
+
+          if(this.ruleForm.hasOwnProperty(key)){
+            this.ruleForm[key]=res.data.data[key];
+          }
+        }
+
+
+          // if(this.ruleForm.hasOwnProperty())
+          // this.$routerto('atm_support');
+        }
+      });
+    },
     // handleClick(row) {
     //   console.log(row);
     //   this.$router.push("/home/project/signedup/signedup_check");
@@ -198,6 +233,23 @@ export default {
     main{
       margin:30px 0 100px 20px;
       width: 40%;
+      section{
+        display: flex;
+        justify-content: space-between;
+        button{
+          width: 40%;
+          height: 40px;
+          cursor: pointer;
+          color: white;
+          font-size: 16px;
+          line-height: 40px;
+          border-radius: 5px;
+
+        }
+        button:nth-of-type(1){
+          background:url("../../../static/savechange.png") no-repeat;
+        }
+      }
     }
   }
 </style>

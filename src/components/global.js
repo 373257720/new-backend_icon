@@ -1,6 +1,20 @@
 import axios from 'axios'
-import Vue from 'vue'
+// import Vue from 'vue'
+import router from '../../router';
+import qs from 'qs'
+
 const global = {
+  stamptodate: function (stamp) {
+    var date = new Date(stamp);
+    var Y = date.getFullYear() + "-";
+    var M =
+      (date.getMonth() + 1 < 10 ?
+        "0" + (date.getMonth() + 1) :
+        date.getMonth() + 1) + "-";
+    var D =
+      (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+    return Y + M + D
+  },
   timestampToTime: function (timestamp) {
     var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为1
     var Y = date.getFullYear() + '-';
@@ -11,37 +25,125 @@ const global = {
     var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
     return Y + M + D + h + m + s;
   },
-  changepage: async function (url, num, currpage, pagesize,arr) {
-     axios({
-      method: "get",
-      url: `${url}/bsl_web/projectSign/project`,
-      params: {
-        projectStatus: num,
-        pageIndex: currpage,
-        pageSize: pagesize
-      }
-    }).then(res => {
-      
-      arr = [...res.data.data.lists];
-      arr.forEach((item,idx) => {
-        item.projectStartTime = this.timestampToTime(item.projectStartTime)
-        item.signTime = this.timestampToTime(item.signTime)
-        arr = Vue.set(arr,idx,item)
-        console.log(arr)
-      })    
+get_encapsulation: function (url,  datas) {
+    return new Promise((resolve, reject) => {
+      axios.get(url, {
+        params: datas
+      }).then((res) => {
+        resolve(res)
+      }).catch(function (error) {
+        reject(error)
+        // console.log(error);
+      })
     })
   },
-  cleanall(){
+post_encapsulation: function (url,  datas) {
+    return new Promise((resolve, reject) => {
+      axios.post(url, qs.stringify(datas))
+        .then((res) => {
+        resolve(res)
+      }).catch(function (error) {
+        reject(error)
+        // console.log(error);
+      })
+    })
+
+  },
+  pic_obj: {
+    '1': "待审核",
+    '2': "待签约",
+    '5': "待确认",
+    '6': "成功签约",
+    '3': "投行已拒绝",
+    '4': "已签约待发送邮件",
+    '7': "投资者已拒绝"
+
+  },
+  financingStage: {
+    '0': '种子轮',
+    '1': "天使轮",
+    '2': "A轮",
+    '3': "B轮",
+    '4': "C轮",
+    '5': "PRE-IPO",
+    '6': "IPO",
+
+  },
+  // 投资者身份类型：1个人，2公司
+  investorsType: {
+    '1': '个人',
+    '2': '公司'
+  },
+
+  goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: url,
+        method: methods,
+        params: datas
+      })
+        .then((res) => {
+          let signAgreement = res.data.data.signAgreement;
+          let investorsId = res.data.data.investorsId;
+          let projectName = res.data.data.projectName;
+          let signAgreementKey = res.data.data.signAgreementKey;
+          for (let i in res.data.data) {
+            if (details_lists[i]) {
+              if (i == "signStatus") {
+                details_lists[i].response = this.pic_obj[
+                  res.data.data[i]
+                  ];
+              } else if (i == "publicCompany") {
+                details_lists[i].response = res.data.data[i] == false ? '否' : '是'
+              } else {
+                details_lists[i].response = res.data.data[i];
+              }
+            }
+            if (nav_lists[i]) {
+              if (i == "financingStage") {
+                nav_lists[i].response = this.financingStage[
+                  res.data.data[i]
+                  ];
+              } else {
+                nav_lists[i].response = res.data.data[i];
+              }
+            }
+            if (investor_infor[i]) {
+              if (i == 'investorsType') {
+                investor_infor[i].response = this.investorsType[res.data.data[i]]
+              } else {
+                investor_infor[i].response = res.data.data[i];
+              }
+            }
+          }
+          let combin = {
+            // investor_infor: investor_infor,
+            // details_lists: details_lists,
+            // nav_lists: nav_lists,
+            signAgreement: signAgreement,
+            investorsId: investorsId,
+            title: projectName,
+            signAgreementKey: signAgreementKey,
+          }
+          resolve(combin)
+
+        }).catch(function (error) {
+        reject(error)
+        // console.log(error);
+      })
+    })
+
+  },
+
+  previous() {
+    router.go(-1);
+
+  },
+  cleanall() {
     this.$goto("login");
     sessionStorage.clear();
-    
+
   }
-
-
-  // abc:async function(url, num, currpage, pagesize){
-  //   let a = await this.getdata(url, num, currpage, pagesize);
-  //   console.log(a);
-  // }
 
 
 }

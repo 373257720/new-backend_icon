@@ -45,7 +45,7 @@
             <i class="el-icon-setting"></i>
             <span slot="title">REPORTS</span>
           </el-menu-item>
-          <el-menu-item index="7" :class="{active:isActive[4]}">
+          <el-menu-item index="7" :class="{active:isActive[4]}" @click="routerto('/home/compliance')">
             <i class="el-icon-setting"></i>
             <span slot="title">COMPLIANCE</span>
           </el-menu-item>
@@ -58,7 +58,7 @@
             <i class="el-icon-setting"></i>
             <span slot="title">ALERTS</span>
           </el-menu-item>
-          <el-menu-item index="10" :class="{active:isActive[3]}">
+          <el-menu-item index="10" :class="{active:isActive[3]}"  @click="routerto('/home/audit_log')">
             <i class="el-icon-setting"></i>
             <span slot="title">AUDIT LOG</span>
           </el-menu-item>
