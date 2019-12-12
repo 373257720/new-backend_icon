@@ -85,10 +85,10 @@
         tableData: [
           {
             productType: "General",
-            productName: 'Dispener',
+            productName: 'Cash Outbox',
           },{
             productType: "General",
-            productName: 'Cashbox',
+            productName: 'Cash Inbox',
           },{
             productType: "Coin & Price",
             productName: 'Transaction Time',
@@ -97,14 +97,16 @@
             productName: 'Transaction Price & Fee',
           },{
             productType: "Receipts",
-            productName: 'Website',
-          },{
-            productType: "Receipts",
-            productName: 'E-mail',
-          },{
-            productType: "Receipts",
-            productName: 'Contact Number',
-          },{
+            productName: 'Website , E-mail , Contact Number',
+          },
+          // {
+          //   productType: "Receipts",
+          //   productName: 'E-mail',
+          // },{
+          //   productType: "Receipts",
+          //   productName: 'Contact Number',
+          // },
+          {
             productType: "Advanced Setting",
             productName: 'Ethereum',
           },
@@ -179,16 +181,16 @@
             }
           }
         }
-        if (columnIndex === 2) {
-            let element = this.OrderIndexArr[2]
-            let item = element[2]
-            if(rowIndex==4){
-            return {
-                    rowspan: 3,
-                    colspan: 1
-                  }
-          }
-        }
+        // if (columnIndex === 2) {
+        //     let element = this.OrderIndexArr[2]
+        //     let item = element[2]
+        //     if(rowIndex==4){
+        //     return {
+        //             rowspan: 3,
+        //             colspan: 1
+        //           }
+        //   }
+        // }
       },
 
 

@@ -27,13 +27,12 @@
               <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
             </router-link>
           </el-submenu>
-
           <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
             <i class="el-icon-setting"></i>
             <span slot="title">MACHINES</span>
           </el-menu-item>
 
-          <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+          <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
             <i class="el-icon-setting"></i>
             <span slot="title">TRANSACTIONS</span>
           </el-menu-item>
@@ -49,7 +48,6 @@
             <i class="el-icon-setting"></i>
             <span slot="title">COMPLIANCE</span>
           </el-menu-item>
-
           <el-menu-item index="8"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
             <i class="el-icon-setting"></i>
             <span slot="title">SETTING</span>

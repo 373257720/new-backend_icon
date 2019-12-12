@@ -1,11 +1,11 @@
 import axios from 'axios'
-// import Vue from 'vue'
-import router from '../../router';
+import Vue from 'vue'
+import router from './router';
 import qs from 'qs'
 
 const global = {
   stamptodate: function (stamp) {
-    var date = new Date(stamp);
+    var date = new Date(stamp*1000);
     var Y = date.getFullYear() + "-";
     var M =
       (date.getMonth() + 1 < 10 ?
@@ -49,32 +49,6 @@ post_encapsulation: function (url,  datas) {
     })
 
   },
-  pic_obj: {
-    '1': "待审核",
-    '2': "待签约",
-    '5': "待确认",
-    '6': "成功签约",
-    '3': "投行已拒绝",
-    '4': "已签约待发送邮件",
-    '7': "投资者已拒绝"
-
-  },
-  financingStage: {
-    '0': '种子轮',
-    '1': "天使轮",
-    '2': "A轮",
-    '3': "B轮",
-    '4': "C轮",
-    '5': "PRE-IPO",
-    '6': "IPO",
-
-  },
-  // 投资者身份类型：1个人，2公司
-  investorsType: {
-    '1': '个人',
-    '2': '公司'
-  },
-
   goods_deatails: function (url, methods, datas, details_lists, nav_lists, investor_infor) {
     return new Promise((resolve, reject) => {
       axios({
@@ -134,7 +108,6 @@ post_encapsulation: function (url,  datas) {
     })
 
   },
-
   previous() {
     router.go(-1);
 

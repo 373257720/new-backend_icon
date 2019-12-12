@@ -9,8 +9,8 @@ import qs from 'qs'
 import ElementUI from 'element-ui';
 import axios from 'axios';
 import 'element-ui/lib/theme-chalk/index.css';
-import global from '../src/components/global';
-Vue.prototype.$global = global
+import global from '../src/global';
+Vue.prototype.$global = global;
 
 import locale from 'element-ui/lib/locale/lang/en'
 
@@ -42,7 +42,6 @@ axios.interceptors.response.use(res => {
     // console.log(123)
     if (res.data.ret) {
       let code = res.data.ret;
-
       if (code >= 1000) {
         console.log(666,res.data)
         ElementUI.MessageBox({

@@ -9,6 +9,8 @@ const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 };
+// account
+import  account from '@/components/account'
 // dashboard
 import dashboard from '@/components/dashboard'
 // user
@@ -17,21 +19,19 @@ import atm_support from '@/components/user/atm_support'
 import user from '@/components/user/user'
 import customer_data from '@/components/user/customer_data'
 
-
-// import user from '@/components/user/user'
-// import signedup_check from '@/components/user/signedup_check'
-// import signeduproot from '@/components/user/signuproot'
-// import signedup_user from '@/components/user/signedup_user'
-// import tosignup_check from '@/components/user/tosignup_check'
-// import investor_infor from
-
 // settting
 import setting from '@/components/settting/setting'
 import  setting_edit from '@/components/settting/setting_edit'
 import  setting_list from '@/components/settting/setting_list'
 //audit_log
 import  audit_log from '@/components/Aduit_logs/audit_log'
+import setting_edit_lists from '@/components/Aduit_logs/audit_log_list'
+import  cashbox_log from  '@/components/Aduit_logs/cashbox_log';
+import  error_log from  '@/components/Aduit_logs/error_log';
+import  machine_connect_status from  '@/components/Aduit_logs/machine_connect_status';
 
+import transaction from '@/components/transaction/transaction'
+import  transaction_lists from '@/components/transaction/transaction_lists'
 // complaince
 import  compliance from '@/components/compliance/compliance'
 // import verified_user from '@/components/userlist/verified_user'
@@ -111,15 +111,6 @@ const routes = [{
             component: setting_list
           },
         ]
-
-      // redirect: '/home/setting/setting',
-      // children: [
-      //   {
-      //     path: 'setting',
-      //     name: 'setting',
-      //     component: setting
-      //   },
-      // ]
     },
       {
         path: 'audit_log',
@@ -128,6 +119,50 @@ const routes = [{
         meta: {
           title: ''
         },
+        redirect: '/home/audit_log/setting_edit_lists',
+        children: [
+          {
+            path: 'setting_edit_lists',
+            name: 'setting_edit_lists',
+            component: setting_edit_lists,
+          },
+          {
+            path: 'cashbox_log',
+            name: 'cashbox_log',
+            component: cashbox_log
+          },
+          {
+            path: 'error_log',
+            name: 'error_log',
+            component: error_log
+          },
+          {
+            path: 'machine_connect_status',
+            name: 'machine_connect_status',
+            component:machine_connect_status
+          },
+        ]
+      },
+      {
+        path: 'transaction',
+        name: 'transaction',
+        component:transaction,
+        meta: {
+          title: ''
+        },
+        redirect: '/home/transaction/transaction_lists',
+        children: [
+          {
+            path: 'transaction_lists',
+            name: 'transaction_lists',
+            component: transaction_lists,
+          },
+          // {
+          //   path: 'cashbox_log',
+          //   name: 'cashbox_log',
+          //   component: cashbox_log
+          // },
+        ]
       },
       {
         path: 'compliance',
@@ -141,6 +176,13 @@ const routes = [{
         path: 'dashboard',
         name: 'dashboard',
         component: dashboard,
+        meta: {
+          title: ''
+        },
+      },{
+        path: 'account',
+        name: 'account',
+        component: account,
         meta: {
           title: ''
         },

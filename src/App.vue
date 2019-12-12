@@ -20,7 +20,8 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="login" icon="el-icon-back">退出登录</el-dropdown-item>
+              <el-dropdown-item command="account" >MY Account</el-dropdown-item>
+              <el-dropdown-item command="login">Log out</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -74,8 +75,6 @@ export default {
           JSON.parse(sessionStorage.getItem("store"))
         )
       );
-      // console.dir(this.$store.state);
-
     }
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
@@ -92,8 +91,8 @@ export default {
     handleCommand(command) {
       if (command == "userpass") {
         this.$goto("userpass");
-      } else if (command == "mysign") {
-        this.$goto("mysign");
+      } else if (command == "account") {
+        this.$goto("account");
       } else if (command == "login") {
         this.$goto("login");
       }

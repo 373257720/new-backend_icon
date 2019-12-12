@@ -6,32 +6,22 @@
       <span>{{title}}</span>
     </h2>
     </header>
-<!--    <main v-if="rowid==0">-->
-<!--      <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">-->
-<!--        <el-form-item  label="User Name" prop="username">-->
-<!--          <el-input  v-model="ruleForm.username" clearable autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item  label="Password" prop="password">-->
-<!--          <el-input type="password" v-model="ruleForm.password" show-password clearable autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="Confirm password" prop="repassword">-->
-<!--          <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="Nickname" prop="nickname" >-->
-<!--          <el-input v-model.number="ruleForm.nickname" show-password   clearable autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      <section>-->
-<!--        <button  @click="submitForm('ruleForm')">Save Change</button>-->
-<!--        <button @click="$routerto('atm_support')">Cancel</button>-->
-
-<!--      </section>-->
-<!--    </main>-->
-    <main v-if="rowid==1">
+    <main v-if="rowid==0">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Cash Inbox Percent:" prop="in_cashbox_warn_percent">
           <el-input  v-model="ruleForm.in_cashbox_warn_percent" clearable autocomplete="off"></el-input>
         </el-form-item>
+      </el-form>
+      <section>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="$routerto('setting')">Cancel</button>
+      </section>
+    </main>
+    <main v-if="rowid==1">
+      <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+<!--        <el-form-item  label="Cash Inbox Percent:" prop="in_cashbox_warn_percent">-->
+<!--          <el-input  v-model="ruleForm.in_cashbox_warn_percent" clearable autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item  label="Cash Outbox Percent:" prop="out_cashbox_warn_percent">
           <el-input  v-model="ruleForm.out_cashbox_warn_percent"  clearable autocomplete="off"></el-input>
         </el-form-item>
@@ -69,7 +59,21 @@
         <button @click="$routerto('setting')">Cancel</button>
       </section>
     </main>
-    <main v-if="rowid==8">
+    <main v-if="rowid==5">
+      <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="Ethereum Wallet Address:" prop="contact_num">
+          <el-input  v-model="ruleForm.wallet"   clearable autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Ethereum Private key" prop="contact_num">
+          <el-input  show-password v-model="ruleForm.private_key"   clearable autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <section>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="$routerto('setting')">Cancel</button>
+      </section>
+    </main>
+    <main v-if="rowid==6">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Token:" prop="password">
           <el-input type="password" v-model="ruleForm.token" show-password  autocomplete="off"></el-input>
@@ -172,17 +176,22 @@
       this.ruleForm.token=this.$store.state.token;
       this.rowid=this.$route.query.rowindex;
       if(this.rowid==0){
-        this.title='ADD';
+        this.title='Cash Inbox';
+        this.ruleForm=Object.assign({}, this.ruleForm,{
+          in_cashbox_warn_percent:'',
+        })
+        Object.assign(this.parameter_obj,{
+          name:'in_cashbox_warn_percent',
+        })
 
       }
       else if(this.rowid==1){
-        this.title='Cashbox';
+        this.title='Cash Outbox';
         this.ruleForm=Object.assign({}, this.ruleForm,{
-          in_cashbox_warn_percent:'',
           out_cashbox_warn_percent:'',
         })
         Object.assign(this.parameter_obj,{
-          name:'in_cashbox_warn_percent,out_cashbox_warn_percent',
+          name:'out_cashbox_warn_percent',
         })
       }
       else if(this.rowid==2){
@@ -206,7 +215,18 @@
         })
 
       }
-      else if(this.rowid==8){
+      else if(this.rowid==5){
+        this.title='Ethereum';
+        this.ruleForm=Object.assign({}, this.ruleForm,{
+          wallet:'',
+          private_key:'',
+        })
+        Object.assign(this.parameter_obj,{
+          name:'ethereum',
+        })
+
+      }
+      else if(this.rowid==6){
         this.title='Bitgo';
         this.ruleForm=Object.assign({}, this.ruleForm,{
           token:'',
@@ -228,8 +248,8 @@
           params: this.parameter_obj,
         }).then(res => {
           if(res.data.ret==0){
-            console.log(res)
-            if(this.rowid==8){
+            // console.log(res)
+            if(this.rowid==6 || this.rowid==5){
               console.log(res.data.data[0].value)
               for( var i in res.data.data[0].value){
                if(this.ruleForm.hasOwnProperty(i)) {
@@ -237,11 +257,11 @@
                }
               }
             }else{
+              console.dir(res)
               res.data.data.forEach(item=>{
                 if(this.ruleForm.hasOwnProperty(item.name)) {
                   this.ruleForm[item.name]=item.value;
                 }
-
               })
             }
             // else if(this.rowid==4){
@@ -263,7 +283,7 @@
       submitForm(formName) {
         // this.$refs[formName].validate((valid) => {
           // if (valid) {
-              if(this.$route.query.rowindex==8){
+              if(this.$route.query.rowindex==6 ){
               let ruleform={
                 token:this.$store.state.token,
                 name:'bitgo',
@@ -271,31 +291,31 @@
                 wallet_id:this.ruleForm.wallet_id,
                 wallet_passphrase:this.ruleForm.wallet_passphrase
               }
-              this.$axios({
-                method: 'post',
-                url: `${this.$baseurl}/admin_api/user.user_config/editUserConfig`,
-                data:this.$qs.stringify(ruleform) ,
-                headers: {
-                  'content-type': 'application/x-www-form-urlencoded'
-                }
-              }).then(res => {
-                if(res.data.ret==0){
-                  console.log(res)
-                }
-              });
-            }else{
-                this.$axios({
-                  method: 'post',
-                  url: `${this.$baseurl}/admin_api/user.user_config/editUserConfig`,
-                  data:this.$qs.stringify(this.ruleForm) ,
-                  headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                  }
-                }).then(res => {
+                this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
                   if(res.data.ret==0){
                     console.log(res)
                   }
-                });
+                })
+            }else if(this.$route.query.rowindex==5){
+                let ruleform={
+                  token:this.$store.state.token,
+                  name:'ethereum',
+                  wallet:this.ruleForm.wallet,
+                  private_key:this.ruleForm.private_key,
+                }
+                this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
+                  if(res.data.ret==0){
+                    console.log(res)
+                  }
+                })
+              }
+
+              else{
+                this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,this.ruleForm).then(res=>{
+                  if(res.data.ret==0){
+                    console.log(res)
+                  }
+                })
               }
           // } else {
           //   console.log('error submit!!');
