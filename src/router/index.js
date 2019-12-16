@@ -32,6 +32,7 @@ import  machine_connect_status from  '@/components/Aduit_logs/machine_connect_st
 
 import transaction from '@/components/transaction/transaction'
 import  transaction_lists from '@/components/transaction/transaction_lists'
+import  transaction_details from "@/components/transaction/transaction_details"
 // complaince
 import  compliance from '@/components/compliance/compliance'
 // import verified_user from '@/components/userlist/verified_user'
@@ -157,11 +158,11 @@ const routes = [{
             name: 'transaction_lists',
             component: transaction_lists,
           },
-          // {
-          //   path: 'cashbox_log',
-          //   name: 'cashbox_log',
-          //   component: cashbox_log
-          // },
+          {
+            path: 'transaction_details',
+            name: 'transaction_details',
+            component: transaction_details
+          },
         ]
       },
       {

@@ -12,14 +12,14 @@
             <span class="keyword">Keyword:</span>
             <el-input
               placeholder="Machine Name"
-              v-model="keyword"
+              v-model="formdata.keyword"
               clearable>
             </el-input>
           </section>
           <section>
             <span class="keyword">Status:</span>
             <template>
-              <el-select v-model="value" placeholder="请选择">
+              <el-select v-model="formdata.Statu" placeholder="">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -34,17 +34,17 @@
         <section>
           <span class="keyword">Transaction ID:</span>
           <el-input
-            placeholder="Machine Name"
-            v-model="keyword"
+            placeholder=""
+            v-model="formdata.TransactionID"
             clearable>
           </el-input>
         </section>
         <section>
           <span class="keyword">Type:</span>
           <template>
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="formdata.Type" placeholder="">
               <el-option
-                v-for="item in options"
+                v-for="item in options1"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -57,15 +57,15 @@
         <section>
           <span class="keyword">Location:</span>
           <el-input
-            placeholder="Machine Name"
-            v-model="keyword"
+            placeholder="Machine"
+            v-model="formdata.Location"
             clearable>
           </el-input>
         </section>
         <section>
           <span class="keyword" >Time:</span>
           <el-date-picker
-            v-model="timerange"
+            v-model="formdata.timerange"
             type="daterange"
             range-separator="to"
             value-format="yyyy-MM-dd"
@@ -76,12 +76,9 @@
         </section>
       </div>
       <div>
-        <section>Search</section>
-        <section>Reset</section>
+        <section class="button">Search</section>
+        <section class="button" @click="reset">Reset</section>
       </div>
-
-
-
     </nav>
     <el-main>
       <el-table
@@ -93,81 +90,61 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column
-          type="selection"
-          align="center"
-          label="ID"
-          width="55">
-        </el-table-column>
-        <el-table-column
           label="Transaction ID"
           align="center"
-
         >
           <template slot-scope="scope">{{ scope.row.order_id}}</template>
         </el-table-column>
         <el-table-column
-          label="Machine Name"
-          align="center">
-          <template slot-scope="scope">{{ scope.row.machine_name}}</template>
-        </el-table-column>
-        <el-table-column
-          prop="in_money_before"
+          label="Machine"
           align="center"
-          label="ACCOUNT NUMBERS"
-          show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
-            <div>before</div>
+          class-name="edit"
+        >
+          <template  slot-scope="scope">
+            <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.machine_name}}</span>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
-          label="CashInbox Changes"
+          label="Photo"
           prop="in_money_change"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="in_money_after"
+          prop="coin_status"
           align="center"
-          label="STATE"
-          show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
-            <div>after</div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="out_money_before"
-          align="center"
-          label="CREATION TIME"
-          show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
-            <div>before</div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="out_money_change"
-          align="center"
-          label="CashOutbox Changes"
+          label="Status"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="out_money_after"
+          prop="trade_type"
           align="center"
-          label="STATE"
+          label="Type"
           show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
-            <div>after</div>
-          </template>
         </el-table-column>
         <el-table-column
-          prop="create_time"
           align="center"
-          label="Date"
+          label="Cash"
+          show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.money}}{{scope.row.currency_name}}</template>
+        </el-table-column>
+        <el-table-column
+          prop="deal_coin_number"
+          align="center"
+          label="BTC"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="OPERATION"  class-name="edit" width="150">
-          <template slot-scope="scope">
-            <span  @click="handleDelete(scope.$index, scope.row)">Delete</span>
-          </template>
+        <el-table-column
+          prop="pay_time"
+          align="center"
+          label="Transaction Date"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="Location"
+          align="center"
+          label="Location"
+          show-overflow-tooltip>
         </el-table-column>
       </el-table>
     </el-main>
@@ -186,14 +163,39 @@
     data() {
       return {
         // centerDialogVisible: false,
-        timerange:null,
-        ischeck: false,
-        keyword:'',
+        formdata:{
+          TransactionID:'',
+          keyword:'',
+          Statu:'',
+          Type:'',
+          Location:'',
+          timerange:null,
+        },
         currentpage: 1,
         pagesize: 10,
         pagetotal: null,
         tableData: [],
-        multipleSelection: []
+        multipleSelection: [],
+        options: [{
+          value: '1',
+          label: 'Success',
+        }, {
+          value: '2',
+          label: 'Failed'
+        },
+          {
+          value: '3',
+          label: 'Cancelled'
+        }
+        ],
+        options1: [{
+          value: '1',
+          label: 'Buy',
+        }, {
+          value: '2',
+          label: 'Sell'
+        },
+        ],
       };
     },
     created() {
@@ -201,11 +203,10 @@
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     methods: {
-      export_excel(){
-        let start_time = this.timerange==null?0:this.timerange[0];
-        let end_time = this.timerange==null?0:this.timerange[1];
-        window.location.href = `${this.$baseurl}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}`;
-
+      reset(){
+          for(let key in this.formdata){
+            this.formdata[key]='';
+          }
       },
       searcher(){
         this.currentpage=1;
@@ -215,33 +216,13 @@
           this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
         }
       },
-      alldelete(){
-        console.log(this.multipleSelection)
-        let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.machine_money_log_id)
-        })
-        this.beforedelete(userid_arr);
-      },
+
       handleDelete(index, row) {
         console.log(index, row);
-        this.beforedelete(row.machine_money_log_id);
+        this.$routerto('transaction_details',{order_id:row.order_id})
+        // this.beforedelete(row.machine_money_log_id);
       },
-      beforedelete(params){
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/deleteMachineMoneyLog`,{
-          token:this.$store.state.token,
-          machine_money_log_id: params,
-        }).then(res => {
-          console.log(res);
-          if(res.data.ret==0){
-            if(this.timerange==null){
-              this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
-            }else{
-              this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
-            }
-          }
-        });
-      },
+
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;
         if(index %2 == 0){
@@ -252,13 +233,15 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/getMachineMoneyLogList`,{
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
           token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
-          keyword:keyword,
+          keyword:this.formdata.keyword,
           start_time:starttime,
-          end_time:endtime,
+          end_time:this.endtime,
+          machine_id:this.formdata.keyword,
+          coin_status:this.formdata.Statu,
         })
           .then(res => {
             if(res.data.ret==0){
@@ -363,63 +346,35 @@
         section{
           /*display: flex;*/
           display: flex;
+
           span{
             display: inline-block;
             width: 120px;
+            margin-right: 5px;
+            text-align: right;
+            line-height: 40px;
           }
           div{
             flex:1;
           }
-          /*flex-direction: column;*/
+        }
+        .button{
+          /*width: 100%;*/
+          height: 40px;
+          line-height: 40px;
+          background: red;
+          border-radius: 5px;
+        }
+        section:nth-child(1){
+            margin-bottom:10px;
         }
       }
-      /*div.nav_left{*/
-      /*  display: flex;*/
-      /*  section{*/
-      /*    cursor: pointer;*/
-      /*    width: 120px;*/
-      /*    line-height: 40px;*/
-      /*    height: 40px;*/
-      /*    background:url(../../../static/add-disable.png) no-repeat;*/
-      /*    border-radius: 5px;*/
-      /*    color:white;*/
-      /*    text-align: center;*/
-      /*    box-sizing: border-box;*/
-      /*    margin-right: 20px;*/
-      /*  }*/
-      /*}*/
-      /*div.nav_right{*/
-      /*  display: flex;*/
-      /*  i.el-icon-search{*/
-      /*    height: 40px;*/
-      /*    !*width: 40px;*!*/
-      /*    cursor: pointer;*/
-      /*    margin-left: 20px;*/
-      /*    font-size: 22px;*/
-      /*    line-height: 40px;*/
-      /*    text-align: center;*/
-      /*  }*/
-      /*  span.keyword{*/
-      /*    line-height: 40px;*/
-      /*    color: #777777;*/
-      /*    text-align: center;*/
-      /*    margin: 0 20px;*/
-      /*  }*/
-      /*  div{*/
-      /*    flex:1;*/
-      /*  }*/
-      /*}*/
-
     }
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
         color:black;
       }
-      /*margin-top: 60px;*/
-      /*width: 100%;*/
-      /*  padding: 0;*/
-      /*  border: 1px solid #EBEEF5;*/
 
     }
   }

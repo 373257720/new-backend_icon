@@ -67,14 +67,12 @@ export default {
             }
           )
           .then(res => {
-            console.log(res.data.data);
             this.loading = false;
             var rescode = res.data.ret;
             if (rescode == 0) {
               this.$store.dispatch("setUser",res.data.data.nickname);
               this.$store.dispatch("settoken_action",res.data.data.token);
               this.$goto("home");
-              // console.log(1)
               // this.$router.push({path:'/home'});
             }
             else{
