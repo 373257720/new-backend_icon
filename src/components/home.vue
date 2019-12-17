@@ -27,7 +27,7 @@
               <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
             </router-link>
           </el-submenu>
-          <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+          <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/machines')">
             <i class="el-icon-setting"></i>
             <span slot="title">MACHINES</span>
           </el-menu-item>

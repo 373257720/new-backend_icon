@@ -18,6 +18,14 @@ import account_setting from '@/components/user/account_setting'
 import atm_support from '@/components/user/atm_support'
 import user from '@/components/user/user'
 import customer_data from '@/components/user/customer_data'
+// machines
+import machines from '@/components/machines/machines'
+import machines_lists from '@/components/machines/machines_lists'
+import machines_add from '@/components/machines/machines_add'
+import add_1st from '@/components/machines/add_1st'
+import add_2nd from '@/components/machines/add_2nd'
+import add_3rd from '@/components/machines/add_3rd'
+import add_4th from '@/components/machines/add_4th'
 
 // settting
 import setting from '@/components/settting/setting'
@@ -162,6 +170,50 @@ const routes = [{
             path: 'transaction_details',
             name: 'transaction_details',
             component: transaction_details
+          },
+        ]
+      },
+      {
+        path: 'machines',
+        name: 'machines',
+        component:machines,
+        meta: {
+          title: ''
+        },
+        redirect: '/home/machines/machines_lists',
+        children: [
+          {
+            path: 'machines_lists',
+            name: 'machines_lists',
+            component: machines_lists,
+          },
+          {
+            path: 'machines_add',
+            name: 'machines_add',
+            component: machines_add,
+            redirect: '/home/machines/machines_add/add_1st',
+            children:[
+              {
+                path: 'add_1st',
+                name: 'add_1st',
+                component: add_1st,
+              },
+              {
+                path: 'add_2nd',
+                name: 'add_2nd',
+                component: add_2nd,
+              },
+              {
+                path: 'add_3rd',
+                name: 'add_3rd',
+                component: add_3rd,
+              },
+              {
+                path: 'add_4th',
+                name: 'add_4th',
+                component: add_4th,
+              },
+            ],
           },
         ]
       },

@@ -9,9 +9,13 @@
     <el-main>
       <article>
         <table class="mailTable" style="width:60%;" >
-          <tr v-for="(item) in tabledata">
+          <tr v-for="(item,keyword) in tabledata">
             <td class="column">{{item.key}}</td>
-            <td class="column">{{item.value}}</td>
+            <td class="column" v-if="keyword=='money' || keyword=='price' || keyword=='trade_price'">{{item.value+tabledata['currency_name'].value}}</td>
+            <td class="column" v-else-if="keyword=='miner_fee'">{{'$'+tabledata['miner_fee'].miner_money+'/ ฿'+tabledata['miner_fee'].value}}</td>
+            <td class="column" v-else-if="keyword=='fee'">{{item.value+'%'}}</td>
+            <td class="column" v-else>{{item.value}}</td>
+
           </tr>
         </table>
         <aside>
@@ -35,22 +39,19 @@
         trade_picture1:'',
         trade_picture2:'',
         tabledata:{
-          trade_id:{key: 'Transaction ID', value: '篮球'},
-          currency_id: {key: 'Currency', value: '2017-03-01'},
+          trade_id:{key: 'Transaction ID', value: ''},
           coin_status: {key: 'Status',value:""},
-          trade_type: {key: 'Type', value: '120.00'},
-          price:{key: 'Purchase Price', value: '在线支付'},
-          money:  {key: 'Cash', value: '北京市海淀区西北旺镇'},
-          coin_number:  {key: 'BTC', value: '120.00'},
-          user_coin_address: {key: 'Buyer Wallet Address', value: '在线支付'},
-          miner_fee: {key: 'Miner Fee', value: '北京市海淀区西北旺镇'},
+          trade_type: {key: 'Type', value: ''},
+          currency_name: {key: 'Currency', value: ''},
+          trade_price:{key: 'Purchase Price', value: ''},
+          money:  {key: 'Cash', value: ''},
+          coin_number:  {key: 'BTC', value: ''},
+          user_coin_address: {key: 'Buyer Wallet Address', value: ''},
+          miner_fee: {key: 'Miner Fee', value: ''},
+          fee:{key: 'Fee Rate', value: ''},
+          price:{key: 'Original Price', value: ''},
+          redeem_code:{key: 'Order redemption code', value: ''},
         },
-        // tableData: [
-          // {key: 'ATM Wallet Address', value: '2017-03-01'},
-          // {key: 'Fee Rate', value: '2017-03-01'},
-          // {key: 'Original Price', value: '在线支付'},
-          // {key: 'Order redemption code', value: '北京市海淀区西北旺镇'},
-        // ],
       };
     },
     computed: {
@@ -67,7 +68,10 @@
             this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
             for(var i in res.data.data){
               if(this.tabledata.hasOwnProperty(i)){
-                    this.tabledata[i].value=res.data.data[i];
+                if(i=='miner_fee'){
+                  this.tabledata[i].miner_money=res.data.data['miner_money'];
+                }
+                this.tabledata[i].value=res.data.data[i];
               }
             }
 
@@ -188,22 +192,26 @@
       padding:20px 20px 20px 0;
       article{
         display: flex;
+        /*height: 450px;*/
         margin-bottom: 50px;
         .mailTable{
           margin-right: 50px;
         }
         　.mailTable, .mailTable tr, .mailTable tr td{
           border:1px solid #E6EAEE;
-          padding: 5px 10px;
+          padding:10px 10px;
         }
         aside{
           width: 25%;
+          h3{
+            text-align: center;
+          }
           div{
             /*width: 100%;*/
-            height: 30%;
+            /*height: 30%;*/
             img{
               width: 100%;
-              height: 100%;
+              height: 180px;
             }
           }
         }
