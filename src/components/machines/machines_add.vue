@@ -8,10 +8,10 @@
     </header>
     <main>
       <el-steps :active="0" finish-status="wait" simple >
-        <el-step title="CryptoGo" icon="el-icon-edit"></el-step>
-        <el-step title="Price & Fee" icon="el-icon-upload"></el-step>
-        <el-step title="Operator" icon="el-icon-picture"></el-step>
-        <el-step title="Advertisement" icon="el-icon-picture"></el-step>
+        <el-step title="CryptoGo"  icon="el-icon-info" ><i slot="icon">1</i></el-step>
+        <el-step title="Price & Fee" icon="el-icon-info" ><i slot="icon">2</i></el-step>
+        <el-step title="Operator" icon="el-icon-info"><i slot="icon">3</i></el-step>
+        <el-step title="Advertisement" icon="el-icon-info"><i slot="icon">4</i></el-step>
       </el-steps>
       <router-view></router-view>
     </main>
@@ -291,11 +291,9 @@
           height: 40px;
           cursor: pointer;
           color: white;
-          /*text-align: center;*/
           font-size: 16px;
           line-height: 40px;
           border-radius: 5px;
-
         }
         button:nth-of-type(1){
           background:url("../../../static/savechange.png") no-repeat;

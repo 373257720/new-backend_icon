@@ -61,7 +61,6 @@
               width="400"
               trigger="click">
               <img :src="$baseurl+scope.row.avatar_picture" alt="">
-
               <span slot="reference"  >Picture</span>
             </el-popover>
           </template>

@@ -52,7 +52,7 @@
             <i class="el-icon-setting"></i>
             <span slot="title">SETTING</span>
           </el-menu-item>
-          <el-menu-item index="9" :class="{active:isActive[4]}">
+          <el-menu-item index="9" :class="{active:isActive[4]}" @click="routerto('/home/alerts')">
             <i class="el-icon-setting"></i>
             <span slot="title">ALERTS</span>
           </el-menu-item>

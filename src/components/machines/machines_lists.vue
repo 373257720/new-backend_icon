@@ -3,7 +3,7 @@
     <header><h2>Machines</h2></header>
     <nav>
       <div>
-        <section @click="alledit(2)">Disable</section>
+        <section @click="alledit(2)">Apply Group Pattern</section>
       </div>
       <div>
         <span class="keyword">keyword:</span>
@@ -19,22 +19,15 @@
       <el-table
         :row-class-name="tabRowClassName"
         border
-        ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column
-          type="selection"
-          align="center"
-          label="ID"
-          width="55">
-        </el-table-column>
-        <el-table-column
           label="Machine"
           align="center"
-          width="100"
         >
+<!--          show-overflow-tooltip="true"-->
          <template slot-scope="scope">{{ scope.row.name}}</template>
         </el-table-column>
         <el-table-column
@@ -53,7 +46,16 @@
           align="center"
           label="Photo"
           show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.machine_picture}}</template>
+          <template slot-scope="scope">
+            <el-popover
+              placement="right"
+              width="400"
+              trigger="click">
+              <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
+              <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
+            </el-popover>
+
+          </template>
         </el-table-column>
         <el-table-column
           prop="country_name"
@@ -70,25 +72,38 @@
         <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
           <template slot-scope="scope">
             <span class="left"  @click="handleEdit(scope.$index, scope.row)">View & Edit</span>
-            <span  @click="handleDelete(scope.$index, scope.row)">Remote Control</span>
-            <el-dialog
-              title="提示"
-              :visible.sync="centerDialogVisible"
-              width="30%"
-              :modal="false"
-              center>
-              <span>{{scope.row.name}}</span>
-<!--              <span slot="footer" class="dialog-footer">-->
-<!--                <el-button @click="centerDialogVisible = false">取 消</el-button>-->
-<!--                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>-->
-<!--            </span>-->
-            </el-dialog>
-          </template>
+            <span  @click="handleDelete(scope.$index, scope.row)">
+              Remote Control
+            </span>
 
+          </template>
         </el-table-column>
       </el-table>
     </el-main>
-
+    <el-dialog
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      :modal="false"
+      center>
+      <span slot="title" class="dialog-footer">Group</span>
+      <p class="thick">Select:</p>
+      <p class="select">{{machine_name}}</p>
+      <p class="thick">Please Choose ONE Group:</p>
+      <template>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <button  @click="centerDialogVisible = false">Cancel</button>
+        <button @click="apply">Apply</button>
+        </span>
+    </el-dialog>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -102,6 +117,7 @@
   export default {
     data() {
       return {
+        machine_name:'',
         centerDialogVisible: false,
         ischeck: false,
         keyword:'',
@@ -110,7 +126,24 @@
         pagetotal: null,
         tableData: [
         ],
-        multipleSelection: []
+        multipleSelection: [],
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value: ''
       };
     },
     created() {
@@ -119,6 +152,9 @@
 
     },
     methods: {
+      apply(){
+        this.centerDialogVisible=false;
+      },
       searcher(){
         this.changepage(this.currentpage, this.pagesize,this.keyword);
       },
@@ -181,10 +217,11 @@
       },
       handleEdit(index, row) {
         console.log(index, row);
-        this.$routerto('account_setting',{type:2,atm_user_id:row.atm_user_id})
+        this.$routerto('machines_add')
       },
       handleDelete(index, row) {
-        console.log(row.name)
+        // console.log(row)
+        this.machine_name = row.name;
         this.centerDialogVisible=true;
         // console.log(this.currentpage, this.pagesize)
         // this.$routerto('account_setting',{type:2,atm_user_id:row.atm_user_id})
@@ -262,6 +299,10 @@
 </script>
 
 <style lang="scss">
+  .bigpic{
+    width: 100%;
+    height:100%;
+  }
   .machines{
     margin :0 0 0 50px;
     header{
@@ -285,7 +326,9 @@
       /*background: red;*/
       /*border-color: red;*/
     }
-
+    .el-select .el-input.is-focus .el-input__inner{
+     /*border-color: #2ABEE2*/
+    }
     .el-table .warning-row{
       background:#EDF1F4;
     }
@@ -305,7 +348,69 @@
       }
 
     }
+    .el-dialog--center{
+      margin-top: 35vh !important;
+      width: 25% !important;
+      .thick{
+        color: black;
+        font-size: 14px;
+        margin-bottom: 2px;
+        /*font-weight: 600;*/
+      }
+      .select{
+          color: #797979;
+          margin-bottom: 20px;
+      }
+      .el-select{
+        width: 100%;
+      }
+      .el-input__inner{
+        height: 30px;
 
+      }
+      .el-input__prefix, .el-input__suffix{
+        top:50%;
+        transform: translateY(-50%);
+      }
+      .el-input__icon{
+        line-height: 30px;
+      }
+    }
+    .el-dialog__header{
+      background: #EDF1F4;
+      font-size: 18px;
+      line-height: 30px;
+      text-align: left;
+      height: 50px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+      position: relative;
+    }
+    .el-dialog__headerbtn{
+      top:50%;
+      transform: translateY(-50%);
+    }
+    .el-dialog__footer{
+      button{
+        cursor: pointer;
+        width: 120px;
+        line-height: 40px;
+        height: 40px;
+        box-sizing: border-box;
+        background: #EDF1F4;
+        border: 1px solid #B7B7B7;
+        border-radius: 5px;
+        color:#515153;
+        text-align: center;
+        margin-right: 20px;
+      }
+        button:nth-of-type(2){
+          border:0;
+          color: white;
+          background:url(../../../static/add-disable.png) no-repeat;
+          /*;*/
+        }
+    }
     .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
       /*border-color:white;*/
       background: #2ABEE2;
@@ -328,16 +433,15 @@
         /*justify-content: space-between;*/
         section{
           cursor: pointer;
-          width: 120px;
+          width: 200px;
           line-height: 40px;
           height: 40px;
           background:url(../../../static/add-disable.png) no-repeat;
+          background-size: cover;
           border-radius: 5px;
           color:white;
           text-align: center;
           box-sizing: border-box;
-          /*border: 1px solid #d3d3d3;*/
-          /*background: red;*/
           margin-right: 20px;
         }
         span.keyword{
@@ -365,11 +469,18 @@
       .el-table thead{
         color:black;
       }
+      .imgsize{
+        width: 50px;
+        height: 60px;
+      }
+
+
       /*margin-top: 60px;*/
       /*width: 100%;*/
       /*  padding: 0;*/
       /*  border: 1px solid #EBEEF5;*/
 
     }
+
   }
 </style>

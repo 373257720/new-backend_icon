@@ -65,7 +65,6 @@
           </el-upload>
         </div>
       </el-form-item>
-
       <el-form-item label="Slogan:">
           <el-input
             type="textarea"

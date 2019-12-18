@@ -27,6 +27,10 @@ import add_2nd from '@/components/machines/add_2nd'
 import add_3rd from '@/components/machines/add_3rd'
 import add_4th from '@/components/machines/add_4th'
 
+// alerts
+import  alerts from '@/components/alerts/alerts'
+import  alerts_lists from '@/components/alerts/alerts_lists'
+import  alerts_details from  '@/components/alerts/alerts_details'
 // settting
 import setting from '@/components/settting/setting'
 import  setting_edit from '@/components/settting/setting_edit'
@@ -239,86 +243,28 @@ const routes = [{
         meta: {
           title: ''
         },
+      },
+      {
+        path: 'alerts',
+        name: 'alerts',
+        component: alerts,
+        meta: {
+          title: ''
+        },
+        redirect: '/home/alerts/alerts_lists',
+        children: [
+          {
+            path: 'alerts_lists',
+            name: 'alerts_lists',
+            component: alerts_lists,
+          },
+          {
+            path: 'alerts_details',
+            name: 'alerts_details',
+            component: alerts_details,
+          },
+        ]
       }
-        // {
-        //   path: 'signedup',
-        //   name: 'signedup',
-        //   component: signedup,
-        //   redirect: '/home/user/signedup/',
-        //   meta: {
-        //     title: '已签约'
-        //   },
-        //   children: [{
-        //       path: '/',
-        //       name: '',
-        //       component: signeduproot
-        //     },
-        //     {
-        //       path: 'signedup_user',
-        //       name: 'signedup_user',
-        //       component: signedup_user
-        //     },
-        //     {
-        //       path: 'signedup_check',
-        //       name: 'signedup_check',
-        //       component: signedup_check
-        //     },
-        //
-        //   ]
-        // },
-
-
-      // {
-      //   path: 'userlist',
-      //   name: 'userlist',
-      //   component: userlist,
-      //   meta: {
-      //     title: '用户列表'
-      //   },
-      //   redirect: '/home/userlist/verified_user',
-      //   children: [{
-      //       path: 'check_pending',
-      //       name: 'check_pending',
-      //       component: check_pending,
-      //       // redirect: '/home/userlist/check_pending',
-      //       meta: {
-      //         title: '待审核'
-      //       },
-      //       children: [{
-      //           path: '/',
-      //           name: '',
-      //           component: check_pendingroot
-      //         },
-      //         {
-      //           // 发现
-      //           path: 'check',
-      //           name: 'check',
-      //           component: check_pendingcheck
-      //         },
-      //       ]
-      //     },
-      //     {
-      //       path: 'verified_user',
-      //       name: 'verified_user',
-      //       component: verified_user,
-      //       redirect: '/home/userlist/verified_user/',
-      //       meta: {
-      //         title: '已验证用户'
-      //       },
-      //       children: [{
-      //           path: '/',
-      //           name: '',
-      //           component: userroot
-      //         },
-      //         {
-      //           path: 'usercheck',
-      //           name: 'usercheck',
-      //           component: verified_usercheck
-      //         },
-      //       ]
-      //     },
-      //   ]
-      // },
     ]
 
   },

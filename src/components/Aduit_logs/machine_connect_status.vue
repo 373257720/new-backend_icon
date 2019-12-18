@@ -30,12 +30,9 @@
             clearable>
           </el-input>
           <i @click="searcher"  class="el-icon-search"></i>
-
-
       </div>
-
     </nav>
-    <el-main>
+    <el-main v-loading="pictLoading">
       <el-table
         :row-class-name="tabRowClassName"
         border
@@ -77,6 +74,7 @@
   export default {
     data() {
       return {
+        pictLoading:false,
         // centerDialogVisible: false,
         timerange:null,
         ischeck: false,
@@ -177,6 +175,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
+        this.pictLoading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.communication/getCommunicationList`,{
           token: this.$store.state.token,
           page: currentpage,
@@ -193,6 +192,7 @@
               this.tableData.forEach(item=>{
                 item.create_time=this.$global.timestampToTime(item.create_time);
               })
+              this.pictLoading=false
               // console.log(this.tableData)
             }
           })
