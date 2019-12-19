@@ -1,88 +1,116 @@
 <template>
   <div class="add_second">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="Currency:" prop="region">
-        <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+      <el-form-item label="Currency:" prop="currency_id">
+        <el-select v-model="ruleForm.region" placeholder="">
+          <el-option
+            v-for="item in currencypList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="Cash Inbox Denomination:" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input :label="num" v-model="ruleForm.in_support_money"></el-input>
       </el-form-item>
       <el-form-item label="Cash Outbox Denomination:" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.out_support_money"></el-input>
       </el-form-item>
       <el-form-item label="Fast Withdraw Denomination:" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.shortcut_money"></el-input>
       </el-form-item>
       <el-form-item  label="Cryptocurrency:" prop="name">
-          <el-radio-group v-model="radio">
+          <el-radio-group v-model="ruleForm.buy_sell">
             <el-radio :label="3">Buy</el-radio>
             <el-radio :label="6">Sell</el-radio>
             <el-radio :label="9">Both</el-radio>
           </el-radio-group>
     </el-form-item>
       <el-form-item  label="KYC Registration:" prop="region">
-        <el-radio-group v-model="radio">
+        <el-radio-group v-model="ruleForm.is_register">
           <el-radio :label="3">Yes</el-radio>
           <el-radio :label="6">No</el-radio>
         </el-radio-group>
       </el-form-item>
-
-      <el-form-item label="Cryptocurrency Type" prop="name">
+      <el-form-item label="Cryptocurrency Type">
         <el-collapse accordion>
           <el-collapse-item>
             <template slot="title">BTC</template>
             <el-form-item  label="Local Transaction Regulation:" prop="name">
-              <el-radio-group v-model="radio">
+              <el-radio-group v-model="ruleForm.is_support_bitcoin">
                 <el-radio :label="3">Buy</el-radio>
                 <el-radio :label="6">Sell</el-radio>
                 <el-radio :label="9">Both</el-radio>
-                <el-radio :label="9">Not allow</el-radio>
+                <el-radio :label="12">Not allow</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item  label="Commission Rate (%):" prop="name">
+              <div class="flexbox">
+                <div class="box">
+                  <span>Buy:</span><el-input v-model="ruleForm.name"></el-input>
+                </div>
+                <div class="box">
+                  <span>Sell:</span><el-input v-model="ruleForm.name"></el-input>
+                </div>
+              </div>
+            </el-form-item>
             <el-form-item label="Purchase Limitation (Minimum):" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+              <el-input v-model="ruleForm.minimum_bitcoin_buy"></el-input>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Maximum):" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="Commission Rate (%):" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+              <el-input v-model="ruleForm.maximum_bitcoin_buy"></el-input>
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item>
             <template slot="title">ETH</template>
             <el-form-item  label="Local Transaction Regulation:" prop="name">
-              <el-radio-group v-model="radio">
+              <el-radio-group v-model="ruleForm.is_support_bitcoin">
                 <el-radio :label="3">Buy</el-radio>
                 <el-radio :label="6">Sell</el-radio>
                 <el-radio :label="9">Both</el-radio>
-                <el-radio :label="9">Not allow</el-radio>
+                <el-radio :label="12">Not allow</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item  label="Commission Rate (%):" prop="name">
+              <div class="flexbox">
+                <div class="box">
+                  <span>Buy:</span><el-input v-model="ruleForm.buy_ethereum_fee"></el-input>
+                </div>
+                <div class="box">
+                  <span>Sell:</span><el-input v-model="ruleForm.name"></el-input>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item  label="Commission Rate (%):" prop="name">
+              <div class="flexbox">
+                <div class="box">
+                  <span>Buy:</span><el-input v-model="ruleForm.name"></el-input>
+                </div>
+                <div class="box">
+                  <span>Sell:</span><el-input v-model="ruleForm.name"></el-input>
+                </div>
+              </div>
+            </el-form-item>
             <el-form-item label="Purchase Limitation (Minimum):" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+              <el-input v-model="ruleForm.minimum_ethereum_buy"></el-input>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Maximum):" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="Commission Rate (%):" prop="name">
-              <el-input v-model="ruleForm.name"></el-input>
+              <el-input v-model="ruleForm.maximum_ethereum_buy"></el-input>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
       </el-form-item>
     </el-form>
     <section>
+      <button @click="goback">BACK</button>
       <button  @click="submitForm('ruleForm')">NEXT</button>
-      <button @click="$routerto('setting')">BACK</button>
     </section>
   </div>
 </template>
 <script>
   export default {
+    props:["MachineInfo"],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -104,9 +132,23 @@
         }
       };
       return{
+        currencypList:[],
         radio: 3,
         ruleForm:{
-
+          region:'',
+          in_support_money:'',
+          out_support_money:'',
+          shortcut_money:'',
+          buy_sell:'',
+          is_register:'',
+          is_support_bitcoin:'',
+          minimum_bitcoin_buy:'',
+          maximum_bitcoin_buy:'',
+          buy_bitcoin_fee:'',
+          is_support_ethereum:'',
+          minimum_ethereum_buy:'',
+          maximum_ethereum_buy:'',
+          buy_ethereum_fee:'',
         },
         rules: {
           username: [
@@ -138,10 +180,42 @@
           status:[
             { required: true,},
           ]
-        }
+        },
+        num:'',
       }
     },
+    watch:{
+      'ruleForm.in_support_money': {
+        deep: true,
+        handler: function (newVal,oldVal){
+          // code
+          console.log(newVal,oldVal)
+        this.num=  this.toThousands(newVal)
+        }
+      },
+
+    },
+    created() {
+      // this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+      //   .then(res=>{
+      //
+      //   })
+    },
     methods:{
+    toThousands(num) {
+    var num = (num || 0).toString(), result = '';
+    while (num.length > 3) {
+      result = ',' + num.slice(-3) + result;
+      num = num.slice(0, num.length - 3);
+    }
+    if (num) { result = num + result; }
+      console.log(result)
+    this.num=result
+  },
+  goback(){
+        // this.$emit('sontodad', 2);
+        this.$global.previous();
+      },
       submitForm(){
         this.$routerto('add_3rd');
       },
@@ -242,7 +316,22 @@
       /*-webkit-transform-origin: center;*/
       /*transform-origin: center;*/
     }
-
+    .el-collapse-item__content{
+      >div{
+        /*margin-bottom: 10px;*/
+      }
+    }
+    .flexbox{
+      display: flex;
+      justify-content: space-between;
+      div.box{
+        display: flex;
+        width: 45%;
+        span{
+          margin-right: 5px;
+        }
+      }
+    }
     .project_pic {
       position: relative;
       height: 200px;

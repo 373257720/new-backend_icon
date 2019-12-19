@@ -26,6 +26,7 @@ import add_1st from '@/components/machines/add_1st'
 import add_2nd from '@/components/machines/add_2nd'
 import add_3rd from '@/components/machines/add_3rd'
 import add_4th from '@/components/machines/add_4th'
+import  test from '@/components/test'
 
 // alerts
 import  alerts from '@/components/alerts/alerts'
@@ -217,6 +218,11 @@ const routes = [{
                 name: 'add_4th',
                 component: add_4th,
               },
+              {
+                path: 'test',
+                name: 'test',
+                component: test,
+              },
             ],
           },
         ]
@@ -268,6 +274,7 @@ const routes = [{
     ]
 
   },
+
   {
     path: '*',
     name: 'login',

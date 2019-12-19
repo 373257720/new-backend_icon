@@ -331,8 +331,6 @@
       padding: 0 50px 0 20px;
       >div{
         display: flex;
-        /*width: 300px;*/
-        /*justify-content: space-between;*/
         section{
           cursor: pointer;
           width: 120px;

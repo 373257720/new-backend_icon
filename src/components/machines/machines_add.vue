@@ -3,7 +3,7 @@
     <header><h2>
       <span>Machines</span>
       <i class="el-icon-arrow-right"></i>
-      <span>{{title}}</span>
+      <span>Add</span>
     </h2>
     </header>
     <main>
@@ -13,7 +13,7 @@
         <el-step title="Operator" icon="el-icon-info"><i slot="icon">3</i></el-step>
         <el-step title="Advertisement" icon="el-icon-info"><i slot="icon">4</i></el-step>
       </el-steps>
-      <router-view></router-view>
+      <router-view v-if='status'  :MachineInfo="MachineInfo"></router-view>
     </main>
 
   </div>
@@ -22,235 +22,32 @@
 <script>
   export default {
     data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return {
         title:'',
-        rowid:'',//which  edit
-        parameter_obj:{
-          token:'',
-          name:'',
-        },
-        ruleForm: {},
-        rules: {
-          // website:[{
-          //
-          // }],
-          inbox: [
-            { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          ],
-          outbox:[
-            { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          ],
-          username: [
-            { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          ],
-
-          password: [
-            {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-
-          ],
-          repassword: [
-            { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-          ],
-          nickname:[
-            { required: true, message: 'this gap can not be empty', trigger: 'blur' }
-          ],
-          email: [
-            { required: true, message: "请输入邮箱地址", trigger: "blur" },
-            {
-              type: "email",
-              message: "请输入正确的邮箱地址",
-              trigger: ["blur", "change"]
-            }
-          ],
-          mobile:[
-            { required: true, message: 'this gap can not be empty', trigger: 'blur' }
-          ],
-          status:[
-            { required: true,},
-          ]
-        },
-
+        MachineInfo: {},
+        status:false,
       };
     },
     watch:{
-      ruleform:{}
-    },
+      // ruleform:{},
+  },
     created() {
-      // console.log(this.$route.query)
-      this.parameter_obj.token=this.$store.state.token;
-      this.ruleForm.token=this.$store.state.token;
-      this.rowid=this.$route.query.rowindex;
-      if(this.rowid==0){
-        this.title='Cash Inbox';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          in_cashbox_warn_percent:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'in_cashbox_warn_percent',
-        })
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
+      ).then(res=>{
+        this.MachineInfo=res.data.data;
+        this.status = true
 
-      }
-      else if(this.rowid==1){
-        this.title='Cash Outbox';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          out_cashbox_warn_percent:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'out_cashbox_warn_percent',
-        })
-      }
-      else if(this.rowid==2){
-        this.title='Transaction Time';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          sell_coin_wait_time:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'sell_coin_wait_time',
-        })
-      }
-      else if(this.rowid==4){
-        this.title='Receipts';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          customer_service_website:'',
-          customer_service_email:'',
-          customer_service_phone:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'customer_service_website,customer_service_email,customer_service_phone',
-        })
-
-      }
-      else if(this.rowid==5){
-        this.title='Ethereum';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          wallet:'',
-          private_key:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'ethereum',
-        })
-
-      }
-      else if(this.rowid==6){
-        this.title='Bitgo';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          token:'',
-          wallet_id:'',
-          wallet_passphrase:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'bitgo',
-        })
-        // console.log(this.parameter_obj)
-      }
-      this.getdata();
+      })
     },
     methods: {
-      getdata(){
-        this.$axios({
-          method: 'get',
-          url: `${this.$baseurl}/admin_api/user.user_config/getUserConfigInfo`,
-          params: this.parameter_obj,
-        }).then(res => {
-          if(res.data.ret==0){
-            // console.log(res)
-            if(this.rowid==6 || this.rowid==5){
-              console.log(res.data.data[0].value)
-              for( var i in res.data.data[0].value){
-                if(this.ruleForm.hasOwnProperty(i)) {
-                  this.ruleForm[i]= res.data.data[0].value[i]
-                }
-              }
-            }else{
-              console.dir(res)
-              res.data.data.forEach(item=>{
-                if(this.ruleForm.hasOwnProperty(item.name)) {
-                  this.ruleForm[item.name]=item.value;
-                }
-              })
-            }
-            // else if(this.rowid==4){
-            //   res.data.data.forEach(item=>{
-            //     this.ruleForm[item.name]=item.value;
-            //   })
-            // }
-          }
-        });
-      },
-      // handleClick(row) {
-      //   console.log(row);
-      //   this.$router.push("/home/project/signedup/signedup_check");
+      // fromchildren(data) {
+      //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
+      //   ).then(res=>{
+      //     console.log(res )
+      //     this.MachineInfo=res.data.data;
+      //   })
+      //
       // },
-      // fromchildren1(data) {
-      //   this.bobo = data;
-      //   // console.log(data);
-      // },
-      submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        // if (valid) {
-        if(this.$route.query.rowindex==6 ){
-          let ruleform={
-            token:this.$store.state.token,
-            name:'bitgo',
-            bitgo_token:this.ruleForm.token,
-            wallet_id:this.ruleForm.wallet_id,
-            wallet_passphrase:this.ruleForm.wallet_passphrase
-          }
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
-            if(res.data.ret==0){
-              console.log(res)
-            }
-          })
-        }else if(this.$route.query.rowindex==5){
-          let ruleform={
-            token:this.$store.state.token,
-            name:'ethereum',
-            wallet:this.ruleForm.wallet,
-            private_key:this.ruleForm.private_key,
-          }
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
-            if(res.data.ret==0){
-              console.log(res)
-            }
-          })
-        }
-
-        else{
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,this.ruleForm).then(res=>{
-            if(res.data.ret==0){
-              console.log(res)
-            }
-          })
-        }
-        // } else {
-        //   console.log('error submit!!');
-        //   return false;
-        // }
-        // });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
     },
   };
 </script>
@@ -275,7 +72,7 @@
     }
     main{
       margin:30px  auto 60px;
-      width: 50%;
+      width: 640px;
       .el-steps--simple{
         padding: 0;
         background: none;
@@ -295,7 +92,7 @@
           line-height: 40px;
           border-radius: 5px;
         }
-        button:nth-of-type(1){
+        button:nth-of-type(2){
           background:url("../../../static/savechange.png") no-repeat;
           background-size: cover;
         }

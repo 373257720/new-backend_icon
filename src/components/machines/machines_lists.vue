@@ -216,8 +216,8 @@
         });
       },
       handleEdit(index, row) {
-        console.log(index, row);
-        this.$routerto('machines_add')
+        // console.log(index, row);
+        this.$routerto('machines_add',{machine_id:row.machine_id})
       },
       handleDelete(index, row) {
         // console.log(row)
@@ -263,7 +263,7 @@
             }
           )
           .then(res => {
-            console.log(res)
+            // console.log(res)
             if(res.data.ret==0){
 
               this.pagetotal=res.data.data.total;
