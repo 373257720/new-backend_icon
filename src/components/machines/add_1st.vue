@@ -59,7 +59,7 @@
       </el-form>
       <section>
         <button @click="$global.previous">BACK</button>
-        <button  @click="submitForm('ruleForm')">NEXT</button>
+        <button  @click="submitForm('ruleForm')">SUBMIT</button>
       </section>
   </div>
 </template>
@@ -108,7 +108,6 @@
           username: [
             { required: true, message: '不能为空', trigg: 'change' }
           ],
-
           password: [
             {required: true, validator: validatePass, trigger: 'blur' },
             { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
@@ -141,23 +140,23 @@
 
     },
     mounted() {
-      // this.$nextTick(function () {
+      this.$nextTick(function () {
         for(var i in this.ruleForm){
           if(this.MachineInfo.hasOwnProperty(i))
             this.ruleForm[i]=this.MachineInfo[i]
         }
-        if(this.MachineInfo.machine_picture!='http://atm.wearetechman.com'){
+        if(this.MachineInfo.machine_picture!=null){
           this.choose(".project_pic .el-upload--picture-card");
           this.fileList.push({name: 'food.jpeg', url:this.$baseurl+this.MachineInfo.machine_picture})
 
         }
-      // })
+      })
 
     },
     created() {
-      // console.log(this.fileList)
       let axiosList = [
-        this.$axios.get(`${this.$baseurl}/admin_api/common.common/getCountryList`,{params:{lang:'en-us'}}),
+        this.$axios.get(`${this.$baseurl}/admin_api/content.country/getCountryList`,{
+     params:{ token:this.$store.state.token,lang:'en-us'}}),
         this.$axios.get(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`, {
           params: {token: this.$store.state.token, page: 1, size: 10000,keyword:''},
         })
@@ -165,12 +164,14 @@
       this.$axios.all(axiosList).then(
         this.$axios.spread((res1, res2) => {
           if (res1) {
-            for (let i = 0; i < res1.data.data.length; i++) {
+            console.log(res1)
+            for (let i = 0; i < res1.data.data.data.length; i++) {
               this.CountryList.push({
-                value: res1.data.data[i].country_id,
-                label: res1.data.data[i].name
+                value: res1.data.data.data[i].country_id,
+                label: res1.data.data.data[i].name
               });
             }
+            // console.log(this.CountryList  )
           }
           if (res2) {
             this.groupList.push({ value: '0', label:'-',})
@@ -187,20 +188,15 @@
 
     },
     methods:{
+
       submitForm(){
         console.log(this.ruleForm);
         this.ruleForm.token=this.$store.state.token;
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
         .then(res=>{
           if(res.data.ret==0){
-            for(var i in this.ruleForm){
-              if(this.MachineInfo.hasOwnProperty(i))
-                this.MachineInfo[i]=this.ruleForm[i]
-            }
-            if(this.machine_picture){
-              this.MachineInfo.machine_picture=this.machine_picture;
-            }
-            this.$routerto('add_2nd');
+            this.$emit('getchildren');
+            this.$routerto('add_2nd',{machine_id:this.$route.query.machine_id});
           }
         })
       },
@@ -209,7 +205,7 @@
           ".project_pic .el-upload--picture-card",
           ".project_pic .el-upload-list__item"
         );
-        // this.ruleForm.machine_picture_id='';
+        this.ruleForm.machine_picture_id='';
       },
       handleRemove(a, b) {
         document.querySelector(a).style =
@@ -245,9 +241,9 @@
         })
           .then(res => {
             this.ruleForm.machine_picture_id=res.data.data.picture_id;
-            if(res.data.data.picture_list.original){
-              this.machine_picture=res.data.data.picture_list.original;
-            }
+            // if(res.data.data.picture_list.original){
+            //   this.machine_picture=res.data.data.picture_list.original;
+            // }
           })
           .catch(err => {
             console.log(err);

@@ -2,15 +2,16 @@
   <div class="add_fourth">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Background">
-        <div class="project_pic">
+        <div class="background_picture">
           <el-upload
             action
             list-type="picture-card"
-            :http-request="function(params){return uploadFile(params)}"
+            :http-request="function(params){return uploadFile(params,'background_picture','background_picture_id')}"
             :on-preview="handlePictureCardPreview"
-            :on-remove="appear3"
-            :on-error="appear3"
-            :on-change="dispear3"
+            :file-list="fileList"
+            :on-remove="function(params){return appear3(params,'background_picture')}"
+            :on-error="function(params){return appear3(params,'background_picture')}"
+            :before-upload="function(params){return dispear3(params,'background_picture')}"
             :limit="1"
           >
             <i class="el-icon-plus"></i>
@@ -18,15 +19,16 @@
         </div>
       </el-form-item>
       <el-form-item label="Logo1">
-        <div class="project_pic">
+        <div class="logo_picture">
           <el-upload
             action
             list-type="picture-card"
-            :http-request="function(params){return uploadFile(params)}"
+            :http-request="function(params){return uploadFile(params,'logo_picture','logo_picture_id')}"
             :on-preview="handlePictureCardPreview"
-            :on-remove="appear3"
-            :on-error="appear3"
-            :on-change="dispear3"
+            :file-list="fileList2"
+            :on-remove="function(params){return appear3(params,'logo_picture')}"
+            :on-error="function(params){return appear3(params,'logo_picture')}"
+            :before-upload="function(params){return dispear3(params,'logo_picture')}"
             :limit="1"
           >
             <i class="el-icon-plus"></i>
@@ -34,15 +36,16 @@
         </div>
       </el-form-item>
       <el-form-item label="Logo2">
-        <div class="project_pic">
+        <div class="logo2_picture">
           <el-upload
             action
             list-type="picture-card"
-            :http-request="function(params){return uploadFile(params)}"
+            :http-request="function(params){return uploadFile(params,'logo2_picture','logo2_picture_id')}"
             :on-preview="handlePictureCardPreview"
-            :on-remove="appear3"
-            :on-error="appear3"
-            :on-change="dispear3"
+            :on-remove="function(params){return appear3(params,'logo2_picture')}"
+            :on-error="function(params){return appear3(params,'logo2_picture')}"
+            :before-upload="function(params){return dispear3(params,'logo2_picture')}"
+            :file-list="fileList3"
             :limit="1"
           >
             <i class="el-icon-plus"></i>
@@ -50,15 +53,16 @@
         </div>
       </el-form-item>
       <el-form-item label="Advertising">
-        <div class="project_pic">
+        <div class="advertisement_picture">
           <el-upload
             action
             list-type="picture-card"
-            :http-request="function(params){return uploadFile(params)}"
+            :http-request="function(params){return uploadFile(params,'advertisement_picture','advertisement_picture_id')}"
             :on-preview="handlePictureCardPreview"
-            :on-remove="appear3"
-            :on-error="appear3"
-            :on-change="dispear3"
+            :file-list="fileList4"
+            :on-remove="function(params){return appear3(params,'advertisement_picture')}"
+            :on-error="function(params){return appear3(params,'advertisement_picture')}"
+            :before-upload="function(params){return dispear3(params,'advertisement_picture')}"
             :limit="1"
           >
             <i class="el-icon-plus"></i>
@@ -70,21 +74,22 @@
             type="textarea"
             :autosize="{ minRows: 10, maxRows: 10}"
             placeholder="请输入内容"
-            v-model="textarea2">
+            v-model="ruleForm.advertisement_language">
           </el-input>
       </el-form-item>
-<!--                  <el-dialog :visible.sync="dialogVisible">-->
-<!--                    <img width="100%" :src="dialogImageUrl" alt />-->
-<!--                  </el-dialog>-->
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt />
+        </el-dialog>
     </el-form>
     <section>
-      <button  @click="submitForm('ruleForm')">NEXT</button>
-      <button @click="$routerto('setting')">BACK</button>
+      <button @click="$global.previous">BACK</button>
+      <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
   </div>
 </template>
 <script>
   export default {
+    props:["MachineInfo"],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -106,8 +111,23 @@
         }
       };
       return{
+        dialogVisible:false,
+        dialogImageUrl:'',
+        fileList: [],
+        fileList2: [],
+        fileList3: [],
+        fileList4: [],
+        background_picture:'',
+        logo_picture:'',
+        logo2_picture:'',
+        advertisement_picture:'',
         ruleForm:{
-
+          machine_id:'',
+          background_picture_id:'',
+          logo_picture_id:'',
+          logo2_picture_id:'',
+          advertisement_picture_id:'',
+          advertisement_language:'',
         },
         rules: {
           username: [
@@ -142,20 +162,96 @@
         }
       }
     },
+    mounted() {
+        for(var i in this.ruleForm){
+          if(this.MachineInfo.hasOwnProperty(i))
+            this.ruleForm[i]=this.MachineInfo[i]
+        }
+      if(this.MachineInfo.background_picture!=null){
+          this.choose(".background_picture .el-upload--picture-card");
+          this.fileList.push({name: 'background_picture', url:this.$baseurl+this.MachineInfo.background_picture})
+        }
+        if(this.MachineInfo.logo_picture!=null){
+          this.choose(".logo_picture .el-upload--picture-card");
+          this.fileList2.push({name: 'logo_picture', url:this.$baseurl+this.MachineInfo.logo_picture})
+        }
+        if(this.MachineInfo.logo2_picture!=null){
+          this.choose(".logo2_picture .el-upload--picture-card");
+          this.fileList3.push({name: 'logo2_picture', url:this.$baseurl+this.MachineInfo.logo2_picture})
+        }
+        if(this.MachineInfo.advertisement_picture!=null){
+          this.choose(".advertisement_picture .el-upload--picture-card");
+          this.fileList4.push({name: 'advertisement_picture', url:this.$baseurl+this.MachineInfo.advertisement_picture})
+        }
+
+    },
     methods:{
-      appear3() {
-        this.handleRemove(
-          ".project_pic .el-upload--picture-card",
-          ".project_pic .el-upload-list__item"
-        );
+      submitForm(){
+        this.ruleForm.token=this.$store.state.token;
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+          .then(res=>{
+            if(res.data.ret==0){
+              this.$emit('getchildren');
+            }
+          })
+      },
+      appear3(params,picname) {
+        if(picname=="logo_picture"){
+          this.handleRemove(
+            ".logo_picture .el-upload--picture-card",
+            ".logo_picture .el-upload-list__item"
+          );
+          this.ruleForm.logo_picture_id='';
+        }else if(picname=="background_picture"){
+          this.handleRemove(
+            ".background_picture .el-upload--picture-card",
+            ".background_picture .el-upload-list__item"
+          );
+          this.ruleForm.background_picture_id='';
+        }else if(picname=="logo2_picture"){
+          this.handleRemove(
+            ".logo2_picture .el-upload--picture-card",
+            ".logo2_picture .el-upload-list__item"
+          );
+          this.ruleForm.logo2_picture_id='';
+        }else if(picname=="advertisement_picture"){
+          this.handleRemove(
+            ".advertisement_picture .el-upload--picture-card",
+            ".advertisement_picture .el-upload-list__item"
+          );
+          this.ruleForm.advertisement_picture_id='';
+        }
+
+      },
+      dispear3(file, picname) {
+        console.log(file,picname)
+        if(picname=="logo_picture"){
+          this.choose(
+            ".logo_picture .el-upload--picture-card",
+            ".logo_picture .el-upload-list__item"
+          );
+
+        }else if(picname=="background_picture"){
+          this.choose(
+            ".background_picture .el-upload--picture-card",
+            ".background_picture .el-upload-list__item"
+          );
+        }else if(picname=="logo2_picture"){
+          this.choose(
+            ".logo2_picture .el-upload--picture-card",
+            ".logo2_picture .el-upload-list__item"
+          );
+        }else if(picname=="advertisement_picture"){
+          this.choose(
+            ".advertisement_picture .el-upload--picture-card",
+            ".advertisement_picture .el-upload-list__item"
+          );
+        }
       },
       handleRemove(a, b) {
         document.querySelector(a).style =
           "position:absolute;bottom:0;display:block;";
         document.querySelector(b).style = "display:none";
-      },
-      dispear3(file, fileList) {
-        this.choose(".project_pic .el-upload--picture-card");
       },
       choose(a) {
         var b = document.querySelector(a);
@@ -165,27 +261,29 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
-      uploadFile(params) {
-        // console.log(params,index);formData
+      uploadFile(params,picname,picid) {
+        // console.log(params,index);
         const _file = params.file;
+        console.log(params)
         // const isLt2M = _file.size / 1024 / 1024 < 2;
         this.formData = new FormData();
         this.formData.append("file", _file);
+        this.formData.append('picture_input', 'file');
+        this.formData.append('attach_dir', 'machine');
+        console.log(this.formData);
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/bsl_admin_web/upload/pic`,
-          data: this.formData
-          // headers: {
-          //   "Content-Type": "multipart/form-data"
-          // }
+          url: `${this.$baseurl}/home/common.picture/upload.html`,
+          data: this.formData,
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
           .then(res => {
-            this.form.pic = [];
-            this.form.pic.push(res.data.data.urlBase + res.data.data.url);
-            this.form.pic.push(res.data.data.urlBase + res.data.data.url);
-            // this.form.pic = res.data.data.url;
-            // this.form.pic=JSON.stringify(arr)
-            console.log(this.form.pic);
+          if(res.data.ret==0) {
+            console.log(res.data)
+            this.ruleForm[picid] = res.data.data.picture_id;
+            }
           })
           .catch(err => {
             console.log(err);
@@ -200,7 +298,10 @@
     .el-select{
       width: 100%;
     }
-    .project_pic {
+    .el-upload-list__item.is-success .el-upload-list__item-status-label{
+      display: none;
+    }
+    .background_picture, .logo_picture, .logo2_picture, .advertisement_picture{
       position: relative;
       height: 200px;
       .el-upload--picture-card {
@@ -215,6 +316,8 @@
         line-height: 200px;
       }
       .el-upload-list__item {
+        margin: 0;
+        transform: none;
         bottom: 0;
         width: 100%;
         height: 200px;

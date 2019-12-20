@@ -3,7 +3,7 @@
     <header><h2>Machines</h2></header>
     <nav>
       <div>
-        <section @click="alledit(2)">Apply Group Pattern</section>
+        <section @click="alledit(2)" >Apply Group Pattern</section>
       </div>
       <div>
         <span class="keyword">keyword:</span>
@@ -75,17 +75,48 @@
             <span  @click="handleDelete(scope.$index, scope.row)">
               Remote Control
             </span>
-
           </template>
         </el-table-column>
       </el-table>
     </el-main>
     <el-dialog
+      class="remote_control"
+      :visible.sync="DialogVisible"
+      width="30%"
+      :modal="false"
+      :show-close="false"
+      center>
+      <span slot="title" class="dialog">
+        <span>{{machine_name}}</span>
+        <span>View more Details</span>
+      </span>
+      <p class="thick">Do you want to?</p>
+      <el-radio-group  v-model="machine_name">
+        <div>
+          <el-radio :label="1">Restart CyptoGo</el-radio>
+        </div>
+        <div>
+          <el-radio :label="2">Reboot System</el-radio>
+        </div>
+        <div>
+          <el-radio :label="3">Lock Screen</el-radio>
+        </div>
+        <div>
+          <el-radio :label="4">Unlock Screen</el-radio>
+        </div>
+
+      </el-radio-group>
+      <span slot="footer" class="dialog-footer">
+        <button  @click="DialogVisible = false">Cancel</button>
+        <button @click="apply">Create</button>
+        </span>
+    </el-dialog>
+    <el-dialog
       :visible.sync="centerDialogVisible"
       width="30%"
       :modal="false"
       center>
-      <span slot="title" class="dialog-footer">Group</span>
+      <span slot="title" class="dialog-footer"></span>
       <p class="thick">Select:</p>
       <p class="select">{{machine_name}}</p>
       <p class="thick">Please Choose ONE Group:</p>
@@ -118,6 +149,7 @@
     data() {
       return {
         machine_name:'',
+        DialogVisible:false,
         centerDialogVisible: false,
         ischeck: false,
         keyword:'',
@@ -220,9 +252,10 @@
         this.$routerto('machines_add',{machine_id:row.machine_id})
       },
       handleDelete(index, row) {
-        // console.log(row)
+        console.log(row)
+
         this.machine_name = row.name;
-        this.centerDialogVisible=true;
+        this.DialogVisible=true;
         // console.log(this.currentpage, this.pagesize)
         // this.$routerto('account_setting',{type:2,atm_user_id:row.atm_user_id})
 
@@ -319,6 +352,60 @@
     }
     .el-table{
       color:#7A7A7A;
+    }
+    .dialog{
+      display: flex;
+      justify-content: space-between;
+    }
+    .remote_control{
+      .el-dialog--center .el-dialog__body{
+        padding: 20px;
+      }
+      p.thick{
+        margin-bottom: 10px;
+      }
+      .el-radio-group{
+        >div{
+          margin-bottom: 10px;
+        }
+      }
+      .el-radio__input.is-checked .el-radio__inner{
+        border-color:#2ABEE2;
+        background: #2ABEE2;
+
+      }
+      .el-radio__inner:hover{
+        border-color:#2ABEE2;
+      }
+      .el-radio__input.is-checked+.el-radio__label{
+        color:#2ABEE2;
+      }
+      .el-radio__input.is-checked .el-radio__inner::after{
+        transform: rotate(45deg) scaleY(1);
+      }
+      .el-radio__inner::after{
+        box-sizing: content-box;
+        content: "";
+        background: none;
+        border: 2px solid #FFF;
+        border-left: 0;
+        border-top: 0;
+        height: 7px;
+        left: 4px;
+        position: absolute;
+        top: 1px;
+        border-radius: 0;
+        /*!*-webkit-transform: rotate(45deg) scaleY(0);*!*/
+        /*!*transform: rotate(45deg) scaleY(0);*!*/
+        width: 3px;
+        /*-webkit-transition: -webkit-transform .15s ease-in .05s;*/
+        /*transition: -webkit-transform .15s ease-in .05s;*/
+        /*transition: transform .15s ease-in .05s;*/
+        /*transition: transform .15s ease-in .05s, -webkit-transform .15s ease-in .05s;*/
+        /*transition: transform .15s ease-in .05s,-webkit-transform .15s ease-in .05s;*/
+        /*-webkit-transform-origin: center;*/
+        /*transform-origin: center;*/
+      }
     }
     .el-checkbox__inner{
       border-radius: 50%;

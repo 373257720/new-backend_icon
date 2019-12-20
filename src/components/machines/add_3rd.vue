@@ -2,23 +2,24 @@
   <div class="add_second">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Operator:" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.company_name"></el-input>
       </el-form-item>
       <el-form-item label="Tel:" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.customer_service_mobile"></el-input>
       </el-form-item>
       <el-form-item label="Email:" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <el-input v-model="ruleForm.customer_service_email"></el-input>
       </el-form-item>
     </el-form>
     <section>
-      <button  @click="submitForm('ruleForm')">NEXT</button>
-      <button @click="$routerto('setting')">BACK</button>
+      <button @click="$global.previous">BACK</button>
+      <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
   </div>
 </template>
 <script>
   export default {
+    props:["MachineInfo"],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -41,7 +42,10 @@
       };
       return{
         ruleForm:{
-
+          machine_id:'',
+          company_name:'',
+          customer_service_mobile:'',
+          customer_service_email:'',
         },
         rules: {
           username: [
@@ -76,58 +80,25 @@
         }
       }
     },
+    mounted() {
+      for(var i in this.ruleForm){
+        if(this.MachineInfo.hasOwnProperty(i))
+          this.ruleForm[i]=this.MachineInfo[i]
+      };
+    },
     methods:{
       submitForm(){
-        this.$routerto('add_4th');
-      },
-      appear3() {
-        this.handleRemove(
-          ".project_pic .el-upload--picture-card",
-          ".project_pic .el-upload-list__item"
-        );
-      },
-      handleRemove(a, b) {
-        document.querySelector(a).style =
-          "position:absolute;bottom:0;display:block;";
-        document.querySelector(b).style = "display:none";
-      },
-      dispear3(file, fileList) {
-        this.choose(".project_pic .el-upload--picture-card");
-      },
-      choose(a) {
-        var b = document.querySelector(a);
-        b.style = "display:none;";
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      uploadFile(params) {
-        // console.log(params,index);formData
-        const _file = params.file;
-        // const isLt2M = _file.size / 1024 / 1024 < 2;
-        this.formData = new FormData();
-        this.formData.append("file", _file);
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_admin_web/upload/pic`,
-          data: this.formData
-          // headers: {
-          //   "Content-Type": "multipart/form-data"
-          // }
-        })
-          .then(res => {
-            this.form.pic = [];
-            this.form.pic.push(res.data.data.urlBase + res.data.data.url);
-            this.form.pic.push(res.data.data.urlBase + res.data.data.url);
-            // this.form.pic = res.data.data.url;
-            // this.form.pic=JSON.stringify(arr)
-            console.log(this.form.pic);
+        console.log(this.ruleForm);
+        this.ruleForm.token=this.$store.state.token;
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+          .then(res=>{
+            if(res.data.ret==0){
+              this.$emit('getchildren');
+              this.$routerto('add_4th',{machine_id:this.$route.query.machine_id});
+            }
           })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+      },
+
     }
   }
 </script>

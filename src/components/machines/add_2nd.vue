@@ -2,7 +2,7 @@
   <div class="add_second">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Currency:" prop="currency_id">
-        <el-select v-model="ruleForm.region" placeholder="">
+        <el-select v-model="ruleForm.currency_id" placeholder="">
           <el-option
             v-for="item in currencypList"
             :key="item.value"
@@ -21,16 +21,16 @@
         <el-input v-model="ruleForm.shortcut_money"></el-input>
       </el-form-item>
       <el-form-item  label="Cryptocurrency:" prop="name">
-          <el-radio-group v-model="ruleForm.buy_sell">
-            <el-radio :label="3">Buy</el-radio>
-            <el-radio :label="6">Sell</el-radio>
-            <el-radio :label="9">Both</el-radio>
+          <el-radio-group v-model="ruleForm.is_buy_sell">
+            <el-radio :label="1">Buy</el-radio>
+            <el-radio :label="2">Sell</el-radio>
+            <el-radio :label="3">Both</el-radio>
           </el-radio-group>
     </el-form-item>
       <el-form-item  label="KYC Registration:" prop="region">
         <el-radio-group v-model="ruleForm.is_register">
-          <el-radio :label="3">Yes</el-radio>
-          <el-radio :label="6">No</el-radio>
+          <el-radio :label="1">Yes</el-radio>
+          <el-radio :label="2">No</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Cryptocurrency Type">
@@ -39,19 +39,19 @@
             <template slot="title">BTC</template>
             <el-form-item  label="Local Transaction Regulation:" prop="name">
               <el-radio-group v-model="ruleForm.is_support_bitcoin">
-                <el-radio :label="3">Buy</el-radio>
-                <el-radio :label="6">Sell</el-radio>
-                <el-radio :label="9">Both</el-radio>
-                <el-radio :label="12">Not allow</el-radio>
+                <el-radio :label="1">Buy</el-radio>
+                <el-radio :label="2">Sell</el-radio>
+                <el-radio :label="3">Both</el-radio>
+                <el-radio :label="4">Not allow</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item  label="Commission Rate (%):" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span><el-input v-model="ruleForm.name"></el-input>
+                  <span>Buy:</span><el-input v-model="ruleForm.buy_bitcoin_fee"></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.name"></el-input>
+                  <span>Sell:</span><el-input v-model="ruleForm.sell_bitcoin_fee"></el-input>
                 </div>
               </div>
             </el-form-item>
@@ -65,11 +65,11 @@
           <el-collapse-item>
             <template slot="title">ETH</template>
             <el-form-item  label="Local Transaction Regulation:" prop="name">
-              <el-radio-group v-model="ruleForm.is_support_bitcoin">
-                <el-radio :label="3">Buy</el-radio>
-                <el-radio :label="6">Sell</el-radio>
-                <el-radio :label="9">Both</el-radio>
-                <el-radio :label="12">Not allow</el-radio>
+              <el-radio-group v-model="ruleForm.is_support_ethereum">
+                <el-radio :label="1">Buy</el-radio>
+                <el-radio :label="2">Sell</el-radio>
+                <el-radio :label="3">Both</el-radio>
+                <el-radio :label="4">Not allow</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item  label="Commission Rate (%):" prop="name">
@@ -78,17 +78,7 @@
                   <span>Buy:</span><el-input v-model="ruleForm.buy_ethereum_fee"></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.name"></el-input>
-                </div>
-              </div>
-            </el-form-item>
-            <el-form-item  label="Commission Rate (%):" prop="name">
-              <div class="flexbox">
-                <div class="box">
-                  <span>Buy:</span><el-input v-model="ruleForm.name"></el-input>
-                </div>
-                <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.name"></el-input>
+                  <span>Sell:</span><el-input v-model="ruleForm.sell_ethereum_fee"></el-input>
                 </div>
               </div>
             </el-form-item>
@@ -104,7 +94,7 @@
     </el-form>
     <section>
       <button @click="goback">BACK</button>
-      <button  @click="submitForm('ruleForm')">NEXT</button>
+      <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
   </div>
 </template>
@@ -133,22 +123,24 @@
       };
       return{
         currencypList:[],
-        radio: 3,
         ruleForm:{
-          region:'',
+          machine_id:'',
+          currency_id:'',
           in_support_money:'',
           out_support_money:'',
           shortcut_money:'',
-          buy_sell:'',
+          is_buy_sell:'',
           is_register:'',
           is_support_bitcoin:'',
           minimum_bitcoin_buy:'',
           maximum_bitcoin_buy:'',
           buy_bitcoin_fee:'',
+          sell_bitcoin_fee:'',
           is_support_ethereum:'',
           minimum_ethereum_buy:'',
           maximum_ethereum_buy:'',
           buy_ethereum_fee:'',
+          sell_ethereum_fee:'',
         },
         rules: {
           username: [
@@ -185,21 +177,27 @@
       }
     },
     watch:{
-      'ruleForm.in_support_money': {
-        deep: true,
-        handler: function (newVal,oldVal){
-          // code
-          console.log(newVal,oldVal)
-        this.num=  this.toThousands(newVal)
-        }
-      },
 
     },
     created() {
-      // this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
-      //   .then(res=>{
-      //
-      //   })
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`,{token:this.$store.state.token})
+        .then(res=>{
+          if (res) {
+            this.currencypList.push({ value: '0', label:'-',})
+            for (let i = 0; i < res.data.data.data.length; i++) {
+              this.currencypList.push({
+                value: res.data.data.data[i].currency_id,
+                label: res.data.data.data[i].name
+              });
+            }
+          }
+        })
+    },
+    mounted() {
+        for(var i in this.ruleForm){
+          if(this.MachineInfo.hasOwnProperty(i))
+            this.ruleForm[i]=this.MachineInfo[i]
+        };
     },
     methods:{
     toThousands(num) {
@@ -217,7 +215,15 @@
         this.$global.previous();
       },
       submitForm(){
-        this.$routerto('add_3rd');
+        console.log(this.ruleForm);
+        this.ruleForm.token=this.$store.state.token;
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+          .then(res=>{
+            if(res.data.ret==0){
+              this.$emit('getchildren');
+              this.$routerto('add_3rd',{machine_id:this.$route.query.machine_id});
+            }
+          })
       },
       appear3() {
         this.handleRemove(
