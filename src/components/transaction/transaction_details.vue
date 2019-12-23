@@ -8,7 +8,7 @@
     </header>
     <el-main>
       <article>
-        <table class="mailTable" style="width:60%;" >
+        <table class="mailTable" style="width:80%;" >
           <tr v-for="(item,keyword) in tabledata">
             <td class="column">{{item.key}}</td>
             <td class="column" v-if="keyword=='money' || keyword=='price' || keyword=='trade_price'">{{item.value+tabledata['currency_name'].value}}</td>
@@ -19,9 +19,15 @@
           </tr>
         </table>
         <aside>
-          <h3>Customers Images</h3>
-          <div><img :src="trade_picture1" alt=""></div>
-          <div><img :src="trade_picture2" alt=""></div>
+
+          <div>
+            <img :src="trade_picture1" alt="">
+            <h3>Customer Images</h3>
+          </div>
+          <div>
+            <img :src="trade_picture2" alt="">
+            <h3>Customer Images</h3>
+          </div>
         </aside>
       </article>
       <div class="map">
@@ -114,6 +120,7 @@
     }
     .el-table{
       color:#7A7A7A;
+
     }
     .el-checkbox__inner{
       border-radius: 50%;
@@ -192,26 +199,43 @@
       padding:20px 20px 20px 0;
       article{
         display: flex;
+        width: 90%;
         /*height: 450px;*/
         margin-bottom: 50px;
         .mailTable{
           margin-right: 50px;
         }
-        　.mailTable, .mailTable tr, .mailTable tr td{
-          border:1px solid #E6EAEE;
+        　.mailTable, .mailTable tr, {
+          border:1px solid #D4D4D4;
+          color: #7A7A7A;
+
+
+        }
+        .mailTable tr td{
+          border: none;
           padding:10px 10px;
         }
+
         aside{
           width: 25%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           h3{
             text-align: center;
+            color: #7A7A7A;
+
           }
           div{
             /*width: 100%;*/
+
             /*height: 30%;*/
             img{
+              display: block;
+              font-size: 0;
               width: 100%;
-              height: 180px;
+              height: 220px;
+              margin-bottom: 5px;
             }
           }
         }
@@ -219,8 +243,9 @@
 
 
       div.map{
-        width: 100%;
+        width: 90%;
         height: 200px;
+        box-sizing: border-box;
         border: 1px solid red;
       }
     }

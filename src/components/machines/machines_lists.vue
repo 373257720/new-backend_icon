@@ -24,6 +24,12 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column
+          type="selection"
+          align="center"
+          label="ID"
+          width="55">
+        </el-table-column>
+        <el-table-column
           label="Machine"
           align="center"
         >
@@ -88,10 +94,10 @@
       center>
       <span slot="title" class="dialog">
         <span>{{machine_name}}</span>
-        <span>View more Details</span>
+        <span @click="$routerto('remote_control_records')">View more Details</span>
       </span>
       <p class="thick">Do you want to?</p>
-      <el-radio-group  v-model="machine_name">
+      <el-radio-group  v-model="remote_control_type">
         <div>
           <el-radio :label="1">Restart CyptoGo</el-radio>
         </div>
@@ -116,7 +122,7 @@
       width="30%"
       :modal="false"
       center>
-      <span slot="title" class="dialog-footer"></span>
+      <span slot="title" class="dialog-footer">Group</span>
       <p class="thick">Select:</p>
       <p class="select">{{machine_name}}</p>
       <p class="thick">Please Choose ONE Group:</p>
@@ -135,6 +141,7 @@
         <button @click="apply">Apply</button>
         </span>
     </el-dialog>
+
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -148,44 +155,74 @@
   export default {
     data() {
       return {
+        choose:'',
         machine_name:'',
         DialogVisible:false,
         centerDialogVisible: false,
-        ischeck: false,
         keyword:'',
+        remote_control_type:'',
+        machine_id:'',
         currentpage: 1,
         pagesize: 10,
         pagetotal: null,
         tableData: [
         ],
         multipleSelection: [],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+        options: [],
         value: ''
       };
     },
+
     created() {
       this.changepage(this.currentpage, this.pagesize);
 
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
+        token:this.$store.state.token,
+        page:this.currentpage,
+        size:this.pagesize,
+        keyword:'',
+      }).then(res=>{
+        console.log(res)
+        if(res.data.ret==0){
+          console.log(res.data.data.data)
 
+       this.options=   res.data.data.data.map((item,idx)=>{
+                  return{
+                       value: item.machine_group_id,
+                       label: item.name
+                     }
+          })
+          // this.options.push({
+          //   value: '选项1',
+          //   label: '黄金糕'
+          // })
+
+        }
+      })
     },
     methods: {
+      getTemplateRow(index,row){
+        // console.log(row)//获取选中数据
+        this.machine_name=row.name;
+        // this.templateSelection = row;
+      },
       apply(){
-        this.centerDialogVisible=false;
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`,{
+          token:this.$store.state.token,
+          type:this.remote_control_type,
+          machine_id:this.machine_id
+        }).then(res=>{
+          console.log(res)
+          if(res.data.ret==0){
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+          this.centerDialogVisible=false;
+          }
+
+        })
+
       },
       searcher(){
         this.changepage(this.currentpage, this.pagesize,this.keyword);
@@ -227,25 +264,26 @@
         });
       },
       alledit(num){
-        console.log(this.multipleSelection)
-        let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.atm_user_id)
-        })
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
-          data: {
-            token:this.$store.state.token,
-            atm_user_id: userid_arr,
-            status:num,
-          }
-        }).then(res => {
-          console.log(res);
-          if(res.data.ret==0){
-            this.changepage(this.currentpage, this.pagesize);
-          }
-        });
+        // console.log(this.centerDialogVisible)
+        this.centerDialogVisible=true;
+        // let userid_arr=[];
+        // this.multipleSelection.forEach(item=>{
+        //   userid_arr.push(item.atm_user_id)
+        // })
+        // this.$axios({
+        //   method: 'post',
+        //   url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
+        //   data: {
+        //     token:this.$store.state.token,
+        //     atm_user_id: userid_arr,
+        //     status:num,
+        //   }
+        // }).then(res => {
+        //   console.log(res);
+        //   if(res.data.ret==0){
+        //     this.changepage(this.currentpage, this.pagesize);
+        //   }
+        // });
       },
       handleEdit(index, row) {
         // console.log(index, row);
@@ -253,7 +291,7 @@
       },
       handleDelete(index, row) {
         console.log(row)
-
+        this.machine_id=row.machine_id;
         this.machine_name = row.name;
         this.DialogVisible=true;
         // console.log(this.currentpage, this.pagesize)
@@ -320,13 +358,8 @@
       }
     },
     watch: {
-      $route(to, from) {
-        if (to.name == "usercheck") {
-          this.ischeck = !this.ischeck;
-        } else {
-          this.ischeck = false;
-        }
-      }
+
+
     }
   };
 </script>
@@ -353,20 +386,34 @@
     .el-table{
       color:#7A7A7A;
     }
+
+
     .dialog{
       display: flex;
       justify-content: space-between;
+      span:nth-of-type(1){
+          font-weight: 600;
+      }
+      span:nth-of-type(2){
+        font-size: 12px;
+        cursor: pointer;
+        text-decoration:underline;
+        color: #2ABEE2;
+      }
     }
     .remote_control{
       .el-dialog--center .el-dialog__body{
         padding: 20px;
       }
       p.thick{
-        margin-bottom: 10px;
+        color:black;
+        font-size: 16px;
+        margin-bottom: 30px;
       }
       .el-radio-group{
         >div{
           margin-bottom: 10px;
+
         }
       }
       .el-radio__input.is-checked .el-radio__inner{
@@ -465,7 +512,7 @@
     }
     .el-dialog__header{
       background: #EDF1F4;
-      font-size: 18px;
+      font-size: 16px;
       line-height: 30px;
       text-align: left;
       height: 50px;
@@ -477,27 +524,37 @@
       top:50%;
       transform: translateY(-50%);
     }
-    .el-dialog__footer{
-      button{
-        cursor: pointer;
-        width: 120px;
-        line-height: 40px;
-        height: 40px;
-        box-sizing: border-box;
-        background: #EDF1F4;
-        border: 1px solid #B7B7B7;
-        border-radius: 5px;
-        color:#515153;
-        text-align: center;
-        margin-right: 20px;
-      }
+    .el-dialog--center .el-dialog__footer {
+      padding-top:0;
+      .dialog-footer{
+
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        button{
+          cursor: pointer;
+          width: 45%;
+          line-height: 40px;
+          font-size: 16px;
+          height: 40px;
+          box-sizing: border-box;
+          background: #EDF1F4;
+          border: 1px solid #B7B7B7;
+          border-radius: 5px;
+          color:#515153;
+          text-align: center;
+          /*margin-right: 20px;*/
+        }
         button:nth-of-type(2){
           border:0;
           color: white;
           background:url(../../../static/add-disable.png) no-repeat;
+          background-size: cover;
           /*;*/
         }
+      }
     }
+
     .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
       /*border-color:white;*/
       background: #2ABEE2;

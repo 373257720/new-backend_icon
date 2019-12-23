@@ -76,8 +76,8 @@
         </section>
       </div>
       <div>
-        <section class="button">Search</section>
-        <section class="button" @click="reset">Reset</section>
+        <p class="button">Search</p>
+        <p class="button" @click="reset">Reset</p>
       </div>
     </nav>
     <el-main>
@@ -343,10 +343,12 @@
       padding: 0 50px 0 20px;
       >div{
         /*flex:1;*/
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         section{
           /*display: flex;*/
           display: flex;
-
           span{
             display: inline-block;
             width: 120px;
@@ -358,15 +360,29 @@
             flex:1;
           }
         }
-        .button{
+        p.button{
           /*width: 100%;*/
+          cursor: pointer;
           height: 40px;
           line-height: 40px;
-          background: red;
+          width: 120px;
+          color: white;
+          text-align: center;
+          background: #EDF1F4;
+          color: #515151;
+          background-size: cover;
+          box-sizing: border-box;
           border-radius: 5px;
         }
-        section:nth-child(1){
-            margin-bottom:10px;
+        p:nth-child(1){
+          color:white;
+          background:url(../../../static/add-disable.png) no-repeat;
+            /*margin-bottom:10px;*/
+        }
+        p:nth-child(2){
+          border: 1px solid #D1D1D1 ;
+          /*margin-bottom:10px;*/
+
         }
       }
     }

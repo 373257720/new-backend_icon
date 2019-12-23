@@ -20,8 +20,11 @@ import user from '@/components/user/user'
 import customer_data from '@/components/user/customer_data'
 // machines
 import machines from '@/components/machines/machines'
+import group_pattern  from "../components/machines/group_pattern";
+import remote_control_records from  '@/components/machines/remote_control_records'
 import machines_lists from '@/components/machines/machines_lists'
 import machines_add from '@/components/machines/machines_add'
+import add_Group_Pattern from '@/components/machines/add_Group_Pattern'
 import add_1st from '@/components/machines/add_1st'
 import add_2nd from '@/components/machines/add_2nd'
 import add_3rd from '@/components/machines/add_3rd'
@@ -192,12 +195,55 @@ const routes = [{
             name: 'machines_lists',
             component: machines_lists,
           },
+          // {
+          //   path: 'group_pattern',
+          //   name: 'group_pattern',
+          //   component: group_pattern,
+          //   redirect: '/home/machines/machines_add/add_1st',
+          //   children:[
+          //     {
+          //       path: 'add_1st',
+          //       name: 'add_1st',
+          //       component: add_1st,
+          //     },
+          //     {
+          //       path: 'add_2nd',
+          //       name: 'add_2nd',
+          //       component: add_2nd,
+          //     },
+          //     {
+          //       path: 'add_3rd',
+          //       name: 'add_3rd',
+          //       component: add_3rd,
+          //     },
+          //     {
+          //       path: 'add_4th',
+          //       name: 'add_4th',
+          //       component: add_4th,
+          //     },
+          //     {
+          //       path: 'test',
+          //       name: 'test',
+          //       component: test,
+          //     },
+          //   ],
+          // },
+          {
+            path: 'remote_control_records',
+            name: 'remote_control_records',
+            component: remote_control_records,
+          },
           {
             path: 'machines_add',
             name: 'machines_add',
             component: machines_add,
             redirect: '/home/machines/machines_add/add_1st',
             children:[
+              {
+                path: 'add_Group_Pattern',
+                name: 'add_Group_Pattern',
+                component: add_Group_Pattern,
+              },
               {
                 path: 'add_1st',
                 name: 'add_1st',

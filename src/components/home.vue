@@ -27,10 +27,21 @@
               <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
             </router-link>
           </el-submenu>
-          <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/machines')">
-            <i class="el-icon-setting"></i>
-            <span slot="title">MACHINES</span>
-          </el-menu-item>
+
+          <el-submenu index="3" :class="{active:isActive[2]}">
+            <template slot="title">
+              <i class="el-icon-message"></i>MACHINES
+            </template>
+<!--            <router-link to="/home/user/atm_support">-->
+              <el-menu-item @click="routerto('/home/machines')" index="/home/user/atm_support">MACHINES</el-menu-item>
+              <el-menu-item @click="routerto('/home/machines/group_pattern')" index="/home/machines/group_pattern">GROUP PATTERN</el-menu-item>
+<!--            </router-link>-->
+          </el-submenu>
+
+<!--          <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/machines')">-->
+<!--            <i class="el-icon-setting"></i>-->
+<!--            <span slot="title">MACHINES</span>-->
+<!--          </el-menu-item>-->
 
           <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
             <i class="el-icon-setting"></i>

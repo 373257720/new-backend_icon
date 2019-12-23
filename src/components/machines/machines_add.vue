@@ -7,12 +7,19 @@
     </h2>
     </header>
     <main>
-        <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
-          <el-tab-pane label="CryptoGo" name="first"></el-tab-pane>
-          <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>
-          <el-tab-pane label="Operator" name="third"></el-tab-pane>
-          <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>
-        </el-tabs>
+<!--        <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">-->
+<!--          <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>-->
+<!--          <el-tab-pane label="CryptoGo" name="first"></el-tab-pane>-->
+<!--          <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>-->
+<!--          <el-tab-pane label="Operator" name="third"></el-tab-pane>-->
+<!--          <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>-->
+<!--        </el-tabs>-->
+      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
+        <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>
+        <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>
+        <el-tab-pane label="Operator" name="third"></el-tab-pane>
+        <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>
+      </el-tabs>
 <!--      <el-steps :active="0" finish-status="wait" simple >-->
 <!--        <el-step title="CryptoGo"  icon="el-icon-info" ><i slot="icon">1</i></el-step>-->
 <!--        <el-step title="Price & Fee" icon="el-icon-info" ><i slot="icon">2</i></el-step>-->
