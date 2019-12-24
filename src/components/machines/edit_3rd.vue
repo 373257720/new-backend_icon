@@ -1,5 +1,5 @@
 <template>
-  <div class="add_third">
+  <div class="edit_third">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Operator:" prop="name">
         <el-input v-model="ruleForm.company_name"></el-input>
@@ -13,7 +13,7 @@
     </el-form>
     <section>
       <button @click="$global.previous">BACK</button>
-      <button  @click="submitForm('ruleForm')">NEXT</button>
+      <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
   </div>
 </template>
@@ -80,40 +80,31 @@
         }
       }
     },
-    watch:{
-      ruleForm: {
-        handler(newValue, oldValue) {
-          // console.log(newValue)
-          this.$emit('getchildren',this.ruleForm)
-        },
-        deep: true
-      },
-    },
     mounted() {
-      // for(var i in this.ruleForm){
-      //   if(this.MachineInfo.hasOwnProperty(i))
-      //     this.ruleForm[i]=this.MachineInfo[i]
-      // };
+      for(var i in this.ruleForm){
+        if(this.MachineInfo.hasOwnProperty(i))
+          this.ruleForm[i]=this.MachineInfo[i]
+      };
     },
     methods:{
       submitForm(){
-      this.$emit('getchildren','','fourth');
-  //       this.ruleForm.token=this.$store.state.token;
-  // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
-  //   .then(res=>{
-  //     if(res.data.ret==0){
-  //       this.$emit('getchildren');
-  //       this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
-  //     }
-  //   })
-  },
+        console.log(this.ruleForm);
+        this.ruleForm.token=this.$store.state.token;
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+          .then(res=>{
+            if(res.data.ret==0){
+              this.$emit('getchildren');
+              this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
+            }
+          })
+      },
 
     }
   }
 </script>
 
 <style lang='scss'>
-  .add_third{
+  .edit_third{
     .el-select{
       width: 100%;
     }

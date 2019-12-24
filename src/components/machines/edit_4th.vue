@@ -1,5 +1,5 @@
 <template>
-  <div class="add_fourth">
+  <div class="edit_fourth">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Background">
         <div class="background_picture">
@@ -70,16 +70,16 @@
         </div>
       </el-form-item>
       <el-form-item label="Slogan:">
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 10, maxRows: 10}"
-          placeholder="请输入内容"
-          v-model="ruleForm.advertisement_language">
-        </el-input>
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 10, maxRows: 10}"
+            placeholder="请输入内容"
+            v-model="ruleForm.advertisement_language">
+          </el-input>
       </el-form-item>
-      <el-dialog :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" alt />
-      </el-dialog>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt />
+        </el-dialog>
     </el-form>
     <section>
       <button @click="$global.previous">BACK</button>
@@ -89,7 +89,7 @@
 </template>
 <script>
   export default {
-    props:["tochind"],
+    props:["MachineInfo"],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -162,54 +162,37 @@
         }
       }
     },
-    // MachineInfo: {
-    //   handler(newValue, oldValue) {
-    //     console.log(newValue)
-    //   },
-    //   deep: true
-    // },
-    watch:{
-      ruleForm: {
-        handler(newValue, oldValue) {
-          // console.log(newValue)
-          this.$emit('getchildren',this.ruleForm)
-        },
-        deep: true
-      },
-    },
     mounted() {
-    //   for(var i in this.ruleForm){
-    //     if(this.MachineInfo.hasOwnProperty(i))
-    //       this.ruleForm[i]=this.MachineInfo[i]
-    //   }
-    //   if(this.MachineInfo.background_picture!=null){
-    //     this.choose(".background_picture .el-upload--picture-card");
-    //     this.fileList.push({name: 'background_picture', url:this.$baseurl+this.MachineInfo.background_picture})
-    //   }
-    //   if(this.MachineInfo.logo_picture!=null){
-    //     this.choose(".logo_picture .el-upload--picture-card");
-    //     this.fileList2.push({name: 'logo_picture', url:this.$baseurl+this.MachineInfo.logo_picture})
-    //   }
-    //   if(this.MachineInfo.logo2_picture!=null){
-    //     this.choose(".logo2_picture .el-upload--picture-card");
-    //     this.fileList3.push({name: 'logo2_picture', url:this.$baseurl+this.MachineInfo.logo2_picture})
-    //   }
-    //   if(this.MachineInfo.advertisement_picture!=null){
-    //     this.choose(".advertisement_picture .el-upload--picture-card");
-    //     this.fileList4.push({name: 'advertisement_picture', url:this.$baseurl+this.MachineInfo.advertisement_picture})
-    //   }
-    //
+        for(var i in this.ruleForm){
+          if(this.MachineInfo.hasOwnProperty(i))
+            this.ruleForm[i]=this.MachineInfo[i]
+        }
+      if(this.MachineInfo.background_picture!=null){
+          this.choose(".background_picture .el-upload--picture-card");
+          this.fileList.push({name: 'background_picture', url:this.$baseurl+this.MachineInfo.background_picture})
+        }
+        if(this.MachineInfo.logo_picture!=null){
+          this.choose(".logo_picture .el-upload--picture-card");
+          this.fileList2.push({name: 'logo_picture', url:this.$baseurl+this.MachineInfo.logo_picture})
+        }
+        if(this.MachineInfo.logo2_picture!=null){
+          this.choose(".logo2_picture .el-upload--picture-card");
+          this.fileList3.push({name: 'logo2_picture', url:this.$baseurl+this.MachineInfo.logo2_picture})
+        }
+        if(this.MachineInfo.advertisement_picture!=null){
+          this.choose(".advertisement_picture .el-upload--picture-card");
+          this.fileList4.push({name: 'advertisement_picture', url:this.$baseurl+this.MachineInfo.advertisement_picture})
+        }
+
     },
     methods:{
       submitForm(){
-        // this.ruleForm.token=this.$store.state.token;
-        // this.$emit('getchildren',this.ruleForm);
-        console.log(this.tochind)
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/addMachineGroup`,this.tochind)
+        this.ruleForm.token=this.$store.state.token;
+
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
           .then(res=>{
             if(res.data.ret==0){
-              console.log(res)
-              // this.$emit('getchildren');
+              this.$emit('getchildren');
             }
           })
       },
@@ -242,7 +225,7 @@
 
       },
       dispear3(file, picname) {
-        // console.log(file,picname)
+        console.log(file,picname)
         if(picname=="logo_picture"){
           this.choose(
             ".logo_picture .el-upload--picture-card",
@@ -288,7 +271,7 @@
         this.formData.append("file", _file);
         this.formData.append('picture_input', 'file');
         this.formData.append('attach_dir', 'machine');
-        // console.log(this.formData);
+        console.log(this.formData);
         this.$axios({
           method: "post",
           url: `${this.$baseurl}/home/common.picture/upload.html`,
@@ -298,9 +281,9 @@
           }
         })
           .then(res => {
-            if(res.data.ret==0) {
-              console.log(res.data)
-              this.ruleForm[picid] = res.data.data.picture_id;
+          if(res.data.ret==0) {
+            console.log(res.data)
+            this.ruleForm[picid] = res.data.data.picture_id;
             }
           })
           .catch(err => {
@@ -312,7 +295,7 @@
 </script>
 
 <style lang='scss'>
-  .add_fourth{
+  .edit_fourth{
     .el-select{
       width: 100%;
     }

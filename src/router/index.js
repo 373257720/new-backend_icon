@@ -23,12 +23,17 @@ import machines from '@/components/machines/machines'
 import group_pattern  from "../components/machines/group_pattern";
 import remote_control_records from  '@/components/machines/remote_control_records'
 import machines_lists from '@/components/machines/machines_lists'
-import machines_add from '@/components/machines/machines_add'
+import machines_edit from '@/components/machines/machines_edit'
 import add_Group_Pattern from '@/components/machines/add_Group_Pattern'
+import edit_Group_Pattern from '@/components/machines/edit_Group_Pattern'
 import add_1st from '@/components/machines/add_1st'
 import add_2nd from '@/components/machines/add_2nd'
 import add_3rd from '@/components/machines/add_3rd'
-import add_4th from '@/components/machines/add_4th'
+import add_4th from "../components/machines/add_4th";
+import edit_1st from '@/components/machines/edit_1st'
+import edit_2nd from '@/components/machines/edit_2nd'
+import edit_3rd from '@/components/machines/edit_3rd'
+import edit_4th from '@/components/machines/edit_4th'
 import  test from '@/components/test'
 
 // alerts
@@ -195,74 +200,54 @@ const routes = [{
             name: 'machines_lists',
             component: machines_lists,
           },
-          // {
-          //   path: 'group_pattern',
-          //   name: 'group_pattern',
-          //   component: group_pattern,
-          //   redirect: '/home/machines/machines_add/add_1st',
-          //   children:[
-          //     {
-          //       path: 'add_1st',
-          //       name: 'add_1st',
-          //       component: add_1st,
-          //     },
-          //     {
-          //       path: 'add_2nd',
-          //       name: 'add_2nd',
-          //       component: add_2nd,
-          //     },
-          //     {
-          //       path: 'add_3rd',
-          //       name: 'add_3rd',
-          //       component: add_3rd,
-          //     },
-          //     {
-          //       path: 'add_4th',
-          //       name: 'add_4th',
-          //       component: add_4th,
-          //     },
-          //     {
-          //       path: 'test',
-          //       name: 'test',
-          //       component: test,
-          //     },
-          //   ],
-          // },
+          {
+            path: 'add_Group_Pattern',
+            name: 'add_Group_Pattern',
+            component: add_Group_Pattern,
+          },
+          {
+            path: 'edit_Group_Pattern',
+            name: 'edit_Group_Pattern',
+            component: edit_Group_Pattern,
+          },
+          {
+            path: 'group_pattern',
+            name: 'group_pattern',
+            component: group_pattern,
+
+
+          },
           {
             path: 'remote_control_records',
             name: 'remote_control_records',
             component: remote_control_records,
           },
           {
-            path: 'machines_add',
-            name: 'machines_add',
-            component: machines_add,
-            redirect: '/home/machines/machines_add/add_1st',
+            path: 'machines_edit',
+            name: 'machines_edit',
+            component: machines_edit,
+            redirect: '/home/machines/machines_edit/edit_1st',
             children:[
+
               {
-                path: 'add_Group_Pattern',
-                name: 'add_Group_Pattern',
-                component: add_Group_Pattern,
+                path: 'edit_1st',
+                name: 'edit_1st',
+                component: edit_1st,
               },
               {
-                path: 'add_1st',
-                name: 'add_1st',
-                component: add_1st,
+                path: 'edit_2nd',
+                name: 'edit_2nd',
+                component: edit_2nd,
               },
               {
-                path: 'add_2nd',
-                name: 'add_2nd',
-                component: add_2nd,
+                path: 'edit_3rd',
+                name: 'edit_3rd',
+                component: edit_3rd,
               },
               {
-                path: 'add_3rd',
-                name: 'add_3rd',
-                component: add_3rd,
-              },
-              {
-                path: 'add_4th',
-                name: 'add_4th',
-                component: add_4th,
+                path: 'edit_4th',
+                name: 'edit_4th',
+                component: edit_4th,
               },
               {
                 path: 'test',

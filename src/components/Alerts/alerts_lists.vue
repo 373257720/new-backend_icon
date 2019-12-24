@@ -27,7 +27,7 @@
         <ul>
           <li v-for="(item) in tableData" :key="item.notice_id">
             <div>
-              <p><i></i>{{item.title}}</p>
+              <p><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><i></i>{{item.title}}</p>
               <p @click="$routerto('alerts_details',{'notice_id':item.notice_id})"><i class="el-icon-d-arrow-right"></i>Unread</p>
             </div>
             <article v-html="item.content">
@@ -92,6 +92,7 @@
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
                 item.create_time=this.$global.timestampToTime(item.create_time);
+
               })
               this.pictLoading=false
               // console.log(this.tableData)

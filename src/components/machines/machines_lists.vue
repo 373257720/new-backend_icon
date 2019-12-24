@@ -8,7 +8,7 @@
       <div>
         <span class="keyword">keyword:</span>
         <el-input
-          placeholder="请输入内容"
+          placeholder=""
           v-model="keyword"
           clearable>
         </el-input>
@@ -114,7 +114,7 @@
       </el-radio-group>
       <span slot="footer" class="dialog-footer">
         <button  @click="DialogVisible = false">Cancel</button>
-        <button @click="apply">Create</button>
+        <button @click="creat">Create</button>
         </span>
     </el-dialog>
     <el-dialog
@@ -124,10 +124,10 @@
       center>
       <span slot="title" class="dialog-footer">Group</span>
       <p class="thick">Select:</p>
-      <p class="select">{{machine_name}}</p>
+      <p class="select" v-html="machine_name"></p>
       <p class="thick">Please Choose ONE Group:</p>
       <template>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="machine_group_id" placeholder="">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -160,16 +160,18 @@
         DialogVisible:false,
         centerDialogVisible: false,
         keyword:'',
+        machine_group_id:[],
         remote_control_type:'',
-        machine_id:'',
+        machine_id:[],
         currentpage: 1,
         pagesize: 10,
         pagetotal: null,
         tableData: [
         ],
+        machine_idx:'',
         multipleSelection: [],
         options: [],
-        value: ''
+        machine_group_id: ''
       };
     },
 
@@ -206,11 +208,25 @@
         this.machine_name=row.name;
         // this.templateSelection = row;
       },
+      creat(){
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`,{
+            token:this.$store.state.token,
+            type:this.remote_control_type,
+            machine_id:this.machine_idx
+          }).then(res=>{
+            if(res.data.ret==0){
+              this.$message({
+                message: res.data.msg,
+                type: 'success'
+              });
+            }
+          })
+      },
       apply(){
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`,{
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editGroup`,{
           token:this.$store.state.token,
-          type:this.remote_control_type,
-          machine_id:this.machine_id
+          machine_id:this.machine_id,
+          machine_group_id:this.machine_group_id,
         }).then(res=>{
           console.log(res)
           if(res.data.ret==0){
@@ -218,9 +234,14 @@
               message: res.data.msg,
               type: 'success'
             });
-          this.centerDialogVisible=false;
-          }
 
+          }else{
+            this.$message({
+              message: res.data.msg,
+              type: 'warn'
+            });
+          }
+          this.centerDialogVisible=false;
         })
 
       },
@@ -265,33 +286,22 @@
       },
       alledit(num){
         // console.log(this.centerDialogVisible)
+        console.log(this.multipleSelection)
+        var a=[];
+        this.multipleSelection.forEach(item=>{
+          a.push(`${item.name}</br>`)
+          this.machine_id.push(item.machine_id);
+        })
+        this.machine_name=a.join('') ;
         this.centerDialogVisible=true;
-        // let userid_arr=[];
-        // this.multipleSelection.forEach(item=>{
-        //   userid_arr.push(item.atm_user_id)
-        // })
-        // this.$axios({
-        //   method: 'post',
-        //   url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
-        //   data: {
-        //     token:this.$store.state.token,
-        //     atm_user_id: userid_arr,
-        //     status:num,
-        //   }
-        // }).then(res => {
-        //   console.log(res);
-        //   if(res.data.ret==0){
-        //     this.changepage(this.currentpage, this.pagesize);
-        //   }
-        // });
       },
       handleEdit(index, row) {
         // console.log(index, row);
-        this.$routerto('machines_add',{machine_id:row.machine_id})
+        this.$routerto('machines_edit',{machine_id:row.machine_id})
       },
       handleDelete(index, row) {
         console.log(row)
-        this.machine_id=row.machine_id;
+        this.machine_idx=row.machine_id;
         this.machine_name = row.name;
         this.DialogVisible=true;
         // console.log(this.currentpage, this.pagesize)

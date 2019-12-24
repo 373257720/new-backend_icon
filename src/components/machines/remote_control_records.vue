@@ -142,6 +142,7 @@
         this.beforedelete(userid_arr);
       },
       handleDelete(index, row) {
+        console.log(row)
         this.beforedelete(row.machine_operate_id);
       },
       beforedelete(param){

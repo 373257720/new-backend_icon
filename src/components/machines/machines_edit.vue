@@ -3,23 +3,22 @@
     <header><h2>
       <span>Machines</span>
       <i class="el-icon-arrow-right"></i>
-      <span>Add</span>
+      <span>Edit</span>
     </h2>
     </header>
     <main>
-<!--        <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">-->
-<!--          <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>-->
-<!--          <el-tab-pane label="CryptoGo" name="first"></el-tab-pane>-->
-<!--          <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>-->
-<!--          <el-tab-pane label="Operator" name="third"></el-tab-pane>-->
-<!--          <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>-->
-<!--        </el-tabs>-->
-      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
-        <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>
-        <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>
-        <el-tab-pane label="Operator" name="third"></el-tab-pane>
-        <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>
-      </el-tabs>
+        <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
+          <el-tab-pane label="CryptoGo" name="first"></el-tab-pane>
+          <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>
+          <el-tab-pane label="Operator" name="third"></el-tab-pane>
+          <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>
+        </el-tabs>
+<!--      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">-->
+<!--        <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>-->
+<!--        <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>-->
+<!--        <el-tab-pane label="Operator" name="third"></el-tab-pane>-->
+<!--        <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>-->
+<!--      </el-tabs>-->
 <!--      <el-steps :active="0" finish-status="wait" simple >-->
 <!--        <el-step title="CryptoGo"  icon="el-icon-info" ><i slot="icon">1</i></el-step>-->
 <!--        <el-step title="Price & Fee" icon="el-icon-info" ><i slot="icon">2</i></el-step>-->
@@ -46,16 +45,16 @@
     watch:{
       $route(to,from){
         switch(to.name) {
-          case 'add_1st':
+          case 'edit_1st':
             this.activeName='first';
             break;
-          case 'add_2nd':
+          case 'edit_2nd':
             this.activeName='second';
             break;
-          case  'add_3rd':
+          case  'edit_3rd':
             this.activeName='third';
             break;
-          case  'add_4th':
+          case  'edit_4th':
             this.activeName='fourth';
             break;
         }
@@ -64,16 +63,16 @@
     created() {
       if(this.$route.name){
         switch(this.$route.name) {
-          case 'add_1st':
+          case 'edit_1st':
             this.activeName='first';
             break;
-          case 'add_2nd':
+          case 'edit_2nd':
             this.activeName='second';
             break;
-          case  'add_3rd':
+          case  'edit_3rd':
             this.activeName='third';
             break;
-          case  'add_4th':
+          case  'edit_4th':
             this.activeName='fourth';
             break;
         }
@@ -95,16 +94,16 @@
       handleClick(tab, event) {
         // console.log(tab, event);
         if(tab.name=='first'){
-          this.$routerto('add_1st',{machine_id:this.$route.query.machine_id});
+          this.$routerto('edit_1st',{machine_id:this.$route.query.machine_id});
         }
         if(tab.name=='second'){
-          this.$routerto('add_2nd',{machine_id:this.$route.query.machine_id});
+          this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});
         };
         if(tab.name=='third'){
-          this.$routerto('add_3rd',{machine_id:this.$route.query.machine_id});
+          this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
         }
         if(tab.name=='fourth'){
-          this.$routerto('add_4th',{machine_id:this.$route.query.machine_id});
+          this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
         }
       }
       // fromchildren(data) {

@@ -9,7 +9,7 @@
     </header>
     <nav>
       <div class="nav_left">
-        <section @click="alldelete">Add</section>
+        <section @click="add">Add</section>
         <section @click="alldelete">Delete</section>
         <!--        <section @click="alledit(2)">Export</section>-->
       </div>
@@ -48,10 +48,11 @@
         </el-table-column>
         <el-table-column
           label="Applied Machine"
-          align="left">
-          <template slot-scope="scope">{{ scope.row.type}}</template>
+          show-overflow-tooltip
+          align="center">
+          <template slot-scope="scope">{{scope.row.machine_list}}</template>
         </el-table-column>
-        <el-table-column  align="left" label="Operation"  class-name="edit">
+        <el-table-column  align="center" label="Operation"  class-name="edit">
           <template slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">View & Edit</span>
           </template>
@@ -105,16 +106,18 @@
         this.changepage(this.currentpage, this.pagesize,this.keyword);
       },
       alldelete(){
-        console.log(this.multipleSelection)
         let userid_arr=[];
         this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.machine_operate_id)
+          userid_arr.push(item.machine_group_id)
         })
         this.beforedelete(userid_arr);
       },
+      add(){
+        this.$routerto('add_Group_Pattern')
+      },
       handleDelete(index, row) {
         console.log(row)
-        this.$routerto('machines_add',{type:'ADD',machine_group_id:row.machine_group_id})
+        this.$routerto('edit_Group_Pattern',{type:2,machine_group_id:row.machine_group_id})
         // this.beforedelete(row.machine_operate_id);
       },
       beforedelete(param){
@@ -123,9 +126,9 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/deleteMachineOperate`,{
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/deleteMachineGroup`,{
             token:this.$store.state.token,
-            machine_operate_id: param,
+            machine_group_id: param,
           })
             .then(res => {
               if(res.data.ret==0){
@@ -166,10 +169,25 @@
         })
           .then(res => {
             if(res.data.ret==0){
-              console.log(res.data.data.data)
+              // console.log(res.data.data.data)
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
+                // let a=[];
+                // console.log(item.machine_list)
+                if( Array.isArray(item.machine_list)){
+                    console.log(item.machine_list)
+                  item.machine_list=item.machine_list.map(item=>{
+                    return item.name
+                  })
+                  item.machine_list=item.machine_list.join(',');
+                  console.log(item.machine_list)
+                  // for(let i =0;i<item.machine_list.length;i++){
+                  //     a.push(item.machine_list[i].name)
+                  // }
+                }
+                // a=a.join(',');
+                // console.log(a)
                 // item.is_finish=this.successful[item.is_finish];
                 // item.is_tell=this.client[item.is_tell]
                 // item.type=this.type[item.type];

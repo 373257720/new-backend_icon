@@ -1,5 +1,5 @@
 <template>
-  <div class="add_second">
+  <div class="edit_second">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Currency:" prop="currency_id">
         <el-select v-model="ruleForm.currency_id" placeholder="">
@@ -21,12 +21,12 @@
         <el-input v-model="ruleForm.shortcut_money"></el-input>
       </el-form-item>
       <el-form-item  label="Cryptocurrency:" prop="name">
-        <el-radio-group v-model="ruleForm.is_buy_sell">
-          <el-radio :label="1">Buy</el-radio>
-          <el-radio :label="2">Sell</el-radio>
-          <el-radio :label="3">Both</el-radio>
-        </el-radio-group>
-      </el-form-item>
+          <el-radio-group v-model="ruleForm.is_buy_sell">
+            <el-radio :label="1">Buy</el-radio>
+            <el-radio :label="2">Sell</el-radio>
+            <el-radio :label="3">Both</el-radio>
+          </el-radio-group>
+    </el-form-item>
       <el-form-item  label="KYC Registration:" prop="region">
         <el-radio-group v-model="ruleForm.is_register">
           <el-radio :label="1">Yes</el-radio>
@@ -94,7 +94,7 @@
     </el-form>
     <section>
       <button @click="goback">BACK</button>
-      <button  @click="submitForm('ruleForm')">NEXT</button>
+      <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
   </div>
 </template>
@@ -194,46 +194,36 @@
         })
     },
     mounted() {
-      // for(var i in this.ruleForm){
-      //   if(this.MachineInfo.hasOwnProperty(i))
-      //     this.ruleForm[i]=this.MachineInfo[i]
-      // };
-    },
-    watch:{
-      ruleForm: {
-        handler(newValue, oldValue) {
-          // console.log(newValue)
-          this.$emit('getchildren',this.ruleForm)
-        },
-        deep: true
-      },
+        for(var i in this.ruleForm){
+          if(this.MachineInfo.hasOwnProperty(i))
+            this.ruleForm[i]=this.MachineInfo[i]
+        };
     },
     methods:{
-      toThousands(num) {
-        var num = (num || 0).toString(), result = '';
-        while (num.length > 3) {
-          result = ',' + num.slice(-3) + result;
-          num = num.slice(0, num.length - 3);
-        }
-        if (num) { result = num + result; }
-        console.log(result)
-        this.num=result
-      },
-      goback(){
+    toThousands(num) {
+    var num = (num || 0).toString(), result = '';
+    while (num.length > 3) {
+      result = ',' + num.slice(-3) + result;
+      num = num.slice(0, num.length - 3);
+    }
+    if (num) { result = num + result; }
+      console.log(result)
+    this.num=result
+  },
+  goback(){
         // this.$emit('sontodad', 2);
         this.$global.previous();
       },
       submitForm(){
         console.log(this.ruleForm);
-        this.$emit('getchildren','','third');
-        // this.ruleForm.token=this.$store.state.token;
-        // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
-        //   .then(res=>{
-        //     if(res.data.ret==0){
-        //       this.$emit('getchildren');
-        //       this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
-        //     }
-        //   })
+        this.ruleForm.token=this.$store.state.token;
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+          .then(res=>{
+            if(res.data.ret==0){
+              this.$emit('getchildren');
+              this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
+            }
+          })
       },
       appear3() {
         this.handleRemove(
@@ -288,7 +278,7 @@
 </script>
 
 <style lang='scss'>
-  .add_second{
+  .edit_second{
     .radioo{
       display: flex;
     }
@@ -304,7 +294,7 @@
       border-color:#2ABEE2;
     }
     .el-radio__input.is-checked+.el-radio__label{
-      color:#2ABEE2;
+     color:#2ABEE2;
     }
     .el-radio__input.is-checked .el-radio__inner::after{
       transform: rotate(45deg) scaleY(1);
