@@ -1,50 +1,19 @@
 <template>
-  <div class="transcation_lists">
+  <div class="report_lists">
     <header><h2>
-<!--      <span @click="$routerto('audit_log')">Audit Logs</span>-->
-<!--      <i class="el-icon-arrow-right"></i>-->
-      <span>Transactions</span>
+    <span @click="$routerto('audit_log')">Reports</span>
+<!--    <i class="el-icon-arrow-right"></i>-->
+<!--      <span>Cry</span>-->
     </h2>
     </header>
     <nav>
-        <div>
-          <section>
-            <span class="keyword">Keyword:</span>
-            <el-input
-              placeholder="Machine Name"
-              v-model="formdata.keyword"
-              clearable>
-            </el-input>
-          </section>
-          <section>
-            <span class="keyword">Status:</span>
-            <template>
-              <el-select v-model="formdata.Statu" placeholder="">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </template>
-          </section>
-        </div>
       <div>
         <section>
-          <span class="keyword">Transaction ID:</span>
-          <el-input
-            placeholder=""
-            v-model="formdata.TransactionID"
-            clearable>
-          </el-input>
-        </section>
-        <section>
-          <span class="keyword">Type:</span>
+          <span class="keyword">Machine:</span>
           <template>
-            <el-select v-model="formdata.Type" placeholder="">
+            <el-select v-model="formdata.machine_id" placeholder="">
               <el-option
-                v-for="item in options1"
+                v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -52,18 +21,8 @@
             </el-select>
           </template>
         </section>
-      </div>
-      <div>
         <section>
-          <span class="keyword">Location:</span>
-          <el-input
-            placeholder="Machine"
-            v-model="formdata.Location"
-            clearable>
-          </el-input>
-        </section>
-        <section>
-          <span class="keyword" >Time:</span>
+          <span class="keyword" >Transaction Date:</span>
           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
@@ -76,100 +35,70 @@
         </section>
       </div>
       <div>
+
+      </div>
+      <div>
         <p class="button">Search</p>
         <p class="button" @click="reset">Reset</p>
       </div>
     </nav>
-    <el-main>
+    <div style="width: 100%;height:300px;background: green"></div>
+    <el-main >
       <el-table
         :row-class-name="tabRowClassName"
         border
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
+        style="width: 100%">
         <el-table-column
-          label="Transaction ID"
+          label="Transaction Date"
           align="center"
           width="200"
         >
-          <template slot-scope="scope">{{ scope.row.trade_id}}</template>
+          <template slot-scope="scope">{{ scope.row.day}}</template>
         </el-table-column>
         <el-table-column
-          label="Machine"
+          label="Cash Inbox"
           align="center"
-          class-name="edit"
         >
           <template  slot-scope="scope">
-            <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.machine_name}}</span>
-          </template>
-        </el-table-column>
-<!--        <el-table-column-->
-<!--          align="center"-->
-<!--          label="Photo"-->
-<!--          prop="in_money_change"-->
-<!--          show-overflow-tooltip>-->
-<!--        </el-table-column>-->
-        <el-table-column
-          align="center"
-          label="Photo"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <el-popover
-              placement="right"
-              width="400"
-              trigger="click">
-              <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
-              <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
-            </el-popover>
+            <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.buy_money}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          prop="coin_status"
+          prop="Cash Outbox"
           align="center"
-          label="Status"
+          label="Cash Outbox"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="trade_type"
+          prop="fee"
           align="center"
-          label="Type"
+          label="Cumulative Revenve"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
+          prop="system_fee"
           align="center"
-          label="Cash"
-          show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.money}}{{scope.row.currency_name}}</template>
-        </el-table-column>
-        <el-table-column
-          prop="deal_coin_number"
-          align="center"
-          label="BTC"
+          label="CrytoGo Commision"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="pay_time"
+          prop="profit"
           align="center"
-          label="Transaction Date"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="country_name"
-          align="center"
-          label="Location"
+          label="Net profit"
           show-overflow-tooltip>
         </el-table-column>
       </el-table>
     </el-main>
 
-    <pagevue
-      :pagenum="pagetotal"
-      :currentpages="currentpage"
-      :pagesizes="pagesize"
-      v-on:fromchildren="fromchildren1"
-    ></pagevue>
+<!--    <pagevue-->
+<!--      :pagenum="pagetotal"-->
+<!--      :currentpages="currentpage"-->
+<!--      :pagesizes="pagesize"-->
+<!--      v-on:fromchildren="fromchildren1"-->
+<!--    ></pagevue>-->
   </div>
 </template>
 
@@ -179,56 +108,52 @@
       return {
         // centerDialogVisible: false,
         formdata:{
-          TransactionID:'',
-          keyword:'',
-          Statu:'',
-          Type:'',
-          Location:'',
+          machine_id:'',
           timerange:null,
         },
         currentpage: 1,
-        pagesize: 10,
+        pagesize: 5,
         pagetotal: null,
         tableData: [],
-        multipleSelection: [],
-        options: [{
-          value: '1',
-          label: 'Success',
-        }, {
-          value: '2',
-          label: 'Failed'
-        },
-          {
-          value: '3',
-          label: 'Cancelled'
-        }
-        ],
-        options1: [{
-          value: '1',
-          label: 'Buy',
-        }, {
-          value: '2',
-          label: 'Sell'
-        },
+        options: [
         ],
       };
     },
     created() {
-      this.searcher();
+
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
+        token:this.$store.state.token,
+        page:1,
+        size:10000,
+        keyword:'',
+      }).then(res=>{
+        if(res.data.ret==0){
+          this.formdata.machine_id=res.data.data.data[0].machine_id
+          res.data.data.data.forEach(item=>{
+            this.options.push({
+                value:item.machine_id,
+                label:item.name,
+            })
+          })
+          this.searcher();
+
+        }
+      })
+
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     methods: {
       reset(){
-          for(let key in this.formdata){
-            this.formdata[key]='';
-          }
+        for(let key in this.formdata){
+          this.formdata[key]='';
+        }
       },
       searcher(){
         this.currentpage=1;
         if(this.timerange==null){
-          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+          this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,'','');
         }else{
-          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+          this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,this.formdata.timerange[0],this.formdata.timerange[1]);
         }
       },
 
@@ -247,16 +172,14 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      changepage(currentpage, pagesize,keyword,starttime,endtime) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
+      changepage(currentpage, pagesize,machine_id,starttime,endtime) {
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsMachineOrder`,{
           token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
-          keyword:this.formdata.keyword,
           start_time:starttime,
-          end_time:this.endtime,
-          machine_id:this.formdata.keyword,
-          coin_status:this.formdata.Statu,
+          end_time:endtime,
+          machine_id:machine_id,
         })
           .then(res => {
             if(res.data.ret==0){
@@ -294,8 +217,9 @@
 </script>
 
 <style lang="scss">
-  .transcation_lists{
+  .report_lists{
     margin :0 0 0 50px;
+    width: 90%;
     .imgsize{
       width: 50px;
       height: 60px;
@@ -323,7 +247,6 @@
       /*background: red;*/
       /*border-color: red;*/
     }
-
     .el-table .warning-row{
       background:#EDF1F4;
     }
@@ -355,22 +278,22 @@
     }
     nav{
       display: flex;
-      height: 100px;
+      /*height: 60px;*/
       /*justify-content: space-between;*/
-      margin: 20px 0 0 0 ;
+      margin: 20px 0 20px 0 ;
       justify-content: space-between;
       padding: 0 50px 0 20px;
       >div{
         /*flex:1;*/
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        /*flex-direction: column;*/
+        /*justify-content: space-between;*/
         section{
           /*display: flex;*/
           display: flex;
           span{
             display: inline-block;
-            width: 120px;
+            /*width: 120px;*/
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -396,7 +319,7 @@
         p:nth-child(1){
           color:white;
           background:url(../../../static/add-disable.png) no-repeat;
-            /*margin-bottom:10px;*/
+          margin-right:20px;
         }
         p:nth-child(2){
           border: 1px solid #D1D1D1 ;

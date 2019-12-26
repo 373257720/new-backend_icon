@@ -60,7 +60,6 @@
               <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
               <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
             </el-popover>
-
           </template>
         </el-table-column>
         <el-table-column

@@ -7,71 +7,69 @@
       <div class="left_body">
         <el-menu
           :default-active="activeName"
-          @select="handleSelect"
+          active-text-color="#2ABEE2"
           @open="handleOpen"
           @close="handleClose"
           :unique-opened="true"
         >
-          <el-menu-item index="1"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
+          <el-menu-item index="/home/dashboard"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
             <i class="el-icon-setting"></i>
             <span slot="title">DASHBOARD</span>
           </el-menu-item>
-          <el-submenu index="2" :class="{active:isActive[1]}">
+
+          <el-submenu index="user" :class="{active:isActive[1]}">
             <template slot="title">
               <i class="el-icon-message"></i>USER
             </template>
-            <router-link to="/home/user/atm_support">
-              <el-menu-item index="/home/user/atm_support">ATM Technical Support</el-menu-item>
-            </router-link>
-            <router-link to="/home/user/customer_data">
-              <el-menu-item index="/home/user/customer_data">Customer Data</el-menu-item>
-            </router-link>
+              <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>
+              <el-menu-item  @click="routerto('/home/user/customer_data')" index="/home/user/customer_data">Customer Data</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="3" :class="{active:isActive[2]}">
+          <el-submenu index="machines" :class="{active:isActive[2]}">
             <template slot="title">
               <i class="el-icon-message"></i>MACHINES
             </template>
-<!--            <router-link to="/home/user/atm_support">-->
-              <el-menu-item @click="routerto('/home/machines')" index="/home/user/atm_support">MACHINES</el-menu-item>
+              <el-menu-item @click="routerto('/home/machines')" index="/home/machines/machines_lists">MACHINES</el-menu-item>
               <el-menu-item @click="routerto('/home/machines/group_pattern')" index="/home/machines/group_pattern">GROUP PATTERN</el-menu-item>
-<!--            </router-link>-->
           </el-submenu>
-
-<!--          <el-menu-item index="3"  :class="{active:isActive[2]}" @click="routerto('/home/machines')">-->
-<!--            <i class="el-icon-setting"></i>-->
-<!--            <span slot="title">MACHINES</span>-->
-<!--          </el-menu-item>-->
-
-          <el-menu-item index="4"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
+          <el-menu-item index="/home/transaction/transaction_lists"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
             <i class="el-icon-setting"></i>
             <span slot="title">TRANSACTIONS</span>
           </el-menu-item>
-          <el-menu-item index="5"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+          <el-menu-item index="setting"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
             <i class="el-icon-setting"></i>
             <span slot="title">WALLET</span>
           </el-menu-item>
-          <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-            <i class="el-icon-setting"></i>
-            <span slot="title">REPORTS</span>
-          </el-menu-item>
-          <el-menu-item index="7" :class="{active:isActive[4]}" @click="routerto('/home/compliance')">
+
+          <el-submenu index="report" :class="{active:isActive[1]}">
+            <template slot="title">
+              <i class="el-icon-message"></i>REPORT
+            </template>
+            <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/report')">
+              <i class="el-icon-setting"></i>
+              <span slot="title">REPORTS</span>
+            </el-menu-item>
+<!--            <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>-->
+<!--            <el-menu-item  @click="routerto('/home/user/customer_data')" index="/home/user/customer_data">Customer Data</el-menu-item>-->
+          </el-submenu>
+          <el-menu-item index="compliance" :class="{active:isActive[4]}" @click="routerto('/home/compliance')">
             <i class="el-icon-setting"></i>
             <span slot="title">COMPLIANCE</span>
           </el-menu-item>
-          <el-menu-item index="8"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+          <el-menu-item index="/home/setting/setting_list"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
             <i class="el-icon-setting"></i>
             <span slot="title">SETTING</span>
           </el-menu-item>
-          <el-menu-item index="9" :class="{active:isActive[4]}" @click="routerto('/home/alerts')">
+          <el-menu-item index="/home/alerts/alerts_lists" :class="{active:isActive[4]}" @click="routerto('/home/alerts')">
             <i class="el-icon-setting"></i>
             <span slot="title">ALERTS</span>
           </el-menu-item>
-          <el-menu-item index="10" :class="{active:isActive[3]}"  @click="routerto('/home/audit_log')">
+          <el-menu-item index="/home/audit_log/setting_edit_lists" :class="{active:isActive[3]}"  @click="routerto('/home/audit_log')">
             <i class="el-icon-setting"></i>
             <span slot="title">AUDIT LOG</span>
           </el-menu-item>
         </el-menu>
+
       </div>
 
 
@@ -110,19 +108,30 @@ export default {
     let href = window.location.href;
     // this.activeName = href.split("/#")[1];
   },
-  mounted() {},
+
+
+
+  beforeMount() {
+    this.getActiveNav();
+  },
   methods: {
+    getActiveNav() {
+      let currentUrl = window.location.href;
+      this.NavActive = currentUrl.split('#')[1].replace("/","");
+      this.NavActive =this.NavActive.split('/')
+      console.log(this.NavActive)
+    },
     routerto(num){
       this.$router.push({path:num})
     },
-    handleSelect(key, keyPath) {
-      // console.log(key, keyPath);
-      // for(var i in this.isActive){
-      //   this.isActive[i]=false;
-      // }
-      // this.isActive[key]=true;
-
-    },
+    // handleSelect(key, keyPath) {
+    //   // console.log(key, keyPath);
+    //   // for(var i in this.isActive){
+    //   //   this.isActive[i]=false;
+    //   // }
+    //   // this.isActive[key]=true;
+    //
+    // },
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
       // let arr = document.querySelector(".el-menu").children;
@@ -147,7 +156,10 @@ export default {
       const first = matched[0];
       this.levelList = matched;
     },
-    aactiveName() {}
+    handleSelect(index) {
+      this.activeName = index;
+      console.log(this.activeName)
+    },
   },
   mounted() {
     this.getBreadcrumb();
@@ -155,18 +167,25 @@ export default {
     // console.log(document.querySelector('.maincontent'));
   },
   watch: {
-    $route(to, from) {
-      if (to.path) {
-        this.activeName = to.path;
-        var str = to.path;
-        // console.log(index);
-
-        // str = str.substring(index + 1, str.length);
-
-        // alert(str);
-      }
-      this.getBreadcrumb();
-    }
+    $route(index) {
+      // console.log(index.path);
+      // let path = index.path.substr(1);
+      // console.log(path)
+      // path =path.split('/');
+      // this.handleSelect(index.path);
+    },
+    // $route(to, from) {
+    //   if (to.path) {
+    //     this.activeName = to.path;
+    //     var str = to.path;
+    //     // console.log(index);
+    //
+    //     // str = str.substring(index + 1, str.length);
+    //
+    //     // alert(str);
+    //   }
+    //   this.getBreadcrumb();
+    // }
   }
 };
 </script>

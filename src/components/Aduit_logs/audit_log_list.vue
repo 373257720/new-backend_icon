@@ -26,8 +26,9 @@
         </el-table-column>
         <el-table-column  align="center"  class-name="edit" width="350">
           <template slot-scope="scope">
+<!--            <span>{{}}</span>-->
             <span   @click="view(scope.$index, scope.row)">View</span>
-            <span  @click="handleDelete(scope.$index, scope.row)">Export To Excel</span>
+            <span  v-if="scope.$index==1" @click="handleDelete(scope.$index, scope.row)">Export To Excel</span>
           </template>
         </el-table-column>
       </el-table>
@@ -36,7 +37,7 @@
   </div>
 </template>
 
-<script>
+<script >
   export default {
     data() {
       return {
@@ -48,13 +49,14 @@
         pagetotal: null,
         tableData: [
           {
-            address: "Machine Connect Status",
-            pic:'../../../static/Machine Connect Status.png'
-          },
-          {
             address: "Cashbox Logs",
             pic:'../../../static/Cashbox Logs.png'
           },
+          {
+            address: "Machine Connect Status",
+            pic:'../../../static/Machine Connect Status.png'
+          },
+
           {
             address: "Error Logs",
             pic:'../../../static/Error Logs.png'

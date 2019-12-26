@@ -4,12 +4,12 @@
       <div class="top">
         <aside ></aside>
         <article >
-           <header >MACHINE INFORMATION<span>SEE ALL</span></header>
+           <header ><span>Recent translations</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
-            <el-table     :row-class-name="tableRowClassName"  max-height="500" :data="tableData" border style="width:100%;">
-              <el-table-column fixed prop="date" label="Transa tion ID" align="center"></el-table-column>
-              <el-table-column prop="name" label="Type" align="center"></el-table-column>
-              <el-table-column prop="city" label="Days" align="center"></el-table-column>
+            <el-table  max-height="100%" :row-class-name="tableRowClassName"   :data="order_infors" border style="width:100%;">
+              <el-table-column  prop="trade_id"  label="Transation ID" align="center"></el-table-column>
+              <el-table-column prop="coin_status" label="Type" align="center"></el-table-column>
+              <el-table-column prop="create_time" label="Days" align="center"></el-table-column>
             </el-table>
           </el-main>
         </article>
@@ -18,22 +18,46 @@
           <header>MACHINE INFORMATION</header>
           <main>
             <el-main>
-              <el-table :row-style="rowClass"  stripe  :data="tableData" border style="width:100%;">
-                <el-table-column fixed prop="date" label="Machine Information" align="center"></el-table-column>
-                <el-table-column prop="name" label="ATM Address" align="center"></el-table-column>
-                <el-table-column prop="projectCompany" label="Dispenser" align="center"></el-table-column>
-                <el-table-column prop="signstatus" label="Cashbox" align="center"></el-table-column>
-                <el-table-column label="操作" align="center">
+              <el-table
+                :row-class-name="tabRowClassName"
+                border
+                ref="multipleTable"
+                :data="machine_infor"
+                tooltip-effect="dark"
+                style="width: 100%">
+                <el-table-column
+                  label="Machine"
+                  align="center"
+                  class-name="edit"
+                >
+                  <template slot-scope="scope"  class="edit">
+                    <span  @click="handleEdit(scope.$index, scope.row)"> {{ scope.row.name}}</span>
+
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="address"
+                  align="center"
+                  label="ATM Address"
+                  show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                  prop="incashbox_money"
+                  align="center"
+                  label="Inbox Cash"
+                  show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                  prop="out_support_money"
+                  align="center"
+                  label="Outbox Cash"
+                  show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
                   <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                    <el-button
-                      @click="deleterow(scope.row)"
-                      type="text"
-                      prop="projectLifeCycle"
-                      v-if="scope.row.projectLifeCycle===0"
-                      size="small"
-                    >删除</el-button>
-                    <el-button type="text" size="small">删除</el-button>
+                    <span  @click="handleDelete(scope.$index, scope.row)">Transactions</span>
+                    <span class="left"  @click="handleEdit(scope.$index, scope.row)">Setting</span>
+
                   </template>
                 </el-table-column>
               </el-table>
@@ -66,42 +90,9 @@ export default {
       value: "", //项目状态
       // searchkey: "",
       currentpage: 1,
-      pagesize: 6,
+      pagesize: 10,
       pagetotal: null,
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
-        }
-      ],
+      machine_infor: [],
       options: [
         {
           value: -1,
@@ -124,17 +115,65 @@ export default {
           label: "项目方拒绝签约"
         }
       ],
-      // tableData: []
+      order_infors: [],
+      // 打币状态1未支付2已支付3部分支付4取消交易5正在交易',
+      coin_status:{
+        '1':'Unpaid',
+        '2':'Paid',
+        '3':'',
+        '4':'canceled',
+        '5':'pending',
+      }
     };
   },
   created() {
+    this.order_infor();
+    this.MACHINE_INFORMATION();
     // this.search(this.value, null, null, this.currentpage, this.pagesize);
   },
   methods: {
+    handleEdit(index, row) {
+      console.log(index, row);
 
-    rowClass (row, index) {
-      // console.log(woshijinsinsianj)
-      return { "background-color": "red" }
+      console.log(row)
+    this.$routerto('machines_edit',{machine_id:row.machine_id})
+    },
+    order_infor(){
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
+        token:this.$store.state.token,
+        page:1,
+        size:5,
+      }).then(res=>{
+        if(res.data.ret==0){
+          this.order_infors=[...res.data.data.data];
+          this.order_infors.forEach(item=>{
+            item.coin_status= this.coin_status[item.coin_status]
+            item.create_time=this.$global.timestampToTime(item.create_time);
+          })
+        }
+      })
+    },
+    MACHINE_INFORMATION(){
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
+        token:this.$store.state.token,
+        page:this.currentpage,
+        size:this.pagesize,
+        keyword:"",
+      }).then(res=>{
+            if(res.data.ret==0){
+              // console.log(res.data.data)
+              this.pagetotal=res.data.data.total;
+             this.machine_infor=[...res.data.data.data];
+              console.log(this.machine_infor)
+            }
+      })
+    },
+
+    tabRowClassName({row,rowIndex}){
+      let index = rowIndex;
+      if(index %2 == 0){
+        return 'warning-row'
+      }
     },
 
     tableRowClassName({row, rowIndex}) {
@@ -287,19 +326,49 @@ export default {
         width: 50%;
         height: 100%;
         border: 1px solid blue;
+        box-sizing: border-box;
         /*background: blue;*/
       }
       article {
         width: 40%;
         height: 100%;
-
+        display: flex;
+        flex-direction: column;
+        header{
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          span:nth-of-type(1){
+            margin-right: 15px;
+            /*font-weight: 600;*/
+          }
+          span:nth-of-type(2){
+            display: inline-block;
+            width: 130px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 5px;            color: white;
+            background:url(../../static/add-disable.png) no-repeat;
+            cursor: pointer;
+            background-size: cover;
+          }
+        }
+        .el-main{
+          flex:1;
+        }
         /*background: green;*/
 
         /*.warning-row {*/
         /*  background: rgb(236, 145, 145);*/
         /*}*/
         .success-row {
-          background: #f0f9eb;
+          background:#EDF1F4;
+          overflow: hidden;
+
+        }
+        .el-table__row{
+          /*height: 20%;*/
         }
 
         /*.el-table__body tr:hover>td{*/
@@ -329,12 +398,29 @@ export default {
         margin-bottom: 20px;
       }
       main {
-        height: 180px;
+        /*height: 180px;*/
         width: 100%;
         // background: green;
       }
-      .warning-row {
-        background: rgb(236, 145, 145);
+      .edit{
+      >div{
+        display: flex;
+        flex-direction: column;
+
+      }
+        span{
+          color: #2ABEE2;
+          text-decoration:underline;
+          cursor: pointer;
+        }
+        span.left{
+          /*margin-right: 20px;*/
+        }
+
+
+      }
+       .warning-row{
+        background:#EDF1F4;
       }
       .success-row {
         background: #f0f9eb;
@@ -346,12 +432,12 @@ export default {
 </style>
 <style>
    .hover-row{
-         background-color: #c6cfdf !important;
+         /*background-color: #c6cfdf !important;*/
         }
    .success-row{
-    background: red !important;
+    /*background: red !important;*/
   }
   .el-table__body tr.hover-row:hover>td{
-    background-color: none !important;
+    /*background-color: none !important;*/
 }
 </style>

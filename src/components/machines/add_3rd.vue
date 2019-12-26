@@ -19,7 +19,7 @@
 </template>
 <script>
   export default {
-    props:["MachineInfo"],
+    props:["tochind"],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -90,10 +90,17 @@
       },
     },
     mounted() {
-      // for(var i in this.ruleForm){
-      //   if(this.MachineInfo.hasOwnProperty(i))
-      //     this.ruleForm[i]=this.MachineInfo[i]
-      // };
+      if(this.$route.query.type==2){
+        // console.log(this.tochind)
+        for(let i in this.ruleForm){
+          if(this.tochind.hasOwnProperty(i)){
+            this.ruleForm[i]=this.tochind[i]
+            // console.log(this.tochind)
+          }
+
+        }
+
+      }
     },
     methods:{
       submitForm(){

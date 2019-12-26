@@ -89,7 +89,7 @@
 </template>
 <script>
   export default {
-    props:["tochind"],
+    props:["tochind","submitfordata"],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -122,7 +122,7 @@
         logo2_picture:'',
         advertisement_picture:'',
         ruleForm:{
-          machine_id:'',
+          // machine_id:'',
           background_picture_id:'',
           logo_picture_id:'',
           logo2_picture_id:'',
@@ -178,34 +178,46 @@
       },
     },
     mounted() {
+      if(this.$route.query.type==2){
+        // console.log(this.tochind)
+        for(let i in this.ruleForm){
+          if(this.tochind.hasOwnProperty(i)){
+            this.ruleForm[i]=this.tochind[i]
+          }
+
+        }
+          if(this.tochind.background_picture!=null){
+            this.choose(".background_picture .el-upload--picture-card");
+            this.fileList.push({name: 'background_picture', url:this.$baseurl+this.tochind.background_picture})
+          }
+          if(this.tochind.logo_picture!=null){
+            this.choose(".logo_picture .el-upload--picture-card");
+            this.fileList2.push({name: 'logo_picture', url:this.$baseurl+this.tochind.logo_picture})
+          }
+          if(this.tochind.logo2_picture!=null){
+            this.choose(".logo2_picture .el-upload--picture-card");
+            this.fileList3.push({name: 'logo2_picture', url:this.$baseurl+this.tochind.logo2_picture})
+          }
+          if(this.tochind.advertisement_picture!=null){
+            this.choose(".advertisement_picture .el-upload--picture-card");
+            this.fileList4.push({name: 'advertisement_picture', url:this.$baseurl+this.tochind.advertisement_picture})
+          }
+
+      }
     //   for(var i in this.ruleForm){
     //     if(this.MachineInfo.hasOwnProperty(i))
     //       this.ruleForm[i]=this.MachineInfo[i]
     //   }
-    //   if(this.MachineInfo.background_picture!=null){
-    //     this.choose(".background_picture .el-upload--picture-card");
-    //     this.fileList.push({name: 'background_picture', url:this.$baseurl+this.MachineInfo.background_picture})
-    //   }
-    //   if(this.MachineInfo.logo_picture!=null){
-    //     this.choose(".logo_picture .el-upload--picture-card");
-    //     this.fileList2.push({name: 'logo_picture', url:this.$baseurl+this.MachineInfo.logo_picture})
-    //   }
-    //   if(this.MachineInfo.logo2_picture!=null){
-    //     this.choose(".logo2_picture .el-upload--picture-card");
-    //     this.fileList3.push({name: 'logo2_picture', url:this.$baseurl+this.MachineInfo.logo2_picture})
-    //   }
-    //   if(this.MachineInfo.advertisement_picture!=null){
-    //     this.choose(".advertisement_picture .el-upload--picture-card");
-    //     this.fileList4.push({name: 'advertisement_picture', url:this.$baseurl+this.MachineInfo.advertisement_picture})
-    //   }
+
     //
     },
     methods:{
       submitForm(){
         // this.ruleForm.token=this.$store.state.token;
         // this.$emit('getchildren',this.ruleForm);
-        console.log(this.tochind)
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/addMachineGroup`,this.tochind)
+        // console.log(this.ruleForm)
+        console.log(this.submitfordata)
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/editMachineGroup`,this.submitfordata)
           .then(res=>{
             if(res.data.ret==0){
               console.log(res)

@@ -16,6 +16,7 @@ import dashboard from '@/components/dashboard'
 // user
 import account_setting from '@/components/user/account_setting'
 import atm_support from '@/components/user/atm_support'
+import atm_supportlist from "../components/user/atm_supportlist";
 import user from '@/components/user/user'
 import customer_data from '@/components/user/customer_data'
 // machines
@@ -56,6 +57,9 @@ import  transaction_lists from '@/components/transaction/transaction_lists'
 import  transaction_details from "@/components/transaction/transaction_details"
 // complaince
 import  compliance from '@/components/compliance/compliance'
+
+import report from "../components/report/report";
+import report_lists from "../components/report/report_lists";
 // import verified_user from '@/components/userlist/verified_user'
 // import userroot from '@/components/userlist/verified_useroot'
 // import verified_usercheck from '@/components/userlist/verified_usercheck'
@@ -93,25 +97,31 @@ const routes = [{
       meta: {
         title: ''
       },
-      redirect: '/home/user/atm_support',
+        // redirect: '/home/user/atm_support',
       children: [
+        {
+          path: 'atm_support',
+          name: 'atm_support',
+          component: atm_support,
+          redirect: '/home/user/atm_support/atm_supportlist',
+          children:[
+            {
+              path: 'atm_supportlist',
+              name: 'atm_supportlist',
+              component: atm_supportlist,
+            },
+            {
+              path: 'account_setting',
+              name: 'account_setting',
+              component: account_setting
+            },
+          ]
+        },
         {
           path: 'customer_data',
           name: 'customer_data',
           component: customer_data
         },
-        {
-          path: 'atm_support',
-          name: 'atm_support',
-          component: atm_support,
-        },
-
-        {
-          path: 'account_setting',
-          name: 'account_setting',
-          component: account_setting
-        },
-
       ]
     },{
       path: 'setting',
@@ -301,7 +311,25 @@ const routes = [{
             component: alerts_details,
           },
         ]
-      }
+      },
+      { path: 'report',
+        name: 'report',
+        component: report,
+        redirect: '/home/report/report_lists',
+        children:[
+          {
+          path: 'report_lists',
+          name: 'report_lists',
+          component: report_lists,
+        },
+          // {
+          //   path: 'alerts_lists',
+          //   name: 'alerts_lists',
+          //   component: alerts_lists,
+          // },
+        ]
+      },
+
     ]
 
   },

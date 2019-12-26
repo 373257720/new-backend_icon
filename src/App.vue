@@ -58,6 +58,7 @@ export default {
       // commandialog:
     };
   },
+
   watch: {
     commandialog: function(neww, olld) {
       console.log(neww, olld);
@@ -81,6 +82,7 @@ export default {
     });
   },
   methods: {
+
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then(_ => {

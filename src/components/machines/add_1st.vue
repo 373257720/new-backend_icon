@@ -19,6 +19,7 @@
 </template>
 <script>
   export default {
+    props:['tochind'],
     data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -85,14 +86,15 @@
     },
     mounted() {
       if(this.$route.query.type==2){
-          for(var i in this.ruleForm){
-            if(this.MachineInfo.hasOwnProperty(i))
-              this.ruleForm[i]=this.MachineInfo[i]
+        // console.log(this.tochind)
+          for(let i in this.ruleForm){
+            if(this.tochind.hasOwnProperty(i)){
+              this.ruleForm[i]=this.tochind[i]
+              // console.log(this.tochind)
+            }
+
           }
-          if(this.MachineInfo.machine_picture!=null){
-            this.choose(".project_pic .el-upload--picture-card");
-            this.fileList.push({name: 'food.jpeg', url:this.$baseurl+this.MachineInfo.machine_picture})
-          }
+
       }
 
     },
@@ -152,55 +154,6 @@
         //     }
         //   })
       },
-      appear3() {
-        this.handleRemove(
-          ".project_pic .el-upload--picture-card",
-          ".project_pic .el-upload-list__item"
-        );
-        this.ruleForm.machine_picture_id='';
-      },
-      handleRemove(a, b) {
-        document.querySelector(a).style =
-          "position:absolute;bottom:0;display:block;";
-        document.querySelector(b).style = "display:none";
-      },
-      dispear3(file, fileList) {
-        this.choose(".project_pic .el-upload--picture-card");
-      },
-      choose(a) {
-        var b = document.querySelector(a);
-        b.style = "display:none;";
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      uploadFile(params) {
-        // console.log(params,index);formData
-        const _file = params.file;
-        // const isLt2M = _file.size / 1024 / 1024 < 2;
-        this.formData = new FormData();
-        this.formData.append("file", _file);
-        this.formData.append('picture_input', 'file')
-        this.formData.append('attach_dir', 'machine')
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/home/common.picture/upload.html`,
-          data: this.formData,
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-          .then(res => {
-            this.ruleForm.machine_picture_id=res.data.data.picture_id;
-            // if(res.data.data.picture_list.original){
-            //   this.machine_picture=res.data.data.picture_list.original;
-            // }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
     }
   }
 </script>

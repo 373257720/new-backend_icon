@@ -156,7 +156,7 @@
     created() {
       let axiosList = [
         this.$axios.get(`${this.$baseurl}/admin_api/content.country/getCountryList`,{
-     params:{ token:this.$store.state.token,lang:'en-us'}}),
+        params:{ token:this.$store.state.token,lang:'en-us'}}),
         this.$axios.get(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`, {
           params: {token: this.$store.state.token, page: 1, size: 10000,keyword:''},
         })

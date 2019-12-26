@@ -14,6 +14,10 @@
             <td class="column" v-if="keyword=='money' || keyword=='price' || keyword=='trade_price'">{{item.value+tabledata['currency_name'].value}}</td>
             <td class="column" v-else-if="keyword=='miner_fee'">{{'$'+tabledata['miner_fee'].miner_money+'/ ฿'+tabledata['miner_fee'].value}}</td>
             <td class="column" v-else-if="keyword=='fee'">{{item.value+'%'}}</td>
+            <td class="column" v-else-if="keyword=='redeem_code'">
+              <span> {{item.value}}</span>
+              <span class="edit">Send To customer</span>
+            </td>
             <td class="column" v-else>{{item.value}}</td>
 
           </tr>
@@ -52,6 +56,7 @@
           trade_price:{key: 'Purchase Price', value: ''},
           money:  {key: 'Cash', value: ''},
           coin_number:  {key: 'BTC', value: ''},
+          customer_coin_address:{key:'ATM Wallet Address',value:''},
           user_coin_address: {key: 'Buyer Wallet Address', value: ''},
           miner_fee: {key: 'Miner Fee', value: ''},
           fee:{key: 'Fee Rate', value: ''},
@@ -122,6 +127,11 @@
       color:#7A7A7A;
 
     }
+    .edit{
+      color: #2ABEE2;
+      text-decoration:underline;
+      cursor: pointer;
+    }
     .el-checkbox__inner{
       border-radius: 50%;
       /*background: ;*/
@@ -140,11 +150,8 @@
         color: #2ABEE2;
         text-decoration:underline;
         cursor: pointer;
+        margin-left: 15px;
       }
-      span.left{
-        margin-right: 20px;
-      }
-
     }
 
     .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
