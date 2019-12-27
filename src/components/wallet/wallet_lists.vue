@@ -1,73 +1,61 @@
 <template>
-  <div class="customer_data">
-    <header><h2>ATM TECHNICAL SUPPORT</h2></header>
+  <div class="wallet">
+    <header><h2>WALLET</h2></header>
     <nav>
-      <div>
-        <section @click="$routerto('account_setting',{type:1})">Add</section>
-        <section @click="alledit(1)">Enable</section>
-        <section @click="alledit(2)">Disable</section>
-      </div>
-      <div>
-        <span class="keyword">keyword:</span>
-        <el-input
-          placeholder="请输入内容"
-          v-model="keyword"
-          clearable>
-        </el-input>
-        <i @click="searcher"  class="el-icon-search"></i>
-      </div>
-
     </nav>
-    <el-main>
+    <el-main v-loading="pictLoading">
       <el-table
         :row-class-name="tabRowClassName"
         border
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange">
+        style="width: 100%">
         <el-table-column
-          type="selection"
+          label="Crypto Currency"
           align="center"
-          label="ID"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          label="ID"
-          align="center"
-          width="100"
         >
-          <template slot-scope="scope">{{ scope.row.atm_user_id}}</template>
+          <template slot-scope="scope">{{ scope.row.coin_type}}</template>
         </el-table-column>
         <el-table-column
-          prop="username"
+          label="Wallet dress"
+          align="center">
+          <template slot-scope="scope">{{ scope.row.address}}</template>
+        </el-table-column>
+        <el-table-column
+          prop="balance"
           align="center"
-          label="Account"
+          label="Account Balance"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="nickname"
           align="center"
-          label="Name"
+          prop="platform"
+          label="Hedge Platform"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="status"
+          prop="coin_number"
           align="center"
-          label="State"
+          label="Hedge Balance"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="create_time"
+          prop="interval_time"
           align="center"
-          label="Creat time"
+          label="Hedge Interval"
+          show-overflow-tooltip>
+        </el-table-column>
+
+        <el-table-column
+          prop="api_parameter "
+          align="center"
+          label="API Adress"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
           <template slot-scope="scope">
-            <span class="left"  @click="handleEdit(scope.$index, scope.row)">{{scope.row.status==1?'Disable':scope.row.status==2?'Enable':'Disable'}}</span>
-            <span  @click="handleDelete(scope.$index, scope.row)">Edit</span>
+            <span  @click="handleedit(scope.$index, scope.row)">Edit</span>
           </template>
         </el-table-column>
       </el-table>
@@ -87,6 +75,7 @@
     data() {
       return {
         // centerDialogVisible: false,
+        pictLoading:false,
         ischeck: false,
         keyword:'',
         currentpage: 1,
@@ -103,101 +92,35 @@
 
     },
     methods: {
-      searcher(){
-        this.changepage(this.currentpage, this.pagesize,this.keyword);
-      },
-      open() {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$axios
-            .post(
-              `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-              { params:{
-                  token: this.$store.state.token,
-                  user_id: currentpage,
-                  status:2
-                }
-              },
-              {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                }
-              }
-            ).then(res => {
-            console.log(res);
-            // if(res.data.ret==0){
-            //   this.pagetotal=res.data.data.total;
-            //   this.tableData=[...res.data.data.data];
-            //   // console.log(this.tableData)
-            // }
-          });
-          // this.$message({
-          //   type: 'success',
-          //   message: '删除成功!'
-          // });
-        }).catch(() => {
-
-        });
-      },
-      alledit(num){
-        console.log(this.multipleSelection)
-        let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.atm_user_id)
-        })
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
-          data: {
-            token:this.$store.state.token,
-            atm_user_id: userid_arr,
-            status:num,
-          }
-        }).then(res => {
-          console.log(res);
-          if(res.data.ret==0){
-            this.changepage(this.currentpage, this.pagesize);
-          }
-        });
-      },
-      handleEdit(index, row) {
+      handleedit(index, row) {
         console.log(index, row);
-        let tostatus;
-        if(row.status==1){
-          tostatus=2;
-        }else if(row.status==2){
-          tostatus=1;
-        }
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
-          data: {
-            token:this.$store.state.token,
-            atm_user_id: row.atm_user_id,
-            status: tostatus,
-          }
-        }).then(res => {
-          // console.log(res)
-          if(res.data.ret==0){
-            if(row.status==1){
-              this.tableData[index].status=2;
-            }else if(row.status==2){
-              this.tableData[index].status=1;
-            }
-
-          }
-        });
-
-
-      },
-      handleDelete(index, row) {
-
+        this.$routerto('wallet_edit',{coin_type:row.coin_type})
         // console.log(this.currentpage, this.pagesize)
-        this.$routerto('account_setting',{type:2,atm_user_id:row.atm_user_id})
-
+        // this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(() => {
+        //   this.$axios({
+        //     method: 'post',
+        //     url: `${this.$baseurl}/admin_api/user.front_user/deleteUser`,
+        //     data: {
+        //       token:this.$store.state.token,
+        //       user_id: row.user_id,
+        //     }
+        //   }).then(res => {
+        //     console.log(res);
+        //     if(res.data.ret==0){
+        //       this.changepage(this.currentpage, this.pagesize);
+        //       // this.$message({
+        //       //   type: 'success',
+        //       //   message: '删除成功!'
+        //       // });
+        //     }
+        //   });
+        // }).catch(() => {
+        //
+        // });
       },
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;
@@ -205,43 +128,20 @@
           return 'warning-row'
         }
       },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      changepage(currentpage, pagesize,keyword) {
-        this.$axios
-          .get(
-            `${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
-            { params:{
-                token: this.$store.state.token,
-                page: currentpage,
-                size:pagesize,
-                keyword:keyword,
-                lang:'en-us'
-              }
-            },
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              }
-            }
-          )
+      changepage(currentpage, pagesize) {
+        this.pictLoading=true;
+        this.$global.get_encapsulation( `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigList`,{
+          token: this.$store.state.token,
+                  page: currentpage,
+                  size:pagesize,
+        })
           .then(res => {
-
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
               console.log(this.tableData)
             }
+            this.pictLoading=false
           })
           .catch(error => {});
       },
@@ -271,7 +171,7 @@
 </script>
 
 <style lang="scss">
-  .customer_data{
+  .wallet{
     margin :0 0 0 50px;
     width: 90%;
     header{
@@ -332,6 +232,8 @@
       padding: 0 50px 0 20px;
       >div{
         display: flex;
+        /*width: 300px;*/
+        /*justify-content: space-between;*/
         section{
           cursor: pointer;
           width: 120px;

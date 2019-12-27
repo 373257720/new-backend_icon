@@ -223,6 +223,7 @@
 <style lang="scss">
   .remote_control_records{
     margin :0 0 0 50px;
+    width: 90%;
     header{
       position: relative;
       height: 136px;

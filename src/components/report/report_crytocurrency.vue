@@ -1,9 +1,9 @@
 <template>
-  <div class="report_lists">
+  <div class="report_crytocurrency">
     <header><h2>
-    <span @click="$routerto('audit_log')">Reports</span>
-<!--    <i class="el-icon-arrow-right"></i>-->
-<!--      <span>Cry</span>-->
+      <span @click="$routerto('audit_log')">Reports</span>
+          <i class="el-icon-arrow-right"></i>
+            <span>Crytocurrency</span>
     </h2>
     </header>
     <nav>
@@ -14,6 +14,19 @@
             <el-select v-model="formdata.machine_id" placeholder="">
               <el-option
                 v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </section>
+        <section>
+          <span class="keyword">Crytocurrency:</span>
+          <template>
+            <el-select v-model="formdata.coin_type" placeholder="">
+              <el-option
+                v-for="item in coin_type"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -42,62 +55,47 @@
         <p class="button" @click="reset">Reset</p>
       </div>
     </nav>
-    <div style="width: 100%;height:300px;background: green"></div>
     <el-main >
-      <el-table
-        :row-class-name="tabRowClassName"
-        border
-        ref="multipleTable"
-        :data="tableData"
-        :summary-method="getSummaries"
-        show-summary
-        tooltip-effect="dark"
-        style="width: 100%">
-        <el-table-column
-          label="Transaction Date"
-          align="center"
-          width="200"
-        >
-          <template slot-scope="scope">{{ scope.row.day}}</template>
-        </el-table-column>
-        <el-table-column
-          label="Cash Inbox"
-          prop="buy_money"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="Cash Outbox"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="fee"
-          align="center"
-          label="Cumulative Revenve"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="system_fee"
-          align="center"
-          label="CrytoGo Commision"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="profit"
-          align="center"
-          label="Net profit"
-          show-overflow-tooltip>
-        </el-table-column>
-      </el-table>
+      <div style="width: 60%;height: 600px;background: grey;"></div>
+      <div style="width: 38%;height: 600px;">
+              <el-table
+                :row-class-name="tabRowClassName"
+                border
+                ref="multipleTable"
+                :data="tableData"
+                :summary-method="getSummaries"
+                show-summary
+                tooltip-effect="dark"
+                style="width: 100%">
+                <el-table-column
+                  label="Transaction Date"
+                  align="center"
+                >
+                  <template slot-scope="scope">{{ scope.row.day}}</template>
+                </el-table-column>
+                <el-table-column
+                  prop="buy_money"
+                  align="center"
+                  label="Buy"
+                  show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                  prop="sell_money"
+                  align="center"
+                  label="Sell"
+                  show-overflow-tooltip>
+                </el-table-column>
+              </el-table>
+      </div>
+
     </el-main>
 
-    <pagevue
-      :pagenum="pagetotal"
-      :currentpages="currentpage"
-      :pagesizes="pagesize"
-      v-on:fromchildren="fromchildren1"
-    ></pagevue>
+<!--    <pagevue-->
+<!--      :pagenum="pagetotal"-->
+<!--      :currentpages="currentpage"-->
+<!--      :pagesizes="pagesize"-->
+<!--      v-on:fromchildren="fromchildren1"-->
+<!--    ></pagevue>-->
   </div>
 </template>
 
@@ -109,12 +107,23 @@
         formdata:{
           machine_id:'',
           timerange:null,
+          coin_type:'',
         },
         currentpage: 1,
         pagesize: 5,
         pagetotal: null,
         tableData: [],
         options: [
+        ],
+        coin_type:[
+          {
+            value:'bitcoin',
+            label:'bitcoin',
+          },
+          {
+            value:'ethereum',
+            label:'ethereum',
+          }
         ],
       };
     },
@@ -127,20 +136,17 @@
         keyword:'',
       }).then(res=>{
         if(res.data.ret==0){
-
           this.formdata.machine_id=res.data.data.data[0].machine_id
           res.data.data.data.forEach(item=>{
             this.options.push({
-                value:item.machine_id,
-                label:item.name,
+              value:item.machine_id,
+              label:item.name,
             })
           })
           this.searcher();
-
         }
       })
 
-      // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     methods: {
       getSummaries(param) {
@@ -203,13 +209,14 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,machine_id,starttime,endtime) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsMachineOrder`,{
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsCoinOrder`,{
           token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           start_time:starttime,
           end_time:endtime,
           machine_id:machine_id,
+          coin_type:'',
         })
           .then(res => {
             if(res.data.ret==0){
@@ -247,7 +254,7 @@
 </script>
 
 <style lang="scss">
-  .report_lists{
+  .report_crytocurrency{
     margin :0 0 0 50px;
     width: 90%;
     .imgsize{
@@ -312,7 +319,7 @@
       /*justify-content: space-between;*/
       margin: 20px 0 20px 0 ;
       justify-content: space-between;
-      padding: 0 50px 0 20px;
+      padding: 0 20px 0 20px;
       >div{
         /*flex:1;*/
         display: flex;
@@ -363,6 +370,9 @@
     }
     main{
       padding:20px 20px 20px 0;
+      display: flex;
+      justify-content: space-between;
+
       .el-table thead{
         color:black;
       }

@@ -11,61 +11,66 @@
           @open="handleOpen"
           @close="handleClose"
           :unique-opened="true"
+          @select='selectone'
         >
-          <el-menu-item index="/home/dashboard"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item :style="{ background: 'url(' + coverimg.dashboard + ')  no-repeat'}" index="dashboard"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
+            <i><img :src="color_icon.dashboard" alt=""></i>
             <span slot="title">DASHBOARD</span>
           </el-menu-item>
 
-          <el-submenu index="user" :class="{active:isActive[1]}">
+          <el-submenu :style="{ background: 'url(' + coverimg.user + ')  no-repeat'}" index="user" :class="{active:isActive[1]}">
             <template slot="title">
-              <i class="el-icon-message"></i>USER
+              <i><img :src="color_icon.user" alt=""></i>
+              <span>USER</span>
             </template>
               <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>
               <el-menu-item  @click="routerto('/home/user/customer_data')" index="/home/user/customer_data">Customer Data</el-menu-item>
           </el-submenu>
-
-          <el-submenu index="machines" :class="{active:isActive[2]}">
+          <el-submenu :style="{ background: 'url(' + coverimg.machines + ')  no-repeat'}" index="machines" :class="{active:isActive[2]}">
             <template slot="title">
-              <i class="el-icon-message"></i>MACHINES
+             <i><img :src="color_icon.machines" alt=""></i><span>MACHINES</span>
             </template>
               <el-menu-item @click="routerto('/home/machines')" index="/home/machines/machines_lists">MACHINES</el-menu-item>
               <el-menu-item @click="routerto('/home/machines/group_pattern')" index="/home/machines/group_pattern">GROUP PATTERN</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/home/transaction/transaction_lists"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item :style="{ background: 'url(' + coverimg.transaction + ')  no-repeat'}" index="transaction"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
+            <i><img :src="color_icon.transaction" alt=""></i>
             <span slot="title">TRANSACTIONS</span>
           </el-menu-item>
-          <el-menu-item index="setting"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item :style="{ background: 'url(' + coverimg.wallet + ')  no-repeat'}" index="wallet"  :class="{active:isActive[2]}" @click="routerto('/home/wallet')">
+            <i><img :src="color_icon.wallet" alt=""></i>
             <span slot="title">WALLET</span>
           </el-menu-item>
-
-          <el-submenu index="report" :class="{active:isActive[1]}">
+          <el-submenu index="report" :style="{ background: 'url(' + coverimg.report + ')  no-repeat'}" :class="{active:isActive[1]}">
             <template slot="title">
-              <i class="el-icon-message"></i>REPORT
+              <i><img :src="color_icon.report" alt=""></i>
+              <span slot="title">REPORT</span>
             </template>
             <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/report')">
               <i class="el-icon-setting"></i>
               <span slot="title">REPORTS</span>
             </el-menu-item>
+            <el-menu-item index="6"  :class="{active:isActive[2]}" @click="routerto('/home/report/report_crytocurrency')">
+              <i class="el-icon-setting"></i>
+              <span slot="title">CRYTOCURRENCY</span>
+            </el-menu-item>
 <!--            <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>-->
 <!--            <el-menu-item  @click="routerto('/home/user/customer_data')" index="/home/user/customer_data">Customer Data</el-menu-item>-->
           </el-submenu>
-          <el-menu-item index="compliance" :class="{active:isActive[4]}" @click="routerto('/home/compliance')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item :style="{ background: 'url(' + coverimg.compliance+ ')  no-repeat'}" index="compliance" :class="{active:isActive[4]}" @click="routerto('/home/compliance')">
+            <i><img :src="color_icon.compliance" alt=""></i>
             <span slot="title">COMPLIANCE</span>
           </el-menu-item>
-          <el-menu-item index="/home/setting/setting_list"  :class="{active:isActive[2]}" @click="routerto('/home/setting')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item index="setting" :style="{ background: 'url(' + coverimg.setting + ')  no-repeat'}" :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+            <i><img :src="color_icon.setting" alt=""></i>
             <span slot="title">SETTING</span>
           </el-menu-item>
-          <el-menu-item index="/home/alerts/alerts_lists" :class="{active:isActive[4]}" @click="routerto('/home/alerts')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item index="alerts" :style="{ background: 'url(' + coverimg.alerts+ ')  no-repeat'}" :class="{active:isActive[4]}" @click="routerto('/home/alerts')">
+            <i><img :src="color_icon.alerts" alt=""></i>
             <span slot="title">ALERTS</span>
           </el-menu-item>
-          <el-menu-item index="/home/audit_log/setting_edit_lists" :class="{active:isActive[3]}"  @click="routerto('/home/audit_log')">
-            <i class="el-icon-setting"></i>
+          <el-menu-item index="audit_log"  :style="{ background: 'url(' + coverimg.audit_log + ')  no-repeat'}" :class="{active:isActive[3]}"  @click="routerto('/home/audit_log')">
+            <i><img :src="color_icon.audit_log" alt=""></i>
             <span slot="title">AUDIT LOG</span>
           </el-menu-item>
         </el-menu>
@@ -75,7 +80,6 @@
 
 
     </el-aside>
-
     <!-- <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item v-for="(item)  in levelList" :key="item.path">
         <router-link :to="item.path ||item.redirect">{{item.meta.title}}</router-link>
@@ -92,9 +96,56 @@ import { log } from "util";
 export default {
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
+      coverimg:{
+        dashboard:'',
+        user:'',
+        machines:'',
+        transaction:'',
+        wallet:'',
+        report:'',
+        compliance:'',
+        setting:'',
+        alerts:'',
+        audit_log:'',
+      },
       levelList: null,
-      activeName: "/home/tosignup",
+      new_icon:{
+        dashboard:'../../static/dashborad1.png',
+        user:'../../static/user1.png',
+        machines:'../../static/machine1.png',
+        transaction:'../../static/tran1.png',
+        wallet:'../../static/wallet1.png',
+        report:'../../static/repo1.png',
+        compliance:'../../static/comp1.png',
+        setting:'../../static/setting2.png',
+        alerts:'../../static/alert1.png',
+        audit_log:'../../static/audit1.png',
+      },
+      color_icon:{
+        dashboard:'../../static/dashbor2.png',
+        user:'../../static/ren.png',
+        machines:'../../static/machine2.png',
+        transaction:'../../static/tran2.png',
+        wallet:'../../static/wallet2.png',
+        report:'../../static/repo2.png',
+        compliance:'../../static/comp2.png',
+        setting:'../../static/setting.png',
+        alerts:'../../static/alert2.png',
+        audit_log:'../../static/audit2.png',
+      },
+      original_icon:{
+        dashboard:'../../static/dashbor2.png',
+        user:'../../static/ren.png',
+        machines:'../../static/machine2.png',
+        transaction:'../../static/tran2.png',
+        wallet:'../../static/wallet2.png',
+        report:'../../static/repo2.png',
+        compliance:'../../static/comp2.png',
+        setting:'../../static/setting.png',
+        alerts:'../../static/alert2.png',
+        audit_log:'../../static/audit2.png',
+      },
+      activeName: "",
       isActive:{
         '1':false,
         '2':false,
@@ -112,9 +163,10 @@ export default {
 
 
   beforeMount() {
-    this.getActiveNav();
+    // this.getActiveNav();
   },
   methods: {
+
     getActiveNav() {
       let currentUrl = window.location.href;
       this.NavActive = currentUrl.split('#')[1].replace("/","");
@@ -132,15 +184,44 @@ export default {
     //   // this.isActive[key]=true;
     //
     // },
+    selectone(index, indexPath){
+      console.log( index, indexPath)
+      for(let key in this.coverimg){
+        this.coverimg[key]='';
+      }
+      for(let key in  this.color_icon ){
+        if(this.original_icon.hasOwnProperty(key)){
+          this.color_icon[key]=this.original_icon[key];
+        }
+      }
+      console.log(indexPath[0])
+
+      // if(indexPath[0]=='dashboard'){
+       this.color_icon[indexPath[0]]=this.new_icon[indexPath[0]];
+      console.log(this.color_icon[indexPath])
+        // this.coverimg[indexPath[0]]='../../static/col.png';
+    },
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
       // let arr = document.querySelector(".el-menu").children;
       // let b = (arr[key - 1].children[0].style.backgroundImage = "");
       // // arr[key - 1].children[0].style.backgroundRepeat = "no-repeat";
-      // console.log(b);
-    },
-    handleOpen(key, keyPath) {
-      // console.log(key, keyPath);
+// console.log(b);
+},
+    handleOpen(index, keyPath) {
+      console.log(index, keyPath);
+      // if(index='user'){
+      //   for(let key in this.coverimg){
+      //     this.coverimg[key]='';
+      //   }
+      //   for(let key in  this.color_icon ){
+      //     if(this.original_icon.hasOwnProperty(key)){
+      //       this.color_icon[key]=this.original_icon[key];
+      //     }
+      //   }
+      //   this.color_icon[index]='../../static/user1.png';
+      //   this.coverimg[index]='../../static/col.png';
+      // }
       // for(var i in this.isActive){
       //   this.isActive[i]=false;
       // }
@@ -194,6 +275,12 @@ export default {
   .is-opened {
     margin: 0;
   }
+  /*.el-menu-item:focus, .el-menu-item:hover{*/
+  /*  background: none;*/
+  /*}*/
+  /*.el-submenu__title:hover {*/
+  /*  background:none;*/
+  /*}*/
   .el-submenu {
     margin: 0;
 
@@ -201,6 +288,24 @@ export default {
   }
   .el-menu {
     border: 0;
+    .el-submenu__title,.el-menu-item{
+      display: flex;
+      i{
+        /*align-items: center;*/
+        display: flex;
+        align-items: center;
+        img{
+          /*vert-align: middle;*/
+          height: 16px;
+          width: 16px;
+          margin-right: 10px;
+        }
+      }
+
+    }
+
+
+
   }
   .tac {
     overflow-y: scroll;

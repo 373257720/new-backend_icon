@@ -1,29 +1,41 @@
 <template>
-  <div class="account">
+  <div class="wallet_edit">
     <header><h2>
-      <span>Account Setting</span>
-<!--      <i class="el-icon-arrow-right"></i>-->
-<!--      <span>{{title}}</span>-->
+      <span>Wallet Setting</span>
+      <i class="el-icon-arrow-right"></i>
+      <span>Edit</span>
     </h2>
     </header>
+
     <main>
+      <nav>
+        <span>Cryto Currency:</span><span>bitcon</span>
+      </nav>
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item  label="Nickname:(please enter a new nickname)" prop="username">
-          <el-input  v-model="ruleForm.username" clearable autocomplete="off"></el-input>
+        <el-form-item label="Hedge Platform" prop="region">
+          <el-select v-model="ruleForm.machine_group_id" placeholder="">
+            <el-option
+              v-for="item in groupList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item  label="Original password" prop="password">
+        <el-form-item  label="Hedge Balance" prop="password">
           <el-input type="password" v-model="ruleForm.password" show-password clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="New password:" prop="nickname" >
+        <el-form-item label="Hedge Interval" prop="nickname" >
           <el-input v-model.number="ruleForm.nickname" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Confirm new password:" prop="repassword">
-        <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
-      </el-form-item>
+        <el-form-item label="API Adress" prop="repassword">
+          <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
+        </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('atm_support')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
 
       </section>
     </main>
@@ -193,7 +205,7 @@
 </script>
 
 <style lang='scss'>
-  .account{
+  .wallet_edit{
     margin :0 0 0 50px;
     width: 90%;
     header{
@@ -227,8 +239,8 @@
           border-radius: 5px;
 
         }
-        button:nth-of-type(1){
-          background:url("../../static/savechange.png") no-repeat;
+        button:nth-of-type(2){
+          background:url("../../../static/savechange.png") no-repeat;
           background-size: cover;
         }
       }

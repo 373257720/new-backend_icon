@@ -14,36 +14,6 @@
 
     </nav>
     <el-main>
-<!--      <el-table-->
-<!--        ref="multipleTable"-->
-<!--        :data="tableData"-->
-<!--        tooltip-effect="dark"-->
-<!--        style="width: 100%"-->
-<!--        @selection-change="handleSelectionChange">-->
-
-<!--        <el-table-column-->
-<!--          label="Type"-->
-<!--          align="center"-->
-<!--         >-->
-<!--          <template slot-scope="scope">{{ scope.row.date }}</template>-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          prop="address"-->
-<!--          align="center"-->
-<!--          label="Content"-->
-<!--          show-overflow-tooltip>-->
-<!--        </el-table-column>-->
-<!--        <el-table-column  align="center" label="Operation">-->
-<!--          <template slot-scope="scope">-->
-<!--            <el-button-->
-<!--              size="mini"-->
-<!--              type="danger"-->
-<!--              @click="handleDelete(scope.$index, scope.row)">Edit</el-button>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-
-
       <el-table ref="multipleTable" border :span-method="objectSpanMethod" :cell-class-name="tableRowClassName"
                 @cell-mouse-leave="cellMouseLeave"  @cell-mouse-enter="cellMouseEnter" :data="tableData" style="width:100%;margin:0 auto;">
         <el-table-column label="Type" align="center">
@@ -58,12 +28,8 @@
         </el-table-column>
         <el-table-column prop="updateTime" label="Operation" align="center">
           <template slot-scope="scope">
-<!--            <span  @click="handleDelete(scope.$index, scope.row)">Edit</span>-->
-                        <el-button
-                          size="mini"
-                          @click="handleDelete(scope.$index, scope.row)">Edit</el-button>
+            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">Edit</el-button>
           </template>
-
         </el-table-column>
 
       </el-table>
@@ -92,10 +58,12 @@
           },{
             productType: "Coin & Price",
             productName: 'Transaction Time',
-          },{
-            productType: "Coin & Price",
-            productName: 'Transaction Price & Fee',
-          },{
+          },
+          // {
+          //   productType: "Coin & Price",
+          //   productName: 'Transaction Price & Fee',
+          // },
+          {
             productType: "Receipts",
             productName: 'Website , E-mail , Contact Number',
           },
@@ -113,10 +81,11 @@
           {
             productType: "Advanced Setting",
             productName: 'Bitgo',
-          },{
-            productType:"Advanced Setting",
-            productName: 'Machine Configuration',
           },
+          // {
+          //   productType:"Advanced Setting",
+          //   productName: 'Machine Configuration',
+          // },
         ],
         rowIndex: '-1',
         OrderIndexArr: [],
@@ -279,6 +248,7 @@
 <style lang="scss">
   .Setting{
     margin :0 0 0 50px;
+    width: 90%;
     header{
       position: relative;
       height: 136px;

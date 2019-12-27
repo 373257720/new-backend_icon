@@ -126,6 +126,7 @@
   .alerts_lists{
     /*width: 100%;*/
     margin :0 0 0 50px;
+    width: 90%;
     header{
       position: relative;
       height: 136px;

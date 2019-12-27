@@ -9,6 +9,7 @@ const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 };
+
 // account
 import  account from '@/components/account'
 // dashboard
@@ -57,9 +58,14 @@ import  transaction_lists from '@/components/transaction/transaction_lists'
 import  transaction_details from "@/components/transaction/transaction_details"
 // complaince
 import  compliance from '@/components/compliance/compliance'
-
+// report
 import report from "../components/report/report";
 import report_lists from "../components/report/report_lists";
+import report_crytocurrency from "../components/report/report_crytocurrency";
+// wallet
+import wallet from "../components/wallet/wallet";
+import wallet_lists from "../components/wallet/wallet_lists";
+import wallet_edit from "../components/wallet/wallet_edit";
 // import verified_user from '@/components/userlist/verified_user'
 // import userroot from '@/components/userlist/verified_useroot'
 // import verified_usercheck from '@/components/userlist/verified_usercheck'
@@ -277,6 +283,25 @@ const routes = [{
         },
       },
       {
+        path: 'wallet',
+        name: 'wallet',
+        component:wallet,
+        meta: {
+          title: ''
+        },
+        redirect: '/home/wallet/wallet_lists',
+        children:[   {
+          path: 'wallet_lists',
+          name: 'wallet_lists',
+          component: wallet_lists,
+        },  {
+          path: 'wallet_edit',
+          name: 'wallet_edit',
+          component: wallet_edit,
+        },
+        ]
+      },
+      {
         path: 'dashboard',
         name: 'dashboard',
         component: dashboard,
@@ -322,11 +347,11 @@ const routes = [{
           name: 'report_lists',
           component: report_lists,
         },
-          // {
-          //   path: 'alerts_lists',
-          //   name: 'alerts_lists',
-          //   component: alerts_lists,
-          // },
+          {
+            path: 'report_crytocurrency',
+            name: 'report_crytocurrency',
+            component: report_crytocurrency,
+          },
         ]
       },
 

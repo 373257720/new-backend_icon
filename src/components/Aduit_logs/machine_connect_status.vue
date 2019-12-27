@@ -230,6 +230,7 @@
 <style lang="scss">
   .machine_connect{
     margin :0 0 0 50px;
+    width: 90%;
     header{
       position: relative;
       height: 136px;

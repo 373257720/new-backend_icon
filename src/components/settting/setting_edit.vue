@@ -1,7 +1,7 @@
 <template>
   <div class="setting_edit">
     <header><h2>
-      <span>SETTING</span>
+      <span>Setting</span>
       <i class="el-icon-arrow-right"></i>
       <span>{{title}}</span>
     </h2>
@@ -42,7 +42,7 @@
         <button @click="$routerto('setting')">Cancel</button>
       </section>
     </main>
-    <main v-if="rowid==4">
+    <main v-if="rowid==3">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Website:" prop="website">
           <el-input  v-model="ruleForm.customer_service_website" clearable autocomplete="off">{{ruleForm.website}}</el-input>
@@ -59,7 +59,7 @@
         <button @click="$routerto('setting')">Cancel</button>
       </section>
     </main>
-    <main v-if="rowid==5">
+    <main v-if="rowid==4">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="Ethereum Wallet Address:" prop="contact_num">
           <el-input  v-model="ruleForm.wallet"   clearable autocomplete="off"></el-input>
@@ -73,7 +73,7 @@
         <button @click="$routerto('setting')">Cancel</button>
       </section>
     </main>
-    <main v-if="rowid==6">
+    <main v-if="rowid==5">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Token:" prop="password">
           <el-input type="password" v-model="ruleForm.token" show-password  autocomplete="off"></el-input>
@@ -203,7 +203,7 @@
           name:'sell_coin_wait_time',
         })
       }
-      else if(this.rowid==4){
+      else if(this.rowid==3){
         this.title='Receipts';
         this.ruleForm=Object.assign({}, this.ruleForm,{
           customer_service_website:'',
@@ -215,7 +215,7 @@
         })
 
       }
-      else if(this.rowid==5){
+      else if(this.rowid==4){
         this.title='Ethereum';
         this.ruleForm=Object.assign({}, this.ruleForm,{
           wallet:'',
@@ -226,7 +226,7 @@
         })
 
       }
-      else if(this.rowid==6){
+      else if(this.rowid==5){
         this.title='Bitgo';
         this.ruleForm=Object.assign({}, this.ruleForm,{
           token:'',
@@ -343,6 +343,7 @@
 <style lang='scss'>
   .setting_edit{
     margin :0 0 0 50px;
+    width: 90%;
     header{
       position: relative;
       height: 136px;

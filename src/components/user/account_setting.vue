@@ -215,6 +215,7 @@ export default {
 <style lang='scss'>
   .account_setting{
     margin :0 0 0 50px;
+    width: 90%;
     header{
       position: relative;
       height: 136px;

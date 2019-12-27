@@ -160,6 +160,7 @@
 
 <style lang='scss'>
   .add_first{
+
     .el-select{
       width: 100%;
     }

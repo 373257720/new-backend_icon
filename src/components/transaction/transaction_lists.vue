@@ -296,6 +296,7 @@
 <style lang="scss">
   .transcation_lists{
     margin :0 0 0 50px;
+    width: 90%;
     .imgsize{
       width: 50px;
       height: 60px;
