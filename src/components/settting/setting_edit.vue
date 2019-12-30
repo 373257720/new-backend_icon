@@ -13,8 +13,9 @@
         </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('setting')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
       </section>
     </main>
     <main v-if="rowid==1">
@@ -27,8 +28,9 @@
         </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('setting')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
       </section>
     </main>
     <main v-if="rowid==2">
@@ -38,8 +40,9 @@
         </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('setting')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
       </section>
     </main>
     <main v-if="rowid==3">
@@ -55,8 +58,9 @@
         </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('setting')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
       </section>
     </main>
     <main v-if="rowid==4">
@@ -69,8 +73,9 @@
         </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('setting')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
       </section>
     </main>
     <main v-if="rowid==5">
@@ -86,8 +91,9 @@
         </el-form-item>
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('setting')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
       </section>
     </main>
 
@@ -128,41 +134,41 @@
           // website:[{
           //
           // }],
-          inbox: [
-            { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          ],
-          outbox:[
-            { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          ],
-          username: [
-            { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          ],
-
-          password: [
-            {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-
-          ],
-          repassword: [
-            { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-          ],
-          nickname:[
-            { required: true, message: 'this gap can not be empty', trigger: 'blur' }
-          ],
-          email: [
-            { required: true, message: "请输入邮箱地址", trigger: "blur" },
-            {
-              type: "email",
-              message: "请输入正确的邮箱地址",
-              trigger: ["blur", "change"]
-            }
-          ],
-          mobile:[
-            { required: true, message: 'this gap can not be empty', trigger: 'blur' }
-          ],
-          status:[
-            { required: true,},
-          ]
+          // inbox: [
+          //   { required: true, message: 'this gap can not be empty', trigg: 'change' }
+          // ],
+          // outbox:[
+          //   { required: true, message: 'this gap can not be empty', trigg: 'change' }
+          // ],
+          // username: [
+          //   { required: true, message: 'this gap can not be empty', trigg: 'change' }
+          // ],
+          //
+          // password: [
+          //   {required: true, validator: validatePass, trigger: 'blur' },
+          //   { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+          //
+          // ],
+          // repassword: [
+          //   { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
+          // ],
+          // nickname:[
+          //   { required: true, message: 'this gap can not be empty', trigger: 'blur' }
+          // ],
+          // email: [
+          //   { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          //   {
+          //     type: "email",
+          //     message: "请输入正确的邮箱地址",
+          //     trigger: ["blur", "change"]
+          //   }
+          // ],
+          // mobile:[
+          //   { required: true, message: 'this gap can not be empty', trigger: 'blur' }
+          // ],
+          // status:[
+          //   { required: true,},
+          // ]
         },
 
       };
@@ -293,7 +299,7 @@
               }
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
                   if(res.data.ret==0){
-                    console.log(res)
+                    this.$routerto('setting_list')
                   }
                 })
             }else if(this.$route.query.rowindex==5){
@@ -305,7 +311,7 @@
                 }
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
                   if(res.data.ret==0){
-                    console.log(res)
+                    this.$routerto('setting_list')
                   }
                 })
               }
@@ -313,7 +319,7 @@
               else{
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,this.ruleForm).then(res=>{
                   if(res.data.ret==0){
-                    console.log(res)
+                   this.$routerto('setting_list')
                   }
                 })
               }
@@ -376,7 +382,7 @@
           border-radius: 5px;
 
         }
-        button:nth-of-type(1){
+        button:nth-of-type(2){
           background:url("../../../static/savechange.png") no-repeat;
           background-size: cover;
         }

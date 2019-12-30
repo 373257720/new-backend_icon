@@ -78,11 +78,12 @@
             this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
             this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
             for(var i in res.data.data){
+              this.tabledata['trade_type'].value=res.data.data.trade_type==1?'Buy':'Sell';
               if(this.tabledata.hasOwnProperty(i)){
                 if(i=='miner_fee'){
                   this.tabledata[i].miner_money=res.data.data['miner_money'];
                 }
-                this.tabledata[i].value=res.data.data[i];
+                this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
               }
             }
 
@@ -147,8 +148,11 @@
       color: #2ABEE2;
     }
     .edit{
+      font-size: 14px;
+      margin-left:20%;
       span{
         color: #2ABEE2;
+
         text-decoration:underline;
         cursor: pointer;
         margin-left: 15px;

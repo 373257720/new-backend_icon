@@ -3,7 +3,7 @@
     <header><h2>Machines</h2></header>
     <nav>
       <div>
-        <section @click="alledit(2)" >Apply Group Pattern</section>
+        <section @click="alledit" >Apply Group Pattern</section>
       </div>
       <div>
         <span class="keyword">keyword:</span>
@@ -83,6 +83,7 @@
           </template>
         </el-table-column>
       </el-table>
+
     </el-main>
     <el-dialog
       class="remote_control"
@@ -98,10 +99,10 @@
       <p class="thick">Do you want to?</p>
       <el-radio-group  v-model="remote_control_type">
         <div>
-          <el-radio :label="1">Restart CyptoGo</el-radio>
+          <el-radio :label="2">Restart CyptoGo</el-radio>
         </div>
         <div>
-          <el-radio :label="2">Reboot System</el-radio>
+          <el-radio :label="1">Reboot System</el-radio>
         </div>
         <div>
           <el-radio :label="3">Lock Screen</el-radio>
@@ -285,14 +286,27 @@
       },
       alledit(num){
         // console.log(this.centerDialogVisible)
-        console.log(this.multipleSelection)
-        var a=[];
-        this.multipleSelection.forEach(item=>{
-          a.push(`${item.name}</br>`)
-          this.machine_id.push(item.machine_id);
-        })
-        this.machine_name=a.join('') ;
-        this.centerDialogVisible=true;
+        if(this.multipleSelection.length>0){
+          var a=[];
+          this.multipleSelection.forEach(item=>{
+            a.push(`${item.name}</br>`)
+            this.machine_id.push(item.machine_id);
+          })
+          this.machine_name=a.join('') ;
+          this.centerDialogVisible=true;
+        }else{
+          this.$alert('Please select', 'Reminder', {
+            confirmButtonText: 'OK',
+            callback: action => {
+              // this.$message({
+              //   type: 'info',
+              //   message: `action: ${ action }`
+              // });
+            }
+          });
+        }
+
+
       },
       handleEdit(index, row) {
         // console.log(index, row);
@@ -396,8 +410,6 @@
     .el-table{
       color:#7A7A7A;
     }
-
-
     .dialog{
       display: flex;
       justify-content: space-between;

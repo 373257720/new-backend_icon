@@ -11,7 +11,7 @@
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="PASSWORD" v-model="password" clearable>
+        <el-input placeholder="PASSWORD" show-password clearable v-model="password" clearable>
           <i slot="prefix" class="icon-password"></i>
         </el-input>
       </div>
@@ -76,7 +76,7 @@ export default {
               // this.$router.push({path:'/home'});
             }
             else{
-              this.remind=res.msg;
+              this.remind=res.data.msg;
             }
           })
           .catch(error => {});

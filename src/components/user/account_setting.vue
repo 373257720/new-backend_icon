@@ -18,7 +18,7 @@
           <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Nickname" prop="nickname" >
-          <el-input v-model.number="ruleForm.nickname" show-password   clearable autocomplete="off"></el-input>
+          <el-input v-model.number="ruleForm.nickname"   clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Email" prop="email"  >
           <el-input v-model.number="ruleForm.email"></el-input>
@@ -40,8 +40,9 @@
 
       </el-form>
       <section>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
         <button @click="$routerto('atm_support')">Cancel</button>
+        <button  @click="submitForm('ruleForm')">Save Change</button>
+
 
       </section>
     </main>
@@ -171,7 +172,10 @@ export default {
               data: this.ruleForm,
             }).then(res => {
               if(res.data.ret==0){
-                console.log(res)
+                this.$message({
+                  message: res.data.msg,
+                  type: 'success'
+                });
                 this.$routerto('atm_support');
               }
             });
@@ -182,7 +186,10 @@ export default {
               data: this.ruleForm,
             }).then(res => {
               if(res.data.ret==0){
-                console.log(res)
+                this.$message({
+                  message: res.data.msg,
+                  type: 'success'
+                });
                 this.$routerto('atm_support');
               }
             });
@@ -247,7 +254,7 @@ export default {
           border-radius: 5px;
 
         }
-        button:nth-of-type(1){
+        button:nth-of-type(2){
           background:url("../../../static/savechange.png") no-repeat;
         }
       }

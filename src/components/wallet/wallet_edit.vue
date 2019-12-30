@@ -11,9 +11,9 @@
       <nav>
         <span>Cryto Currency:</span><span>bitcon</span>
       </nav>
-      <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form label-position="top" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="Hedge Platform" prop="region">
-          <el-select v-model="ruleForm.machine_group_id" placeholder="">
+          <el-select v-model="ruleForm.platform" placeholder="">
             <el-option
               v-for="item in groupList"
               :key="item.value"
@@ -22,19 +22,25 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item  label="Hedge Balance" prop="password">
-          <el-input type="password" v-model="ruleForm.password" show-password clearable autocomplete="off"></el-input>
+        <el-form-item label="Hedge Balance" prop="password">
+          <el-input v-model="ruleForm.coin_number" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Hedge Interval" prop="nickname" >
-          <el-input v-model.number="ruleForm.nickname" show-password   clearable autocomplete="off"></el-input>
+        <el-form-item label="Hedge Interval" prop="nickname">
+          <el-input v-model.number="ruleForm.interval_time" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="API Adress" prop="repassword">
-          <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Key" prop="nickname">
+          <el-input v-model.number="ruleForm.key" clearable autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Secret" prop="nickname">
+          <el-input v-model.number="ruleForm.secret" clearable autocomplete="off"></el-input>
+        </el-form-item>
+        <!--        <el-form-item label="API Adress" prop="repassword">-->
+        <!--          <el-input type="password" v-model="ruleForm.repassword"   clearable autocomplete="off"></el-input>-->
+        <!--        </el-form-item>-->
       </el-form>
       <section>
         <button @click="$routerto('atm_support')">Cancel</button>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save Change</button>
 
 
       </section>
@@ -66,84 +72,76 @@
         }
       };
       return {
-        title:'',
         ruleForm: {
-          // username:'',
-          // password: '',
-          // repassword: '',
-          // nickname: '',
-          // email:'',
-          // mobile:'',
-          // status:"1",
+          token: this.$store.state.token,
+          coin_type: this.$route.query.coin_type,
+          platform: '',
+          coin_number: '',
+          interval_time: '',
+          key: '',
+          secret: '',
         },
-        rules: {
-          username: [
-            { required: true, message: '不能为空', trigg: 'change' }
-          ],
-
-          password: [
-            {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-
-          ],
-          repassword: [
-            { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-          ],
-          nickname:[
-            { required: true, message: '不能为空', trigger: 'blur' }
-          ],
-          email: [
-            { required: true, message: "请输入邮箱地址", trigger: "blur" },
-            {
-              type: "email",
-              message: "请输入正确的邮箱地址",
-              trigger: ["blur", "change"]
-            }
-          ],
-          mobile:[
-            { required: true, message: '不能为空', trigger: 'blur' }
-          ],
-          status:[
-            { required: true,},
-          ]
-        }
+        groupList: [{
+          value: 'binance',
+          label: 'binance.com'
+        }, {
+          value: 'none',
+          label: 'Non Hedge'
+        }],
+        // rules: {
+        //   username: [
+        //     { required: true, message: '不能为空', trigg: 'change' }
+        //   ],
+        //
+        //   password: [
+        //     {required: true, validator: validatePass, trigger: 'blur' },
+        //     { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+        //
+        //   ],
+        //   repassword: [
+        //     { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
+        //   ],
+        //   nickname:[
+        //     { required: true, message: '不能为空', trigger: 'blur' }
+        //   ],
+        //   email: [
+        //     { required: true, message: "请输入邮箱地址", trigger: "blur" },
+        //     {
+        //       type: "email",
+        //       message: "请输入正确的邮箱地址",
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ],
+        //   mobile:[
+        //     { required: true, message: '不能为空', trigger: 'blur' }
+        //   ],
+        //   status:[
+        //     { required: true,},
+        //   ]
+        // }
       };
     },
     created() {
-      // console.log(this.$route.query)
-      this.ruleForm.token=this.$store.state.token;
-      if(this.$route.query.type==1){
-        this.title='ADD';
-
-      }else if(this.$route.query.type==2){
-        this.title='EDIT';
-        this.ruleForm.atm_user_id=this.$route.query.atm_user_id;
-        this.getdata();
-      }
-
+      this.getdata();
     },
     methods: {
-      getdata(){
+      getdata() {
         this.$axios({
           method: 'get',
-          url: `${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,
+          url: `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
           params: {
-            token:this.$store.state.token,
-            atm_user_id:this.$route.query.atm_user_id,
+            token: this.$store.state.token,
+            coin_type: this.$route.query.coin_type,
           },
         }).then(res => {
-          if(res.data.ret==0){
-            console.log(res)
-            for( let key in res.data.data){
-
-              if(this.ruleForm.hasOwnProperty(key)){
-                this.ruleForm[key]=res.data.data[key];
+          if (res.data.ret == 0) {
+            this.ruleForm.key = res.data.data.api_parameter.key;
+            this.ruleForm.secret = res.data.data.api_parameter.secret;
+            for (let key in res.data.data) {
+              if (this.ruleForm.hasOwnProperty(key)) {
+                this.ruleForm[key] = res.data.data[key];
               }
             }
-
-
-            // if(this.ruleForm.hasOwnProperty())
-            // this.$routerto('atm_support');
           }
         });
       },
@@ -156,80 +154,66 @@
       //   // console.log(data);
       // },
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            if(this.$route.query.type==1){
-              this.$axios({
-                method: 'post',
-                url: `${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
-                data: this.ruleForm,
-              }).then(res => {
-                if(res.data.ret==0){
-                  console.log(res)
-                  this.$routerto('atm_support');
-                }
-              });
-            }else if(this.$route.query.type==2){
-              this.$axios({
-                method: 'post',
-                url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
-                data: this.ruleForm,
-              }).then(res => {
-                if(res.data.ret==0){
-                  console.log(res)
-                  this.$routerto('atm_support');
-                }
-              });
+        // this.$refs[formName].validate((valid) => {
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm)
+          .then(res => {
+            if (res.data.ret == 0) {
+              console.log(res)
             }
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+          });
+        // } else {
+        //   console.log('error submit!!');
+        //   return false;
+        // }
+        // });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
     },
-
-    watch: {
-      $route(to, from) {
-        if (to.name == "signedup_check") {
-          this.ischeck = !this.ischeck;
-        } else {
-          this.ischeck = false;
-        }
-      }
-    }
   };
 </script>
 
 <style lang='scss'>
-  .wallet_edit{
-    margin :0 0 0 50px;
+  .wallet_edit {
+    margin: 0 0 0 50px;
     width: 90%;
-    header{
+
+    header {
       position: relative;
       height: 136px;
       border-bottom: 1px solid #d3d3d3;
-      h2{
+
+      h2 {
         font-size: 20px;
         position: absolute;
-        bottom:20px;
+        bottom: 20px;
         /*font-weight: 550;*/
       }
 
     }
-    .el-form--label-top .el-form-item__label{
+
+    .el-form--label-top .el-form-item__label {
       padding: 0;
     }
-    main{
-      margin:30px 0 100px 20px;
+
+    main {
+      nav {
+        margin-bottom: 10px;
+      }
+
+      .el-select {
+        width: 100%;
+      }
+
+      margin: 30px 0 100px 20px;
       width: 40%;
-      section{
+
+      section {
         display: flex;
         justify-content: space-between;
-        button{
+
+        button {
           width: 40%;
           height: 40px;
           cursor: pointer;
@@ -239,8 +223,9 @@
           border-radius: 5px;
 
         }
-        button:nth-of-type(2){
-          background:url("../../../static/savechange.png") no-repeat;
+
+        button:nth-of-type(2) {
+          background: url("../../../static/savechange.png") no-repeat;
           background-size: cover;
         }
       }

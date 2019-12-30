@@ -9,6 +9,7 @@
         :total="pagenum"
       ></el-pagination>
     </div>
+    <div class="export" @click="childtodad" v-if="isexport">export </div>
   </div>
 </template>
 <script>
@@ -17,16 +18,35 @@ export default {
   name: "pagevue",
   data() {
     return {
+      isexport:false,
       // currentPage: 1,
       // pagesize: 1,
     };
   },
-  watch: {
-    //  pagenum:function(addd,oldd){
-    //    console.log(addd,oldd);
-    //  }
+  created() {
+    console.log()
+    if(this.$route.name=='transaction_lists'){
+      this.isexport=true;
+    }
   },
+
+  // watch: {
+  //   $route: {
+  //     handler: function(val, oldVal){
+  //       console.log(val);
+  //       // if(val)
+  //     },
+  //     // 深度观察监听
+  //     deep: true
+  //   }
+  //   //  pagenum:function(addd,oldd){
+  //   //    console.log(addd,oldd);
+  //   //  }
+  // },
   methods: {
+    childtodad(data){
+      this.$emit("passtoparent");
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -45,11 +65,25 @@ export default {
 .pagemodel{
   width:100%;
   height:50px;
-  position: relative;
+  display: flex;
+  /*position: relative;*/
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+  .pagevue {
+    margin-right: 20px;
+  }
+  .export{
+    color: #2ab4e5;
+    /*justify-self:flex-end;*/
+    /*justify-items:end;*/
+    text-decoration: underline;
+    cursor: pointer;
+    justify-items: flex-end;
+    /*align-items: end;*/
+    /*position: absolute;*/
+    /*right:50px;*/
+  }
 }
-.pagevue {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
+
 </style>

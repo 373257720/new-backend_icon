@@ -59,6 +59,18 @@
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
+          prop="email"
+          align="center"
+          label="email"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="mobile"
+          align="center"
+          label="Mobile"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
           prop="create_time"
           align="center"
           label="Creat time"
@@ -239,7 +251,12 @@
 
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
+
               this.tableData=[...res.data.data.data];
+              this.tableData.forEach(item=>{
+                item.status=item.status==1?'Normal':"Banned"
+                item.create_time=this.$global.timestampToTime(item.create_time)
+              })
               console.log(this.tableData)
             }
           })

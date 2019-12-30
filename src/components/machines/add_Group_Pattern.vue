@@ -104,7 +104,7 @@
     },
     created() {
       // this.fromchildren();
-
+      //   this.getdata();
     },
     methods: {
       fromchildren(a,b){
@@ -115,16 +115,19 @@
           this.activeName=b;
         }
         console.log(this.MachineInfo);
-        // this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
-        // ).then(res=>{
-        //   console.log(res)
-        //   this.MachineInfo=res.data.data;
-        //   this.MachineInfo['is_register']=parseInt(this.MachineInfo['is_register']);
-        //   this.MachineInfo['is_support_ethereum']=parseInt(this.MachineInfo['is_support_ethereum']);
-        //   this.MachineInfo['is_support_bitcoin']=parseInt(this.MachineInfo['is_support_bitcoin']);
-        //   this.status = true;
-        // })
+
       },
+      // getdata(){
+      //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
+      //   ).then(res=>{
+      //     console.log(res)
+      //     this.MachineInfo=res.data.data;
+      //     this.MachineInfo['is_register']=parseInt(this.MachineInfo['is_register']);
+      //     this.MachineInfo['is_support_ethereum']=parseInt(this.MachineInfo['is_support_ethereum']);
+      //     this.MachineInfo['is_support_bitcoin']=parseInt(this.MachineInfo['is_support_bitcoin']);
+      //     this.status = true;
+      //   })
+      // },
       handleClick(tab, event) {
         // console.log(tab, event);
         // if(tab.name=='first'){

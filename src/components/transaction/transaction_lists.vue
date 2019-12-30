@@ -56,11 +56,19 @@
       <div>
         <section>
           <span class="keyword">Location:</span>
-          <el-input
-            placeholder="Machine"
-            v-model="formdata.Location"
-            clearable>
-          </el-input>
+          <el-select v-model="formdata.Location" placeholder="">
+            <el-option
+              v-for="item in Locationlist"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+<!--          <el-input-->
+<!--            placeholder="Machine"-->
+<!--            v-model="formdata.Location"-->
+<!--            clearable>-->
+<!--          </el-input>-->
         </section>
         <section>
           <span class="keyword" >Time:</span>
@@ -76,7 +84,7 @@
         </section>
       </div>
       <div>
-        <p class="button">Search</p>
+        <p class="button" @click="searcher">Search</p>
         <p class="button" @click="reset">Reset</p>
       </div>
     </nav>
@@ -144,13 +152,13 @@
           <template slot-scope="scope">{{ scope.row.money}}{{scope.row.currency_name}}</template>
         </el-table-column>
         <el-table-column
-          prop="deal_coin_number"
+          prop="coin_number"
           align="center"
           label="BTC"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="pay_time"
+          prop="create_time"
           align="center"
           label="Transaction Date"
           show-overflow-tooltip>
@@ -165,6 +173,7 @@
     </el-main>
 
     <pagevue
+      v-on:passtoparent="export_excel"
       :pagenum="pagetotal"
       :currentpages="currentpage"
       :pagesizes="pagesize"
@@ -192,14 +201,14 @@
         tableData: [],
         multipleSelection: [],
         options: [{
-          value: '1',
-          label: 'Success',
-        }, {
           value: '2',
-          label: 'Failed'
+          label: 'Paid',
+        }, {
+          value: '1',
+          label: 'Unpaid'
         },
           {
-          value: '3',
+          value: '4',
           label: 'Cancelled'
         }
         ],
@@ -211,13 +220,45 @@
           label: 'Sell'
         },
         ],
+        Statulist:{
+          "1":'Unpaid',
+          "2":'Paid',
+          "3":"Part Payment",
+          "4":"Canceled",
+          "5":"Transastioning"
+        },
+        // 1未支付2已支付3部分支付4取消交易5正在交
+        Locationlist:[],
       };
     },
     created() {
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.country/getCountryList`,{
+        token:this.$store.state.token
+      }).then(res=>{
+          if(res.data.ret==0){
+            console.log(res.data.data.data)
+            res.data.data.data.forEach(item=>{
+              this.Locationlist.push(
+              {
+                value: item.country_id,
+                  label: item.name
+              }
+              )
+            })
+
+          }
+      })
       this.searcher();
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     methods: {
+      export_excel(){
+        let start_time = this.formdata.timerange==null?0:this.formdata.timerange[0];
+        let end_time = this.formdata.timerange==null?0:this.formdata.timerange[1];
+        window.location.href = `${this.$baseurl}/admin_api/machine.order/exportOrder?token=${this.$store.state.token}&keyword=${this.formdata.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.formdata.keyword}&trade_type=${this.formdata.Type}&country_id=${this.formdata.Location}&coin_status=${this.formdata.Statu}`;
+
+      },
+
       reset(){
           for(let key in this.formdata){
             this.formdata[key]='';
@@ -225,10 +266,10 @@
       },
       searcher(){
         this.currentpage=1;
-        if(this.timerange==null){
-          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+        if(this.formdata.timerange==null){
+          this.changepage(this.currentpage, this.pagesize,this.formdata.keyword,'','');
         }else{
-          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+          this.changepage(this.currentpage, this.pagesize,this.formdata.keyword,this.formdata.timerange[0],this.formdata.timerange[1]);
         }
       },
 
@@ -252,10 +293,12 @@
           token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
+          // Type:this.formdata.Type,
           keyword:this.formdata.keyword,
           start_time:starttime,
-          end_time:this.endtime,
+          end_time:endtime,
           machine_id:this.formdata.keyword,
+          country_id:this.formdata.Location,
           coin_status:this.formdata.Statu,
         })
           .then(res => {
@@ -265,6 +308,9 @@
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
                 item.create_time=this.$global.timestampToTime(item.create_time);
+                item.trade_type=  item.trade_type==1?'Buy':'Sell';
+                item.coin_status=this.Statulist[item.coin_status];
+
               })
               // console.log(this.tableData)
             }

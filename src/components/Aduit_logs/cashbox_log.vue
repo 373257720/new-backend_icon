@@ -50,7 +50,7 @@
           width="55">
         </el-table-column>
         <el-table-column
-          label="Transaction ID"
+          label="Order ID"
           align="center"
 
         >
@@ -155,7 +155,7 @@
       export_excel(){
         let start_time = this.timerange==null?0:this.timerange[0];
         let end_time = this.timerange==null?0:this.timerange[1];
-        window.location.href = `${this.$baseurl}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}`;
+        window.location.href = `${this.$baseurl}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.keyword}`;
 
       },
       searcher(){

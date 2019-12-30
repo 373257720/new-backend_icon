@@ -39,9 +39,9 @@
             <template slot="title">BTC</template>
             <el-form-item  label="Local Transaction Regulation:" prop="name">
               <el-radio-group v-model="ruleForm.is_support_bitcoin">
-                <el-radio :label="1">Buy</el-radio>
-                <el-radio :label="2">Sell</el-radio>
-                <el-radio :label="3">Both</el-radio>
+                <el-radio :label="2">Buy</el-radio>
+                <el-radio :label="3">Sell</el-radio>
+                <el-radio :label="1">Both</el-radio>
                 <el-radio :label="4">Not allow</el-radio>
               </el-radio-group>
             </el-form-item>
@@ -66,9 +66,9 @@
             <template slot="title">ETH</template>
             <el-form-item  label="Local Transaction Regulation:" prop="name">
               <el-radio-group v-model="ruleForm.is_support_ethereum">
-                <el-radio :label="1">Buy</el-radio>
-                <el-radio :label="2">Sell</el-radio>
-                <el-radio :label="3">Both</el-radio>
+                <el-radio :label="2">Buy</el-radio>
+                <el-radio :label="3">Sell</el-radio>
+                <el-radio :label="1">Both</el-radio>
                 <el-radio :label="4">Not allow</el-radio>
               </el-radio-group>
             </el-form-item>

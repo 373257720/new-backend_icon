@@ -50,16 +50,47 @@
           label="Applied Machine"
           show-overflow-tooltip
           align="center">
-          <template slot-scope="scope">{{scope.row.machine_list}}</template>
+          <template slot-scope="scope">{{scope.row.machinelist}}</template>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit">
           <template slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">View & Edit</span>
+            <span  @click="handleapply(scope.$index, scope.row)">Apply Attributes</span>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
+    <el-dialog
+      class="remote_control"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      :modal="false"
+      center>
+      <span slot="title" class="dialog-footer">Apply Attributes</span>
+      <div>
+        <p class="thick">Group Name:</p>
+        <el-input  :disabled="true" placeholder="Please input" v-model="Group_Name"></el-input>
+      </div>
+      <div>
+        <p >Machine list in groups:</p>
+        <p class="thick">(The selected machine applies this grouping property)</p>
+        <template>
+          <el-select v-model="value1" multiple placeholder="Select">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+      </div>
 
+      <span slot="footer" class="dialog-footer">
+        <button  @click="centerDialogVisible = false">Cancel</button>
+        <button @click="apply">Apply</button>
+        </span>
+    </el-dialog>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -89,11 +120,32 @@
           '2':'No'
         },
         keyword:'',
+        Group_Name:'',
+        centerDialogVisible:false,
         currentpage: 1,
         pagesize: 10,
         pagetotal: null,
         tableData: [],
-        multipleSelection: []
+        multipleSelection: [],
+        options: [
+        //   {
+        //   value: 'Option1',
+        //   label: 'Option1'
+        // }, {
+        //   value: 'Option2',
+        //   label: 'Option2'
+        // }, {
+        //   value: 'Option3',
+        //   label: 'Option3'
+        // }, {
+        //   value: 'Option4',
+        //   label: 'Option4'
+        // }, {
+        //   value: 'Option5',
+        //   label: 'Option5'
+        // }
+        ],
+        value1: [],
       };
     },
     created() {
@@ -101,6 +153,9 @@
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     methods: {
+      apply(){
+        // this.centerDialogVisible=true
+      },
       searcher(){
         this.currentpage=1;
         this.changepage(this.currentpage, this.pagesize,this.keyword);
@@ -114,6 +169,26 @@
       },
       add(){
         this.$routerto('add_Group_Pattern')
+      },
+      handleapply(index, row) {
+        this.centerDialogVisible=true;
+        this.Group_Name =row.name;
+        console.log(row.machine_list)
+        let arr=  row.machine_list;
+        if(  Array.isArray(arr)){
+          this.options= arr.map(item=>{
+            return {
+              value: item.machine_id,
+              label:item.name,
+            }
+
+          })
+        }
+
+        console.log(this.options)
+        // this.options=machine_list
+        // this.$routerto('edit_Group_Pattern',{type:2,machine_group_id:row.machine_group_id})
+        // this.beforedelete(row.machine_operate_id);
       },
       handleDelete(index, row) {
         console.log(row)
@@ -169,30 +244,16 @@
         })
           .then(res => {
             if(res.data.ret==0){
-              // console.log(res.data.data.data)
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
-                // let a=[];
-                // console.log(item.machine_list)
                 if( Array.isArray(item.machine_list)){
-                    console.log(item.machine_list)
-                  item.machine_list=item.machine_list.map(item=>{
+                  item.machinelist=item.machine_list.map(item=>{
                     return item.name
                   })
-                  item.machine_list=item.machine_list.join(',');
-                  console.log(item.machine_list)
-                  // for(let i =0;i<item.machine_list.length;i++){
-                  //     a.push(item.machine_list[i].name)
-                  // }
+                  item.machinelist=   item.machinelist.toString()
+                  // item.machinelist=item.machine_list.join('');
                 }
-                // a=a.join(',');
-                // console.log(a)
-                // item.is_finish=this.successful[item.is_finish];
-                // item.is_tell=this.client[item.is_tell]
-                // item.type=this.type[item.type];
-                // item.create_time=this.$global.timestampToTime(item.create_time);
-                // item.finish_time=this.$global.timestampToTime(item.finish_time);
               })
 
             }
@@ -224,6 +285,60 @@
   .remote_control_records{
     margin :0 0 0 50px;
     width: 90%;
+    .el-dialog{
+      p.thick{
+        margin-bottom: 10px;
+      }
+      .el-dialog__header{
+        background:#EDF1F4;
+      }
+      .el-dialog__body{
+        >div:nth-of-type(1){
+          margin-bottom: 15px;
+        }
+      }
+      .el-select{
+        width: 100%;
+      }
+      .el-input__inner{
+        height: 30px !important;
+        /*margin-bottom: 10px;*/
+      }
+      .el-input__icon{
+        line-height: 30px;
+      }
+       .el-dialog__footer {
+        padding-top:0;
+        .dialog-footer{
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          button{
+            cursor: pointer;
+            width: 45%;
+            line-height: 40px;
+            font-size: 16px;
+            height: 40px;
+            box-sizing: border-box;
+            background: #EDF1F4;
+            border: 1px solid #B7B7B7;
+            border-radius: 5px;
+            color:#515153;
+            text-align: center;
+            /*margin-right: 20px;*/
+          }
+          button:nth-of-type(2){
+            border:0;
+            color: white;
+            background:url(../../../static/add-disable.png) no-repeat;
+            background-size: cover;
+            /*;*/
+          }
+        }
+      }
+
+    }
+
     header{
       position: relative;
       height: 136px;
@@ -260,13 +375,17 @@
       color: #2ABEE2;
     }
     .edit{
+      .cell{
+        /*display: flex;*/
+        /*justify-content: space-around;*/
+      }
       span{
         color: #2ABEE2;
         text-decoration:underline;
         cursor: pointer;
       }
-      span.left{
-        margin-right: 20px;
+      span:nth-of-type(1){
+        margin-right: 40px;
       }
 
     }

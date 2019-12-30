@@ -216,14 +216,26 @@
         // this.ruleForm.token=this.$store.state.token;
         // this.$emit('getchildren',this.ruleForm);
         // console.log(this.ruleForm)
-        console.log(this.submitfordata)
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/editMachineGroup`,this.submitfordata)
-          .then(res=>{
-            if(res.data.ret==0){
-              console.log(res)
-              // this.$emit('getchildren');
-            }
-          })
+    if(this.$route.query.type==2){
+      this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/editMachineGroup`,this.submitfordata)
+        .then(res=>{
+          if(res.data.ret==0){
+            console.log(res)
+            this.$routerto('group_pattern')
+            // this.$emit('getchildren');
+          }
+        })
+    }else{
+      this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/addMachineGroup`,this.tochind)
+        .then(res=>{
+          if(res.data.ret==0){
+            console.log(res)
+            this.$routerto('group_pattern')
+            // this.$emit('getchildren');
+          }
+        })
+    }
+
       },
       appear3(params,picname) {
         if(picname=="logo_picture"){

@@ -13,6 +13,7 @@
         <div class="nav_right">
           <span class="keyword" >Time:</span>
           <el-date-picker
+            @change="searcher"
             v-model="timerange"
             type="daterange"
             range-separator="to"
@@ -28,7 +29,7 @@
           <li v-for="(item) in tableData" :key="item.notice_id">
             <div>
               <p><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><i></i>{{item.title}}</p>
-              <p @click="$routerto('alerts_details',{'notice_id':item.notice_id})"><i class="el-icon-d-arrow-right"></i>Unread</p>
+              <p @click="$routerto('alerts_details',{'notice_id':item.notice_id})"><i class="el-icon-d-arrow-right"></i>{{item.is_read=='1'?'read':'unread'}}</p>
             </div>
             <article v-html="item.content">
 
@@ -83,8 +84,8 @@
           token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
-          // start_time:starttime,
-          // end_time:endtime,
+          start_time:starttime,
+          end_time:endtime,
         })
           .then(res => {
             if(res.data.ret==0){
@@ -207,7 +208,7 @@
             justify-content: space-between;
             /*height: 25px;*/
             font-size: 16px;
-            font-weight: 600;
+            /*font-weight: 600;*/
             /*!*background: red;*!*/
             margin-bottom: 16px;
             p:nth-of-type(2){

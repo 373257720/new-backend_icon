@@ -28,7 +28,6 @@
           <template slot-scope="scope">
 <!--            <span>{{}}</span>-->
             <span   @click="view(scope.$index, scope.row)">View</span>
-            <span  v-if="scope.$index==1" @click="handleDelete(scope.$index, scope.row)">Export To Excel</span>
           </template>
         </el-table-column>
       </el-table>
@@ -71,9 +70,9 @@
     methods: {
       view(index, row) {
         if(index==0){
-          this.$routerto('machine_connect_status')
-        }else if(index==1){
           this.$routerto('cashbox_log')
+        }else if(index==1){
+          this.$routerto('machine_connect_status')
         }else if(index==2){
           this.$routerto('error_log')
         }
