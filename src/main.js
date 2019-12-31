@@ -29,6 +29,7 @@ Vue.prototype.$goto = function goto(name, id) {
   this.$router.push(obj);
 }
 Vue.prototype.$routerto = function routerTo(name, obj) {
+  console.log(this)
   this.$router.push({
     name: name,
     query: obj

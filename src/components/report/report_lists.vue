@@ -38,11 +38,11 @@
 
       </div>
       <div>
-        <p class="button">Search</p>
+        <p class="button" @click="drawLineChart">Search</p>
         <p class="button" @click="reset">Reset</p>
       </div>
     </nav>
-    <div style="width: 100%;height:300px;background: green"></div>
+    <div id="myChart" :style="{width: '100%', height: '400px'}"></div>
     <el-main >
       <el-table
         :row-class-name="tabRowClassName"
@@ -102,47 +102,169 @@
 </template>
 
 <script>
+  let echarts = require('echarts/lib/echarts');
+  // 引入柱状图组件
+  require('echarts/lib/chart/bar');
+  // 引入提示框和title组件
+  require('echarts/lib/component/toolbox');
+  require('echarts/lib/component/tooltip');
+  require('echarts/lib/component/title');
   export default {
     data() {
       return {
-        // centerDialogVisible: false,
+        bar_data:[],
+        dataAxis:[],
+        yMax:500,
+        myChart:'',
+        dataShadow:[],
         formdata:{
           machine_id:'',
           timerange:null,
         },
+        currency_name:'',
         currentpage: 1,
-        pagesize: 5,
+        pagesize: 15,
         pagetotal: null,
         tableData: [],
-        options: [
-        ],
+        options: [],
+        option : {
+          title: {
+            // text: '30 Days Cumulative Revenue',
+            right:20,
+            subtext: '',
+            subtextStyle: {//副标题的属性
+              fontSize:14,
+              color:'#000',
+              fontWeight:600,
+              // 同主标题
+            },
+          },
+          toolbox: {
+            // id:'right_tool',
+            // feature: {
+            //   myTool2: {
+            //     show: true,
+            //     title: 'custom extension method',
+            //     icon: 'image://../../static/e0ca77fe8b0e7e1c5d2ace3893d4b87.png',
+            //     onclick: function (){
+            //       console.log(newvue.$router.push({
+            //         name: 'report',
+            //       }))
+            //     }
+            //   },
+            // }
+          },
+          tooltip: {
+            trigger: 'axis',
+          },
+          xAxis:
+            {
+              type: 'category',
+              data:[],
+              axisLabel: {
+                // inside: true,
+                textStyle: {
+                  color: '#999'
+                }
+              },
+              axisTick: {
+                show: false
+              },
+              axisLine: {
+                show: false
+              },
+              z: 10
+            },
+          yAxis: {
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              textStyle: {
+                color: '#999'
+              }
+            }
+          },
+          // dataZoom: [
+          //   {
+          //     type: 'inside'
+          //   }
+          // ],
+          series: [
+            {
+              type: 'bar',
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                      {offset: 0, color: '#f7a050'},
+                      {offset: 0.5, color: '#f7a050'},
+                      {offset: 1, color: '#f82637'}
+                    ]
+                  )
+                },
+                emphasis: {
+                  // color: new echarts.graphic.LinearGradient(
+                  //   0, 0, 0, 1,
+                  //   [
+                  //     {offset: 0, color: '#2378f7'},
+                  //     {offset: 0.7, color: '#2378f7'},
+                  //     {offset: 1, color: '#83bff6'}
+                  //   ]
+                  // )
+                }
+              },
+              // barWidth:20,
+              data: [],
+            }
+          ],
+
+        },
       };
     },
     created() {
 
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
-        token:this.$store.state.token,
-        page:1,
-        size:10000,
-        keyword:'',
-      }).then(res=>{
-        if(res.data.ret==0){
-
-          this.formdata.machine_id=res.data.data.data[0].machine_id
-          res.data.data.data.forEach(item=>{
-            this.options.push({
-                value:item.machine_id,
-                label:item.name,
-            })
-          })
-          this.searcher();
-
-        }
-      })
-
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
+    mounted() {
+      this.getmachineid()
+
+    },
     methods: {
+      getmachineid(){
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
+          token:this.$store.state.token,
+          page:1,
+          size:10000,
+          keyword:'',
+        }).then(res=>{
+          if(res.data.ret==0){
+            this.formdata.machine_id=res.data.data.data[0].machine_id
+            res.data.data.data.forEach(item=>{
+              this.options.push({
+                value:item.machine_id,
+                label:item.name,
+              })
+            })
+            this.drawLineChart()
+          }
+        })
+      },
+      drawLineChart() {
+        // 基于准备好的dom，初始化echarts实例
+        this.myChart = echarts.init(document.getElementById('myChart'))
+        // 绘制基本图表
+        this.myChart.setOption(this.option);
+        //显示加载动画
+        this.myChart.showLoading();
+        //获取数据
+        this.searcher()
+
+      },
       getSummaries(param) {
         const { columns, data } = param;
         console.log(columns)
@@ -180,27 +302,17 @@
       },
       searcher(){
         this.currentpage=1;
-        if(this.timerange==null){
+        if(this.formdata.timerange==null){
           this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,'','');
         }else{
           this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,this.formdata.timerange[0],this.formdata.timerange[1]);
         }
       },
-
-      handleDelete(index, row) {
-        console.log(index, row);
-        this.$routerto('transaction_details',{order_id:row.order_id})
-        // this.beforedelete(row.machine_money_log_id);
-      },
-
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;
         if(index %2 == 0){
           return 'warning-row'
         }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,machine_id,starttime,endtime) {
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsMachineOrder`,{
@@ -213,14 +325,33 @@
         })
           .then(res => {
             if(res.data.ret==0){
-              // console.log(res)
+              this.dataAxis=[];
+              this.bar_data=[];
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
+              this.currency_name=res.data.data.currency_name;
               this.tableData.forEach(item=>{
+                this.dataAxis.push(item.day);
+                if(item.buy_money){
+                this.bar_data.push(item.buy_money);
+                }
                 item.create_time=this.$global.timestampToTime(item.create_time);
               })
-              // console.log(this.tableData)
             }
+            setTimeout(()=>{  //为了让加载动画效果明显,这里加入了setTimeout,实现300ms延时
+              this.myChart.hideLoading(); //隐藏加载动画
+              this.myChart.setOption({
+                xAxis: {
+                  data: this.dataAxis
+                },
+                series: [{
+                  data: this.bar_data
+                }],
+                title:{
+                  subtext:'Price:'+this.currency_name,
+                }
+              })
+            }, 300 )
           })
           .catch(error => {});
       },
@@ -235,13 +366,6 @@
 
     },
     watch: {
-      // $route(to, from) {
-      //   if (to.name == "usercheck") {
-      //     this.ischeck = !this.ischeck;
-      //   } else {
-      //     this.ischeck = false;
-      //   }
-      // }
     }
   };
 </script>

@@ -75,7 +75,7 @@
         <p >Machine list in groups:</p>
         <p class="thick">(The selected machine applies this grouping property)</p>
         <template>
-          <el-select v-model="value1" multiple placeholder="Select">
+          <el-select v-model="machine_id"  multiple placeholder="Select">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -121,6 +121,7 @@
         },
         keyword:'',
         Group_Name:'',
+        machine_group_id:'',
         centerDialogVisible:false,
         currentpage: 1,
         pagesize: 10,
@@ -128,24 +129,8 @@
         tableData: [],
         multipleSelection: [],
         options: [
-        //   {
-        //   value: 'Option1',
-        //   label: 'Option1'
-        // }, {
-        //   value: 'Option2',
-        //   label: 'Option2'
-        // }, {
-        //   value: 'Option3',
-        //   label: 'Option3'
-        // }, {
-        //   value: 'Option4',
-        //   label: 'Option4'
-        // }, {
-        //   value: 'Option5',
-        //   label: 'Option5'
-        // }
         ],
-        value1: [],
+        machine_id: [],
       };
     },
     created() {
@@ -154,7 +139,21 @@
     },
     methods: {
       apply(){
-        // this.centerDialogVisible=true
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/attribute`,{
+          token:this.$store.state.token,
+          machine_group_id:this.machine_group_id,
+          machine_id:this.machine_id,
+        }).then(res=>{
+          if(res.data.ret==0){
+            this.$message({
+              showClose: true,
+              message: 'Congrats, this is a success message.',
+              type: 'success'
+            });
+            this.centerDialogVisible=false;
+          }
+        })
+
       },
       searcher(){
         this.currentpage=1;
@@ -173,7 +172,8 @@
       handleapply(index, row) {
         this.centerDialogVisible=true;
         this.Group_Name =row.name;
-        console.log(row.machine_list)
+        this.machine_group_id=row.machine_group_id
+        console.log()
         let arr=  row.machine_list;
         if(  Array.isArray(arr)){
           this.options= arr.map(item=>{
@@ -301,7 +301,7 @@
         width: 100%;
       }
       .el-input__inner{
-        height: 30px !important;
+        /*height: 30px !important;*/
         /*margin-bottom: 10px;*/
       }
       .el-input__icon{

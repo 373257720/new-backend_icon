@@ -1,8 +1,11 @@
 <template>
-  <div id="tosignuproot">
-    <div class="tosignuproot">
+  <div id="dashboard">
+    <div class="dashboard">
       <div class="top">
-        <aside ></aside>
+        <aside >
+          <div id="myChart" :style="{width: '100%', height: '100%'}">
+          </div>
+        </aside>
         <article >
            <header ><span>Recent translations</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
@@ -82,40 +85,143 @@
 </template>
 
 <script>
+  let echarts = require('echarts/lib/echarts');
+  // 引入柱状图组件
+  require('echarts/lib/chart/bar');
+  // 引入提示框和title组件
+  require('echarts/lib/component/toolbox');
+  require('echarts/lib/component/tooltip');
+  require('echarts/lib/component/title');
+  // let newvue =  new Vue();
+  let newvue;
+  // console.log(this)
 export default {
+
   data() {
     return {
       fafa: this.$store.state.commondialog,
       value1: [], //日期选择
       value: "", //项目状态
+      bar_data:[],
+      dataAxis:[],
+      yMax:500,
+
+      dataShadow:[],
       // searchkey: "",
       currentpage: 1,
       pagesize: 10,
       pagetotal: null,
       machine_infor: [],
-      options: [
-        {
-          value: -1,
-          label: "默认"
-        },
-        {
-          value: 0,
-          label: "待签约"
-        },
-        {
-          value: 1,
-          label: "中介已意向签约"
-        },
-        {
-          value: 2,
-          label: "项目方同意签约"
-        },
-        {
-          value: 3,
-          label: "项目方拒绝签约"
-        }
-      ],
       order_infors: [],
+      option : {
+        title: {
+          // text: '30 Days Cumulative Revenue',
+          right:20,
+          subtext: '30 Days Cumulative Revenue',
+          subtextStyle: {//副标题的属性
+            fontSize:14,
+            color:'#000',
+            fontWeight:600,
+            // 同主标题
+          },
+        },
+        toolbox: {
+          id:'right_tool',
+          feature: {
+            myTool2: {
+              show: true,
+              title: 'custom extension method',
+              icon: 'image://../../static/e0ca77fe8b0e7e1c5d2ace3893d4b87.png',
+              onclick: function (){
+                console.log(newvue.$router.push({
+                  name: 'report',
+                }))
+              }
+            },
+          }
+        },
+        tooltip: {
+          trigger: 'axis',
+        },
+        xAxis:
+          {
+            type: 'category',
+            data: this.dataAxis,
+            axisLabel: {
+              // inside: true,
+              textStyle: {
+                color: '#999'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            z: 10
+          },
+        yAxis: {
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            textStyle: {
+              color: '#999'
+            }
+          }
+        },
+        // dataZoom: [
+        //   {
+        //     type: 'inside'
+        //   }
+        // ],
+        series: [
+          // { // For shadow
+          //   type: 'bar',
+          //   itemStyle: {
+          //     normal: {color: 'rgba(0,0,0,0.05)'}
+          //   },
+          //   barGap:'-100%',
+          //   barCategoryGap:'40%',
+          //   data: this.dataShadow,
+          //   animation: false
+          // },
+
+          {
+            type: 'bar',
+            itemStyle: {
+              normal: {
+
+                color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    {offset: 0, color: '#f7a050'},
+                    {offset: 0.5, color: '#f7a050'},
+                    {offset: 1, color: '#f82637'}
+                  ]
+                )
+              },
+              emphasis: {
+                // color: new echarts.graphic.LinearGradient(
+                //   0, 0, 0, 1,
+                //   [
+                //     {offset: 0, color: '#2378f7'},
+                //     {offset: 0.7, color: '#2378f7'},
+                //     {offset: 1, color: '#83bff6'}
+                //   ]
+                // )
+              }
+            },
+            // barWidth:20,
+            data: this.bar_data,
+          }
+        ],
+
+      },
       // 打币状态1未支付2已支付3部分支付4取消交易5正在交易',
       coin_status:{
         '1':'Unpaid',
@@ -124,14 +230,60 @@ export default {
         '4':'canceled',
         '5':'pending',
       }
-    };
+    }
   },
   created() {
+    newvue=this;
     this.order_infor();
     this.MACHINE_INFORMATION();
     // this.search(this.value, null, null, this.currentpage, this.pagesize);
   },
+  mounted() {
+    this.drawLineChart()
+
+  },
   methods: {
+    routerto(){
+
+    },
+    drawLineChart() {
+      // 基于准备好的dom，初始化echarts实例
+      var  myChart = echarts.init(document.getElementById('myChart'))
+      // myChart = this.$echarts.init(document.getElementById('myChart'));
+      // 绘制基本图表
+      myChart.setOption(this.option);
+      //显示加载动画
+      myChart.showLoading();
+      //获取数据
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsDayOrder`,{
+        token:this.$store.state.token,
+        page:1,
+        size:10,
+      }).then(res => {
+        if(res.data.ret==0){
+          res.data.data.data.forEach(item=>{
+            this.dataAxis.push(item.day);
+            this.bar_data.push(item.money);
+          })
+          for (var i = 0; i < this.bar_data.length; i++) {
+            this.dataShadow.push(this.yMax);
+          }
+        }
+        // console.log(this.dataAxis)
+        setTimeout(()=>{  //为了让加载动画效果明显,这里加入了setTimeout,实现300ms延时
+          myChart.hideLoading(); //隐藏加载动画
+          // myChart.setOption(this.option);
+          myChart.setOption({
+            xAxis: {
+              data: this.dataAxis
+            },
+            series: [{
+              data: this.bar_data
+            }]
+          })
+        }, 300 )
+      })
+    },
     handleEdit(index, row) {
       console.log(index, row);
 
@@ -297,9 +449,9 @@ export default {
 </script>
 
 <style lang='scss'>
-#tosignuproot {
+#dashboard {
   margin-top: 60px;
-  .tosignuproot {
+  .dashboard {
     height: 780px;
     // background: yellow;
     margin-left: 60px;
