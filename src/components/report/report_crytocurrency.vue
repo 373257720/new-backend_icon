@@ -108,6 +108,7 @@
   require('echarts/lib/component/toolbox');
   require('echarts/lib/component/tooltip');
   require('echarts/lib/component/title');
+  require('echarts/lib/component/legend');
   export default {
     data() {
       return {
@@ -124,35 +125,94 @@
           coin_type:'bitcoin',
         },
         currentpage: 1,
-        pagesize: 5,
+        pagesize: 10,
         pagetotal: null,
         tableData: [],
         options: [
         ],
         option :{
+          color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
           legend: {
-            // data:['蒸发量','降水量','平均温度']
+            data: ['Buy', 'Sell',]
           },
-          tooltip: {},
-          dataset: {
-            source: [
-              // ['product', '2015', '2016', '2017'],
-              // ['Matcha Latte', 43.3, 85.8, 93.7],
-              // ['Milk Tea', 83.1, 73.4, 55.1],
-              // ['Cheese Cocoa', 86.4, 65.2, 82.5],
-              // ['Walnut Brownie', 72.4, 53.9, 39.1]
-            ]
-          },
-          xAxis: {type: 'category'},
-          yAxis: {},
-          // Declare several bar series, each will be mapped
-          // to a column of dataset.source by default.
+          // calculable: true,
+          xAxis:
+            {
+              type: 'category',
+              data:[],
+              axisLabel: {
+                // inside: true,
+                textStyle: {
+                  color: '#999'
+                }
+              },
+              axisTick: {
+                show: false
+              },
+              axisLine: {
+                show: false
+              },
+              z: 10
+            },
+          yAxis:
+            {
+              axisLine: {
+                show: false
+              },
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                textStyle: {
+                  color: '#999'
+                }
+              }
+            },
           series: [
-            {type: 'bar'},
-            {type: 'bar'},
-            {type: 'bar'}
+            {
+              name: 'Buy',
+              type: 'bar',
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                      {offset: 0, color: '#2bd9cf'},
+                      {offset: 0.5, color: '#2bd9cf'},
+                      {offset: 1, color: '#2ab1e8'}
+                    ]
+                  )
+                },
+              },
+              data: [],
+            },
+            {
+              name: 'Sell',
+              type: 'bar',
+              itemStyle: {
+                normal: {
+                  color: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                      {offset: 0, color: '#ecdf4e'},
+                      {offset: 0.5, color: '#ecdf4e'},
+                      {offset: 1, color: '#f2ba24'}
+                    ]
+                  )
+                },
+              },
+              data: [],
+            },
+
           ]
         },
+
         coin_type:[
           {
             value:'bitcoin',
@@ -168,9 +228,15 @@
     created() {
     },
     mounted() {
-      this.getmachineid()
+      this.getmachineid();
+      window.addEventListener('resize', () => {
+        this.myChart.resize()
+      })
     },
     methods: {
+      resizeHandler() {
+        this.chart.resize()
+      },
       getmachineid(){
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
           token:this.$store.state.token,
@@ -203,7 +269,7 @@
       },
       getSummaries(param) {
         const { columns, data } = param;
-        console.log(columns)
+        // console.log(columns)
         const sums = [];
         columns.forEach((column, index) => {
           if (index === 0) {
@@ -272,42 +338,40 @@
         })
           .then(res => {
             if(res.data.ret==0){
-              // this.buy_money=[];
-              // this.sell_money=[];
-              // this.pagetotal=res.data.data.total;
-              // this.tableData=[...res.data.data.data];
-              // // this.currency_name=res.data.data.currency_name;
-              // this.tableData.forEach(item=>{
-              //   this.dataAxis.push(item.day);
-              //   if(item.buy_money){
-              //     this.bar_data.push(item.buy_money);
-              //   }
-              //   item.create_time=this.$global.timestampToTime(item.create_time);
-              // })
+              this.buy_money=[];
+              this.sell_money=[];
+              this.pagetotal=res.data.data.total;
+              this.tableData=[...res.data.data.data];
+              this.tableData.forEach(item=>{
+                this.dataAxis.unshift(item.day);
+                if(item.buy_money){
+                  this.buy_money.unshift(item.buy_money);
+                }
+                if(item.sell_money){
+                  this.sell_money.unshift(item.sell_money);
+                }
+                // item.create_time=this.$global.timestampToTime(item.create_time);
+              })
             }
             setTimeout(()=>{  //为了让加载动画效果明显,这里加入了setTimeout,实现300ms延时
               this.myChart.hideLoading(); //隐藏加载动画
               this.myChart.setOption({
-                legend: {},
-                dataset:{
-                  source: [
-                    ['product', '2015', '2016', '2017'],
-                    ['Matcha Latte', 43.3, 85.8, 93.7],
-                    ['Milk Tea', 83.1, 73.4, 55.1],
-                    ['Cheese Cocoa', 86.4, 65.2, 82.5],
-                    ['Walnut Brownie', 72.4, 53.9, 39.1]
-                  ]
-                }
-                // xAxis: {
-                //   data: this.dataAxis
-                // },
-                // series: [{
-                //   data: this.bar_data
-                // }],
+                xAxis: {
+                  data: this.dataAxis
+                },
+                series: [
+                      {
+                      data: this.buy_money
+                    },
+                  {
+                    data: this.sell_money
+                  },
+                ],
                 // title:{
                 //   subtext:'Price:'+this.currency_name,
                 // }
               })
+
             }, 300 )
           })
           .catch(error => {});

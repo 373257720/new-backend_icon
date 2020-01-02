@@ -94,7 +94,7 @@ const routes = [{
     meta: {
       title: ''
     },
-    redirect: '/home/user/atm_support',
+    redirect: '/home/dashboard',
     children: [
       {
       path: 'user',
@@ -103,7 +103,7 @@ const routes = [{
       meta: {
         title: ''
       },
-        // redirect: '/home/user/atm_support',
+      // redirect: '/home/user/dashboard',
       children: [
         {
           path: 'atm_support',

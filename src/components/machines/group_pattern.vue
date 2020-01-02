@@ -91,6 +91,7 @@
         <button @click="apply">Apply</button>
         </span>
     </el-dialog>
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -104,6 +105,8 @@
   export default {
     data() {
       return {
+        msg:'',
+        remindervisible:false,
         // centerDialogVisible: false,
         type:{
           '1':'Restart CyptoGo',
@@ -161,10 +164,22 @@
       },
       alldelete(){
         let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.machine_group_id)
-        })
-        this.beforedelete(userid_arr);
+        if(this.multipleSelection.length>0){
+          this.multipleSelection.forEach(item=>{
+            userid_arr.push(item.machine_group_id)
+          })
+          this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          }).then(() => {
+            this.beforedelete(userid_arr);
+          }).catch(() => {
+          });
+        }else{
+          this.msg="Please select"
+          this.remindervisible=true;
+        }
       },
       add(){
         this.$routerto('add_Group_Pattern')

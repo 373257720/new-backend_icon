@@ -105,7 +105,7 @@ export default {
       bar_data:[],
       dataAxis:[],
       yMax:500,
-
+      myChart:'',
       dataShadow:[],
       // searchkey: "",
       currentpage: 1,
@@ -240,7 +240,9 @@ export default {
   },
   mounted() {
     this.drawLineChart()
-
+    window.addEventListener('resize', () => {
+      this.myChart.resize()
+    })
   },
   methods: {
     routerto(){
@@ -248,12 +250,12 @@ export default {
     },
     drawLineChart() {
       // 基于准备好的dom，初始化echarts实例
-      var  myChart = echarts.init(document.getElementById('myChart'))
+     this.myChart = echarts.init(document.getElementById('myChart'))
       // myChart = this.$echarts.init(document.getElementById('myChart'));
       // 绘制基本图表
-      myChart.setOption(this.option);
+      this.myChart.setOption(this.option);
       //显示加载动画
-      myChart.showLoading();
+      this.myChart.showLoading();
       //获取数据
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsDayOrder`,{
         token:this.$store.state.token,
@@ -271,9 +273,9 @@ export default {
         }
         // console.log(this.dataAxis)
         setTimeout(()=>{  //为了让加载动画效果明显,这里加入了setTimeout,实现300ms延时
-          myChart.hideLoading(); //隐藏加载动画
+          this.myChart.hideLoading(); //隐藏加载动画
           // myChart.setOption(this.option);
-          myChart.setOption({
+          this.myChart.setOption({
             xAxis: {
               data: this.dataAxis
             },

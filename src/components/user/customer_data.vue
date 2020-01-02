@@ -1,15 +1,15 @@
 <template>
   <div class="customer_data">
-    <header><h2>CUSTOMERS DATAS</h2></header>
+    <header><h2>Customers Datas</h2></header>
     <nav>
       <div>
         <section @click="alledit(1)">Enable</section>
         <section @click="alledit(2)">Disable</section>
       </div>
       <div>
-        <span class="keyword">keyword:</span>
+        <span class="keyword">Keyword:</span>
         <el-input
-          placeholder="请输入内容"
+          placeholder="ID,Account numbers"
           v-model="keyword"
           clearable>
         </el-input>
@@ -29,7 +29,6 @@
         <el-table-column
           type="selection"
           align="center"
-          label="ID"
           width="55">
         </el-table-column>
         <el-table-column
@@ -40,20 +39,20 @@
           <template slot-scope="scope">{{ scope.row.user_id}}</template>
         </el-table-column>
         <el-table-column
-          label="COUNTRY"
+          label="Country"
           align="center">
           <template slot-scope="scope">{{ scope.row.country_name}}</template>
         </el-table-column>
         <el-table-column
           prop="username"
           align="center"
-          label="ACCOUNT NUMBERS"
+          label="Account numbers"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           class-name="edit"
           align="center"
-          label="USER ICON"
+          label="User Icon"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <el-popover
@@ -66,18 +65,18 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="status"
+          prop="status_lable"
           align="center"
-          label="STATE"
+          label="State"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="create_time"
           align="center"
-          label="CREATION TIME"
+          label="Creation Time"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="OPERATION"  class-name="edit" width="200">
+        <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
           <template slot-scope="scope">
             <span class="left"  @click="handleEdit(scope.$index, scope.row)">{{scope.row.status==1?'Disable':scope.row.status==2?'Enable':'Disable'}}</span>
             <span  @click="handleDelete(scope.$index, scope.row)">Delete</span>
@@ -85,7 +84,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -99,6 +98,8 @@
   export default {
     data() {
       return {
+        msg:'',
+        remindervisible:false,
         // centerDialogVisible: false,
         ischeck: false,
         keyword:'',
@@ -119,62 +120,29 @@
       searcher(){
         this.changepage(this.currentpage, this.pagesize,this.keyword);
       },
-      open() {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$axios
-            .post(
-              `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-              { params:{
-                  token: this.$store.state.token,
-                  user_id: currentpage,
-                  status:2
-                }
-              },
-              {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                }
-              }
-            ).then(res => {
-            console.log(res);
-            // if(res.data.ret==0){
-            //   this.pagetotal=res.data.data.total;
-            //   this.tableData=[...res.data.data.data];
-            //   // console.log(this.tableData)
-            // }
-          });
-          // this.$message({
-          //   type: 'success',
-          //   message: '删除成功!'
-          // });
-        }).catch(() => {
-
-        });
-      },
       alledit(num){
-        console.log(this.multipleSelection)
+        // console.log(this.multipleSelection)
         let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.user_id)
-        })
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-          data: {
+        if(this.multipleSelection.length>0){
+          this.multipleSelection.forEach(item=>{
+            userid_arr.push(item.user_id)
+          })
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,{
             token:this.$store.state.token,
             user_id: userid_arr,
             status:num,
-          }
-        }).then(res => {
-          console.log(res);
-          if(res.data.ret==0){
-            this.changepage(this.currentpage, this.pagesize);
-          }
-        });
+          }).then(res => {
+            if(res.data.ret==0){
+              this.msg=res.data.msg;
+              this.remindervisible=true;
+              this.changepage(this.currentpage, this.pagesize);
+            }
+          });
+        }else{
+          this.msg="Please select"
+          this.remindervisible=true;
+        }
+
       },
       handleEdit(index, row) {
         console.log(index, row);
@@ -196,10 +164,13 @@
             if(res.data.ret==0){
               if(row.status==1){
                 this.tableData[index].status=2;
+                this.tableData[index].status_lable='Banned';
               }else if(row.status==2){
                 this.tableData[index].status=1;
+                this.tableData[index].status_lable='Normal';
               }
-
+              this.msg=res.data.msg;
+              this.remindervisible=true;
             }
           });
 
@@ -208,9 +179,9 @@
       handleDelete(index, row) {
         // console.log(index, row);
         // console.log(this.currentpage, this.pagesize)
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
           this.$axios({
@@ -222,12 +193,10 @@
             }
           }).then(res => {
             console.log(res);
+            this.msg=res.data.msg;
+            this.remindervisible=true;
             if(res.data.ret==0){
               this.changepage(this.currentpage, this.pagesize);
-              // this.$message({
-              //   type: 'success',
-              //   message: '删除成功!'
-              // });
             }
           });
         }).catch(() => {
@@ -275,7 +244,11 @@
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
-              console.log(this.tableData)
+              this.tableData.forEach(item=>{
+                item.status_lable=item.status==1?'Normal':"Banned"
+                item.create_time=this.$global.timestampToTime(item.create_time)
+              })
+              // console.log(this.tableData)
             }
           })
           .catch(error => {});

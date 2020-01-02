@@ -36,6 +36,17 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   })
 }
 Vue.prototype.$qs = qs;
+
+// import 'vue-googlemaps/dist/vue-googlemaps.css'
+// import VueGoogleMaps from 'vue-googlemaps'
+// Vue.use(VueGoogleMaps, {
+//   load: {
+// //填入申请的apiKey账号
+//     apiKey: '',
+//     libraries: ['places'],
+//     useBetaRenderer: false,
+//   },
+// })
 // //让ajax携带cookie
 // axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {
@@ -80,6 +91,10 @@ String.prototype.getAns = function () {
 
 import pagevue from './components/pagevue.vue'
 Vue.component('pagevue', pagevue)
+import dialog from './components/dialog.vue'
+Vue.component('dialog_reminder', dialog)
+import confirm_dialog from './components/confirm_dialog.vue'
+Vue.component('confirm_dialog', confirm_dialog)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

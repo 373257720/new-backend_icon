@@ -122,7 +122,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -136,6 +136,8 @@
   export default {
     data() {
       return {
+        msg:'',
+        remindervisible:false,
         // centerDialogVisible: false,
         timerange:null,
         ischeck: false,
@@ -167,23 +169,44 @@
         }
       },
       alldelete(){
-        console.log(this.multipleSelection)
+        // console.log(this.multipleSelection)
         let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.machine_money_log_id)
-        })
-        this.beforedelete(userid_arr);
+        if(this.multipleSelection.length>0){
+          this.multipleSelection.forEach(item=>{
+            userid_arr.push(item.machine_money_log_id)
+          })
+          this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          }).then(() => {
+            this.beforedelete(userid_arr);
+          }).catch(() => {
+          });
+        }else{
+          this.msg="Please select"
+          this.remindervisible=true;
+        }
       },
       handleDelete(index, row) {
-        console.log(index, row);
-        this.beforedelete(row.machine_money_log_id);
+        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.beforedelete(row.machine_money_log_id);
+        }).catch(() => {
+        });
+
       },
       beforedelete(params){
+        // console.log(params)
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/deleteMachineMoneyLog`,{
           token:this.$store.state.token,
           machine_money_log_id: params,
         }).then(res => {
-          console.log(res);
+          this.msg=res.data.msg;
+          this.remindervisible=true;
           if(res.data.ret==0){
             if(this.timerange==null){
               this.changepage(this.currentpage, this.pagesize,this.keyword,'','');

@@ -8,7 +8,6 @@
     </h2>
     </header>
     <div>
-
       <nav>
         <div class="nav_right">
           <span class="keyword" >Time:</span>
@@ -28,7 +27,7 @@
         <ul>
           <li v-for="(item) in tableData" :key="item.notice_id">
             <div>
-              <p><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><i></i>{{item.title}}</p>
+              <p><img src="../../../static/ba8ba44db0bb05354954e18c91a4170.png" alt=""><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><i></i>{{item.title}}</p>
               <p @click="$routerto('alerts_details',{'notice_id':item.notice_id})"><i class="el-icon-d-arrow-right"></i>{{item.is_read=='1'?'read':'unread'}}</p>
             </div>
             <article v-html="item.content">
@@ -207,10 +206,24 @@
             display: flex;
             justify-content: space-between;
             /*height: 25px;*/
+            height: 24px;
             font-size: 16px;
-            /*font-weight: 600;*/
-            /*!*background: red;*!*/
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            p:nth-of-type(1){
+              display: flex;
+              align-items: center;
+              img{
+                height: 22px;
+                width: 22px;
+                margin-right: 10px;
+                /*vertical-align: middle;*/
+              }
+              span{
+                /*line-height: 22px;*/
+                /*vertical-align: middle;*/
+              }
+
+            }
             p:nth-of-type(2){
               color: #2AB4E5;
               cursor: pointer;

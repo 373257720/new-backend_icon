@@ -91,7 +91,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -105,6 +105,8 @@
   export default {
     data() {
       return {
+        msg:'',
+        remindervisible:false,
         // centerDialogVisible: false,
         timerange:null,
         ischeck: false,
@@ -132,40 +134,51 @@
       alldelete(){
         console.log(this.multipleSelection)
         let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.user_machine_error_id)
-        })
-        this.beforedelete(userid_arr);
+        if(this.multipleSelection.length>0){
+          this.multipleSelection.forEach(item=>{
+            userid_arr.push(item.user_machine_error_id)
+          })
+          this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          }).then(() => {
+            this.beforedelete(userid_arr);
+          }).catch(() => {
+          });
+        }else{
+          this.msg="Please select"
+          this.remindervisible=true;
+        }
       },
       handleDelete(index, row) {
-        this.beforedelete(row.user_machine_error_id);
-      },
-      beforedelete(param){
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
+          this.beforedelete(row.user_machine_error_id);
+        }).catch(() => {
+        });
+
+      },
+      beforedelete(param){
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.user_machine_error/deleteUserMachineError`,{
             token:this.$store.state.token,
             user_machine_error_id: param,
           })
             .then(res => {
-              console.log(res);
+              this.msg=res.data.msg;
+              this.remindervisible=true;
               if(res.data.ret==0){
                 if(this.timerange==null){
                   this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
                 }else{
                   this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
                 }
-                this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-                });
               }
             });
-        }).catch(() => {
-        });
+
       },
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;

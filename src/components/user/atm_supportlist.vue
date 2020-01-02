@@ -1,6 +1,6 @@
 <template>
   <div class="customer_data">
-    <header><h2>ATM TECHNICAL SUPPORT</h2></header>
+    <header><h2>Atm Technical Support</h2></header>
     <nav>
       <div>
         <section @click="$routerto('account_setting',{type:1})">Add</section>
@@ -8,9 +8,9 @@
         <section @click="alledit(2)">Disable</section>
       </div>
       <div>
-        <span class="keyword">keyword:</span>
+        <span class="keyword">Keyword:</span>
         <el-input
-          placeholder="请输入内容"
+          placeholder="ID,Account,Nickname"
           v-model="keyword"
           clearable>
         </el-input>
@@ -49,11 +49,11 @@
         <el-table-column
           prop="nickname"
           align="center"
-          label="Name"
+          label="Nickname"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="status"
+          prop="status_lable"
           align="center"
           label="State"
           show-overflow-tooltip>
@@ -61,13 +61,13 @@
         <el-table-column
           prop="email"
           align="center"
-          label="email"
+          label="Email"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="mobile"
           align="center"
-          label="Mobile"
+          label="Phone"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -84,7 +84,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -98,6 +98,8 @@
   export default {
     data() {
       return {
+        msg:'',
+        remindervisible:false,
         // centerDialogVisible: false,
         ischeck: false,
         keyword:'',
@@ -111,69 +113,33 @@
     },
     created() {
       this.changepage(this.currentpage, this.pagesize);
-
-
     },
     methods: {
       searcher(){
         this.changepage(this.currentpage, this.pagesize,this.keyword);
       },
-      open() {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$axios
-            .post(
-              `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-              { params:{
-                  token: this.$store.state.token,
-                  user_id: currentpage,
-                  status:2
-                }
-              },
-              {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                }
-              }
-            ).then(res => {
-            console.log(res);
-            // if(res.data.ret==0){
-            //   this.pagetotal=res.data.data.total;
-            //   this.tableData=[...res.data.data.data];
-            //   // console.log(this.tableData)
-            // }
-          });
-          // this.$message({
-          //   type: 'success',
-          //   message: '删除成功!'
-          // });
-        }).catch(() => {
-
-        });
-      },
       alledit(num){
-        console.log(this.multipleSelection)
         let userid_arr=[];
-        this.multipleSelection.forEach(item=>{
-          userid_arr.push(item.atm_user_id)
-        })
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
-          data: {
+        if(this.multipleSelection.length>0){
+          this.multipleSelection.forEach(item=>{
+            userid_arr.push(item.atm_user_id)
+          })
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`, {
             token:this.$store.state.token,
             atm_user_id: userid_arr,
             status:num,
-          }
-        }).then(res => {
-          console.log(res);
-          if(res.data.ret==0){
-            this.changepage(this.currentpage, this.pagesize);
-          }
-        });
+          }).then(res => {
+            this.msg=res.data.msg;
+            this.remindervisible=true;
+            if(res.data.ret==0){
+              this.changepage(this.currentpage, this.pagesize);
+            }
+          });
+        }else{
+          this.msg="Please select"
+          this.remindervisible=true;
+        }
+
       },
       handleEdit(index, row) {
         console.log(index, row);
@@ -183,23 +149,23 @@
         }else if(row.status==2){
           tostatus=1;
         }
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,
-          data: {
+        console.log(row.status)
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,{
             token:this.$store.state.token,
             atm_user_id: row.atm_user_id,
             status: tostatus,
-          }
-        }).then(res => {
+          }).then(res => {
           // console.log(res)
           if(res.data.ret==0){
             if(row.status==1){
               this.tableData[index].status=2;
+              this.tableData[index].status_lable='Banned';
             }else if(row.status==2){
               this.tableData[index].status=1;
+              this.tableData[index].status_lable='Normal';
             }
-
+            this.msg=res.data.msg;
+            this.remindervisible=true;
           }
         });
 
@@ -251,10 +217,9 @@
 
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
-
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
-                item.status=item.status==1?'Normal':"Banned"
+                item.status_lable=item.status==1?'Normal':"Banned"
                 item.create_time=this.$global.timestampToTime(item.create_time)
               })
               console.log(this.tableData)
@@ -275,15 +240,6 @@
         this.changepage(data.currentpage, data.pagesize);
       }
     },
-    watch: {
-      $route(to, from) {
-        if (to.name == "usercheck") {
-          this.ischeck = !this.ischeck;
-        } else {
-          this.ischeck = false;
-        }
-      }
-    }
   };
 </script>
 

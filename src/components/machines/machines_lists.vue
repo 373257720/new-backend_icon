@@ -141,7 +141,7 @@
         <button @click="apply">Apply</button>
         </span>
     </el-dialog>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -156,6 +156,8 @@
     data() {
       return {
         choose:'',
+        msg:"Please select",
+        remindervisible:false,
         machine_name:'',
         DialogVisible:false,
         centerDialogVisible: false,
@@ -285,7 +287,6 @@
         });
       },
       alledit(num){
-        // console.log(this.centerDialogVisible)
         if(this.multipleSelection.length>0){
           var a=[];
           this.multipleSelection.forEach(item=>{
@@ -295,15 +296,7 @@
           this.machine_name=a.join('') ;
           this.centerDialogVisible=true;
         }else{
-          this.$alert('Please select', 'Reminder', {
-            confirmButtonText: 'OK',
-            callback: action => {
-              // this.$message({
-              //   type: 'info',
-              //   message: `action: ${ action }`
-              // });
-            }
-          });
+            this.remindervisible=true;
         }
 
 

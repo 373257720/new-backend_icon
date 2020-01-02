@@ -6,28 +6,22 @@
       </h2>
       <p>{{remind}}</p>
       <div class="username">
-        <el-input placeholder="USER NAME" v-model="username" clearable>
+        <el-input placeholder="Email Account" v-model="username" clearable>
           <i slot="prefix" class="icon-user"></i>
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="PASSWORD" show-password clearable v-model="password" clearable>
+        <el-input placeholder="Password" show-password clearable v-model="password" clearable>
           <i slot="prefix" class="icon-password"></i>
         </el-input>
       </div>
       <div class="email">
-        <el-input placeholder="EMAIL VERIFICATION CODE" v-model="email" clearable>
+        <el-input placeholder="Email Vertification Code" v-model="email" clearable>
           <i slot="prefix" class="icon-email"></i>
+          <i slot="append" class="sendout">Send out</i>
+<!--          <span class="sendout">Send out</span>-->
         </el-input>
       </div>
-
-      <!-- <div class="password">
-        <el-input placeholder="请输入密码" v-model="password" show-password clearable></el-input>
-      </div>
-      <div class="password">
-        <el-input placeholder="请输入密码" v-model="password" show-password clearable></el-input>
-      </div>-->
-
       <button @click="login">SIGN IN</button>
     </div>
   </div>
@@ -50,7 +44,7 @@ export default {
       this.remind = "";
       // this.loading = true;
       //      this.$goto("logo");
-      if (this.username && this.password) {
+      if (this.username) {
         console.log(this.username , this.password)
         this.$axios
           .post(
@@ -72,8 +66,7 @@ export default {
             if (rescode == 0) {
               this.$store.dispatch("setUser",res.data.data.nickname);
               this.$store.dispatch("settoken_action",res.data.data.token);
-              this.$goto("home");
-              // this.$router.push({path:'/home'});
+              this.$goto("logo");
             }
             else{
               this.remind=res.data.msg;
@@ -82,7 +75,7 @@ export default {
           .catch(error => {});
       } else {
         // this.loading = false;
-        this.remind = "账号和密码不能为空，请输入 ";
+        this.remind = "Please enter email account";
       }
     }
   }
@@ -120,8 +113,8 @@ export default {
   text-align: center;
   position: absolute;
   left: 50%;
-  top: 92px;
-  transform: translate(-50%, 0);
+  top: 50%;
+  transform: translate(-50%, -50%);
   overflow: hidden;
   p {
     color: #f36d6c;
@@ -142,6 +135,14 @@ export default {
   }
   div.email {
     margin-bottom: 35px;
+  }
+  .sendout{
+    /*position: absolute;*/
+    /*right: 0;*/
+    color: #2ab4e5;
+    text-decoration: underline;
+    cursor: pointer;
+    /*z-index: 5;*/
   }
   button {
     background: url(../../static/transition.png) no-repeat;

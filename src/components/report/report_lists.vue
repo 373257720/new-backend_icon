@@ -175,7 +175,8 @@
               },
               z: 10
             },
-          yAxis: {
+          yAxis:
+            {
             axisLine: {
               show: false
             },

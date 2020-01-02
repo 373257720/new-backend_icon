@@ -8,7 +8,13 @@
         <el-input v-model="ruleForm.customer_service_mobile"></el-input>
       </el-form-item>
       <el-form-item label="Email:" prop="name">
-        <el-input v-model="ruleForm.customer_service_email"></el-input>
+      <el-input v-model="ruleForm.customer_service_email"></el-input>
+    </el-form-item>
+      <el-form-item label="Safe Mode Password:" prop="name">
+        <el-input show-password v-model="ruleForm.customer_service_email"></el-input>
+      </el-form-item>
+      <el-form-item label="Withdrawl Password:" prop="name">
+        <el-input show-password v-model="ruleForm.customer_service_email"></el-input>
       </el-form-item>
     </el-form>
     <section>
