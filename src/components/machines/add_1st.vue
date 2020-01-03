@@ -15,6 +15,7 @@
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">NEXT</button>
     </section>
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -143,7 +144,8 @@
     },
     methods:{
       submitForm(){
-        console.log(this.ruleForm);
+        // console.log(this.ruleForm);
+
         this.$emit('getchildren','','second');
         // this.ruleForm.token=this.$store.state.token;
         // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)

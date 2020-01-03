@@ -1,5 +1,5 @@
 <template>
-  <div class="transcation_lists">
+  <div class="transcation_details">
     <header><h2>
       <span>Transactions</span>
       <i class="el-icon-arrow-right"></i>
@@ -55,7 +55,7 @@
           currency_name: {key: 'Currency', value: ''},
           trade_price:{key: 'Purchase Price', value: ''},
           money:  {key: 'Cash', value: ''},
-          coin_number:  {key: 'BTC', value: ''},
+          coin_number:  {key: '', value: ''},
           customer_coin_address:{key:'ATM Wallet Address',value:''},
           user_coin_address: {key: 'Buyer Wallet Address', value: ''},
           miner_fee: {key: 'Miner Fee', value: ''},
@@ -77,6 +77,7 @@
           if(res.data.ret==0){
             this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
             this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
+            this.tabledata.coin_number.key=res.data.data.coin_type
             for(var i in res.data.data){
               this.tabledata['trade_type'].value=res.data.data.trade_type==1?'Buy':'Sell';
               if(this.tabledata.hasOwnProperty(i)){
@@ -108,7 +109,7 @@
 </script>
 
 <style lang="scss">
-  .transcation_lists{
+  .transcation_details{
     margin :0 0 0 50px;
     width: 90%;
     header{

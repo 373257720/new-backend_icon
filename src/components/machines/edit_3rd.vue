@@ -11,16 +11,17 @@
       <el-input v-model="ruleForm.customer_service_email"></el-input>
     </el-form-item>
       <el-form-item label="Safe Mode Password:" prop="name">
-        <el-input show-password v-model="ruleForm.customer_service_email"></el-input>
+        <el-input show-password v-model="ruleForm.safe_password"></el-input>
       </el-form-item>
       <el-form-item label="Withdrawl Password:" prop="name">
-        <el-input show-password v-model="ruleForm.customer_service_email"></el-input>
+        <el-input show-password v-model="ruleForm.withdraw_password"></el-input>
       </el-form-item>
     </el-form>
     <section>
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -47,11 +48,15 @@
         }
       };
       return{
+        msg:'',
+        remindervisible:false,
         ruleForm:{
           machine_id:'',
           company_name:'',
           customer_service_mobile:'',
           customer_service_email:'',
+          // safe_password:'',
+          // withdraw_password:'',
         },
         rules: {
           username: [
@@ -91,6 +96,7 @@
         if(this.MachineInfo.hasOwnProperty(i))
           this.ruleForm[i]=this.MachineInfo[i]
       };
+
     },
     methods:{
       submitForm(){
@@ -101,6 +107,9 @@
             if(res.data.ret==0){
               this.$emit('getchildren');
               this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
+            }else{
+              this.msg=res.data.msg;
+              this.remindervisible=true;
             }
           })
       },

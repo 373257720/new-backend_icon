@@ -57,8 +57,8 @@ axios.interceptors.response.use(res => {
       if (code >= 1000) {
         console.log(666,res.data)
         ElementUI.MessageBox({
-          title: '提示"',
-          message: '登录超时,点击返回登陆页'
+          title: 'Reminder',
+          message: res.data.msg,
         }).then(()=>{
           router.push({name:'login'})
         })

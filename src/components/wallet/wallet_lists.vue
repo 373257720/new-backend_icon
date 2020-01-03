@@ -1,6 +1,6 @@
 <template>
   <div class="wallet">
-    <header><h2>WALLET</h2></header>
+    <header><h2>Wallet</h2></header>
     <nav>
     </nav>
     <el-main v-loading="pictLoading">
@@ -18,7 +18,7 @@
           <template slot-scope="scope">{{ scope.row.coin_type}}</template>
         </el-table-column>
         <el-table-column
-          label="Wallet dress"
+          label="Wallet Address"
           align="center">
           <template slot-scope="scope">{{ scope.row.address}}</template>
         </el-table-column>
@@ -43,15 +43,17 @@
         <el-table-column
           prop="interval_time"
           align="center"
-          label="Hedge Interval"
+          label="Hedge Interval(mins)"
           show-overflow-tooltip>
         </el-table-column>
 
         <el-table-column
-          prop="api_parameter "
           align="center"
-          label="API Adress"
+          label="API Parameter"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.api_parameter?JSON.parse(scope.row.api_parameter).key+','+JSON.parse(scope.row.api_parameter).secret:'-'}}</span>
+          </template>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
           <template slot-scope="scope">
@@ -74,7 +76,6 @@
   export default {
     data() {
       return {
-        // centerDialogVisible: false,
         pictLoading:false,
         ischeck: false,
         keyword:'',
@@ -95,32 +96,7 @@
       handleedit(index, row) {
         console.log(index, row);
         this.$routerto('wallet_edit',{coin_type:row.coin_type})
-        // console.log(this.currentpage, this.pagesize)
-        // this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        //   confirmButtonText: '确定',
-        //   cancelButtonText: '取消',
-        //   type: 'warning'
-        // }).then(() => {
-        //   this.$axios({
-        //     method: 'post',
-        //     url: `${this.$baseurl}/admin_api/user.front_user/deleteUser`,
-        //     data: {
-        //       token:this.$store.state.token,
-        //       user_id: row.user_id,
-        //     }
-        //   }).then(res => {
-        //     console.log(res);
-        //     if(res.data.ret==0){
-        //       this.changepage(this.currentpage, this.pagesize);
-        //       // this.$message({
-        //       //   type: 'success',
-        //       //   message: '删除成功!'
-        //       // });
-        //     }
-        //   });
-        // }).catch(() => {
-        //
-        // });
+
       },
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;
@@ -145,28 +121,12 @@
           })
           .catch(error => {});
       },
-      handleClick(row) {
-        this.$router.push({
-          name: "usercheck",
-          query: { idx: row.userId, userIdentityType: row.userIdentityType }
-        });
-        // this.$router.push("/home/userlist/verified_user/usercheck");
-      },
       fromchildren1(data) {
         // console.log(data)
         this.currentpage=data.currentpage;
         this.changepage(data.currentpage, data.pagesize);
       }
     },
-    watch: {
-      $route(to, from) {
-        if (to.name == "usercheck") {
-          this.ischeck = !this.ischeck;
-        } else {
-          this.ischeck = false;
-        }
-      }
-    }
   };
 </script>
 

@@ -6,12 +6,11 @@
       <span>Edit</span>
     </h2>
     </header>
-
     <main>
       <nav>
         <span>Cryto Currency:</span><span>bitcon</span>
       </nav>
-      <el-form label-position="top" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form label-position="top" :rules="rules" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="Hedge Platform" prop="region">
           <el-select v-model="ruleForm.platform" placeholder="">
             <el-option
@@ -22,30 +21,33 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Hedge Balance" prop="password">
+        <el-form-item v-show="ruleForm.platform=='none'" label="Hedge Balance:" >
+          <el-input v-model="ruleForm2.coin_number" clearable autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="ruleForm.platform=='none'"  label="Hedge Interval(mins):" >
+          <el-input v-model.number="ruleForm2.interval_time" clearable autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Hedge Balance:" prop="coin_number">
           <el-input v-model="ruleForm.coin_number" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Hedge Interval" prop="nickname">
-          <el-input v-model.number="ruleForm.interval_time" clearable autocomplete="off"></el-input>
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Hedge Interval(mins):" prop="interval_time">
+          <el-input v-model="ruleForm.interval_time" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item v-show="ruleForm.platform=='binance'" label="Key" prop="nickname">
-          <el-input v-model.number="ruleForm.key" clearable autocomplete="off"></el-input>
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Key:" prop="key">
+          <el-input v-model="ruleForm.key" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item v-show="ruleForm.platform=='binance'" label="Secret" prop="nickname">
-          <el-input v-model.number="ruleForm.secret" clearable autocomplete="off"></el-input>
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Secret:" prop="secret">
+          <el-input v-model="ruleForm.secret" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <!--        <el-form-item label="API Adress" prop="repassword">-->
-        <!--          <el-input type="password" v-model="ruleForm.repassword"   clearable autocomplete="off"></el-input>-->
-        <!--        </el-form-item>-->
       </el-form>
       <section>
-        <button @click="$routerto('atm_support')">Cancel</button>
+        <button @click="$routerto('wallet')">Cancel</button>
         <button @click="submitForm('ruleForm')">Save Change</button>
 
 
       </section>
     </main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 
@@ -72,6 +74,15 @@
         }
       };
       return {
+        msg:'',
+        remindervisible:false,
+        ruleForm2: {
+          token: this.$store.state.token,
+          coin_type: this.$route.query.coin_type,
+          platform: '',
+          coin_number: '',
+          interval_time: '',
+        },
         ruleForm: {
           token: this.$store.state.token,
           coin_type: this.$route.query.coin_type,
@@ -88,37 +99,21 @@
           value: 'none',
           label: 'Non Hedge'
         }],
-        // rules: {
-        //   username: [
-        //     { required: true, message: '不能为空', trigg: 'change' }
-        //   ],
-        //
-        //   password: [
-        //     {required: true, validator: validatePass, trigger: 'blur' },
-        //     { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-        //
-        //   ],
-        //   repassword: [
-        //     { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-        //   ],
-        //   nickname:[
-        //     { required: true, message: '不能为空', trigger: 'blur' }
-        //   ],
-        //   email: [
-        //     { required: true, message: "请输入邮箱地址", trigger: "blur" },
-        //     {
-        //       type: "email",
-        //       message: "请输入正确的邮箱地址",
-        //       trigger: ["blur", "change"]
-        //     }
-        //   ],
-        //   mobile:[
-        //     { required: true, message: '不能为空', trigger: 'blur' }
-        //   ],
-        //   status:[
-        //     { required: true,},
-        //   ]
-        // }
+        rules: {
+          coin_number: [
+            { required: true, message: 'Please input', trigg: 'blur' }
+          ],
+          interval_time: [
+            { required: true, message: 'Please input', trigg: 'blur' }
+          ],
+          key: [
+            { required: true, message: 'Please input', trigg: 'blur' }
+          ],
+          secret:[
+            { required: true, message: 'Please input', trigg: 'blur' }
+          ],
+
+        }
       };
     },
     created() {
@@ -145,27 +140,32 @@
           }
         });
       },
-      // handleClick(row) {
-      //   console.log(row);
-      //   this.$router.push("/home/project/signedup/signedup_check");
-      // },
-      // fromchildren1(data) {
-      //   this.bobo = data;
-      //   // console.log(data);
-      // },
       submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm)
-          .then(res => {
-            if (res.data.ret == 0) {
-              console.log(res)
+        if(this.ruleForm.platform=='binance'){
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm)
+                .then(res => {
+                  if (res.data.ret == 0) {
+                    this.msg=res.data.msg;
+                    this.remindervisible=true;
+                  }
+                });
+            } else {
+              console.log('error submit!!');
+              return false;
             }
           });
-        // } else {
-        //   console.log('error submit!!');
-        //   return false;
-        // }
-        // });
+        }else if(this.ruleForm.platform=='none'){
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm2)
+            .then(res => {
+              if (res.data.ret == 0) {
+                this.msg=res.data.msg;
+                this.remindervisible=true;
+              }
+            });
+        }
+
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();

@@ -93,10 +93,9 @@
       <section>
         <button @click="$routerto('setting')">Cancel</button>
         <button  @click="submitForm('ruleForm')">Save Change</button>
-
       </section>
     </main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 
@@ -124,6 +123,8 @@
       };
       return {
         title:'',
+        msg:'',
+        remindervisible:false,
         rowid:'',//which  edit
         parameter_obj:{
           token:'',
@@ -224,6 +225,7 @@
       else if(this.rowid==4){
         this.title='Ethereum';
         this.ruleForm=Object.assign({}, this.ruleForm,{
+          // value:'',
           wallet:'',
           private_key:'',
         })
@@ -235,7 +237,7 @@
       else if(this.rowid==5){
         this.title='Bitgo';
         this.ruleForm=Object.assign({}, this.ruleForm,{
-          token:'',
+          bitgo_token:'',
           wallet_id:'',
           wallet_passphrase:'',
         })
@@ -255,20 +257,21 @@
         }).then(res => {
           if(res.data.ret==0){
             // console.log(res)
-            if(this.rowid==6 || this.rowid==5){
-              console.log(res.data.data[0].value)
+            if(this.rowid==6 || this.rowid==5 || this.rowid==4){
+              // console.log(res.data.data[0].value)
               for( var i in res.data.data[0].value){
                if(this.ruleForm.hasOwnProperty(i)) {
                  this.ruleForm[i]= res.data.data[0].value[i]
                }
               }
-            }else{
-              console.dir(res)
+            }
+            else{
               res.data.data.forEach(item=>{
                 if(this.ruleForm.hasOwnProperty(item.name)) {
                   this.ruleForm[item.name]=item.value;
                 }
               })
+              // console.log(this.ruleForm)
             }
             // else if(this.rowid==4){
             //   res.data.data.forEach(item=>{
@@ -289,7 +292,7 @@
       submitForm(formName) {
         // this.$refs[formName].validate((valid) => {
           // if (valid) {
-              if(this.$route.query.rowindex==6 ){
+              if(this.$route.query.rowindex==5 ){
               let ruleform={
                 token:this.$store.state.token,
                 name:'bitgo',
@@ -299,10 +302,12 @@
               }
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
                   if(res.data.ret==0){
-                    this.$routerto('setting_list')
+                    // this.$routerto('setting_list')
+                    this.msg=res.data.msg;
+                    this.remindervisible=true;
                   }
                 })
-            }else if(this.$route.query.rowindex==5){
+            }else if(this.$route.query.rowindex==4){
                 let ruleform={
                   token:this.$store.state.token,
                   name:'ethereum',
@@ -311,15 +316,19 @@
                 }
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
                   if(res.data.ret==0){
-                    this.$routerto('setting_list')
+                    // this.$routerto('setting_list')
+                    this.msg=res.data.msg;
+                    this.remindervisible=true;
                   }
                 })
               }
-
               else{
+                console.log(this.ruleForm)
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,this.ruleForm).then(res=>{
                   if(res.data.ret==0){
-                   this.$routerto('setting_list')
+                   // this.$routerto('setting_list')
+                    this.msg=res.data.msg;
+                    this.remindervisible=true;
                   }
                 })
               }

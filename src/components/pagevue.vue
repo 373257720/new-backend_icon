@@ -6,7 +6,7 @@
         :current-page="currentpages"
         :page-size="pagesizes"
         layout="total,prev, pager, next, jumper"
-        :total="pagenum"
+        :total="pagenum" :pager-count="5"
       ></el-pagination>
     </div>
     <div class="export" @click="childtodad" v-if="isexport">export </div>
@@ -25,7 +25,7 @@ export default {
   },
   created() {
     console.log()
-    if(this.$route.name=='transaction_lists'){
+    if(this.$route.name=='transaction_lists' || this.$route.name=='report_lists' || this.$route.name=='report_crytocurrency'){
       this.isexport=true;
     }
   },

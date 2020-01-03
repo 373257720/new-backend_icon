@@ -17,9 +17,9 @@
             </el-input>
           </section>
           <section>
-            <span class="keyword">Status:</span>
+            <span class="keyword" >Status:</span>
             <template>
-              <el-select v-model="formdata.Statu" placeholder="">
+              <el-select clearable v-model="formdata.Statu" placeholder="">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -42,7 +42,7 @@
         <section>
           <span class="keyword">Type:</span>
           <template>
-            <el-select v-model="formdata.Type" placeholder="">
+            <el-select clearable v-model="formdata.trade_type" placeholder="">
               <el-option
                 v-for="item in options1"
                 :key="item.value"
@@ -56,7 +56,7 @@
       <div>
         <section>
           <span class="keyword">Location:</span>
-          <el-select v-model="formdata.Location" placeholder="">
+          <el-select v-model="formdata.Location" clearable  placeholder="">
             <el-option
               v-for="item in Locationlist"
               :key="item.value"
@@ -113,12 +113,6 @@
             <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.machine_name}}</span>
           </template>
         </el-table-column>
-<!--        <el-table-column-->
-<!--          align="center"-->
-<!--          label="Photo"-->
-<!--          prop="in_money_change"-->
-<!--          show-overflow-tooltip>-->
-<!--        </el-table-column>-->
         <el-table-column
           align="center"
           label="Photo"
@@ -191,7 +185,7 @@
           TransactionID:'',
           keyword:'',
           Statu:'',
-          Type:'',
+          trade_type:'',
           Location:'',
           timerange:null,
         },
@@ -236,7 +230,7 @@
         token:this.$store.state.token
       }).then(res=>{
           if(res.data.ret==0){
-            console.log(res.data.data.data)
+            // console.log(res.data.data.data)
             res.data.data.data.forEach(item=>{
               this.Locationlist.push(
               {
@@ -245,10 +239,10 @@
               }
               )
             })
-
+            this.searcher();
           }
       })
-      this.searcher();
+
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     methods: {
@@ -292,9 +286,10 @@
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
           token: this.$store.state.token,
           page: currentpage,
+          trade_id:this.formdata.TransactionID,
           size:pagesize,
-          // Type:this.formdata.Type,
-          keyword:this.formdata.keyword,
+          trade_type:this.formdata.trade_type,
+          keyword:keyword,
           start_time:starttime,
           end_time:endtime,
           machine_id:this.formdata.keyword,
@@ -319,10 +314,10 @@
       },
       fromchildren1(data) {
         this.currentpage=data.currentpage;
-        if(this.timerange==null){
-          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+        if(this.formdata.timerange==null){
+          this.changepage(this.currentpage, this.pagesize,this.formdata.keyword,'','');
         }else{
-          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+          this.changepage(this.currentpage, this.pagesize,this.formdata.keyword,this.formdata.timerange[0],this.formdata.timerange[1]);
         }
       },
 
@@ -383,9 +378,9 @@
         text-decoration:underline;
         cursor: pointer;
       }
-      span.left{
-        margin-right: 20px;
-      }
+      /*span.left{*/
+      /*  margin-right: 20px;*/
+      /*}*/
 
     }
 

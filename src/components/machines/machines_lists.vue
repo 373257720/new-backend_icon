@@ -221,6 +221,7 @@
                 message: res.data.msg,
                 type: 'success'
               });
+            this.DialogVisible = false;
             }
           })
       },
@@ -249,42 +250,6 @@
       },
       searcher(){
         this.changepage(this.currentpage, this.pagesize,this.keyword);
-      },
-      open() {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$axios
-            .post(
-              `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-              { params:{
-                  token: this.$store.state.token,
-                  user_id: currentpage,
-                  status:2
-                }
-              },
-              {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                }
-              }
-            ).then(res => {
-            console.log(res);
-            // if(res.data.ret==0){
-            //   this.pagetotal=res.data.data.total;
-            //   this.tableData=[...res.data.data.data];
-            //   // console.log(this.tableData)
-            // }
-          });
-          // this.$message({
-          //   type: 'success',
-          //   message: '删除成功!'
-          // });
-        }).catch(() => {
-
-        });
       },
       alledit(num){
         if(this.multipleSelection.length>0){

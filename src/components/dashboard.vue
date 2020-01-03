@@ -7,7 +7,7 @@
           </div>
         </aside>
         <article >
-           <header ><span>Recent translations</span><span @click="$routerto('transaction')">SEE ALL</span></header>
+           <header ><span>Recent transactions</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
             <el-table  max-height="100%" :row-class-name="tableRowClassName"   :data="order_infors" border style="width:100%;">
               <el-table-column  prop="trade_id"  label="Transation ID" align="center"></el-table-column>
@@ -51,7 +51,7 @@
                   show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                  prop="out_support_money"
+                  prop="outcashbox_money"
                   align="center"
                   label="Outbox Cash"
                   show-overflow-tooltip>
@@ -245,8 +245,9 @@ export default {
     })
   },
   methods: {
-    routerto(){
-
+    handleDelete(a,row){;
+      // console.log( row.machine_id)
+      this.$routerto('report',{machine_id:row.machine_id})
     },
     drawLineChart() {
       // 基于准备好的dom，初始化echarts实例

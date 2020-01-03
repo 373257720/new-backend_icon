@@ -113,8 +113,6 @@
     },
     created() {
       this.changepage(this.currentpage, this.pagesize);
-
-
     },
     methods: {
       searcher(){
@@ -161,6 +159,8 @@
               status: tostatus,
             }
           }).then(res => {
+            this.msg=res.data.msg;
+            this.remindervisible=true;
             if(res.data.ret==0){
               if(row.status==1){
                 this.tableData[index].status=2;
@@ -169,8 +169,7 @@
                 this.tableData[index].status=1;
                 this.tableData[index].status_lable='Normal';
               }
-              this.msg=res.data.msg;
-              this.remindervisible=true;
+
             }
           });
 
@@ -192,7 +191,7 @@
               user_id: row.user_id,
             }
           }).then(res => {
-            console.log(res);
+            // console.log(res);
             this.msg=res.data.msg;
             this.remindervisible=true;
             if(res.data.ret==0){

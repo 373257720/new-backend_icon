@@ -85,6 +85,7 @@
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -111,6 +112,8 @@
         }
       };
       return{
+        msg:'',
+        remindervisible:false,
         dialogVisible:false,
         dialogImageUrl:'',
         fileList: [],
@@ -219,18 +222,21 @@
     if(this.$route.query.type==2){
       this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/editMachineGroup`,this.submitfordata)
         .then(res=>{
+          this.msg=res.data.msg;
+          this.remindervisible=true;
           if(res.data.ret==0){
-            console.log(res)
-            this.$routerto('group_pattern')
+            // this.$routerto('group_pattern')
             // this.$emit('getchildren');
           }
         })
     }else{
       this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/addMachineGroup`,this.tochind)
         .then(res=>{
+          this.msg=res.data.msg;
+          this.remindervisible=true;
           if(res.data.ret==0){
             console.log(res)
-            this.$routerto('group_pattern')
+            // this.$routerto('group_pattern')
             // this.$emit('getchildren');
           }
         })

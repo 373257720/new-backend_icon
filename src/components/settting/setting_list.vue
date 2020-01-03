@@ -2,16 +2,6 @@
   <div class="Setting">
     <header><h2>Setting</h2></header>
     <nav>
-<!--      <div>-->
-<!--        <span class="keyword">keyword:</span>-->
-<!--        <el-input-->
-<!--          placeholder="请输入内容"-->
-<!--          v-model="input"-->
-<!--          clearable>-->
-<!--        </el-input>-->
-<!--        <i class="el-icon-search"></i>-->
-<!--      </div>-->
-
     </nav>
     <el-main>
       <el-table ref="multipleTable" border :span-method="objectSpanMethod" :cell-class-name="tableRowClassName"
@@ -56,7 +46,7 @@
             productType: "General",
             productName: 'Cash Inbox',
           },{
-            productType: "Coin & Price",
+            productType: "Transaction",
             productName: 'Transaction Time',
           },
           // {

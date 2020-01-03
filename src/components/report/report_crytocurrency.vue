@@ -11,7 +11,7 @@
         <section>
           <span class="keyword">Machine:</span>
           <template>
-            <el-select v-model="formdata.machine_id" placeholder="">
+            <el-select clearable v-model="formdata.machine_id" placeholder="">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -24,7 +24,7 @@
         <section>
           <span class="keyword">Crytocurrency:</span>
           <template>
-            <el-select v-model="formdata.coin_type" placeholder="">
+            <el-select v-model="formdata.coin_type" clearable placeholder="">
               <el-option
                 v-for="item in coin_type"
                 :key="item.value"
@@ -56,9 +56,9 @@
       </div>
     </nav>
     <el-main >
-      <div id="myChart" :style="{width: '60%', height: '600px'}"></div>
+      <div id="myChart" :style="{width: '55%',height: '700px'}"></div>
 <!--      <div style="width: 60%;height: 600px;background: grey;"></div>-->
-      <div style="width: 38%;height: 600px;">
+      <div style="width: 40%;padding-top:60px;height: 700px">
               <el-table
                 :row-class-name="tabRowClassName"
                 border
@@ -87,6 +87,13 @@
                   show-overflow-tooltip>
                 </el-table-column>
               </el-table>
+            <pagevue
+              v-on:passtoparent="export_excel"
+              :pagenum="pagetotal"
+              :currentpages="currentpage"
+              :pagesizes="pagesize"
+              v-on:fromchildren="fromchildren1"
+            ></pagevue>
       </div>
 
     </el-main>
@@ -122,7 +129,7 @@
         formdata:{
           machine_id:'',
           timerange:null,
-          coin_type:'bitcoin',
+          coin_type:'',
         },
         currentpage: 1,
         pagesize: 10,
@@ -234,6 +241,12 @@
       })
     },
     methods: {
+      export_excel(){
+        let start_time = this.formdata.timerange==null?0:this.formdata.timerange[0];
+        let end_time = this.formdata.timerange==null?0:this.formdata.timerange[1];
+        window.location.href = `${this.$baseurl}/admin_api/machine.order/exportStatisticsCoinOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
+
+      },
       resizeHandler() {
         this.chart.resize()
       },
@@ -340,6 +353,7 @@
             if(res.data.ret==0){
               this.buy_money=[];
               this.sell_money=[];
+              this.dataAxis=[];
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
@@ -378,10 +392,10 @@
       },
       fromchildren1(data) {
         this.currentpage=data.currentpage;
-        if(this.timerange==null){
-          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+        if(this.formdata.timerange==null){
+          this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,'','');
         }else{
-          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+          this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,this.formdata.timerange[0],this.formdata.timerange[1]);
         }
       },
 

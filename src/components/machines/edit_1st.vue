@@ -61,6 +61,7 @@
         <button @click="$global.previous">BACK</button>
         <button  @click="submitForm('ruleForm')">SUBMIT</button>
       </section>
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -87,6 +88,8 @@
         }
       };
       return{
+        msg:'',
+        remindervisible:false,
         CountryList: [],
         groupList:[],
         dialogImageUrl:'',
@@ -194,9 +197,13 @@
         this.ruleForm.token=this.$store.state.token;
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
         .then(res=>{
+
           if(res.data.ret==0){
             this.$emit('getchildren');
             this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});
+          }else{
+            this.msg=res.data.msg;
+            this.remindervisible=true;
           }
         })
       },

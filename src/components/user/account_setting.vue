@@ -18,13 +18,13 @@
           <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Nickname" prop="nickname" >
-          <el-input v-model.number="ruleForm.nickname"   clearable autocomplete="off"></el-input>
+          <el-input v-model="ruleForm.nickname"   clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="Email" prop="email"  >
-          <el-input v-model.number="ruleForm.email"></el-input>
+          <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
         <el-form-item label="Phone" prop="mobile"  >
-          <el-input v-model.number="ruleForm.mobile" clearable></el-input>
+          <el-input v-model="ruleForm.mobile" clearable></el-input>
         </el-form-item>
         <el-form-item label="State" prop="status">
           <template>
@@ -55,7 +55,7 @@ export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('Please input the password'));
       } else {
         if (this.ruleForm.checkPass !== '') {
           this.$refs.ruleForm.validateField('checkPass');
@@ -65,9 +65,9 @@ export default {
     };
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'));
+        callback(new Error('Please input the password again'));
       } else if (value !== this.ruleForm.password) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error("Two inputs do not match!"));
       } else {
         callback();
       }
@@ -85,30 +85,26 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: '不能为空', trigg: 'change' }
+          { required: true, message: 'Please input', trigg: 'change' }
         ],
 
         password: [
           {required: true, validator: validatePass, trigger: 'blur' },
-          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+          { min: 6, max: 16, message: 'Length should be 6 to 16', trigger: 'blur' }
 
         ],
         repassword: [
           { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
         ],
         nickname:[
-          { required: true, message: '不能为空', trigger: 'blur' }
+          { required: true, message: 'Please input', trigger: 'blur' }
         ],
         email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
+          { required: true, message: 'Please input email address', trigger: 'blur' },
+          { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
         ],
         mobile:[
-          { required: true, message: '不能为空', trigger: 'blur' }
+          { required: true, message: 'Please input', trigger: 'blur' }
         ],
         status:[
           { required: true,},
@@ -207,15 +203,6 @@ export default {
     }
   },
 
-  watch: {
-    $route(to, from) {
-      if (to.name == "signedup_check") {
-        this.ischeck = !this.ischeck;
-      } else {
-        this.ischeck = false;
-      }
-    }
-  }
 };
 </script>
 

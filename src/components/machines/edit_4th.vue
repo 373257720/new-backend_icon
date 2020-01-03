@@ -85,6 +85,7 @@
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -111,6 +112,8 @@
         }
       };
       return{
+        msg:'',
+        remindervisible:false,
         dialogVisible:false,
         dialogImageUrl:'',
         fileList: [],
@@ -191,9 +194,11 @@
 
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
           .then(res=>{
+            this.msg=res.data.msg;
+            this.remindervisible=true;
             if(res.data.ret==0){
-              // this.$emit('getchildren');
-              this.$routerto('machines_lists')
+              this.$emit('getchildren');
+              // this.$routerto('machines_lists')
             }
           })
       },

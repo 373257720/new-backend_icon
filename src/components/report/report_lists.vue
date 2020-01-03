@@ -11,7 +11,7 @@
         <section>
           <span class="keyword">Machine:</span>
           <template>
-            <el-select v-model="formdata.machine_id" placeholder="">
+            <el-select clearable v-model="formdata.machine_id" placeholder="">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -93,6 +93,7 @@
     </el-main>
 
     <pagevue
+      v-on:passtoparent="export_excel"
       :pagenum="pagetotal"
       :currentpages="currentpage"
       :pagesizes="pagesize"
@@ -228,14 +229,23 @@
       };
     },
     created() {
-
+      this.formdata.machine_id=this.$route.query.machine_id;
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     mounted() {
-      this.getmachineid()
+      this.getmachineid();
+      window.addEventListener('resize', () => {
+        this.myChart.resize()
+      })
 
     },
     methods: {
+      export_excel(){
+        let start_time = this.formdata.timerange==null?0:this.formdata.timerange[0];
+        let end_time = this.formdata.timerange==null?0:this.formdata.timerange[1];
+        window.location.href = `${this.$baseurl}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
+
+      },
       getmachineid(){
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
           token:this.$store.state.token,
@@ -244,7 +254,10 @@
           keyword:'',
         }).then(res=>{
           if(res.data.ret==0){
-            this.formdata.machine_id=res.data.data.data[0].machine_id
+            if(!this.formdata.machine_id){
+              this.formdata.machine_id=res.data.data.data[0].machine_id
+            }
+
             res.data.data.data.forEach(item=>{
               this.options.push({
                 value:item.machine_id,
@@ -268,7 +281,7 @@
       },
       getSummaries(param) {
         const { columns, data } = param;
-        console.log(columns)
+        // console.log(columns)
         const sums = [];
         columns.forEach((column, index) => {
           if (index === 0) {
@@ -278,17 +291,18 @@
           const values = data.map(item =>
             Number(item[column.property])
           );
-
-          if (!values.every(value => isNaN(value))) {
+          // console.log(values )
+          if (!values.every(value =>   isNaN(value))) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr);
+              // console.log(value)
               if (!isNaN(value)) {
                 return prev + curr;
               } else {
                 return prev;
               }
             }, 0);
-            // sums[index] += ' 元';
+            sums[index] = sums[index].toFixed(2);
           } else {
             sums[index] = '';
           }
@@ -358,10 +372,10 @@
       },
       fromchildren1(data) {
         this.currentpage=data.currentpage;
-        if(this.timerange==null){
-          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+        if(this.formdata.timerange==null){
+          this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,'','');
         }else{
-          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+          this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,this.formdata.timerange[0],this.formdata.timerange[1]);
         }
       },
 

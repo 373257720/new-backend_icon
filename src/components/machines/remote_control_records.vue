@@ -75,7 +75,7 @@
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="create_time"
+          prop="nickname"
           align="center"
           label="Creator"
           show-overflow-tooltip>
@@ -219,9 +219,9 @@
         // console.log(data)
         this.currentpage=data.currentpage;
         if(this.timerange==null){
-          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+          this.changepage(this.currentpage, this.pagesize,this.keyword);
         }else{
-          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+          this.changepage(this.currentpage, this.pagesize,this.keyword);
         }
       }
     },
