@@ -65,6 +65,7 @@
   </div>
 </template>
 <script>
+
   export default {
     props:["MachineInfo"],
     data(){
@@ -191,6 +192,7 @@
 
     },
     methods:{
+
 
       submitForm(){
         console.log(this.ruleForm);

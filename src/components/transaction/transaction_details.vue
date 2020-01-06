@@ -34,7 +34,7 @@
           </div>
         </aside>
       </article>
-      <div class="map">
+      <div id="map">
       </div>
     </el-main>
 
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+  // import google from 'google'
   export default {
     data() {
       return {
@@ -73,7 +74,6 @@
           order_id: this.$route.query.order_id,
         }).then(res => {
           console.log(res);
-
           if(res.data.ret==0){
             this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
             this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
@@ -91,9 +91,68 @@
           }
         });
     },
+    mounted () {
+    this.initMaps()
+
+    },
+
     methods: {
-
-
+      initMaps() {
+        console.log(google)
+        this.maps = new google.maps.Map(document.getElementById("map"), {
+          zoom: 14,
+          //设置地图中心点
+          center: { lng: 107.3951, lat: 34.491 },
+          //为了关闭默认控件集,设置地图的disableDefaultUI的属性为true
+          disableDefaultUI: true,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+          // 启用缩放和平移
+          // gestureHandling: "greedy",
+          // hybrid包含卫星和地名
+          // mapTypeId: "hybrid",
+          //语言可选值：en，zh_en, zh_cn
+        });
+        var geocoder = new google.maps.Geocoder();
+        this.geocodeAddress(geocoder, this.maps);
+      },
+      // addMarkers() {
+      //   this.clearMarkers();
+      //   this.markers.forEach(item => {
+      //     let marker = new google.maps.Marker({
+      //       position: item.position,
+      //       map: this.map,
+      //       label: {
+      //         text: item.ame
+      //       }
+      //     });
+      //     let contentString = ` ${item.content} `;
+      //     var infowindow = new google.maps.InfoWindow({
+      //       content: contentString
+      //     });
+      //     //鼠标覆盖时显示弹框，鼠标移开隐藏弹框
+      //     marker.addListener("mouseover", () => {
+      //       infowindow.open(this.maps, marker);
+      //     });
+      //     marker.addListener("mouseout", () => {
+      //       infowindow.close(this.maps, marker);
+      //     });
+      //     this.markers.push(marker);
+      //   });
+      // },
+     geocodeAddress(geocoder, resultsMap) {
+       var address = "25/F Neich Tower · Wan Chai · Hong Kong";
+       geocoder.geocode({'address': address}, function (results, status) {
+         if (status === 'OK') {
+           resultsMap.setCenter(results[0].geometry.location);
+           var marker = new google.maps.Marker({
+             map: resultsMap,
+             position: results[0].geometry.location
+           });
+         } else {
+           alert('Geocode was not successful for the following reason: ' + status);
+         }
+       })
+     }
 
     },
     watch: {
@@ -254,12 +313,11 @@
         }
       }
 
-
-      div.map{
+      #map{
         width: 90%;
-        height: 200px;
+        height: 300px;
         box-sizing: border-box;
-        border: 1px solid red;
+        border: 1px solid #D4D4D4;
       }
     }
 

@@ -22,7 +22,7 @@
           end-placeholder="End"
         >
         </el-date-picker>
-        <span class="keyword">keyword:</span>
+        <span class="keyword">Keyword:</span>
         <el-input
           placeholder="Machine Name"
           v-model="keyword"
@@ -115,7 +115,7 @@
           label="Date"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="OPERATION"  class-name="edit" width="150">
+        <el-table-column  align="center" label="Operation"  class-name="edit" width="150">
           <template slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">Delete</span>
           </template>

@@ -3,9 +3,22 @@
     <div class="dashboard">
       <div class="top">
         <aside >
-          <div id="myChart" :style="{width: '100%', height: '100%'}">
+          <div class="myChart_top" >
+            <h2>Machines Overview</h2>
+              <div class="myChart_top_right">
+                <span>30 Days Volume</span>
+                <span>Sell<span class="num">{{chart_sell}}</span></span>
+                <span>Buy<span class="num">{{chart_buy}}</span></span>
+              </div>
+          </div>
+          <div id="myChart" >
+          </div>
+          <div class="myChart_top_button">
+            <span>30 Days Cumulative Revenue</span>
+            <span @click="$routerto('report')">SEE ALL</span>
           </div>
         </aside>
+
         <article >
            <header ><span>Recent transactions</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
@@ -18,7 +31,7 @@
         </article>
       </div>
         <div class="bottom">
-          <header>MACHINE INFORMATION</header>
+          <header>Machine information</header>
           <main>
             <el-main>
               <el-table
@@ -102,6 +115,8 @@ export default {
       fafa: this.$store.state.commondialog,
       value1: [], //日期选择
       value: "", //项目状态
+      chart_sell:'',
+      chart_buy:'',
       bar_data:[],
       dataAxis:[],
       yMax:500,
@@ -116,28 +131,28 @@ export default {
       option : {
         title: {
           // text: '30 Days Cumulative Revenue',
-          right:20,
-          subtext: '30 Days Cumulative Revenue',
-          subtextStyle: {//副标题的属性
-            fontSize:14,
-            color:'#000',
-            fontWeight:600,
-            // 同主标题
-          },
+          // right:20,
+          // subtext: '30 Days Cumulative Revenue',
+          // subtextStyle: {//副标题的属性
+          //   fontSize:14,
+          //   color:'#000',
+          //   fontWeight:600,
+          //   // 同主标题
+          // },
         },
         toolbox: {
           id:'right_tool',
           feature: {
-            myTool2: {
-              show: true,
-              title: 'custom extension method',
-              icon: 'image://../../static/e0ca77fe8b0e7e1c5d2ace3893d4b87.png',
-              onclick: function (){
-                console.log(newvue.$router.push({
-                  name: 'report',
-                }))
-              }
-            },
+            // myTool2: {
+            //   show: true,
+            //   title: 'custom extension method',
+            //   icon: 'image://../../static/e0ca77fe8b0e7e1c5d2ace3893d4b87.png',
+            //   onclick: function (){
+            //     console.log(newvue.$router.push({
+            //       name: 'report',
+            //     }))
+            //   }
+            // },
           }
         },
         tooltip: {
@@ -227,8 +242,8 @@ export default {
         '1':'Unpaid',
         '2':'Paid',
         '3':'',
-        '4':'canceled',
-        '5':'pending',
+        '4':'Canceled',
+        '5':'Pending',
       }
     }
   },
@@ -264,6 +279,8 @@ export default {
         size:10,
       }).then(res => {
         if(res.data.ret==0){
+          this.chart_sell=res.data.data.sell_order_number;
+          this.chart_buy=res.data.data.buy_order_number;
           res.data.data.data.forEach(item=>{
             this.dataAxis.push(item.day);
             this.bar_data.push(item.money);
@@ -288,9 +305,6 @@ export default {
       })
     },
     handleEdit(index, row) {
-      console.log(index, row);
-
-      console.log(row)
     this.$routerto('machines_edit',{machine_id:row.machine_id})
     },
     order_infor(){
@@ -340,40 +354,6 @@ export default {
       // return '';
     },
 
-    deleterow(row) {
-      console.log(row);
-      this.$confirm("确定删除？", "提示", {
-        confirmButtonText: "确定",
-        // cancelButtonText: "取消",
-        type: "warning",
-        center: true,
-        showCancelButton: false
-      }).then(() => {
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_admin_web/project/updateLifeCycle?projectId=${row.projectId}`,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        }).then(res => {
-          console.log(res);
-          this.search(this.value, null, null, this.currentpage, this.pagesize);
-        });
-      });
-    },
-
-    handleClick(row) {
-      console.log(row.userRespList);
-      // let testStr = JSON.stringify(row.userRespList);
-      this.$router.push({
-        name: "tosignup_check",
-        query: {
-          projectid: row.projectId,
-          status: row.signStatus
-          // userRespList:testStr
-        }
-      });
-    },
     fromchildren1(data) {
       // console.log(this.value1[0]);
       // console.log(data);
@@ -456,7 +436,6 @@ export default {
   margin-top: 60px;
   .dashboard {
     height: 780px;
-    // background: yellow;
     margin-left: 60px;
     margin-right: 60px;
     .el-main {
@@ -480,10 +459,61 @@ export default {
       aside {
         width: 50%;
         height: 100%;
-        border: 1px solid blue;
         box-sizing: border-box;
-        /*background: blue;*/
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        .myChart_top{
+          height: 50px;
+          display: flex;
+          display: -webkit-flex;
+          justify-content: space-between;
+          align-items: center;
+          .myChart_top_right{
+            font-size: 14px;
+            margin-right: 3%;
+            >span{
+              margin-left: 20px;
+              .num{
+                margin-left: 5px;
+                text-decoration: underline;
+                /*margin-left: 10px;*/
+              }
+            }
+          }
+        }
+        #myChart{
+          flex: 1;
+          border: 1px solid #EBEEF5;
+        }
+        .myChart_top_button{
+          position: absolute;
+          top:50px;
+          height: 50px;
+          display: -webkit-flex;
+          align-items: center;
+          right:3%;
+          span:nth-of-type(1){
+              font-size: 14px;
+          }
+          span:nth-of-type(2){
+            display: inline-block;
+            width: 130px;
+            height: 30px;
+            margin-left: 10px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            background:url(../../static/add-disable.png) no-repeat;
+            cursor: pointer;
+            background-size: cover;
+          }
+
+        }
+
       }
+
       article {
         width: 40%;
         height: 100%;
@@ -493,9 +523,9 @@ export default {
           display: flex;
           justify-content: flex-end;
           align-items: center;
+          height: 50px;
           span:nth-of-type(1){
             margin-right: 15px;
-            /*font-weight: 600;*/
           }
           span:nth-of-type(2){
             display: inline-block;
@@ -503,7 +533,8 @@ export default {
             height: 30px;
             line-height: 30px;
             text-align: center;
-            border-radius: 5px;            color: white;
+            border-radius: 5px;
+            color: white;
             background:url(../../static/add-disable.png) no-repeat;
             cursor: pointer;
             background-size: cover;
@@ -512,31 +543,13 @@ export default {
         .el-main{
           flex:1;
         }
-        /*background: green;*/
-
-        /*.warning-row {*/
-        /*  background: rgb(236, 145, 145);*/
-        /*}*/
         .success-row {
           background:#EDF1F4;
           overflow: hidden;
 
         }
         .el-table__row{
-          /*height: 20%;*/
         }
-
-        /*.el-table__body tr:hover>td{*/
-        /*  background-color: #c6cfdf!important;*/
-        /*}*/
-
-        /*.el-table__body tr.current-row>td{*/
-        /*  background-color: #c6cfdf!important;*/
-        /*}*/
-
-        /*.el-table--enable-row-hover .el-table__body tr:hover>td{*/
-        /*  background-color: #212e3e !important;*/
-        /*}*/
         span{
 
         }
@@ -547,15 +560,12 @@ export default {
     div.bottom {
       height:600px;
       width: 100%;
-      /*background: yellow;*/
       header {
         font-size: 16px;
         margin-bottom: 20px;
       }
       main {
-        /*height: 180px;*/
         width: 100%;
-        // background: green;
       }
       .edit{
       >div{
@@ -569,7 +579,6 @@ export default {
           cursor: pointer;
         }
         span.left{
-          /*margin-right: 20px;*/
         }
 
 

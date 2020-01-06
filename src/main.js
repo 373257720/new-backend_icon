@@ -11,9 +11,24 @@ import axios from 'axios';
 import 'element-ui/lib/theme-chalk/index.css';
 import global from '../src/global';
 Vue.prototype.$global = global;
-
 import locale from 'element-ui/lib/locale/lang/en'
-
+// import 'vue-googlemaps/dist/vue-googlemaps.css'
+// import VueGoogleMaps from 'vue-googlemaps'
+// Vue.use(VueGoogleMaps, {
+//   load: {
+// //填入申请的apiKey账号
+//     apiKey: 'AIzaSyAGUHg6nxNtAAksUnoaP-U9RSbZQ9FUr-A',
+//     libraries: ['places'],
+//     useBetaRenderer: false,
+//   },
+// })
+// import  VueGoogleMaps from "vue2-google-maps";
+// Vue.use(VueGoogleMaps, {
+//   load: {
+//     key: "AIzaSyAGUHg6nxNtAAksUnoaP-U9RSbZQ9FUr-A",
+//     libraries: "places" // necessary for places input
+//   }
+// });
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
 Vue.use(ElementUI);
@@ -36,17 +51,6 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   })
 }
 Vue.prototype.$qs = qs;
-
-// import 'vue-googlemaps/dist/vue-googlemaps.css'
-// import VueGoogleMaps from 'vue-googlemaps'
-// Vue.use(VueGoogleMaps, {
-//   load: {
-// //填入申请的apiKey账号
-//     apiKey: '',
-//     libraries: ['places'],
-//     useBetaRenderer: false,
-//   },
-// })
 // //让ajax携带cookie
 // axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {

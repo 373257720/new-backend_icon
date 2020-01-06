@@ -49,16 +49,16 @@
         tableData: [
           {
             address: "Cashbox Logs",
-            pic:'../../../static/Cashbox Logs.png'
+            pic:'./static/Cashbox Logs.png'
           },
           {
             address: "Machine Connect Status",
-            pic:'../../../static/Machine Connect Status.png'
+            pic:'./static/Machine Connect Status.png'
           },
 
           {
             address: "Error Logs",
-            pic:'../../../static/Error Logs.png'
+            pic:'./static/Error Logs.png'
           },
         ],
         multipleSelection: []

@@ -60,9 +60,9 @@ export default {
   },
 
   watch: {
-    commandialog: function(neww, olld) {
-      console.log(neww, olld);
-    }
+    // commandialog: function(neww, olld) {
+    //   console.log(neww, olld);
+    // }
   },
   created() {
     //在页面加载时读取sessionStorage里的状态信息
@@ -120,7 +120,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 //
 #app {
   height: 100%;

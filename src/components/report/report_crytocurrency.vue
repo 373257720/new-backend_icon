@@ -9,7 +9,7 @@
     <nav>
       <div>
         <section>
-          <span class="keyword">Machine:</span>
+          <span class="keyword" >Machine:</span>
           <template>
             <el-select clearable v-model="formdata.machine_id" placeholder="">
               <el-option
@@ -51,7 +51,7 @@
 
       </div>
       <div>
-        <p class="button">Search</p>
+        <p class="button" @click="searcher" >Search</p>
         <p class="button" @click="reset">Reset</p>
       </div>
     </nav>

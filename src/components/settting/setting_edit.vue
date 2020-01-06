@@ -375,7 +375,7 @@
       padding: 0;
     }
     main{
-      margin:30px 0 100px 20px;
+      /*margin:30px 0 100px 20px;*/
       width: 40%;
       section{
         display: flex;

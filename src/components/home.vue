@@ -48,11 +48,11 @@
               <span slot="title">REPORT</span>
             </template>
             <el-menu-item index="/home/report/report_lists"  :class="{active:isActive[2]}" @click="routerto('/home/report')">
-              <i class="el-icon-setting"></i>
+
               <span slot="title">REPORTS</span>
             </el-menu-item>
             <el-menu-item index="/home/report/report_crytocurrency"  :class="{active:isActive[2]}" @click="routerto('/home/report/report_crytocurrency')">
-              <i class="el-icon-setting"></i>
+
               <span slot="title">CRYTOCURRENCY</span>
             </el-menu-item>
 <!--            <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>-->
@@ -111,40 +111,40 @@ export default {
       },
       levelList: null,
       new_icon:{
-        dashboard:'../../static/dashborad1.png',
-        user:'../../static/user1.png',
-        machines:'../../static/machine1.png',
-        transaction:'../../static/tran1.png',
-        wallet:'../../static/wallet1.png',
-        report:'../../static/repo1.png',
-        compliance:'../../static/comp1.png',
-        setting:'../../static/setting2.png',
-        alerts:'../../static/alert1.png',
-        audit_log:'../../static/audit1.png',
+        dashboard:'./static/dashborad1.png',
+        user:'./static/user1.png',
+        machines:'./static/machine1.png',
+        transaction:'./static/tran1.png',
+        wallet:'./static/wallet1.png',
+        report:'./static/repo1.png',
+        compliance:'./static/comp1.png',
+        setting:'./static/setting2.png',
+        alerts:'./static/alert1.png',
+        audit_log:'./static/audit1.png',
       },
       color_icon:{
-        dashboard:'../../static/dashbor2.png',
-        user:'../../static/ren.png',
-        machines:'../../static/machine2.png',
-        transaction:'../../static/tran2.png',
-        wallet:'../../static/wallet2.png',
-        report:'../../static/repo2.png',
-        compliance:'../../static/comp2.png',
-        setting:'../../static/setting.png',
-        alerts:'../../static/alert2.png',
-        audit_log:'../../static/audit2.png',
+        dashboard:'./static/dashbor2.png',
+        user:'./static/ren.png',
+        machines:'./static/machine2.png',
+        transaction:'./static/tran2.png',
+        wallet:'./static/wallet2.png',
+        report:'./static/repo2.png',
+        compliance:'./static/comp2.png',
+        setting:'./static/setting.png',
+        alerts:'./static/alert2.png',
+        audit_log:'./static/audit2.png',
       },
       original_icon:{
-        dashboard:'../../static/dashbor2.png',
-        user:'../../static/ren.png',
-        machines:'../../static/machine2.png',
-        transaction:'../../static/tran2.png',
-        wallet:'../../static/wallet2.png',
-        report:'../../static/repo2.png',
-        compliance:'../../static/comp2.png',
-        setting:'../../static/setting.png',
-        alerts:'../../static/alert2.png',
-        audit_log:'../../static/audit2.png',
+        dashboard:'./static/dashbor2.png',
+        user:'./static/ren.png',
+        machines:'./static/machine2.png',
+        transaction:'./static/tran2.png',
+        wallet:'./static/wallet2.png',
+        report:'./static/repo2.png',
+        compliance:'./static/comp2.png',
+        setting:'./static/setting.png',
+        alerts:'./static/alert2.png',
+        audit_log:'./static/audit2.png',
       },
       activeName: "",
       isActive:{
@@ -159,8 +159,10 @@ export default {
   created() {
     let href = window.location.href;
     // console.log(href.split("/#")[1])
-   this.activeName = href.split("/#")[1];
-    let path =  href.split("/#")[1].substr(1);
+   this.activeName = href.split("#")[1];
+    // console.log( this.activeName)
+    let path =  href.split("#")[1].substr(1);
+    console.log(path)
     path =path.split('/');
     this.color_icon[path[1]]=this.new_icon[path[1]];
   },
@@ -171,7 +173,6 @@ export default {
     // this.getActiveNav();
   },
   methods: {
-
     getActiveNav() {
       let currentUrl = window.location.href;
       this.NavActive = currentUrl.split('#')[1].replace("/","");
@@ -181,14 +182,6 @@ export default {
     routerto(num){
       this.$router.push({path:num})
     },
-    // handleSelect(key, keyPath) {
-    //   // console.log(key, keyPath);
-    //   // for(var i in this.isActive){
-    //   //   this.isActive[i]=false;
-    //   // }
-    //   // this.isActive[key]=true;
-    //
-    // },
     selectone(index, indexPath){
       console.log( index, indexPath)
       for(let key in this.coverimg){
@@ -262,18 +255,6 @@ export default {
       this.handleSelect(index.path);
 
     },
-    // $route(to, from) {
-    //   if (to.path) {
-    //     this.activeName = to.path;
-    //     var str = to.path;
-    //     // console.log(index);
-    //
-    //     // str = str.substring(index + 1, str.length);
-    //
-    //     // alert(str);
-    //   }
-    //   this.getBreadcrumb();
-    // }
   }
 };
 </script>
@@ -282,12 +263,6 @@ export default {
   .is-opened {
     margin: 0;
   }
-  /*.el-menu-item:focus, .el-menu-item:hover{*/
-  /*  background: none;*/
-  /*}*/
-  /*.el-submenu__title:hover {*/
-  /*  background:none;*/
-  /*}*/
   .el-submenu {
     margin: 0;
 
@@ -392,21 +367,9 @@ export default {
         height: 60px;
       }
     }
-    // background: red;
   }
-  /*.el-menu{*/
-  /*  height: 100%;*/
-  /*  overflow-y: auto;*/
-  /*  !*overflow: hidden;*!*/
-  /*}*/
-
     .maincontent {
-    /*position: absolute;*/
-    // position: relative;
     flex:1;
-    // border-top: 1px solid #ebeef5;
-    /*padding-top: 90px;*/
-    // padding-bottom: 50px;
     box-sizing: border-box;
     overflow-y: scroll;
     /*top: 50px;*/
@@ -416,7 +379,6 @@ export default {
     /*width: calc(100% - 250px);**/
     /*height: calc(100% - 50px);*/
   }
-  // text-align: center;
 }
 
 h1,

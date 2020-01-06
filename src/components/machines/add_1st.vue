@@ -4,7 +4,7 @@
       <el-form-item label="Group:" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="Warning E-mail Adress" prop="name">
+      <el-form-item label="Warning E-mail Address" prop="name">
         <el-input v-model="ruleForm.alert_email"></el-input>
       </el-form-item>
       <el-form-item label="Emergent Contact Number:" prop="name">
