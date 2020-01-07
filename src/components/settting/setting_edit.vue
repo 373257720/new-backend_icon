@@ -95,7 +95,7 @@
         <button  @click="submitForm('ruleForm')">Save Change</button>
       </section>
     </main>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 
@@ -124,6 +124,7 @@
       return {
         title:'',
         msg:'',
+        successto:'',
         remindervisible:false,
         rowid:'',//which  edit
         parameter_obj:{
@@ -301,10 +302,12 @@
                 wallet_passphrase:this.ruleForm.wallet_passphrase
               }
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
+                  this.msg=res.data.msg;
+                  this.remindervisible=true;
                   if(res.data.ret==0){
+                    this.successto='setting_list';
                     // this.$routerto('setting_list')
-                    this.msg=res.data.msg;
-                    this.remindervisible=true;
+
                   }
                 })
             }else if(this.$route.query.rowindex==4){
@@ -315,20 +318,22 @@
                   private_key:this.ruleForm.private_key,
                 }
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,ruleform).then(res=>{
+                  this.msg=res.data.msg;
+                  this.remindervisible=true;
                   if(res.data.ret==0){
+                    this.successto='setting_list';
                     // this.$routerto('setting_list')
-                    this.msg=res.data.msg;
-                    this.remindervisible=true;
+
                   }
                 })
               }
               else{
                 console.log(this.ruleForm)
                 this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.user_config/editUserConfig`,this.ruleForm).then(res=>{
+                  this.msg=res.data.msg;
+                  this.remindervisible=true;
                   if(res.data.ret==0){
-                   // this.$routerto('setting_list')
-                    this.msg=res.data.msg;
-                    this.remindervisible=true;
+                    this.successto='setting_list';
                   }
                 })
               }
@@ -376,6 +381,7 @@
     }
     main{
       /*margin:30px 0 100px 20px;*/
+      margin: 50px 0 0 0;
       width: 40%;
       section{
         display: flex;
@@ -389,6 +395,7 @@
           font-size: 16px;
           line-height: 40px;
           border-radius: 5px;
+          background: #ddd;
 
         }
         button:nth-of-type(2){

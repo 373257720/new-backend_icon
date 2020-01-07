@@ -1,12 +1,12 @@
 <template>
-  <div class="machines">
+  <div class="machines"  v-loading="loading">
     <header><h2>Machines</h2></header>
     <nav>
       <div>
         <section @click="alledit" >Apply Group Pattern</section>
       </div>
       <div>
-        <span class="keyword">keyword:</span>
+        <span class="keyword">Keyword:</span>
         <el-input
           placeholder=""
           v-model="keyword"
@@ -173,33 +173,29 @@
         machine_idx:'',
         multipleSelection: [],
         options: [],
-        machine_group_id: ''
+        machine_group_id: '',
+        loading:false,
       };
     },
 
     created() {
+      this.loading=true;
       this.changepage(this.currentpage, this.pagesize);
-
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
         token:this.$store.state.token,
         page:this.currentpage,
         size:this.pagesize,
         keyword:'',
       }).then(res=>{
-        console.log(res)
-        if(res.data.ret==0){
-          console.log(res.data.data.data)
+        // console.log(res)
 
+        if(res.data.ret==0){
        this.options=   res.data.data.data.map((item,idx)=>{
                   return{
                        value: item.machine_group_id,
                        label: item.name
                      }
           })
-          // this.options.push({
-          //   value: '选项1',
-          //   label: '黄金糕'
-          // })
 
         }
       })
@@ -315,12 +311,10 @@
             }
           )
           .then(res => {
-            // console.log(res)
+            this.loading=false;
             if(res.data.ret==0){
-
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
-              // console.log(this.tableData)
             }
           })
           .catch(error => {});

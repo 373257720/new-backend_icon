@@ -4,24 +4,24 @@
       <div class="top con">
         <!-- <div class="top_left fl">BANK投资银行</div> -->
         <div class="top_right fr">
-          <el-dropdown @command="handleCommandlang" trigger="click" class="language">
-            <span class="el-dropdown-link">
-              {{language}}
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="en_US">ENGLISH</el-dropdown-item>
-              <el-dropdown-item command="zh_CN">中文</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+<!--          <el-dropdown @command="handleCommandlang" trigger="click" class="language">-->
+<!--            <span class="el-dropdown-link">-->
+<!--              {{language}}-->
+<!--              <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--            </span>-->
+<!--            <el-dropdown-menu slot="dropdown">-->
+<!--              <el-dropdown-item command="en_US">ENGLISH</el-dropdown-item>-->
+<!--              <el-dropdown-item command="zh_CN">中文</el-dropdown-item>-->
+<!--            </el-dropdown-menu>-->
+<!--          </el-dropdown>-->
           <el-dropdown @command="handleCommand" trigger="click" v-if="this.$store.state.topright">
             <span class="el-dropdown-link">
               {{this.$store.state.currentUser}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="account" >MY Account</el-dropdown-item>
-              <el-dropdown-item command="login">Log out</el-dropdown-item>
+              <el-dropdown-item command="account" ><i><img src="../static/my account.png" alt=""></i>My account</el-dropdown-item>
+              <el-dropdown-item command="login"><i><img src="../static/logout.png" alt=""></i>Log out</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -121,7 +121,14 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-//
+  .el-dropdown-menu__item{
+    i{
+      img {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
 #app {
   height: 100%;
   width: 100%;
@@ -147,6 +154,7 @@ export default {
   .top_right {
     // color: #788ca5;
     height: 50px;
+    cursor: pointer;
     font-size: 18px;
     font-weight: 700;
     display: flex;
@@ -158,6 +166,7 @@ export default {
     .el-dropdown{
       color: #788ca5;
     }
+
   }
 }
 #bottom {

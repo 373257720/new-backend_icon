@@ -193,6 +193,7 @@
           width: 40%;
           height: 40px;
           cursor: pointer;
+          background: #ddd;
           color: white;
           font-size: 16px;
           line-height: 40px;

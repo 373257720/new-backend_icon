@@ -1,5 +1,5 @@
 <template>
-  <div class="report_crytocurrency">
+  <div class="report_crytocurrency" v-loading="loading">
     <header><h2>
       <span @click="$routerto('audit_log')">Reports</span>
           <i class="el-icon-arrow-right"></i>
@@ -119,6 +119,7 @@
   export default {
     data() {
       return {
+        loading:false,
         // centerDialogVisible: false,
         dataAxis:[],
        buy_money:[],
@@ -270,6 +271,7 @@
         })
       },
       drawLineChart() {
+        this.loading=true;
         // 基于准备好的dom，初始化echarts实例
         this.myChart = echarts.init(document.getElementById('myChart'))
         // 绘制基本图表
@@ -350,6 +352,7 @@
           coin_type:this.formdata.coin_type,
         })
           .then(res => {
+            this.loading=false;
             if(res.data.ret==0){
               this.buy_money=[];
               this.sell_money=[];

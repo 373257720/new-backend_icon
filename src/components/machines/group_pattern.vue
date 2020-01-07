@@ -1,5 +1,5 @@
 <template>
-  <div class="remote_control_records">
+  <div class="remote_control_records" v-loading="loading">
     <!--    <header><h2>CUSTOMERS DATAS</h2></header>-->
     <header><h2>
       <span>Machines</span>
@@ -14,7 +14,7 @@
         <!--        <section @click="alledit(2)">Export</section>-->
       </div>
       <div class="nav_right">
-        <span class="keyword">keyword:</span>
+        <span class="keyword">Keyword:</span>
         <el-input
           placeholder="Machine Name"
           v-model="keyword"
@@ -42,6 +42,7 @@
         <el-table-column
           label="Group"
           align="left"
+          width="200"
 
         >
           <template slot-scope="scope">{{ scope.row.name}}</template>
@@ -133,10 +134,12 @@
         multipleSelection: [],
         options: [
         ],
+        loading:false,
         machine_id: [],
       };
     },
     created() {
+
       this.searcher();
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
@@ -211,26 +214,18 @@
         // this.beforedelete(row.machine_operate_id);
       },
       beforedelete(param){
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/deleteMachineGroup`,{
             token:this.$store.state.token,
             machine_group_id: param,
           })
             .then(res => {
+              this.msg=res.data.msg;
+              this.remindervisible=true;
+              console.log(this.msg)
               if(res.data.ret==0){
                 this.changepage(this.currentpage, this.pagesize,this.keyword);
-                this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-                });
               }
             });
-        }).catch(() => {
-        });
       },
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;
@@ -251,6 +246,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
+        this.loading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
           token: this.$store.state.token,
           page: currentpage,
@@ -258,6 +254,7 @@
           keyword:keyword,
         })
           .then(res => {
+            this.loading=false;
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];

@@ -222,7 +222,7 @@
                 item.status_lable=item.status==1?'Normal':"Banned"
                 item.create_time=this.$global.timestampToTime(item.create_time)
               })
-              console.log(this.tableData)
+              // console.log(this.tableData)
             }
           })
           .catch(error => {});

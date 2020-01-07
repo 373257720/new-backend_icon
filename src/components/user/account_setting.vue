@@ -1,7 +1,7 @@
 <template>
   <div class="account_setting">
     <header><h2>
-      <span>ATM TECHNICAL SUPPORT</span>
+      <span>Atm Technical Support</span>
     <i class="el-icon-arrow-right"></i>
       <span>{{title}}</span>
     </h2>
@@ -116,10 +116,10 @@ export default {
     // console.log(this.$route.query)
     this.ruleForm.token=this.$store.state.token;
     if(this.$route.query.type==1){
-        this.title='ADD';
+        this.title='Add';
 
     }else if(this.$route.query.type==2){
-      this.title='EDIT';
+      this.title='Edit';
       this.ruleForm.atm_user_id=this.$route.query.atm_user_id;
       this.getdata();
     }
@@ -236,6 +236,7 @@ export default {
           height: 40px;
           cursor: pointer;
           color: white;
+          background: #ddd;
           font-size: 16px;
           line-height: 40px;
           border-radius: 5px;

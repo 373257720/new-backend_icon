@@ -73,7 +73,7 @@
           <el-input
             type="textarea"
             :autosize="{ minRows: 10, maxRows: 10}"
-            placeholder="请输入内容"
+            placeholder=""
             v-model="ruleForm.advertisement_language">
           </el-input>
       </el-form-item>
@@ -85,7 +85,7 @@
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -113,6 +113,7 @@
       };
       return{
         msg:'',
+        successto:"",
         remindervisible:false,
         dialogVisible:false,
         dialogImageUrl:'',
@@ -198,7 +199,7 @@
             this.remindervisible=true;
             if(res.data.ret==0){
               this.$emit('getchildren');
-              // this.$routerto('machines_lists')
+              // this.successto='machines_lists'
             }
           })
       },

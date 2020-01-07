@@ -73,7 +73,7 @@
         <el-input
           type="textarea"
           :autosize="{ minRows: 10, maxRows: 10}"
-          placeholder="请输入内容"
+          placeholder=""
           v-model="ruleForm.advertisement_language">
         </el-input>
       </el-form-item>
@@ -82,10 +82,10 @@
       </el-dialog>
     </el-form>
     <section>
-      <button @click="$global.previous">BACK</button>
+      <button @click="goback">BACK</button>
       <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -113,6 +113,7 @@
       };
       return{
         msg:'',
+        successto:"",
         remindervisible:false,
         dialogVisible:false,
         dialogImageUrl:'',
@@ -215,6 +216,9 @@
     //
     },
     methods:{
+      goback(){
+        this.$emit('back','third')
+      },
       submitForm(){
         // this.ruleForm.token=this.$store.state.token;
         // this.$emit('getchildren',this.ruleForm);
@@ -225,8 +229,7 @@
           this.msg=res.data.msg;
           this.remindervisible=true;
           if(res.data.ret==0){
-            // this.$routerto('group_pattern')
-            // this.$emit('getchildren');
+            this.successto='group_pattern'
           }
         })
     }else{
@@ -235,9 +238,7 @@
           this.msg=res.data.msg;
           this.remindervisible=true;
           if(res.data.ret==0){
-            console.log(res)
-            // this.$routerto('group_pattern')
-            // this.$emit('getchildren');
+            this.successto='group_pattern'
           }
         })
     }

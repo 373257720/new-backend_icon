@@ -10,9 +10,15 @@
       <el-form-item label="Email:" prop="name">
         <el-input v-model="ruleForm.customer_service_email"></el-input>
       </el-form-item>
+      <el-form-item label="Safe Mode Password:" prop="name">
+        <el-input show-password v-model="ruleForm.safe_password"></el-input>
+      </el-form-item>
+      <el-form-item label="Withdrawl Password:" prop="name">
+        <el-input show-password v-model="ruleForm.withdraw_password"></el-input>
+      </el-form-item>
     </el-form>
     <section>
-      <button @click="$global.previous">BACK</button>
+      <button @click="goback">BACK</button>
       <button  @click="submitForm('ruleForm')">NEXT</button>
     </section>
   </div>
@@ -46,6 +52,8 @@
           company_name:'',
           customer_service_mobile:'',
           customer_service_email:'',
+          safe_password:'',
+          withdraw_password:'',
         },
         rules: {
           username: [
@@ -91,11 +99,9 @@
     },
     mounted() {
       if(this.$route.query.type==2){
-        // console.log(this.tochind)
         for(let i in this.ruleForm){
           if(this.tochind.hasOwnProperty(i)){
             this.ruleForm[i]=this.tochind[i]
-            // console.log(this.tochind)
           }
 
         }
@@ -103,6 +109,9 @@
       }
     },
     methods:{
+      goback(){
+        this.$emit('back','second')
+      },
       submitForm(){
       this.$emit('getchildren','','fourth');
   //       this.ruleForm.token=this.$store.state.token;

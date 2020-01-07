@@ -20,7 +20,7 @@
         </aside>
 
         <article >
-           <header ><span>Recent transactions</span><span @click="$routerto('transaction')">SEE ALL</span></header>
+           <header ><span>Recent Transactions</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
             <el-table  max-height="100%" :row-class-name="tableRowClassName"   :data="order_infors" border style="width:100%;">
               <el-table-column  prop="trade_id"  label="Transation ID" align="center"></el-table-column>
@@ -31,7 +31,7 @@
         </article>
       </div>
         <div class="bottom">
-          <header>Machine information</header>
+          <header>Machine Information</header>
           <main>
             <el-main>
               <el-table
@@ -87,12 +87,12 @@
       :pagesizes="pagesize"
       v-on:fromchildren="fromchildren1"
     ></pagevue>
-    <el-dialog title="提示" v-model="fafa" width="30%" height="50%">
-      <span>{{this.$store.state.commondialog}}</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-      </el-dialog>
+<!--    <el-dialog title="提示" v-model="fafa" width="30%" height="50%">-->
+<!--      <span>{{this.$store.state.commondialog}}</span>-->
+<!--      <span slot="footer" class="dialog-footer">-->
+<!--        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>-->
+<!--      </span>-->
+<!--      </el-dialog>-->
     </div>
   </div>
 </template>
@@ -333,7 +333,7 @@ export default {
               // console.log(res.data.data)
               this.pagetotal=res.data.data.total;
              this.machine_infor=[...res.data.data.data];
-              console.log(this.machine_infor)
+              // console.log(this.machine_infor)
             }
       })
     },

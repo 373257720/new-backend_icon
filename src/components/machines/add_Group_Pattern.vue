@@ -12,13 +12,13 @@
                 <add_1st v-on:getchildren="fromchildren"></add_1st>
               </el-tab-pane>
               <el-tab-pane label="Price & Fee" name="second">
-                  <add_2nd v-on:getchildren="fromchildren"></add_2nd>
+                  <add_2nd v-on:getchildren="fromchildren" v-on:back="back_fromson"></add_2nd>
               </el-tab-pane>
               <el-tab-pane label="Operator" name="third">
-                <add_3rd v-on:getchildren="fromchildren"></add_3rd>
+                <add_3rd v-on:getchildren="fromchildren"  v-on:back="back_fromson"></add_3rd>
               </el-tab-pane>
               <el-tab-pane label="Advertisement" name="fourth">
-                <add_4th  :tochind="MachineInfo" v-on:getchildren="fromchildren"></add_4th>
+                <add_4th  :tochind="MachineInfo"  v-on:back="back_fromson" v-on:getchildren="fromchildren"></add_4th>
               </el-tab-pane>
         </el-tabs>
 <!--      <router-view   v-on:getchildren="fromchildren"></router-view>-->
@@ -116,6 +116,10 @@
         }
         console.log(this.MachineInfo);
 
+      },
+      back_fromson(num){
+        // console.log(num)
+        this.activeName=num;
       },
       // getdata(){
       //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
@@ -215,6 +219,7 @@
           width: 40%;
           height: 40px;
           cursor: pointer;
+          background: #ddd;
           color: white;
           font-size: 16px;
           line-height: 40px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="report_lists">
+  <div class="report_lists" v-loading="loading">
     <header><h2>
     <span @click="$routerto('audit_log')">Reports</span>
 <!--    <i class="el-icon-arrow-right"></i>-->
@@ -113,6 +113,7 @@
   export default {
     data() {
       return {
+        loading:false,
         bar_data:[],
         dataAxis:[],
         yMax:500,
@@ -257,7 +258,6 @@
             if(!this.formdata.machine_id){
               this.formdata.machine_id=res.data.data.data[0].machine_id
             }
-
             res.data.data.data.forEach(item=>{
               this.options.push({
                 value:item.machine_id,
@@ -269,12 +269,13 @@
         })
       },
       drawLineChart() {
+        this.loading=true;
         // 基于准备好的dom，初始化echarts实例
         this.myChart = echarts.init(document.getElementById('myChart'))
         // 绘制基本图表
         this.myChart.setOption(this.option);
         //显示加载动画
-        this.myChart.showLoading();
+        // this.myChart.showLoading();
         //获取数据
         this.searcher()
 
@@ -330,6 +331,7 @@
         }
       },
       changepage(currentpage, pagesize,machine_id,starttime,endtime) {
+
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsMachineOrder`,{
           token: this.$store.state.token,
           page: currentpage,
@@ -339,12 +341,13 @@
           machine_id:machine_id,
         })
           .then(res => {
+            this.loading=false;
             if(res.data.ret==0){
               this.dataAxis=[];
               this.bar_data=[];
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
-              this.currency_name=res.data.data.currency_name;
+              this.currency_name=res.data.data.currency_name?res.data.data.currency_name:'';
               this.tableData.forEach(item=>{
                 this.dataAxis.push(item.day);
                 if(item.buy_money){

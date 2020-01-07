@@ -87,7 +87,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -102,9 +102,11 @@
     data() {
       return {
         // centerDialogVisible: false,
+        msg:'',
+        remindervisible:false,
         type:{
-            '1':'Restart CyptoGo',
-            '2':'Reboot System',
+            '1':'Reboot System',
+            '2':'Restart CyptoGo',
             '3':'Lock Screen',
             '4':'Unlock Screen'
         },
@@ -146,9 +148,9 @@
         this.beforedelete(row.machine_operate_id);
       },
       beforedelete(param){
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/deleteMachineOperate`,{
@@ -156,12 +158,10 @@
             machine_operate_id: param,
           })
             .then(res => {
+              this.msg=res.data.msg;
+              this.remindervisible=true;
               if(res.data.ret==0){
                   this.changepage(this.currentpage, this.pagesize,this.keyword);
-                this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-                });
               }
             });
         }).catch(() => {

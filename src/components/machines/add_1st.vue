@@ -4,7 +4,7 @@
       <el-form-item label="Group:" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="Warning E-mail Address" prop="name">
+      <el-form-item label="Warning E-mail Address:" prop="name">
         <el-input v-model="ruleForm.alert_email"></el-input>
       </el-form-item>
       <el-form-item label="Emergent Contact Number:" prop="name">
@@ -15,7 +15,7 @@
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">NEXT</button>
     </section>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+<!--    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>-->
   </div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div class="login con">
+    <div class="login con" v-loading="loading">
       <h2>
         <img src="../../static/sign.png" alt />
       </h2>
@@ -16,9 +16,9 @@
         </el-input>
       </div>
       <div class="email">
-        <el-input placeholder="Email Vertification Code" v-model="email" clearable>
+        <el-input placeholder="Email Vertification Code" v-model="code" clearable>
           <i slot="prefix" class="icon-email"></i>
-          <i slot="append" class="sendout">Send out</i>
+          <i slot="append" class="sendout" @click="getcode">Send out</i>
 <!--          <span class="sendout">Send out</span>-->
         </el-input>
       </div>
@@ -34,25 +34,37 @@ export default {
       username: "",
       password: "",
       remind: "",
-      email:'',
+      code:'',
       loading: false
     };
   },
   created() {},
   methods: {
+    getcode(){
+      this.loading=true;
+      this.$global.post_encapsulation(`${this.$baseurl}/admin_api/common.common/sendEmailCode`,{
+        email:this.username,
+        type:'login',
+      }).then(res=>{
+        this.loading=false;
+        this.remind=res.data.msg;
+
+        // console.log(res)
+      })
+    },
     login() {
       this.remind = "";
       // this.loading = true;
       //      this.$goto("logo");
       if (this.username) {
-        console.log(this.username , this.password)
+        // console.log(this.username , this.password)
         this.$axios
           .post(
             `${this.$baseurl}/admin_api/user.back_user/login`,
             this.$qs.stringify({
               username: this.username,
               password: this.password,
-              verify:'',
+              verify:this.code,
             }),
             {
               headers: {

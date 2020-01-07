@@ -41,6 +41,7 @@ export default {
 #logo {
   position: relative;
   top: 50px;
+  cursor: pointer;
   height: calc(100% - 50px);
 }
 .logo {

@@ -8,7 +8,8 @@
     </header>
     <main>
       <nav>
-        <span>Cryto Currency:</span><span>bitcon</span>
+        <span>Cryto Currency:</span>
+        <span>{{this.ruleForm.coin_type}}</span>
       </nav>
       <el-form label-position="top" :rules="rules" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="Hedge Platform" prop="region">
@@ -47,7 +48,7 @@
 
       </section>
     </main>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 
@@ -76,6 +77,7 @@
       return {
         msg:'',
         remindervisible:false,
+        successto:'',
         ruleForm2: {
           token: this.$store.state.token,
           coin_type: this.$route.query.coin_type,
@@ -130,13 +132,17 @@
           },
         }).then(res => {
           if (res.data.ret == 0) {
-            this.ruleForm.key = res.data.data.api_parameter.key;
-            this.ruleForm.secret = res.data.data.api_parameter.secret;
+            // console.log(res.data.data.api_parameter.key)
+            if(res.data.data.api_parameter){
+              this.ruleForm.key = res.data.data.api_parameter.key;
+              this.ruleForm.secret = res.data.data.api_parameter.secret;
+            }
             for (let key in res.data.data) {
               if (this.ruleForm.hasOwnProperty(key)) {
                 this.ruleForm[key] = res.data.data[key];
               }
             }
+            // console.log(this.ruleForm)
           }
         });
       },
@@ -146,9 +152,10 @@
             if (valid) {
               this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm)
                 .then(res => {
+                  this.msg=res.data.msg;
+                  this.remindervisible=true;
                   if (res.data.ret == 0) {
-                    this.msg=res.data.msg;
-                    this.remindervisible=true;
+                      this.successto='wallet_lists'
                   }
                 });
             } else {
@@ -159,9 +166,10 @@
         }else if(this.ruleForm.platform=='none'){
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm2)
             .then(res => {
+              this.msg=res.data.msg;
+              this.remindervisible=true;
               if (res.data.ret == 0) {
-                this.msg=res.data.msg;
-                this.remindervisible=true;
+                this.successto='wallet_lists'
               }
             });
         }
@@ -221,6 +229,7 @@
           font-size: 16px;
           line-height: 40px;
           border-radius: 5px;
+          background: #ddd;
 
         }
 

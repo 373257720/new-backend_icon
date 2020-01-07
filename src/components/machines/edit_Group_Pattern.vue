@@ -9,16 +9,16 @@
     <main >
       <el-tabs v-if="status" v-model="activeName" :stretch="true" @tab-click="handleClick">
         <el-tab-pane label="Group Pattern" name="first">
-          <add_1st  :tochind="MachineInfo" v-on:getchildren="fromchildren"></add_1st>
+          <add_1st  :tochind="MachineInfo" v-on:getchildren="fromchildren" ></add_1st>
         </el-tab-pane>
         <el-tab-pane label="Price & Fee" name="second">
-          <add_2nd :tochind="MachineInfo" v-on:getchildren="fromchildren"></add_2nd>
+          <add_2nd :tochind="MachineInfo" v-on:getchildren="fromchildren"  v-on:back="back_fromson"></add_2nd>
         </el-tab-pane>
         <el-tab-pane label="Operator" name="third">
-          <add_3rd :tochind="MachineInfo" v-on:getchildren="fromchildren"></add_3rd>
+          <add_3rd :tochind="MachineInfo" v-on:getchildren="fromchildren"  v-on:back="back_fromson"></add_3rd>
         </el-tab-pane>
         <el-tab-pane label="Advertisement" name="fourth">
-          <add_4th  :tochind="MachineInfo" :submitfordata="submitfordata" v-on:getchildren="fromchildren"></add_4th>
+          <add_4th  :tochind="MachineInfo" :submitfordata="submitfordata"  v-on:back="back_fromson" v-on:getchildren="fromchildren"></add_4th>
         </el-tab-pane>
       </el-tabs>
     </main>
@@ -119,6 +119,10 @@
       })
     },
     methods: {
+      back_fromson(num){
+        // console.log(num)
+        this.activeName=num;
+      },
       fromchildren(a,b){
         if(a){
           this.submitfordata=Object.assign(this.submitfordata,a)
@@ -130,28 +134,7 @@
 
       },
       handleClick(tab, event) {
-        // console.log(tab, event);
-        // if(tab.name=='first'){
-        //   this.$routerto('add_1st',{machine_id:this.$route.query.machine_id});
-        // }
-        // if(tab.name=='second'){
-        //   this.$routerto('add_2nd',{machine_id:this.$route.query.machine_id});
-        // };
-        // if(tab.name=='third'){
-        //   this.$routerto('add_3rd',{machine_id:this.$route.query.machine_id});
-        // }
-        // if(tab.name=='fourth'){
-        //   this.$routerto('add_4th',{machine_id:this.$route.query.machine_id});
-        // }
       }
-      // fromchildren(data) {
-      //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
-      //   ).then(res=>{
-      //     console.log(res )
-      //     this.MachineInfo=res.data.data;
-      //   })
-      //
-      // },
     },
   };
 </script>
@@ -218,6 +201,7 @@
           cursor: pointer;
           color: white;
           font-size: 16px;
+          background: #ddd;
           line-height: 40px;
           border-radius: 5px;
         }

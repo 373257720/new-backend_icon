@@ -1,5 +1,5 @@
 <template>
-  <div class="transcation_lists">
+  <div class="transcation_lists" v-loading="loading">
     <header><h2>
 <!--      <span @click="$routerto('audit_log')">Audit Logs</span>-->
 <!--      <i class="el-icon-arrow-right"></i>-->
@@ -181,6 +181,7 @@
     data() {
       return {
         // centerDialogVisible: false,
+        loading:false,
         formdata:{
           TransactionID:'',
           keyword:'',
@@ -283,6 +284,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
+        this.loading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
           token: this.$store.state.token,
           page: currentpage,
@@ -297,6 +299,7 @@
           coin_status:this.formdata.Statu,
         })
           .then(res => {
+            this.loading=false;
             if(res.data.ret==0){
               // console.log(res)
               this.pagetotal=res.data.data.total;

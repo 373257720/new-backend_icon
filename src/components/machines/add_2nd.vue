@@ -229,10 +229,11 @@
       },
       goback(){
         // this.$emit('sontodad', 2);
-        this.$global.previous();
+        // this.$global.previous();
+        this.$emit('back','first')
       },
       submitForm(){
-        console.log(this.ruleForm);
+        // console.log(this.ruleForm);
         this.$emit('getchildren','','third');
         // this.ruleForm.token=this.$store.state.token;
         // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)

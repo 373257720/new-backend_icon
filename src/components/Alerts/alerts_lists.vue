@@ -28,7 +28,7 @@
           <li v-for="(item) in tableData" :key="item.notice_id">
             <div>
               <p><img src="../../../static/ba8ba44db0bb05354954e18c91a4170.png" alt=""><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><i></i>{{item.title}}</p>
-              <p @click="$routerto('alerts_details',{'notice_id':item.notice_id})"><i class="el-icon-d-arrow-right"></i>{{item.is_read=='1'?'read':'unread'}}</p>
+              <p @click="$routerto('alerts_details',{'notice_id':item.notice_id,'currentpages':currentpage})"><i class="el-icon-d-arrow-right"></i>{{item.is_read=='1'?'read':'unread'}}</p>
             </div>
             <article v-html="item.content">
 
@@ -65,10 +65,21 @@
       };
     },
     created() {
-      this.searcher();
-      // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+      this.getlists();
     },
     methods: {
+      getlists(){
+        if(this.$route.query.currentpages){
+          this.currentpage=this.$route.query.currentpages*1;
+        }else{
+          this.currentpage=1;
+        }
+        if(this.timerange==null){
+          this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
+        }else{
+          this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+        }
+      },
       searcher(){
         this.currentpage=1;
         if(this.timerange==null){

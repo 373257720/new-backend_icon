@@ -3,7 +3,7 @@
     <header><h2>
       <span>Transactions</span>
       <i class="el-icon-arrow-right"></i>
-      <span>Test Machine</span>
+      <span>Details</span>
     </h2>
     </header>
     <el-main>
@@ -16,10 +16,9 @@
             <td class="column" v-else-if="keyword=='fee'">{{item.value+'%'}}</td>
             <td class="column" v-else-if="keyword=='redeem_code'">
               <span> {{item.value}}</span>
-              <span class="edit">Send To customer</span>
+              <span class="edit" @click="sendtocustomers">Send to customer</span>
             </td>
             <td class="column" v-else>{{item.value}}</td>
-
           </tr>
         </table>
         <aside>
@@ -38,7 +37,7 @@
       </div>
     </el-main>
 
-
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 
@@ -47,8 +46,11 @@
   export default {
     data() {
       return {
+        msg:'',
+        remindervisible:false,
         trade_picture1:'',
         trade_picture2:'',
+        address:'',
         tabledata:{
           trade_id:{key: 'Transaction ID', value: ''},
           coin_status: {key: 'Status',value:""},
@@ -69,34 +71,44 @@
     computed: {
     },
     created() {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderInfo`,{
-          token:this.$store.state.token,
-          order_id: this.$route.query.order_id,
-        }).then(res => {
-          console.log(res);
-          if(res.data.ret==0){
-            this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
-            this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
-            this.tabledata.coin_number.key=res.data.data.coin_type
-            for(var i in res.data.data){
-              this.tabledata['trade_type'].value=res.data.data.trade_type==1?'Buy':'Sell';
-              if(this.tabledata.hasOwnProperty(i)){
-                if(i=='miner_fee'){
-                  this.tabledata[i].miner_money=res.data.data['miner_money'];
-                }
-                this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
-              }
-            }
 
-          }
-        });
     },
     mounted () {
-    this.initMaps()
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderInfo`,{
+        token:this.$store.state.token,
+        order_id: this.$route.query.order_id,
+      }).then(res => {
+        if(res.data.ret==0){
+          this.address=res.data.data.address;
+          this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
+          this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
+          this.tabledata.coin_number.key=res.data.data.coin_type
+          for(var i in res.data.data){
+            this.tabledata['trade_type'].value=res.data.data.trade_type==1?'Buy':'Sell';
+            if(this.tabledata.hasOwnProperty(i)){
+              if(i=='miner_fee'){
+                this.tabledata[i].miner_money=res.data.data['miner_money'];
+              }
+              this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
+            }
+          }
+          this.initMaps();
+        }
+      });
+
 
     },
 
     methods: {
+      sendtocustomers(){
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.order/sendRedeemCode`,{
+          token:this.$store.state.token,
+          order_id:this.$route.query.order_id,
+        }).then(res=>{
+          this.msg=res.data.msg;
+          this.remindervisible=true;
+        })
+      },
       initMaps() {
         console.log(google)
         this.maps = new google.maps.Map(document.getElementById("map"), {
@@ -140,8 +152,10 @@
       //   });
       // },
      geocodeAddress(geocoder, resultsMap) {
-       var address = "25/F Neich Tower · Wan Chai · Hong Kong";
-       geocoder.geocode({'address': address}, function (results, status) {
+       if(!this.address){
+         this.address = "hongkong";
+       }
+       geocoder.geocode({'address': this.address}, function (results, status) {
          if (status === 'OK') {
            resultsMap.setCenter(results[0].geometry.location);
            var marker = new google.maps.Marker({
@@ -315,9 +329,10 @@
 
       #map{
         width: 90%;
-        height: 300px;
+        height: 400px;
         box-sizing: border-box;
         border: 1px solid #D4D4D4;
+
       }
     }
 

@@ -199,7 +199,6 @@
         this.ruleForm.token=this.$store.state.token;
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
         .then(res=>{
-
           if(res.data.ret==0){
             this.$emit('getchildren');
             this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});

@@ -18,7 +18,7 @@
 </template>
 <script>
   export default {
-    props:['remindervisible','msg'],
+    props:['remindervisible','msg','successto'],
     data() {
       return {
         // message:'kjsjlkdsjkldsjfkldsjfklsdjfskljf',
@@ -29,7 +29,9 @@
     methods: {
       handleClose(done) {
         this.$emit("update:remindervisible", false)
-            // done();
+        if(this.successto){
+          this.$routerto(this.successto)
+        }
       }
     },
   };

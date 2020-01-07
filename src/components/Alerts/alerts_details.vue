@@ -9,7 +9,7 @@
     </header>
     <nav>
       <div class="nav_right">
-        <span class="keyword" @click="$routerto('alerts_lists')" ><i class="el-icon-d-arrow-left"></i>Return</span>
+        <span class="keyword" @click="$routerto('alerts_lists',{'currentpages':$route.query.currentpages})" ><i class="el-icon-d-arrow-left"></i>Return</span>
       </div>
     </nav>
     <el-main>
@@ -37,7 +37,6 @@
       };
     },
     created() {
-
       this.changepage();
     },
     methods: {

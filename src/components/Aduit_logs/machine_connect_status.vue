@@ -23,7 +23,7 @@
             end-placeholder="End"
           >
           </el-date-picker>
-          <span class="keyword">keyword:</span>
+          <span class="keyword">Keyword:</span>
           <el-input
             placeholder="Machine Name"
             v-model="keyword"

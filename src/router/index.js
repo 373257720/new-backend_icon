@@ -37,7 +37,8 @@ import edit_2nd from '@/components/machines/edit_2nd'
 import edit_3rd from '@/components/machines/edit_3rd'
 import edit_4th from '@/components/machines/edit_4th'
 import  test from '@/components/test'
-
+import machine_subtitle from "../components/machines/machine_subtitle";
+import group_subtitle from "../components/machines/group_subtitle";
 // alerts
 import  alerts from '@/components/alerts/alerts'
 import  alerts_lists from '@/components/alerts/alerts_lists'
@@ -209,69 +210,85 @@ const routes = [{
         meta: {
           title: ''
         },
-        redirect: '/home/machines/machines_lists',
         children: [
           {
-            path: 'machines_lists',
-            name: 'machines_lists',
-            component: machines_lists,
-          },
-          {
-            path: 'add_Group_Pattern',
-            name: 'add_Group_Pattern',
-            component: add_Group_Pattern,
-          },
-          {
-            path: 'edit_Group_Pattern',
-            name: 'edit_Group_Pattern',
-            component: edit_Group_Pattern,
-          },
-          {
-            path: 'group_pattern',
-            name: 'group_pattern',
-            component: group_pattern,
-
-
-          },
-          {
-            path: 'remote_control_records',
-            name: 'remote_control_records',
-            component: remote_control_records,
-          },
-          {
-            path: 'machines_edit',
-            name: 'machines_edit',
-            component: machines_edit,
-            redirect: '/home/machines/machines_edit/edit_1st',
+            path: 'machine_subtitle',
+            name: 'machine_subtitle',
+            component:machine_subtitle,
+            redirect: '/home/machines/machine_subtitle/machines_lists',
             children:[
+              {
+                path: 'machines_lists',
+                name: 'machines_lists',
+                component: machines_lists,
+              },  {
+                path: 'machines_edit',
+                name: 'machines_edit',
+                component: machines_edit,
+                redirect: '/home/machines/machine_subtitle/machines_edit/edit_1st',
+                children:[
 
-              {
-                path: 'edit_1st',
-                name: 'edit_1st',
-                component: edit_1st,
+                  {
+                    path: 'edit_1st',
+                    name: 'edit_1st',
+                    component: edit_1st,
+                  },
+                  {
+                    path: 'edit_2nd',
+                    name: 'edit_2nd',
+                    component: edit_2nd,
+                  },
+                  {
+                    path: 'edit_3rd',
+                    name: 'edit_3rd',
+                    component: edit_3rd,
+                  },
+                  {
+                    path: 'edit_4th',
+                    name: 'edit_4th',
+                    component: edit_4th,
+                  },
+                  {
+                    path: 'test',
+                    name: 'test',
+                    component: test,
+                  },
+                ],
+              },   {
+                path: 'remote_control_records',
+                name: 'remote_control_records',
+                component: remote_control_records,
               },
-              {
-                path: 'edit_2nd',
-                name: 'edit_2nd',
-                component: edit_2nd,
-              },
-              {
-                path: 'edit_3rd',
-                name: 'edit_3rd',
-                component: edit_3rd,
-              },
-              {
-                path: 'edit_4th',
-                name: 'edit_4th',
-                component: edit_4th,
-              },
-              {
-                path: 'test',
-                name: 'test',
-                component: test,
-              },
-            ],
+            ]
           },
+          {
+            path: 'group_subtitle',
+            name: 'group_subtitle',
+            component: group_subtitle,
+            redirect: '/home/machines/group_subtitle/group_pattern',
+            children:[
+              {
+                path: 'add_Group_Pattern',
+                name: 'add_Group_Pattern',
+                component: add_Group_Pattern,
+              },
+              {
+                path: 'edit_Group_Pattern',
+                name: 'edit_Group_Pattern',
+                component: edit_Group_Pattern,
+              },
+              {
+                path: 'group_pattern',
+                name: 'group_pattern',
+                component: group_pattern,
+
+              },
+            ]
+          },
+
+
+
+
         ]
       },
       {

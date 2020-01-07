@@ -1,7 +1,7 @@
 <template>
-  <div class="setting_edit">
+  <div id="machines_edit">
     <header><h2>
-      <span>Machines</span>
+      <span>Machines</span>id
       <i class="el-icon-arrow-right"></i>
       <span>Edit</span>
     </h2>
@@ -119,7 +119,7 @@
 </script>
 
 <style lang='scss'>
-  .setting_edit{
+  #machines_edit{
     margin :0 0 0 50px;
     width: 90%;
     header{
@@ -178,6 +178,7 @@
           width: 40%;
           height: 40px;
           cursor: pointer;
+          background: #ddd;
           color: white;
           font-size: 16px;
           line-height: 40px;

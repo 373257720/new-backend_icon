@@ -9,7 +9,7 @@
         :total="pagenum" :pager-count="5"
       ></el-pagination>
     </div>
-    <div class="export" @click="childtodad" v-if="isexport">export </div>
+    <div class="export" @click="childtodad" v-if="isexport">Export </div>
   </div>
 </template>
 <script>
