@@ -92,7 +92,7 @@
               this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
             }
           }
-          this.initMaps();
+          // this.initMaps();
         }
       });
 
@@ -110,7 +110,7 @@
         })
       },
       initMaps() {
-        console.log(google)
+        // console.log(google)
         this.maps = new google.maps.Map(document.getElementById("map"), {
           zoom: 14,
           //设置地图中心点

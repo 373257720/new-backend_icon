@@ -2,92 +2,108 @@
   <div id="home">
     <el-aside width="250px" class="fl-aside">
       <h1>
-        <img src="../../static/sign.png" alt />
-      </h1>
+              <img src="../../static/sign.png" alt />
+            </h1>
       <div class="left_body">
         <el-menu
-          :default-active="activeName"
-          active-text-color="#2ABEE2"
           @open="handleOpen"
           @close="handleClose"
+          active-text-color="#2AB4E5"
           :unique-opened="true"
           @select='selectone'
         >
-          <el-menu-item :style="{ background: 'url(' + coverimg.dashboard + ')  no-repeat'}" index="dashboard"  :class="{active:isActive[2]}"  @click="routerto('/home/dashboard')">
-            <i><img :src="color_icon.dashboard" alt=""></i>
-            <span slot="title">DASHBOARD</span>
-          </el-menu-item>
+<!--          :default-active="activeName"-->
 
-          <el-submenu :style="{ background: 'url(' + coverimg.user + ')  no-repeat'}" index="user" :class="{active:isActive[1]}">
+          <el-menu-item  :class="{bgisactive:text.dashboard}"  @mouseenter.native="changeImageSrc('dashboard', 'hover')"   @mouseleave.native="changeImageSrc('dashboard', 'leave')" index="dashboard"   @click="routerto('/home/dashboard')">
+            <i><img :src="color_icon.dashboard" alt=""></i>
+            <span  slot="title" :class="{textisactive:text.dashboard}">DASHBOARD</span>
+          </el-menu-item>
+          <el-submenu :class="{bgisactive:text.user}" @mouseenter.native="changeImageSrc('user', 'hover')"   @mouseleave.native="changeImageSrc('user', 'leave')" index="user" >
             <template slot="title">
               <i><img :src="color_icon.user" alt=""></i>
-              <span>USER</span>
+              <span :class="{textisactive:text.user}">USER</span>
             </template>
               <el-menu-item   @click="routerto('/home/user/atm_support')" index="atm_support">ATM Technical Support</el-menu-item>
               <el-menu-item  @click="routerto('/home/user/customer_data')" index="customer_data">Customer Data</el-menu-item>
           </el-submenu>
-          <el-submenu :style="{ background: 'url(' + coverimg.machines + ')  no-repeat'}" index="machines" :class="{active:isActive[2]}">
+          <el-submenu  :class="{bgisactive:text.machines}" @mouseenter.native="changeImageSrc('machines', 'hover')"   @mouseleave.native="changeImageSrc('machines', 'leave')" index="machines" >
             <template slot="title">
-             <i><img :src="color_icon.machines" alt=""></i><span>MACHINES</span>
+              <i><img :src="color_icon.machines" alt=""></i>
+              <span  :class="{textisactive:text.machines}">MACHINES</span>
             </template>
               <el-menu-item @click="routerto('/home/machines/machine_subtitle')" index="machine_subtitle">MACHINES</el-menu-item>
               <el-menu-item @click="routerto('/home/machines/group_subtitle')" index="group_subtitle">GROUP PATTERN</el-menu-item>
           </el-submenu>
-          <el-menu-item :style="{ background: 'url(' + coverimg.transaction + ')  no-repeat'}" index="transaction"  :class="{active:isActive[2]}" @click="routerto('/home/transaction')">
+          <el-menu-item  @mouseenter.native="changeImageSrc('transaction', 'hover')"   @mouseleave.native="changeImageSrc('transaction', 'leave')" index="transaction"   @click="routerto('/home/transaction')">
             <i><img :src="color_icon.transaction" alt=""></i>
             <span slot="title">TRANSACTIONS</span>
           </el-menu-item>
-          <el-menu-item :style="{ background: 'url(' + coverimg.wallet + ')  no-repeat'}" index="wallet"  :class="{active:isActive[2]}" @click="routerto('/home/wallet')">
+          <el-menu-item  @mouseenter.native="changeImageSrc('wallet', 'hover')"   @mouseleave.native="changeImageSrc('wallet', 'leave')" index="wallet"   @click="routerto('/home/wallet')">
             <i><img :src="color_icon.wallet" alt=""></i>
             <span slot="title">WALLET</span>
           </el-menu-item>
-          <el-submenu index="report" :style="{ background: 'url(' + coverimg.report + ')  no-repeat'}" :class="{active:isActive[1]}">
+          <el-submenu @mouseenter.native="changeImageSrc('report', 'hover')"   @mouseleave.native="changeImageSrc('report', 'leave')" index="report"  >
             <template slot="title">
               <i><img :src="color_icon.report" alt=""></i>
               <span slot="title">REPORT</span>
             </template>
-            <el-menu-item index="report_lists"  :class="{active:isActive[2]}" @click="routerto('/home/report')">
-
+            <el-menu-item index="report_lists"   @click="routerto('/home/report')">
               <span slot="title">REPORTS</span>
             </el-menu-item>
-            <el-menu-item index="report_crytocurrency"  :class="{active:isActive[2]}" @click="routerto('/home/report/report_crytocurrency')">
+            <el-menu-item index="report_crytocurrency"  @click="routerto('/home/report/report_crytocurrency')">
 
               <span slot="title">CRYTOCURRENCY</span>
             </el-menu-item>
 <!--            <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>-->
 <!--            <el-menu-item  @click="routerto('/home/user/customer_data')" index="/home/user/customer_data">Customer Data</el-menu-item>-->
           </el-submenu>
-          <el-menu-item :style="{ background: 'url(' + coverimg.compliance+ ')  no-repeat'}" index="compliance" :class="{active:isActive[4]}" @click="routerto('/home/compliance')">
+          <el-menu-item  index="compliance"  @click="routerto('/home/compliance')">
             <i><img :src="color_icon.compliance" alt=""></i>
             <span slot="title">COMPLIANCE</span>
           </el-menu-item>
-          <el-menu-item index="setting" :style="{ background: 'url(' + coverimg.setting + ')  no-repeat'}" :class="{active:isActive[2]}" @click="routerto('/home/setting')">
+          <el-menu-item index="setting"   @click="routerto('/home/setting')">
             <i><img :src="color_icon.setting" alt=""></i>
             <span slot="title">SETTING</span>
           </el-menu-item>
-          <el-menu-item index="alerts" :style="{ background: 'url(' + coverimg.alerts+ ')  no-repeat'}" :class="{active:isActive[4]}" @click="routerto('/home/alerts')">
+          <el-menu-item index="alerts"   @click="routerto('/home/alerts')">
             <i><img :src="color_icon.alerts" alt=""></i>
             <span slot="title">ALERTS</span>
           </el-menu-item>
-          <el-menu-item index="audit_log"  :style="{ background: 'url(' + coverimg.audit_log + ')  no-repeat'}" :class="{active:isActive[3]}"  @click="routerto('/home/audit_log')">
+          <el-menu-item index="audit_log"     @click="routerto('/home/audit_log')">
             <i><img :src="color_icon.audit_log" alt=""></i>
             <span slot="title">AUDIT LOG</span>
           </el-menu-item>
         </el-menu>
-
       </div>
-
-
-
     </el-aside>
     <!-- <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item v-for="(item)  in levelList" :key="item.path">
         <router-link :to="item.path ||item.redirect">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
     </el-breadcrumb>-->
-    <div class="maincontent">
-      <router-view></router-view>
+
+    <div class="main">
+      <div id="top">
+        <div class="top">
+          <div class="top_right fr">
+            <el-dropdown @command="handleCommand" trigger="click" v-if="this.$store.state.topright">
+            <span class="el-dropdown-link">
+              {{this.$store.state.currentUser}}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="account" ><i><img src="../../static/my account.png" alt=""></i>My account</el-dropdown-item>
+                <el-dropdown-item command="login"><i><img src="../../static/logout.png" alt=""></i>Log out</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="maincontent">
+        <router-view></router-view>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -96,21 +112,33 @@ import { log } from "util";
 export default {
   data() {
     return {
-      coverimg:{
-        dashboard:'',
-        user:'',
-        machines:'',
-        transaction:'',
-        wallet:'',
-        report:'',
-        compliance:'',
-        setting:'',
-        alerts:'',
-        audit_log:'',
-      },
+      // coverimg:{
+      //   dashboard:'',
+      //   user:'',
+      //   machines:'',
+      //   transaction:'',
+      //   wallet:'',
+      //   report:'',
+      //   compliance:'',
+      //   setting:'',
+      //   alerts:'',
+      //   audit_log:'',
+      // },
       levelList: null,
+      text:{
+        dashboard:false,
+        user:false,
+        machines:false,
+        transaction:false,
+        wallet:false,
+        report:false,
+        compliance:false,
+        setting:false,
+        alerts:false,
+        audit_log:false,
+      },
       new_icon:{
-        dashboard:'./static/dashborad1.png',
+        dashboard:'./static/dashborad2.png',
         user:'./static/user1.png',
         machines:'./static/machine1.png',
         transaction:'./static/tran1.png',
@@ -122,7 +150,7 @@ export default {
         audit_log:'./static/audit1.png',
       },
       color_icon:{
-        dashboard:'./static/dashbor2.png',
+        dashboard:'./static/dashborad1.png',
         user:'./static/ren.png',
         machines:'./static/machine2.png',
         transaction:'./static/tran2.png',
@@ -134,7 +162,7 @@ export default {
         audit_log:'./static/audit2.png',
       },
       original_icon:{
-        dashboard:'./static/dashbor2.png',
+        dashboard:'./static/dashborad1.png',
         user:'./static/ren.png',
         machines:'./static/machine2.png',
         transaction:'./static/tran2.png',
@@ -164,7 +192,6 @@ export default {
     else{
       this.activeName = path[1];
     }
-
     this.color_icon[path[1]]=this.new_icon[path[1]];
   },
 
@@ -174,6 +201,70 @@ export default {
     // this.getActiveNav();
   },
   methods: {
+
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    handleCommand(command) {
+      if (command == "userpass") {
+        this.$routerto("userpass");
+      } else if (command == "account") {
+        this.$routerto("account");
+      } else if (command == "login") {
+        this.$routerto("login");
+      }
+    },
+    handleCommandlang(command) {
+      this.$axios({
+        method: "get",
+        url: `${this.$baseurl}/bsl_admin_web/base/language.do?lan=${command}`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+        .then(res => {
+          if (command == "en_US") {
+            this.language = "ENGLISH";
+          } else if (command == "zh_CN") this.language = "中文";
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    changeImageSrc (key, way) {
+      // let path = index.path.substr(1).split('/');
+      // console.log(this.$route)
+      // if(this.activeName===key){
+      //   return;
+      // }else if(key==='user' && (this.activeName==='atm_support' || this.activeName==='customer_data')){
+      //   return;
+      // }else if(key==='machines' && (this.activeName==='machine_subtitle' || this.activeName==='group_subtitle')){
+      //   return;
+      // }else if(key==='report' && (this.activeName==='report_lists' || this.activeName==='report_crytocurrency')){
+      //   return;
+      // }
+      // if(way=== 'hover'){
+      //   this.color_icon[key]=this.new_icon[key];
+      //   // console.log(this.color_icon[key])
+      // }else if(way=== 'leave'){
+      //   // console.log(this.color_icon[key],this.new_icon[key])
+      //   // if(this.color_icon[key]===this.new_icon[key]){
+      //     this.color_icon[key]=this.original_icon[key]
+      //   // }
+      //
+      // }
+    },
+    toggleShow(x) {
+      console.log(x)
+      // this.active = "background-color:black";
+      // // 操作dom 获取p标签改变其样式
+      // var acps = this.$refs.acp
+      // acps.style.color = "red"
+    },
     getActiveNav() {
       let currentUrl = window.location.href;
       this.NavActive = currentUrl.split('#')[1].replace("/","");
@@ -184,17 +275,18 @@ export default {
       this.$router.push({path:num})
     },
     selectone(index, indexPath){
-      console.log( index, indexPath)
-      for(let key in this.coverimg){
-        this.coverimg[key]='';
-      }
-      for(let key in  this.color_icon ){
-        if(this.original_icon.hasOwnProperty(key)){
-          this.color_icon[key]=this.original_icon[key];
-        }
-      }
-      let path= indexPath[0]
-       this.color_icon[path]=this.new_icon[path];
+      // console.log( index, indexPath)
+      // for(let key in this.coverimg){
+      //   this.coverimg[key]='';
+      // }
+      // for(let key in  this.color_icon ){
+      //   if(this.original_icon.hasOwnProperty(key)){
+      //     this.color_icon[key]=this.original_icon[key];
+      //   }
+      // }
+      // let path= indexPath[0]
+      //  this.color_icon[path]=this.new_icon[path];
+
     },
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
@@ -205,6 +297,8 @@ export default {
     },
     handleOpen(index, keyPath) {
       // console.log(index, keyPath);
+      // this.text[index]=true;
+      // console.log(this.text.user)
       // if(index='user'){
       //   for(let key in this.coverimg){
       //     this.coverimg[key]='';
@@ -229,6 +323,7 @@ export default {
     },
     getBreadcrumb() {
       let matched = this.$route.matched.filter(item => item.meta.title);
+      console.log(matched)
       const first = matched[0];
       this.levelList = matched;
     },
@@ -253,22 +348,73 @@ export default {
       console.log(path)
       this.color_icon[path[1]]=this.new_icon[path[1]];
       if(path[1]=='user' || path[1]=='machines' || path[1]=='report'){
-
         this.handleSelect(path[2]);
       }
       else{
         this.handleSelect(path[1]);
       }
-
     },
   }
 };
 </script>
+
 <style lang='scss'>
+  #top {
+    /*background: #222222;*/
+    width: 100%;
+    height: 60px;
+    /*position: absolute;*/
+    /*top: 0;*/
+  }
+  .top {
+    height:60px;
+    /*line-height: 60px;*/
+    background: #ecf5ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #d3d3d3;
+    padding: 0 100px 0 30px;
+    // overflow: hidden;
+    .top_left {
+      img {
+        width: 150px;
+        height: 50px;
+      }
+
+    }
+    .top_right {
+      // color: #788ca5;
+      /*height: 50px;*/
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      .language {
+        margin:0;
+        padding: 0;
+        margin-right: 30px;
+      }
+      .el-dropdown{
+        color: #788ca5;
+      }
+
+    }
+  }
+  .bgisactive{
+    background-color: #ecf5ff;
+    /*color: #2AB4E5;*/
+  }
+.textisactive{
+  /*background-color: #ecf5ff;*/
+  color: #2AB4E5;
+}
 .fl-aside {
   .is-opened {
     margin: 0;
   }
+
   .el-submenu {
     margin: 0;
 
@@ -277,7 +423,7 @@ export default {
   .el-menu {
     border: 0;
     .el-submenu__title,.el-menu-item{
-      color:#606266;
+      /*color:#606266;*/
       /*#b6b6b6;*/
       font-size: 14px;
       display: flex;
@@ -294,6 +440,12 @@ export default {
       }
 
     }
+    .el-menu-item:hover{
+      color: #2AB4E5;
+    }
+    .el-submenu__title:hover{
+      color: #2AB4E5;
+    }
 
 
 
@@ -305,13 +457,14 @@ export default {
   .el-menu-item{
     width: 100%;
   }
+  .el-menu-item, .el-submenu__title{
+    height: 46px;
+    line-height: 46px;
+  }
   .tac::-webkit-scrollbar {
     width: 0px;
     background: none;
   }
-  // .el-submenu__title:hover {
-  //   background: url(../../static/col.png) no-repeat;
-  // }
  .active {
      background: url(../../static/col.png) no-repeat;
 }
@@ -338,9 +491,10 @@ export default {
 }
 
 #home {
-  height: calc(100% - 50px);
-  margin-top: 50px;
+  /*height: calc(100% - 60px);*/
+  /*margin-top: 60px;*/
   width: 100%;
+  height: 100%;
   display: flex;
   .el-aside{
     overflow: visible;
@@ -353,7 +507,7 @@ export default {
     border-right: 1px solid #d3d3d3;
     width: 252px;
     .left_body{
-      border-top: 1px solid #d3d3d3;
+      /*border-top: 1px solid #d3d3d3;*/
       height: calc(100% - 156px);
       overflow-y: auto;
     }
@@ -377,9 +531,18 @@ export default {
       }
     }
   }
-    .maincontent {
-    flex:1;
+  .main{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    /*overflow-y: scroll;*/
+  }
+    .maincontent {
+    /*flex:1;*/
+    box-sizing: border-box;
+      /*padding-top: 60px;*/
     overflow-y: scroll;
     /*top: 50px;*/
     /*left: 250px;*/

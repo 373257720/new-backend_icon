@@ -1,7 +1,7 @@
 <template>
   <div class="edit_fourth">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="Background">
+      <el-form-item label="Background (1440 * 900)">
         <div class="background_picture">
           <el-upload
             action
@@ -18,7 +18,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Logo1">
+      <el-form-item label="Logo1 (192 * 78)">
         <div class="logo_picture">
           <el-upload
             action
@@ -35,7 +35,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Logo2">
+      <el-form-item label="Logo2 (256 * 256)">
         <div class="logo2_picture">
           <el-upload
             action
@@ -52,7 +52,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Advertising">
+      <el-form-item label="Advertising (256 * 256)">
         <div class="advertisement_picture">
           <el-upload
             action
@@ -251,7 +251,7 @@
             );
             return file;
           }, () => {
-            this.$message.error('上传的图片必须是等于或大于192*78!');
+            this.$message.error('The uploaded picture must be equal to or greater than 192 * 78!');
             return Promise.reject();
           });
           return  isSize;
@@ -274,7 +274,7 @@
             );
             return file;
           }, () => {
-            this.$message.error('上传的图片必须是等于或大于1440*900!');
+            this.$message.error('The uploaded picture must be equal to or greater than 1440 * 900!');
             return Promise.reject();
           });
           return  isSize;
@@ -296,12 +296,11 @@
             );
             return file;
           }, () => {
-            this.$message.error('上传的图片必须是等于或大于256*256!');
+            this.$message.error('The uploaded picture must be equal to or greater than 256 * 256!');
             return Promise.reject();
           });
           return  isSize;
         }else if(picname=="advertisement_picture"){
-
           const isSize = new Promise(function(resolve, reject) {
             let width = 256;
             let height = 256;
@@ -319,7 +318,7 @@
             );
             return file;
           }, () => {
-            this.$message.error('上传的图片必须是等于或大于256*256!');
+            this.$message.error('The uploaded picture must be equal to or greater than 256 * 256!');
             return Promise.reject();
           });
           return  isSize;

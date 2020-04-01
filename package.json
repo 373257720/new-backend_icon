@@ -17,6 +17,7 @@
     "echarts": "^4.6.0",
     "element-ui": "^2.10.1",
     "google": "^2.1.0",
+    "google-maps": "^3.3.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue2-google-maps": "^0.10.7",

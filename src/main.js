@@ -12,37 +12,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 import global from '../src/global';
 Vue.prototype.$global = global;
 import locale from 'element-ui/lib/locale/lang/en'
-// import 'vue-googlemaps/dist/vue-googlemaps.css'
-// import VueGoogleMaps from 'vue-googlemaps'
-// Vue.use(VueGoogleMaps, {
-//   load: {
-// //填入申请的apiKey账号
-//     apiKey: 'AIzaSyAGUHg6nxNtAAksUnoaP-U9RSbZQ9FUr-A',
-//     libraries: ['places'],
-//     useBetaRenderer: false,
-//   },
-// })
-// import  VueGoogleMaps from "vue2-google-maps";
-// Vue.use(VueGoogleMaps, {
-//   load: {
-//     key: "AIzaSyAGUHg6nxNtAAksUnoaP-U9RSbZQ9FUr-A",
-//     libraries: "places" // necessary for places input
-//   }
-// });
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
 Vue.use(ElementUI);
-Vue.prototype.$goto = function goto(name, id) {
-  let obj = {
-    name
-  };
-  if (id) {
-    obj.params = {
-      idx: id
-    };
-  }
-  this.$router.push(obj);
-}
+
 Vue.prototype.$routerto = function routerTo(name, obj) {
   console.log(this)
   this.$router.push({
@@ -50,32 +23,70 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
     query: obj
   })
 }
+let loadingCount=0;
+let isShowLoading =true;
+function addLoading() {
+  // isShowLoading = true;
+  // loadingCount++;
+  // if(loadingCount==1){
+  //   Vue.prototype.$toast.loading({
+  //     loadingType: 'circular',
+  //     overlay:true,
+  //     className:'loading',
+  //     duration: 0,
+  //   });
+  // }
+};
+function isCloseLoading() {
+  // loadingCount--
+  // if (loadingCount == 0) {
+  //    isShowLoading = false
+  //    Vue.prototype.$toast.clear();
+  // }
+};
 Vue.prototype.$qs = qs;
+Vue.prototype.$axios = axios
 // //让ajax携带cookie
+axios.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  ElementUI.MessageBox({
+    title: 'Reminder',
+    message: res.data.msg,
+  }).then(()=>{
+    // router.push({name:'login'})
+    location.href = '/'
+  })
+  return Promise.reject(error)
+});
+
 // axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {
-    // endLoading();
-    // console.log(123)
     if (res.data.ret) {
       let code = res.data.ret;
       if (code >= 1000) {
-        console.log(666,res.data)
-        ElementUI.MessageBox({
-          title: 'Reminder',
-          message: res.data.msg,
-        }).then(()=>{
-          router.push({name:'login'})
-        })
+        if(isShowLoading){
+          isShowLoading=false;
+          ElementUI.MessageBox({
+            title: 'Reminder',
+            message: res.data.msg,
+          }).then(()=>{
+            // router.push({name:'login'})
+            location.href = '/'
+            // loadingCount=0;
+          })
+        }
       }
     }
     return res
   },
   error => {
-    alert('请求失败，请稍后重试！')
+    // alert('请求失败，请稍后重试！')
     return Promise.reject(error)
   }
 )
-Vue.prototype.$axios = axios
 // //设置baseurl
 var baseurl = {
   // api: "http://192.168.1.37:80",

@@ -259,6 +259,7 @@
           keyword:'',
         }).then(res=>{
           if(res.data.ret==0){
+            // console.log(res)
             this.formdata.machine_id=res.data.data.data[0].machine_id
             res.data.data.data.forEach(item=>{
               this.options.push({
@@ -363,9 +364,15 @@
                 this.dataAxis.unshift(item.day);
                 if(item.buy_money){
                   this.buy_money.unshift(item.buy_money);
+                }else{
+                  item.buy_money=0;
+                  this.buy_money.unshift(0);
                 }
                 if(item.sell_money){
                   this.sell_money.unshift(item.sell_money);
+                }else{
+                  item.sell_money=0;
+                  this.sell_money.unshift(0);
                 }
                 // item.create_time=this.$global.timestampToTime(item.create_time);
               })
@@ -530,13 +537,31 @@
         }
       }
     }
+    .el-main{
+      overflow: visible;
+    }
     main{
       padding:20px 20px 20px 0;
       display: flex;
-      justify-content: space-between;
+      /*justify-content: space-between;*/
 
       .el-table thead{
         color:black;
+      }
+      .pagemodel {
+        display: flex;
+        flex-wrap: wrap;
+        .pagevue{
+          /*flex:1;*/
+          margin: 0;
+          .el-pagination__total{
+            margin-right: 0;
+          }
+          .el-pagination__jump{
+            margin: 0;
+          }
+          /* width: 10rem;*/
+        }
       }
 
     }

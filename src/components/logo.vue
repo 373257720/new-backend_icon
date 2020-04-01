@@ -1,5 +1,5 @@
 <template>
-  <div @click="$goto('home')" id="logo">
+  <div @click="$routerto('home')" id="logo">
     <div class="logo con">
         <header><img src="../../static/home.png" alt=""></header>
         <p>WELCOME TO ATM BACKEND ADMIN SYSTEM</p>

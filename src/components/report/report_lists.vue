@@ -61,14 +61,16 @@
           <template slot-scope="scope">{{ scope.row.day}}</template>
         </el-table-column>
         <el-table-column
-          label="Cash Inbox"
+          label="Purchase Amount"
           prop="buy_money"
           align="center"
         >
+
         </el-table-column>
         <el-table-column
+          prop="sell_money"
           align="center"
-          label="Cash Outbox"
+          label="Sell Amount"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -303,7 +305,10 @@
                 return prev;
               }
             }, 0);
-            sums[index] = sums[index].toFixed(2);
+            if(index!=1 && index!=2){
+              sums[index] = sums[index].toFixed(2);
+            }
+
           } else {
             sums[index] = '';
           }
@@ -349,10 +354,14 @@
               this.tableData=[...res.data.data.data];
               this.currency_name=res.data.data.currency_name?res.data.data.currency_name:'';
               this.tableData.forEach(item=>{
-                this.dataAxis.push(item.day);
-                if(item.buy_money){
-                this.bar_data.push(item.buy_money);
+                this.dataAxis.unshift(item.day);
+                if(!item.buy_money){
+                  item.buy_money=0;
                 }
+                if(!item.sell_money){
+                  item.sell_money=0;
+                }
+                this.bar_data.unshift(item.buy_money+item.sell_money);
                 item.create_time=this.$global.timestampToTime(item.create_time);
               })
             }

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import home from '@/components/home'
 import logo from '@/components/logo'
 import login from '@/components/login'
-
+import store from '../store/store'
 // 添加这下面一段代码，就可以解决报错
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
@@ -82,18 +82,26 @@ const routes = [{
     path: '/login',
     name: 'login',
     component: login,
+    meta: {
+      title: '',
+      requiretoken:false,
+    },
   },
   {
     path: '/logo',
     name: 'logo',
     component: logo,
+    meta: {
+      requiretoken:true,
+    },
   },
   {
     path: '/home',
     name: 'home',
     component: home,
     meta: {
-      title: ''
+      title: '',
+      requiretoken:true,
     },
     redirect: '/home/dashboard',
     children: [
@@ -102,7 +110,8 @@ const routes = [{
       name: 'user',
       component: user,
       meta: {
-        title: ''
+        title: '',
+        requiretoken:true,
       },
       // redirect: '/home/user/dashboard',
       children: [
@@ -116,18 +125,30 @@ const routes = [{
               path: 'atm_supportlist',
               name: 'atm_supportlist',
               component: atm_supportlist,
+              meta: {
+                title: '',
+                requiretoken:true,
+              },
             },
             {
               path: 'account_setting',
               name: 'account_setting',
-              component: account_setting
+              component: account_setting,
+              meta: {
+                title: '',
+                requiretoken:true,
+              },
             },
           ]
         },
         {
           path: 'customer_data',
           name: 'customer_data',
-          component: customer_data
+          component: customer_data,
+          meta: {
+            title: '',
+            requiretoken:true,
+          },
         },
       ]
     },{
@@ -135,19 +156,28 @@ const routes = [{
       name: 'setting',
       component:setting,
       meta: {
-        title: ''
+        title: '',
+        requiretoken:true,
       },
         redirect: '/home/setting/setting_list',
         children: [
           {
             path: 'setting_edit',
             name: 'setting_edit',
-            component: setting_edit
+            component: setting_edit,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
           {
             path: 'setting_list',
             name: 'setting_list',
-            component: setting_list
+            component: setting_list,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
         ]
     },
@@ -156,7 +186,8 @@ const routes = [{
         name: 'audit_log',
         component:audit_log,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
         redirect: '/home/audit_log/setting_edit_lists',
         children: [
@@ -164,21 +195,37 @@ const routes = [{
             path: 'setting_edit_lists',
             name: 'setting_edit_lists',
             component: setting_edit_lists,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
           {
             path: 'cashbox_log',
             name: 'cashbox_log',
-            component: cashbox_log
+            component: cashbox_log,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
           {
             path: 'error_log',
             name: 'error_log',
-            component: error_log
+            component: error_log,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
           {
             path: 'machine_connect_status',
             name: 'machine_connect_status',
-            component:machine_connect_status
+            component:machine_connect_status,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
         ]
       },
@@ -187,7 +234,8 @@ const routes = [{
         name: 'transaction',
         component:transaction,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
         redirect: '/home/transaction/transaction_lists',
         children: [
@@ -195,11 +243,19 @@ const routes = [{
             path: 'transaction_lists',
             name: 'transaction_lists',
             component: transaction_lists,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
           {
             path: 'transaction_details',
             name: 'transaction_details',
-            component: transaction_details
+            component: transaction_details,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
         ]
       },
@@ -208,7 +264,8 @@ const routes = [{
         name: 'machines',
         component:machines,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
         children: [
           {
@@ -221,6 +278,10 @@ const routes = [{
                 path: 'machines_lists',
                 name: 'machines_lists',
                 component: machines_lists,
+                meta: {
+                  title: '',
+                  requiretoken:true,
+                },
               },  {
                 path: 'machines_edit',
                 name: 'machines_edit',
@@ -232,32 +293,56 @@ const routes = [{
                     path: 'edit_1st',
                     name: 'edit_1st',
                     component: edit_1st,
+                    meta: {
+                      title: '',
+                      requiretoken:true,
+                    },
                   },
                   {
                     path: 'edit_2nd',
                     name: 'edit_2nd',
                     component: edit_2nd,
+                    meta: {
+                      title: '',
+                      requiretoken:true,
+                    },
                   },
                   {
                     path: 'edit_3rd',
                     name: 'edit_3rd',
                     component: edit_3rd,
+                    meta: {
+                      title: '',
+                      requiretoken:true,
+                    },
                   },
                   {
                     path: 'edit_4th',
                     name: 'edit_4th',
                     component: edit_4th,
+                    meta: {
+                      title: '',
+                      requiretoken:true,
+                    },
                   },
                   {
                     path: 'test',
                     name: 'test',
                     component: test,
+                    meta: {
+                      title: '',
+                      requiretoken:true,
+                    },
                   },
                 ],
               },   {
                 path: 'remote_control_records',
                 name: 'remote_control_records',
                 component: remote_control_records,
+                meta: {
+                  title: '',
+                  requiretoken:true,
+                },
               },
             ]
           },
@@ -271,24 +356,32 @@ const routes = [{
                 path: 'add_Group_Pattern',
                 name: 'add_Group_Pattern',
                 component: add_Group_Pattern,
+                meta: {
+                  title: '',
+                  requiretoken:true,
+                },
               },
               {
                 path: 'edit_Group_Pattern',
                 name: 'edit_Group_Pattern',
                 component: edit_Group_Pattern,
+                meta: {
+                  title: '',
+                  requiretoken:true,
+                },
               },
               {
                 path: 'group_pattern',
                 name: 'group_pattern',
                 component: group_pattern,
+                meta: {
+                  title: '',
+                  requiretoken:true,
+                },
 
               },
             ]
           },
-
-
-
-
         ]
       },
       {
@@ -296,7 +389,8 @@ const routes = [{
         name: 'compliance',
         component:compliance,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
       },
       {
@@ -311,10 +405,18 @@ const routes = [{
           path: 'wallet_lists',
           name: 'wallet_lists',
           component: wallet_lists,
+          meta: {
+            title: '',
+            requiretoken:true,
+          },
         },  {
           path: 'wallet_edit',
           name: 'wallet_edit',
           component: wallet_edit,
+          meta: {
+            title: '',
+            requiretoken:true,
+          },
         },
         ]
       },
@@ -323,14 +425,16 @@ const routes = [{
         name: 'dashboard',
         component: dashboard,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
       },{
         path: 'account',
         name: 'account',
         component: account,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
       },
       {
@@ -338,7 +442,8 @@ const routes = [{
         name: 'alerts',
         component: alerts,
         meta: {
-          title: ''
+          title: '',
+          requiretoken:true,
         },
         redirect: '/home/alerts/alerts_lists',
         children: [
@@ -346,11 +451,19 @@ const routes = [{
             path: 'alerts_lists',
             name: 'alerts_lists',
             component: alerts_lists,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
           {
             path: 'alerts_details',
             name: 'alerts_details',
             component: alerts_details,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
         ]
       },
@@ -363,11 +476,19 @@ const routes = [{
           path: 'report_lists',
           name: 'report_lists',
           component: report_lists,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
         },
           {
             path: 'report_crytocurrency',
             name: 'report_crytocurrency',
             component: report_crytocurrency,
+            meta: {
+              title: '',
+              requiretoken:true,
+            },
           },
         ]
       },
@@ -375,7 +496,6 @@ const routes = [{
     ]
 
   },
-
   {
     path: '*',
     name: 'login',
@@ -392,5 +512,28 @@ const routes = [{
 let router = new Router({
   // mode:'history',
   routes
+});
+
+//在进入某个路由前执行的代码
+router.beforeEach((to, from, next) => {
+  let token = (sessionStorage.getItem('store') && JSON.parse(sessionStorage.getItem('store')).token) || store.state.token;
+  console.log(token)
+  if (to.meta.requiretoken) {
+    if (token) {
+      next();
+    } else {
+      next({
+        path: '/login'
+      })
+    }
+  } else {
+    if (to.path === '/login' && token) {
+      next();
+    } else {
+      next();
+    }
+    // 要进入to路由，必须调用next()方法
+
+  }
 });
 export default router;

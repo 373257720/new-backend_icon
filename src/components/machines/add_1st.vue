@@ -93,11 +93,8 @@
               this.ruleForm[i]=this.tochind[i]
               // console.log(this.tochind)
             }
-
           }
-
       }
-
     },
     created() {
       let axiosList = [
@@ -145,7 +142,6 @@
     methods:{
       submitForm(){
         // console.log(this.ruleForm);
-
         this.$emit('getchildren','','second');
         // this.ruleForm.token=this.$store.state.token;
         // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)

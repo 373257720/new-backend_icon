@@ -1,7 +1,7 @@
 <template>
   <div class="add_fourth">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="Background">
+      <el-form-item label="Background (1440 * 900)">
         <div class="background_picture">
           <el-upload
             action
@@ -18,7 +18,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Logo1">
+      <el-form-item label="Logo1  (192 * 78)">
         <div class="logo_picture">
           <el-upload
             action
@@ -35,7 +35,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Logo2">
+      <el-form-item label="Logo2 (256 * 256)">
         <div class="logo2_picture">
           <el-upload
             action
@@ -52,7 +52,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Advertising">
+      <el-form-item label="Advertising (256 * 256)">
         <div class="advertisement_picture">
           <el-upload
             action
@@ -275,26 +275,94 @@
       dispear3(file, picname) {
         // console.log(file,picname)
         if(picname=="logo_picture"){
-          this.choose(
-            ".logo_picture .el-upload--picture-card",
-            ".logo_picture .el-upload-list__item"
-          );
+          const isSize = new Promise(function(resolve, reject) {
+            let width = 192;
+            let height = 78;
+            let _URL = window.URL || window.webkitURL;
+            let img = new Image();
+            img.onload = function() {
+              let valid = img.width >= width && img.height >= height;
+              valid ? resolve() : reject();
+            }
+            img.src = _URL.createObjectURL(file);
+          }).then(() => {
+            this.choose(
+              ".logo_picture .el-upload--picture-card",
+              ".logo_picture .el-upload-list__item"
+            );
+            return file;
+          }, () => {
+            this.$message.error('The uploaded picture must be equal to or greater than 192 * 78!');
+            return Promise.reject();
+          });
+          return  isSize;
 
         }else if(picname=="background_picture"){
-          this.choose(
-            ".background_picture .el-upload--picture-card",
-            ".background_picture .el-upload-list__item"
-          );
+          const isSize = new Promise(function(resolve, reject) {
+            let width = 1440;
+            let height = 900;
+            let _URL = window.URL || window.webkitURL;
+            let img = new Image();
+            img.onload = function() {
+              let valid = img.width >= width && img.height >= height;
+              valid ? resolve() : reject();
+            }
+            img.src = _URL.createObjectURL(file);
+          }).then(() => {
+            this.choose(
+              ".background_picture .el-upload--picture-card",
+              ".background_picture .el-upload-list__item"
+            );
+            return file;
+          }, () => {
+            this.$message.error('The uploaded picture must be equal to or greater than 1440 * 900!');
+            return Promise.reject();
+          });
+          return  isSize;
         }else if(picname=="logo2_picture"){
-          this.choose(
-            ".logo2_picture .el-upload--picture-card",
-            ".logo2_picture .el-upload-list__item"
-          );
+          const isSize = new Promise(function(resolve, reject) {
+            let width = 256;
+            let height = 256;
+            let _URL = window.URL || window.webkitURL;
+            let img = new Image();
+            img.onload = function() {
+              let valid = img.width >= width && img.height >= height;
+              valid ? resolve() : reject();
+            }
+            img.src = _URL.createObjectURL(file);
+          }).then(() => {
+            this.choose(
+              ".logo2_picture .el-upload--picture-card",
+              ".logo2_picture .el-upload-list__item"
+            );
+            return file;
+          }, () => {
+            this.$message.error('The uploaded picture must be equal to or greater than 256 * 256!');
+            return Promise.reject();
+          });
+          return  isSize;
         }else if(picname=="advertisement_picture"){
-          this.choose(
-            ".advertisement_picture .el-upload--picture-card",
-            ".advertisement_picture .el-upload-list__item"
-          );
+          const isSize = new Promise(function(resolve, reject) {
+            let width = 256;
+            let height = 256;
+            let _URL = window.URL || window.webkitURL;
+            let img = new Image();
+            img.onload = function() {
+              let valid = img.width >= width && img.height >= height;
+              valid ? resolve() : reject();
+            }
+            img.src = _URL.createObjectURL(file);
+          }).then(() => {
+            this.choose(
+              ".advertisement_picture .el-upload--picture-card",
+              ".advertisement_picture .el-upload-list__item"
+            );
+            return file;
+          }, () => {
+            this.$message.error('The uploaded picture must be equal to or greater than 256 * 256!');
+            return Promise.reject();
+          });
+          return  isSize;
         }
       },
       handleRemove(a, b) {

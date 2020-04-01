@@ -54,10 +54,7 @@ export default {
     },
     login() {
       this.remind = "";
-      // this.loading = true;
-      //      this.$goto("logo");
       if (this.username) {
-        // console.log(this.username , this.password)
         this.$axios
           .post(
             `${this.$baseurl}/admin_api/user.back_user/login`,
@@ -78,7 +75,7 @@ export default {
             if (rescode == 0) {
               this.$store.dispatch("setUser",res.data.data.nickname);
               this.$store.dispatch("settoken_action",res.data.data.token);
-              this.$goto("logo");
+              this.$routerto("logo");
             }
             else{
               this.remind=res.data.msg;

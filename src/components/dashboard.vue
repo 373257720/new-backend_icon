@@ -60,13 +60,13 @@
                 <el-table-column
                   prop="incashbox_money"
                   align="center"
-                  label="Inbox Cash"
+                  label="Cash Inbox"
                   show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                   prop="outcashbox_money"
                   align="center"
-                  label="Outbox Cash"
+                  label="Cash Outbox"
                   show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
@@ -355,8 +355,6 @@ export default {
     },
 
     fromchildren1(data) {
-      // console.log(this.value1[0]);
-      // console.log(data);
       this.currentpage = data.currentpage;
       this.pagesize = data.pagesize;
       this.search(
@@ -433,11 +431,10 @@ export default {
 
 <style lang='scss'>
 #dashboard {
-  margin-top: 60px;
+  /*padding-top: 60px;*/
   .dashboard {
     height: 780px;
-    margin-left: 60px;
-    margin-right: 60px;
+    padding: 60px 60px 0 60px;
     .el-main {
       padding: 0;
       overflow: hidden;
@@ -484,7 +481,7 @@ export default {
         }
         #myChart{
           flex: 1;
-          border: 1px solid #EBEEF5;
+          border: 1px solid #d3d3d3;
         }
         .myChart_top_button{
           position: absolute;

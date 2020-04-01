@@ -118,7 +118,7 @@ post_encapsulation: function (url,  datas) {
 
   },
   cleanall() {
-    this.$goto("login");
+    this.$routerto("login");
     sessionStorage.clear();
 
   }
