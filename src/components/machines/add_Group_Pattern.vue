@@ -14,6 +14,9 @@
               <el-tab-pane label="Price & Fee" name="second">
                   <add_2nd v-on:getchildren="fromchildren" v-on:back="back_fromson"></add_2nd>
               </el-tab-pane>
+<!--            <el-tab-pane label="Flow" name="fifth">-->
+<!--              <add_5th v-on:getchildren="fromchildren" v-on:back="back_fromson"></add_5th>-->
+<!--            </el-tab-pane>-->
               <el-tab-pane label="Operator" name="third">
                 <add_3rd v-on:getchildren="fromchildren"  v-on:back="back_fromson"></add_3rd>
               </el-tab-pane>
@@ -31,6 +34,7 @@
   import add_2nd from '@/components/machines/add_2nd';
   import add_3rd from '@/components/machines/add_3rd';
   import add_4th from '@/components/machines/add_4th';
+  // import add_5th from '@/components/machines/add_5th';
   export default {
     data() {
       return {
@@ -81,7 +85,7 @@
       add_1st,
       add_2nd,
       add_3rd,
-      add_4th
+      add_4th,
     },
 
     watch:{

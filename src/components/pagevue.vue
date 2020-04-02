@@ -69,7 +69,7 @@ export default {
   /*position: relative;*/
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
+  /*margin-bottom: 100px;*/
   .pagevue {
     margin-right: 20px;
   }

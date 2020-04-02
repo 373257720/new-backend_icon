@@ -14,10 +14,10 @@
         <el-tab-pane label="Price & Fee" name="second">
           <add_2nd :tochind="MachineInfo" v-on:getchildren="fromchildren"  v-on:back="back_fromson"></add_2nd>
         </el-tab-pane>
-        <el-tab-pane label="Operator" name="third">
-          <add_3rd :tochind="MachineInfo" v-on:getchildren="fromchildren"  v-on:back="back_fromson"></add_3rd>
+        <el-tab-pane label="Operator" name="fourth">
+          <add_3rd  :tochind="MachineInfo" :submitfordata="submitfordata"  v-on:back="back_fromson" v-on:getchildren="fromchildren"></add_3rd>
         </el-tab-pane>
-        <el-tab-pane label="Advertisement" name="fourth">
+        <el-tab-pane label="Advertisement" name="fifth">
           <add_4th  :tochind="MachineInfo" :submitfordata="submitfordata"  v-on:back="back_fromson" v-on:getchildren="fromchildren"></add_4th>
         </el-tab-pane>
       </el-tabs>
@@ -82,7 +82,7 @@
       add_1st,
       add_2nd,
       add_3rd,
-      add_4th
+      add_4th,
     },
 
     watch:{

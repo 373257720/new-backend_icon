@@ -53,7 +53,7 @@ export default {
 #app {
   height: 100%;
   width: 100%;
-  position: relative;
+  /*position: relative;*/
   overflow: hidden;
 
 

@@ -21,7 +21,6 @@
         </el-input>
         <i @click="searcher"  class="el-icon-search"></i>
       </div>
-
     </nav>
     <el-main>
       <el-table

@@ -433,8 +433,9 @@ export default {
 #dashboard {
   /*padding-top: 60px;*/
   .dashboard {
-    height: 780px;
-    padding: 60px 60px 0 60px;
+    /*height: 780px;*/
+
+    padding: 60px;
     .el-main {
       padding: 0;
       overflow: hidden;
@@ -448,18 +449,24 @@ export default {
       }
     }
     div.top {
-      height: 486px;
-      width: 100%;
+      /*height: 486px;*/
+      /*width: 100%;*/
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 76px;
+      flex-wrap: wrap;
+      /*justify-content: space-between;*/
+
       aside {
-        width: 50%;
-        height: 100%;
+        padding:0 20px;
+        height: 486px;
+        flex: 0 0 100%;
+        max-width: 100%;
         box-sizing: border-box;
         position: relative;
         display: flex;
         flex-direction: column;
+        -webkit-align-items: stretch;
+        justify-content: stretch;
+        margin-bottom: 76px;
         .myChart_top{
           height: 50px;
           display: flex;
@@ -489,7 +496,7 @@ export default {
           height: 50px;
           display: -webkit-flex;
           align-items: center;
-          right:3%;
+          right:40px;
           span:nth-of-type(1){
               font-size: 14px;
           }
@@ -510,10 +517,15 @@ export default {
         }
 
       }
-
       article {
-        width: 40%;
-        height: 100%;
+        /*width: 50%;*/
+        height: 486px;
+        /*height: 100%;*/
+        padding:0 20px;
+        box-sizing: border-box;
+        margin-bottom: 76px;
+        flex: 0 0 100%;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         header{
@@ -552,6 +564,17 @@ export default {
         }
 
       }
+     @media (min-width: 1200px){
+       aside  {
+         flex: 0 0 50%;
+         max-width: 50%;
+       }
+       article  {
+         flex: 0 0 50%;
+         max-width: 50%;
+       }
+     }
+
     }
 
     div.bottom {

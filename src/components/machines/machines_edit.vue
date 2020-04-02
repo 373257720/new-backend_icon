@@ -10,8 +10,9 @@
         <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
           <el-tab-pane label="CryptoGo" name="first"></el-tab-pane>
           <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>
-          <el-tab-pane label="Operator" name="third"></el-tab-pane>
-          <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>
+          <el-tab-pane label="Flow" name="third"></el-tab-pane>
+          <el-tab-pane label="Operator" name="fourth"></el-tab-pane>
+          <el-tab-pane label="Advertisement" name="fifth"></el-tab-pane>
         </el-tabs>
 <!--      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">-->
 <!--        <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>-->
@@ -57,6 +58,9 @@
           case  'edit_4th':
             this.activeName='fourth';
             break;
+          case  'edit_5th':
+            this.activeName='fifth';
+            break;
         }
       }
     },
@@ -75,6 +79,9 @@
           case  'edit_4th':
             this.activeName='fourth';
             break;
+          case  'edit_5th':
+            this.activeName='fifth';
+            break;
         }
       }
       this.fromchildren();
@@ -92,7 +99,6 @@
         })
       },
       handleClick(tab, event) {
-        // console.log(tab, event);
         if(tab.name=='first'){
           this.$routerto('edit_1st',{machine_id:this.$route.query.machine_id});
         }
@@ -103,6 +109,9 @@
           this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
         }
         if(tab.name=='fourth'){
+          this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
+        }
+        if(tab.name=='fifth'){
           this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
         }
       }

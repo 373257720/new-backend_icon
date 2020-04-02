@@ -81,23 +81,26 @@
         <router-link :to="item.path ||item.redirect">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
     </el-breadcrumb>-->
-
     <div class="main">
-      <div id="top">
         <div class="top">
-          <div class="top_right fr">
-            <el-dropdown @command="handleCommand" trigger="click" v-if="this.$store.state.topright">
+          <div class="top_right">
+            <el-dropdown @command="handleCommand" trigger="click">
             <span class="el-dropdown-link">
               {{this.$store.state.currentUser}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="account" ><i><img src="../../static/my account.png" alt=""></i>My account</el-dropdown-item>
-                <el-dropdown-item command="login"><i><img src="../../static/logout.png" alt=""></i>Log out</el-dropdown-item>
+                <el-dropdown-item command="account" >
+                  <i><img src="../../static/my account.png" alt=""></i>
+                 <span>My account</span>
+                </el-dropdown-item>
+                <el-dropdown-item command="login">
+                  <i><img src="../../static/logout.png" alt=""></i>
+                  <span>Log out</span>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-        </div>
       </div>
       <div class="maincontent">
         <router-view></router-view>
@@ -359,52 +362,17 @@ export default {
 </script>
 
 <style lang='scss'>
-  #top {
-    /*background: #222222;*/
-    width: 100%;
-    height: 60px;
-    /*position: absolute;*/
-    /*top: 0;*/
-  }
-  .top {
-    height:60px;
-    /*line-height: 60px;*/
-    background: #ecf5ff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    border-bottom: 1px solid #d3d3d3;
-    padding: 0 100px 0 30px;
-    // overflow: hidden;
-    .top_left {
-      img {
-        width: 150px;
-        height: 50px;
-      }
 
-    }
-    .top_right {
-      // color: #788ca5;
-      /*height: 50px;*/
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: 700;
-      display: flex;
-      .language {
-        margin:0;
-        padding: 0;
-        margin-right: 30px;
-      }
-      .el-dropdown{
-        color: #788ca5;
-      }
 
-    }
-  }
   .bgisactive{
     background-color: #ecf5ff;
     /*color: #2AB4E5;*/
+  }
+  .el-table .cell{
+    word-break: initial;
+  }
+  .el-table--border, .el-table--group {
+    border: 1px solid  #d3d3d3;
   }
 .textisactive{
   /*background-color: #ecf5ff;*/
@@ -414,7 +382,6 @@ export default {
   .is-opened {
     margin: 0;
   }
-
   .el-submenu {
     margin: 0;
 
@@ -491,6 +458,7 @@ export default {
 }
 
 #home {
+
   /*height: calc(100% - 60px);*/
   /*margin-top: 60px;*/
   width: 100%;
@@ -515,9 +483,6 @@ export default {
       width: 0px;
       background: none;
     }
-    ul {
-
-    }
     h1 {
       width: 252px;
       height: 136px;
@@ -532,13 +497,38 @@ export default {
     }
   }
   .main{
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    /*overflow-y: scroll;*/
+
+    width: calc(100% - 250px);
+    /*flex:1;*/
+    /*-webkit-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
+      .top {
+        height:60px;
+        width: 100%;
+        background: #ecf5ff;
+        box-sizing: border-box;
+        border-bottom: 1px solid #d3d3d3;
+        padding: 0 100px 0 30px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .top_right {
+          cursor: pointer;
+          font-size: 18px;
+          font-weight: 700;
+          .language {
+            margin:0;
+            padding: 0;
+            margin-right: 30px;
+          }
+          .el-dropdown{
+            color: #788ca5;
+          }
+
+        }
+      }
   }
+
     .maincontent {
     /*flex:1;*/
     box-sizing: border-box;
@@ -546,10 +536,11 @@ export default {
     overflow-y: scroll;
     /*top: 50px;*/
     /*left: 250px;*/
+
     /*width: 100%;*/
     /*height: 100%;*/
     /*width: calc(100% - 250px);**/
-    /*height: calc(100% - 50px);*/
+    height: calc(100% - 50px);
   }
 }
 
@@ -562,7 +553,7 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
+  /*display: inline-block;*/
   /*margin: 0 10px;*/
 }
 a {
