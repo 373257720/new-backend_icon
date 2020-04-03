@@ -182,7 +182,6 @@
       this.loading=true;
       this.changepage(this.currentpage, this.pagesize);
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
-        token:this.$store.state.token,
         page:this.currentpage,
         size:this.pagesize,
         keyword:'',
@@ -208,7 +207,6 @@
       },
       creat(){
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`,{
-            token:this.$store.state.token,
             type:this.remote_control_type,
             machine_id:this.machine_idx
           }).then(res=>{
@@ -223,7 +221,6 @@
       },
       apply(){
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editGroup`,{
-          token:this.$store.state.token,
           machine_id:this.machine_id,
           machine_group_id:this.machine_group_id,
         }).then(res=>{
@@ -294,22 +291,27 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        this.$axios
-          .get(
-            `${this.$baseurl}/admin_api/machine.machine/getMachineList`,
-            { params:{
-                token: this.$store.state.token,
-                page: currentpage,
-                size:pagesize,
-                keyword:keyword,
-              }
-            },
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              }
-            }
-          )
+        // this.$axios
+        //   .get(
+        //     `${this.$baseurl}/admin_api/machine.machine/getMachineList`,
+        //     { params:{
+        //         token: this.$store.state.token,
+        //         page: currentpage,
+        //         size:pagesize,
+        //         keyword:keyword,
+        //       }
+        //     },
+        //     {
+        //       headers: {
+        //         "Content-Type": "application/x-www-form-urlencoded"
+        //       }
+        //     }
+        //   )
+          this.$global.get_encapsulation(  `${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
+            page: currentpage,
+            size:pagesize,
+            keyword:keyword,
+          })
           .then(res => {
             this.loading=false;
             if(res.data.ret==0){

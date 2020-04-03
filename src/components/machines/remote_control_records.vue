@@ -153,7 +153,6 @@
           type: 'warning'
         }).then(() => {
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/deleteMachineOperate`,{
-            token:this.$store.state.token,
             machine_operate_id: param,
           })
             .then(res => {
@@ -186,7 +185,6 @@
       },
       changepage(currentpage, pagesize,keyword) {
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/getMachineOperateList`,{
-          token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           keyword:keyword,

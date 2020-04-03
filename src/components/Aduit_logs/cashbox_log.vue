@@ -202,7 +202,6 @@
       beforedelete(params){
         // console.log(params)
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/deleteMachineMoneyLog`,{
-          token:this.$store.state.token,
           machine_money_log_id: params,
         }).then(res => {
           this.msg=res.data.msg;
@@ -227,7 +226,6 @@
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/getMachineMoneyLogList`,{
-          token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           keyword:keyword,

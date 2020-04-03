@@ -128,7 +128,6 @@
         remindervisible:false,
         rowid:'',//which  edit
         parameter_obj:{
-          token:'',
           name:'',
         },
         ruleForm: {},
@@ -251,11 +250,13 @@
     },
     methods: {
       getdata(){
-        this.$axios({
-          method: 'get',
-          url: `${this.$baseurl}/admin_api/user.user_config/getUserConfigInfo`,
-          params: this.parameter_obj,
-        }).then(res => {
+        // this.$axios({
+        //   method: 'get',
+        //   url: `${this.$baseurl}/admin_api/user.user_config/getUserConfigInfo`,
+        //   params: this.parameter_obj,
+        // })
+          this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.user_config/getUserConfigInfo`,this.parameter_obj)
+          .then(res => {
           if(res.data.ret==0){
             // console.log(res)
             if(this.rowid==6 || this.rowid==5 || this.rowid==4){
@@ -295,7 +296,6 @@
           // if (valid) {
               if(this.$route.query.rowindex==5 ){
               let ruleform={
-                token:this.$store.state.token,
                 name:'bitgo',
                 bitgo_token:this.ruleForm.token,
                 wallet_id:this.ruleForm.wallet_id,
@@ -312,7 +312,6 @@
                 })
             }else if(this.$route.query.rowindex==4){
                 let ruleform={
-                  token:this.$store.state.token,
                   name:'ethereum',
                   wallet:this.ruleForm.wallet,
                   private_key:this.ruleForm.private_key,

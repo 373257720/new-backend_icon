@@ -164,7 +164,6 @@
       },
       beforedelete(param){
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.user_machine_error/deleteUserMachineError`,{
-            token:this.$store.state.token,
             user_machine_error_id: param,
           })
             .then(res => {

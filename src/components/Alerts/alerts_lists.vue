@@ -91,7 +91,6 @@
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
         this.pictLoading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.notice/getNoticeList`,{
-          token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           start_time:starttime,

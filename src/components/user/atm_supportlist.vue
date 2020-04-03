@@ -125,7 +125,6 @@
             userid_arr.push(item.atm_user_id)
           })
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`, {
-            token:this.$store.state.token,
             atm_user_id: userid_arr,
             status:num,
           }).then(res => {
@@ -151,7 +150,6 @@
         }
         console.log(row.status)
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,{
-            token:this.$store.state.token,
             atm_user_id: row.atm_user_id,
             status: tostatus,
           }).then(res => {
@@ -196,23 +194,29 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        this.$axios
-          .get(
-            `${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
-            { params:{
-                token: this.$store.state.token,
-                page: currentpage,
-                size:pagesize,
-                keyword:keyword,
-                lang:'en-us'
-              }
-            },
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              }
-            }
-          )
+        // this.$axios
+        //   .get(
+        //     `${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
+        //     { params:{
+        //         token: this.$store.state.token,
+        //         page: currentpage,
+        //         size:pagesize,
+        //         keyword:keyword,
+        //         lang:'en-us'
+        //       }
+        //     },
+        //     {
+        //       headers: {
+        //         "Content-Type": "application/x-www-form-urlencoded"
+        //       }
+        //     }
+        //   )
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
+         {  page: currentpage,
+           size:pagesize,
+           keyword:keyword,
+           lang:'en-us'}
+        )
           .then(res => {
 
             if(res.data.ret==0){

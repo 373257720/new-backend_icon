@@ -180,7 +180,7 @@
 
     },
     created() {
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`,{token:this.$store.state.token})
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`)
         .then(res=>{
           if (res) {
             this.currencypList.push({ value: '0', label:'-',})

@@ -178,13 +178,20 @@
         this.hoverOrderArr = [];
       },
       changepage(currentpage, pagesize) {
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        }).then(res => {
+        // this.$axios({
+        //   method: "get",
+        //   url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
+        //   headers: {
+        //     "Content-Type": "application/x-www-form-urlencoded"
+        //   }
+        // })
+
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_admin_web/user/getUserAuthList`,{
+          optStatus:1,
+          pageIndex:currentpage,
+          pageSize:pagesize
+        })
+          .then(res => {
           this.tableData = [...res.data.data.lists];
           console.log(this.tableData);
 

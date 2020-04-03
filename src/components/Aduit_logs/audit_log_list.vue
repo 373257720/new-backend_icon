@@ -90,18 +90,20 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize) {
-        this.$axios({
-          method: "get",
-          url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        }).then(res => {
+        // this.$axios({
+        //   method: "get",
+        //   url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
+        // })
+        this.$global.get_encapsulation(`${this.$baseurl}/bsl_admin_web/user/getUserAuthList`,
+          {
+            optStatus:1,
+            pageIndex:currentpage,
+            pageSize:pagesize
+        })
+          .then(res => {
           this.tableData = [...res.data.data.lists];
           console.log(this.tableData);
-
           this.tableData.forEach(item => {
-
             if(item.userIdentityType==1){
               item.newname=item.userName;
             }else if(item.userIdentityType==2){

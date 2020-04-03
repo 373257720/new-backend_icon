@@ -191,8 +191,6 @@
     },
     methods:{
       submitForm(){
-        this.ruleForm.token=this.$store.state.token;
-
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
           .then(res=>{
             this.msg=res.data.msg;

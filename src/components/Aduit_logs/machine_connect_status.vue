@@ -105,21 +105,28 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios
-            .post(
-              `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-              { params:{
-                  token: this.$store.state.token,
-                  user_id: currentpage,
-                  status:2
-                }
-              },
-              {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                }
-              }
-            ).then(res => {
+          // this.$axios
+          //   .post(
+          //     `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+          //     { params:{
+          //         token: this.$store.state.token,
+          //         user_id: currentpage,
+          //         status:2
+          //       }
+          //     },
+          //     {
+          //       headers: {
+          //         "Content-Type": "application/x-www-form-urlencoded"
+          //       }
+          //     }
+          //   )
+
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+            {
+              user_id: currentpage,
+              status:2
+            })
+            .then(res => {
             console.log(res);
             // if(res.data.ret==0){
             //   this.pagetotal=res.data.data.total;
@@ -141,15 +148,22 @@
         this.multipleSelection.forEach(item=>{
           userid_arr.push(item.user_id)
         })
-        this.$axios({
-          method: 'post',
-          url: `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-          data: {
-            token:this.$store.state.token,
+        // this.$axios({
+        //   method: 'post',
+        //   url: `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+        //   data: {
+        //     token:this.$store.state.token,
+        //     user_id: userid_arr,
+        //     status:num,
+        //   }
+        // })
+
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+          {
             user_id: userid_arr,
             status:num,
-          }
-        }).then(res => {
+          })
+          .then(res => {
           console.log(res);
           if(res.data.ret==0){
             this.changepage(this.currentpage, this.pagesize);
@@ -177,7 +191,6 @@
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
         this.pictLoading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.communication/getCommunicationList`,{
-          token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           keyword:keyword,

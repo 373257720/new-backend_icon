@@ -125,11 +125,16 @@
           this.multipleSelection.forEach(item=>{
             userid_arr.push(item.user_id)
           })
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,{
-            token:this.$store.state.token,
-            user_id: userid_arr,
-            status:num,
-          }).then(res => {
+          // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,{
+          //   token:this.$store.state.token,
+          //   user_id: userid_arr,
+          //   status:num,
+          // })
+          this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+            { user_id: userid_arr,
+              status:num,}
+          )
+            .then(res => {
             if(res.data.ret==0){
               this.msg=res.data.msg;
               this.remindervisible=true;
@@ -150,15 +155,20 @@
         }else if(row.status==2){
           tostatus=1;
         }
-          this.$axios({
-            method: 'post',
-            url: `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
-            data: {
-              token:this.$store.state.token,
-              user_id: row.user_id,
-              status: tostatus,
-            }
-          }).then(res => {
+          // this.$axios({
+          //   method: 'post',
+          //   url: `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+          //   data: {
+          //     token:this.$store.state.token,
+          //     user_id: row.user_id,
+          //     status: tostatus,
+          //   }
+          // })
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+          {  user_id: row.user_id,
+            status: tostatus,}
+        )
+            .then(res => {
             this.msg=res.data.msg;
             this.remindervisible=true;
             if(res.data.ret==0){
@@ -183,14 +193,18 @@
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          this.$axios({
-            method: 'post',
-            url: `${this.$baseurl}/admin_api/user.front_user/deleteUser`,
-            data: {
-              token:this.$store.state.token,
-              user_id: row.user_id,
-            }
-          }).then(res => {
+          // this.$axios({
+          //   method: 'post',
+          //   url: `${this.$baseurl}/admin_api/user.front_user/deleteUser`,
+          //   data: {
+          //     token:this.$store.state.token,
+          //     user_id: row.user_id,
+          //   }
+          // })
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/deleteUser`,
+            {user_id: row.user_id,}
+          )
+            .then(res => {
             // console.log(res);
             this.msg=res.data.msg;
             this.remindervisible=true;
@@ -221,23 +235,29 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        this.$axios
-          .get(
-            `${this.$baseurl}/admin_api/user.front_user/getUserList`,
-            { params:{
-                token: this.$store.state.token,
-                page: currentpage,
-                size:pagesize,
-                keyword:keyword,
-                lang:'en-us'
-              }
-            },
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              }
-            }
-          )
+        // this.$axios
+        //   .get(
+        //     `${this.$baseurl}/admin_api/user.front_user/getUserList`,
+        //     { params:{
+        //         token: this.$store.state.token,
+        //         page: currentpage,
+        //         size:pagesize,
+        //         keyword:keyword,
+        //         lang:'en-us'
+        //       }
+        //     },
+        //     {
+        //       headers: {
+        //         "Content-Type": "application/x-www-form-urlencoded"
+        //       }
+        //     }
+        //   )
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.front_user/getUserList`,
+          {  page: currentpage,
+            size:pagesize,
+            keyword:keyword,
+            lang:'en-us'}
+        )
           .then(res => {
 
             if(res.data.ret==0){

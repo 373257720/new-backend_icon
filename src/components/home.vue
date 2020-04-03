@@ -222,12 +222,15 @@ export default {
       }
     },
     handleCommandlang(command) {
-      this.$axios({
-        method: "get",
-        url: `${this.$baseurl}/bsl_admin_web/base/language.do?lan=${command}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
+      // this.$axios({
+      //   method: "get",
+      //   url: `${this.$baseurl}/bsl_admin_web/base/language.do?lan=${command}`,
+      //   headers: {
+      //     "Content-Type": "application/x-www-form-urlencoded"
+      //   }
+      // })
+      this.$global.get_encapsulation( `${this.$baseurl}/bsl_admin_web/base/language.do`,{
+        lan:command
       })
         .then(res => {
           if (command == "en_US") {
@@ -425,8 +428,8 @@ export default {
     width: 100%;
   }
   .el-menu-item, .el-submenu__title{
-    height: 46px;
-    line-height: 46px;
+    height: 40px;
+    line-height: 40px;
   }
   .tac::-webkit-scrollbar {
     width: 0px;

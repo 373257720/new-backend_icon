@@ -79,14 +79,12 @@
         remindervisible:false,
         successto:'',
         ruleForm2: {
-          token: this.$store.state.token,
           coin_type: this.$route.query.coin_type,
           platform: '',
           coin_number: '',
           interval_time: '',
         },
         ruleForm: {
-          token: this.$store.state.token,
           coin_type: this.$route.query.coin_type,
           platform: '',
           coin_number: '',
@@ -123,14 +121,19 @@
     },
     methods: {
       getdata() {
-        this.$axios({
-          method: 'get',
-          url: `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
-          params: {
-            token: this.$store.state.token,
-            coin_type: this.$route.query.coin_type,
-          },
-        }).then(res => {
+        // this.$axios({
+        //   method: 'get',
+        //   url: `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
+        //   params: {
+        //     token: this.$store.state.token,
+        //     coin_type: this.$route.query.coin_type,
+        //   },
+        // })
+
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
+          {  coin_type: this.$route.query.coin_type,}
+        )
+          .then(res => {
           if (res.data.ret == 0) {
             // console.log(res.data.data.api_parameter.key)
             if(res.data.data.api_parameter){

@@ -127,14 +127,19 @@ export default {
   },
   methods: {
     getdata(){
-      this.$axios({
-        method: 'get',
-        url: `${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,
-        params: {
-          token:this.$store.state.token,
-          atm_user_id:this.$route.query.atm_user_id,
-        },
-      }).then(res => {
+      // this.$axios({
+      //   method: 'get',
+      //   url: `${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,
+      //   params: {
+      //     token:this.$store.state.token,
+      //     atm_user_id:this.$route.query.atm_user_id,
+      //   },
+      // })
+
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,{
+        atm_user_id:this.$route.query.atm_user_id
+      })
+        .then(res => {
         if(res.data.ret==0){
           console.log(res)
         for( let key in res.data.data){
@@ -162,11 +167,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.$route.query.type==1){
-            this.$axios({
-              method: 'post',
-              url: `${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
-              data: this.ruleForm,
-            }).then(res => {
+            // this.$axios({
+            //   method: 'post',
+            //   url: `${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
+            //   data: this.ruleForm,
+            // })
+            this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
+              this.ruleForm,
+            )
+              .then(res => {
               if(res.data.ret==0){
                 this.$message({
                   message: res.data.msg,
@@ -176,11 +185,15 @@ export default {
               }
             });
           }else if(this.$route.query.type==2){
-            this.$axios({
-              method: 'post',
-              url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
-              data: this.ruleForm,
-            }).then(res => {
+            // this.$axios({
+            //   method: 'post',
+            //   url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
+            //   data: this.ruleForm,
+            // })
+            this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
+              this.ruleForm,
+            )
+              .then(res => {
               if(res.data.ret==0){
                 this.$message({
                   message: res.data.msg,

@@ -55,20 +55,25 @@ export default {
     login() {
       this.remind = "";
       if (this.username) {
-        this.$axios
-          .post(
-            `${this.$baseurl}/admin_api/user.back_user/login`,
-            this.$qs.stringify({
-              username: this.username,
-              password: this.password,
-              verify:this.code,
-            }),
-            {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              }
-            }
-          )
+        // this.$axios
+        //   .post(
+        //     `${this.$baseurl}/admin_api/user.back_user/login`,
+        //     this.$qs.stringify({
+        //       username: this.username,
+        //       password: this.password,
+        //       verify:this.code,
+        //     }),
+        //     {
+        //       headers: {
+        //         "Content-Type": "application/x-www-form-urlencoded"
+        //       }
+        //     }
+        //   )
+        this.$global.post_encapsulation( `${this.$baseurl}/admin_api/user.back_user/login`,{
+          username: this.username,
+          password: this.password,
+          verify:this.code,
+        })
           .then(res => {
             this.loading = false;
             var rescode = res.data.ret;

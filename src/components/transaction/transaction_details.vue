@@ -75,7 +75,6 @@
     },
     mounted () {
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderInfo`,{
-        token:this.$store.state.token,
         order_id: this.$route.query.order_id,
       }).then(res => {
         if(res.data.ret==0){
@@ -102,7 +101,6 @@
     methods: {
       sendtocustomers(){
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.order/sendRedeemCode`,{
-          token:this.$store.state.token,
           order_id:this.$route.query.order_id,
         }).then(res=>{
           this.msg=res.data.msg;

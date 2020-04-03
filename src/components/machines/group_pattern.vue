@@ -146,7 +146,6 @@
     methods: {
       apply(){
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/attribute`,{
-          token:this.$store.state.token,
           machine_group_id:this.machine_group_id,
           machine_id:this.machine_id,
         }).then(res=>{
@@ -215,7 +214,6 @@
       },
       beforedelete(param){
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/deleteMachineGroup`,{
-            token:this.$store.state.token,
             machine_group_id: param,
           })
             .then(res => {
@@ -248,7 +246,6 @@
       changepage(currentpage, pagesize,keyword) {
         this.loading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
-          token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           keyword:keyword,

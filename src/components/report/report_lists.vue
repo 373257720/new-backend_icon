@@ -251,7 +251,6 @@
       },
       getmachineid(){
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
-          token:this.$store.state.token,
           page:1,
           size:10000,
           keyword:'',
@@ -336,9 +335,7 @@
         }
       },
       changepage(currentpage, pagesize,machine_id,starttime,endtime) {
-
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsMachineOrder`,{
-          token: this.$store.state.token,
           page: currentpage,
           size:pagesize,
           start_time:starttime,

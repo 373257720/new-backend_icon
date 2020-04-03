@@ -2,6 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import router from './router';
 import qs from 'qs'
+import store from "./store/store";
 
 const global = {
   stamptodate: function (stamp) {
@@ -30,7 +31,13 @@ const global = {
     }
 
   },
-get_encapsulation: function (url,  datas) {
+  get_encapsulation: function (url,  datas) {
+  if(Object.prototype.toString.call(datas) !== '[object Object]'){
+    datas={};
+  }
+  if(store.state.token){
+    datas.token=store.state.token;
+  }
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: datas
@@ -43,8 +50,16 @@ get_encapsulation: function (url,  datas) {
     })
   },
 post_encapsulation: function (url,  datas) {
+  if(Object.prototype.toString.call(datas) !== '[object Object]'){
+    datas={};
+  }
+  if(store.state.token){
+    datas.token=store.state.token;
+  }
     return new Promise((resolve, reject) => {
-      axios.post(url, qs.stringify(datas))
+      axios.post(url, qs.stringify(datas),{  headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }})
         .then((res) => {
         resolve(res)
       }).catch(function (error) {

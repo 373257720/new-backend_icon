@@ -274,7 +274,6 @@ export default {
       this.myChart.showLoading();
       //获取数据
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/statisticsDayOrder`,{
-        token:this.$store.state.token,
         page:1,
         size:10,
       }).then(res => {
@@ -309,7 +308,6 @@ export default {
     },
     order_infor(){
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
-        token:this.$store.state.token,
         page:1,
         size:5,
       }).then(res=>{
@@ -324,7 +322,6 @@ export default {
     },
     MACHINE_INFORMATION(){
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
-        token:this.$store.state.token,
         page:this.currentpage,
         size:this.pagesize,
         keyword:"",
@@ -373,21 +370,31 @@ export default {
       if (pageindex == 1) {
         this.currentpage = 1;
       }
-      this.$axios({
-        method: "post",
-        url: `${this.$baseurl}/bsl_admin_web/project/getProject`,
-        data: this.$qs.stringify({
-          signStatus: status,
-          searchKey: this.searchkey,
-          startCreateTime: start,
-          endCreateTime: end,
-          pageIndex: pageindex,
-          pageSize: size
-        }),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      }).then(res => {
+      // this.$axios({
+      //   method: "post",
+      //   url: `${this.$baseurl}/bsl_admin_web/project/getProject`,
+      //   data: this.$qs.stringify({
+      //     signStatus: status,
+      //     searchKey: this.searchkey,
+      //     startCreateTime: start,
+      //     endCreateTime: end,
+      //     pageIndex: pageindex,
+      //     pageSize: size
+      //   }),
+      //   headers: {
+      //     "Content-Type": "application/x-www-form-urlencoded"
+      //   }
+      // })
+
+       this.$global.post_encapsulation( `${this.$baseurl}/bsl_admin_web/project/getProject`,{
+         signStatus: status,
+         searchKey: this.searchkey,
+         startCreateTime: start,
+         endCreateTime: end,
+         pageIndex: pageindex,
+         pageSize: size
+       })
+        .then(res => {
         console.log(res);
         if (res.data.resultCode == 10090) {
           this.$store.dispatch("commondialogfunctionaysn", true);

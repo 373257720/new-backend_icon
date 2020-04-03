@@ -38,7 +38,6 @@
         MachineInfo: {
         },
         submitfordata:{
-          token:this.$store.state.token,
           machine_group_id:this.$route.query.machine_group_id,
           name:'',
           currency_id:'',
@@ -104,7 +103,7 @@
       // }
     },
     created() {
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupInfo`,{token:this.$store.state.token,machine_group_id:this.$route.query.machine_group_id}
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupInfo`,{machine_group_id:this.$route.query.machine_group_id}
       ).then(res=>{
         this.MachineInfo=res.data.data;
         console.log(this.MachineInfo);

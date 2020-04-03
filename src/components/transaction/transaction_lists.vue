@@ -227,9 +227,7 @@
       };
     },
     created() {
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.country/getCountryList`,{
-        token:this.$store.state.token
-      }).then(res=>{
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.country/getCountryList`).then(res=>{
           if(res.data.ret==0){
             // console.log(res.data.data.data)
             res.data.data.data.forEach(item=>{
@@ -286,7 +284,6 @@
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
         this.loading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
-          token: this.$store.state.token,
           page: currentpage,
           trade_id:this.formdata.TransactionID,
           size:pagesize,

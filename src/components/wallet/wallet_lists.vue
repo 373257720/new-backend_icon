@@ -107,7 +107,7 @@
       changepage(currentpage, pagesize) {
         this.pictLoading=true;
         this.$global.get_encapsulation( `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigList`,{
-          token: this.$store.state.token,
+
                   page: currentpage,
                   size:pagesize,
         })

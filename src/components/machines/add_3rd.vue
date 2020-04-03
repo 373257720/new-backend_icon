@@ -98,6 +98,7 @@
       },
     },
     mounted() {
+
       if(this.$route.query.type==2){
         for(let i in this.ruleForm){
           if(this.tochind.hasOwnProperty(i)){
