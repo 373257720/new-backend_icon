@@ -69,11 +69,11 @@ export default {
         //       }
         //     }
         //   )
-        this.$global.post_encapsulation( `${this.$baseurl}/admin_api/user.back_user/login`,{
-          username: this.username,
-          password: this.password,
-          verify:this.code,
-        })
+          this.$global.post_encapsulation( `${this.$baseurl}/admin_api/user.back_user/login`,{
+            username: this.username,
+            password: this.password,
+            verify:this.code,
+          })
           .then(res => {
             this.loading = false;
             var rescode = res.data.ret;
@@ -123,7 +123,7 @@ export default {
 .login {
   width: 890px;
   height: 680px;
-  box-shadow: 0px 0px 8px #e8e8e8;
+  /*box-shadow: 0px 0px 8px #e8e8e8;*/
   text-align: center;
   position: absolute;
   left: 50%;

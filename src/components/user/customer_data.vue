@@ -40,19 +40,23 @@
         </el-table-column>
         <el-table-column
           label="Country"
+          width="100"
           align="center">
+
           <template slot-scope="scope">{{ scope.row.country_name}}</template>
         </el-table-column>
         <el-table-column
           prop="username"
           align="center"
           label="Account numbers"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           class-name="edit"
           align="center"
           label="User Icon"
+          width="100"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <el-popover
@@ -68,12 +72,14 @@
           prop="status_lable"
           align="center"
           label="State"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="create_time"
           align="center"
           label="Creation Time"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
@@ -84,7 +90,13 @@
         </el-table-column>
       </el-table>
     </el-main>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+<!--    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>-->
+<!--    <pagevue-->
+<!--      :pagenum="pagetotal"-->
+<!--      :currentpages="currentpage"-->
+<!--      :pagesizes="pagesize"-->
+<!--      v-on:fromchildren="fromchildren1"-->
+<!--    ></pagevue>-->
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -136,14 +148,15 @@
           )
             .then(res => {
             if(res.data.ret==0){
-              this.msg=res.data.msg;
-              this.remindervisible=true;
+              // this.msg=res.data.msg;
+              // this.remindervisible=true;
+              this.$message(res.data.msg);
               this.changepage(this.currentpage, this.pagesize);
             }
           });
         }else{
-          this.msg="Please select"
-          this.remindervisible=true;
+          // this.msg="Please select"
+          this.$message("Please select");
         }
 
       },
@@ -206,8 +219,9 @@
           )
             .then(res => {
             // console.log(res);
-            this.msg=res.data.msg;
-            this.remindervisible=true;
+            // this.msg=res.data.msg;
+            // this.remindervisible=true;
+              this.$message(res.data.msg);
             if(res.data.ret==0){
               this.changepage(this.currentpage, this.pagesize);
             }
@@ -299,8 +313,7 @@
 
 <style lang="scss">
   .customer_data{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     header{
       position: relative;
       height: 136px;

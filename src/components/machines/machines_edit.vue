@@ -112,7 +112,7 @@
           this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
         }
         if(tab.name=='fifth'){
-          this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
+          this.$routerto('edit_5th',{machine_id:this.$route.query.machine_id});
         }
       }
       // fromchildren(data) {

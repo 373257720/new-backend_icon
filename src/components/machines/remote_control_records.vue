@@ -13,7 +13,7 @@
         <!--        <section @click="alledit(2)">Export</section>-->
       </div>
       <div class="nav_right">
-        <span class="keyword">keyword:</span>
+        <span class="keyword">Keyword:</span>
         <el-input
           placeholder="Machine Name"
           v-model="keyword"
@@ -40,43 +40,48 @@
         <el-table-column
           label="Machine"
           align="center"
-
+          width="150"
         >
           <template slot-scope="scope">{{ scope.row.machine_name}}</template>
         </el-table-column>
         <el-table-column
           label="Type"
-          align="center">
+          align="center" width="150">
           <template slot-scope="scope">{{ scope.row.type}}</template>
         </el-table-column>
         <el-table-column
           prop="is_tell"
           align="center"
           label="Client Signal Reception"
+
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           label="Successful Configuration"
           prop="is_finish"
+
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="create_time"
           align="center"
           label="Start"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="finish_time"
           align="center"
           label="End"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="nickname"
           align="center"
           label="Creator"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="150">

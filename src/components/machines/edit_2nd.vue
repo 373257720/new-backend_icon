@@ -2,7 +2,7 @@
   <div class="edit_second">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="Currency:" prop="currency_id">
-        <el-select v-model="ruleForm.currency_id" placeholder="">
+        <el-select :popper-append-to-body="false" v-model="ruleForm.currency_id" placeholder="">
           <el-option
             v-for="item in currencypList"
             :key="item.value"
@@ -27,12 +27,6 @@
             <el-radio :label="3">Both</el-radio>
           </el-radio-group>
     </el-form-item>
-      <el-form-item  label="KYC Registration:" prop="region">
-        <el-radio-group v-model="ruleForm.is_register">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
-        </el-radio-group>
-      </el-form-item>
       <el-form-item label="Cryptocurrency Type">
         <el-collapse accordion>
           <el-collapse-item>
@@ -179,20 +173,18 @@
         num:'',
       }
     },
-    watch:{
-
-    },
     created() {
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`,{token:this.$store.state.token})
         .then(res=>{
           if (res) {
-            this.currencypList.push({ value: '0', label:'-',})
+            this.currencypList.push({ value: 0, label:'-',})
             for (let i = 0; i < res.data.data.data.length; i++) {
               this.currencypList.push({
                 value: res.data.data.data[i].currency_id,
                 label: res.data.data.data[i].name
               });
             }
+            console.log(this.currencypList)
           }
         })
     },

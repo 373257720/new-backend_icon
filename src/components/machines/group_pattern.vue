@@ -35,13 +35,13 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          align="right"
+          align="center"
           label=""
           width="100">
         </el-table-column>
         <el-table-column
           label="Group"
-          align="left"
+          align="center"
           width="200"
 
         >
@@ -53,7 +53,7 @@
           align="center">
           <template slot-scope="scope">{{scope.row.machinelist}}</template>
         </el-table-column>
-        <el-table-column  align="center" label="Operation"  class-name="edit">
+        <el-table-column  align="center" label="Operation"  width="300" class-name="edit">
           <template slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">View & Edit</span>
             <span  @click="handleapply(scope.$index, scope.row)">Apply Attributes</span>
@@ -292,8 +292,7 @@
 
 <style lang="scss">
   .remote_control_records{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     .el-dialog{
       p.thick{
         margin-bottom: 10px;

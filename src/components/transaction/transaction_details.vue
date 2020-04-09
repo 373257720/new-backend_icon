@@ -14,15 +14,49 @@
             <td class="column" v-if="keyword=='money' || keyword=='price' || keyword=='trade_price'">{{item.value+tabledata['currency_name'].value}}</td>
             <td class="column" v-else-if="keyword=='miner_fee'">{{'$'+tabledata['miner_fee'].miner_money+'/ ฿'+tabledata['miner_fee'].value}}</td>
             <td class="column" v-else-if="keyword=='fee'">{{item.value+'%'}}</td>
+            <td class="column" v-else-if="keyword=='coupon_code_list'">
+              <p v-for="(item) in tabledata.coupon_code_list.value" :key="item">
+                {{item}}
+              </p>
+            </td>
+            <td class="column" v-else-if="keyword=='certificate_id'">
+              <el-popover
+                placement="right"
+                width="400"
+                trigger="click">
+                <img :src="tabledata.picture_url.value" alt="">
+                  <span class="edit" slot="reference">View</span>
+<!--                                <el-button slot="reference">Click</el-button>-->
+              </el-popover>
+            </td>
+            <td class="column" v-else-if="keyword=='fingerprint_id'">
+              <el-popover
+                placement="right"
+                width="400"
+                trigger="click">
+                <img :src="tabledata.picture_url.value" alt="">
+                <span class="edit" slot="reference">View</span>
+<!--                <el-button slot="reference">Click</el-button>-->
+              </el-popover>
+            </td>
+            <td class="column" v-else-if="keyword=='picture_url'">
+              <el-popover
+                placement="right"
+                width="400"
+                trigger="click">
+                <img :src="tabledata.picture_url.value" alt="">
+<!--                <el-button slot="reference">Click</el-button>-->
+                <span class="edit" slot="reference">View</span>
+              </el-popover>
+            </td>
             <td class="column" v-else-if="keyword=='redeem_code'">
               <span> {{item.value}}</span>
-              <span class="edit" @click="sendtocustomers">Send to customer</span>
+              <span class="edit blank" @click="sendtocustomers">Send to customer</span>
             </td>
             <td class="column" v-else>{{item.value}}</td>
           </tr>
         </table>
         <aside>
-
           <div>
             <img :src="trade_picture1" alt="">
             <h3>Customer Images</h3>
@@ -36,7 +70,6 @@
       <div id="map">
       </div>
     </el-main>
-
     <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
@@ -65,6 +98,10 @@
           fee:{key: 'Fee Rate', value: ''},
           price:{key: 'Original Price', value: ''},
           redeem_code:{key: 'Order redemption code', value: ''},
+          coupon_code_list:{key:'Coupon',value:''},
+          certificate_id:{key:'Certificate',value:''},
+          fingerprint_id:{key:'Fingerprint',value:''},
+          picture_url:{key:'Picture',value:''}
         },
       };
     },
@@ -81,14 +118,24 @@
           this.address=res.data.data.address;
           this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
           this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
-          this.tabledata.coin_number.key=res.data.data.coin_type
+          let name= res.data.data.coin_type.slice(0, 1).toUpperCase() + res.data.data.coin_type.slice(1);
+          this.tabledata.coin_number.key=name;
+           // this.tabledata.certificate_id.value= res.data.data.identify.certificate_id;
+           // this.tableData.fingerprint_id.value=res.data.data.identify.fingerprint_id ;
+           this.tabledata.picture_url.value= res.data.data.identify?res.data.data.identify.picture_url:'';
           for(var i in res.data.data){
             this.tabledata['trade_type'].value=res.data.data.trade_type==1?'Buy':'Sell';
             if(this.tabledata.hasOwnProperty(i)){
               if(i=='miner_fee'){
                 this.tabledata[i].miner_money=res.data.data['miner_money'];
+              }else if(i=='coupon_code_list'){
+                res.data.data['coupon_code_list'].split(',').length>0?
+                this.tabledata['coupon_code_list'].value= res.data.data['coupon_code_list'].split(','):
+                this.tabledata['coupon_code_list'].value = '-';
+              }else{
+                this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
               }
-              this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
+
             }
           }
           // this.initMaps();
@@ -181,7 +228,7 @@
 
 <style lang="scss">
   .transcation_details{
-    margin :0 0 0 50px;
+    padding :0 50px 50px 50px;
     width: 90%;
     header{
       position: relative;
@@ -206,6 +253,9 @@
       text-decoration:underline;
       cursor: pointer;
     }
+    .blank{
+      margin-left: 15px;
+    }
     .el-checkbox__inner{
       border-radius: 50%;
       /*background: ;*/
@@ -219,17 +269,7 @@
     .el-table_1_column_8  .el-button{
       color: #2ABEE2;
     }
-    .edit{
-      font-size: 14px;
-      margin-left:20%;
-      span{
-        color: #2ABEE2;
 
-        text-decoration:underline;
-        cursor: pointer;
-        margin-left: 15px;
-      }
-    }
 
     .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
       /*border-color:white;*/
@@ -320,6 +360,7 @@
               width: 100%;
               height: 220px;
               margin-bottom: 5px;
+              border: 1px solid #D4D4D4;
             }
           }
         }

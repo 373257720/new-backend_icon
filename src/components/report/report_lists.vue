@@ -64,6 +64,7 @@
           label="Purchase Amount"
           prop="buy_money"
           align="center"
+          width="150"
         >
 
         </el-table-column>
@@ -71,6 +72,7 @@
           prop="sell_money"
           align="center"
           label="Sell Amount"
+          width="150"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -89,6 +91,7 @@
           prop="profit"
           align="center"
           label="Net profit"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
       </el-table>
@@ -396,8 +399,7 @@
 
 <style lang="scss">
   .report_lists{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     .imgsize{
       width: 50px;
       height: 60px;

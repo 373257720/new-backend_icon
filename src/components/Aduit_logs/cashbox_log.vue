@@ -52,19 +52,22 @@
         <el-table-column
           label="Order ID"
           align="center"
-
+          width="100"
         >
           <template slot-scope="scope">{{ scope.row.order_id}}</template>
         </el-table-column>
         <el-table-column
           label="Machine Name"
+          width="200"
           align="center">
           <template slot-scope="scope">{{ scope.row.machine_name}}</template>
         </el-table-column>
+        <el-table-column label="CashInbox" align="center">
         <el-table-column
           prop="in_money_before"
           align="center"
           label="ACCOUNT NUMBERS"
+          width="100"
           show-overflow-tooltip>
           <template slot="header" slot-scope="scope">
             <div>before</div>
@@ -72,6 +75,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          width="100"
           label="CashInbox Changes"
           prop="in_money_change"
           show-overflow-tooltip>
@@ -80,14 +84,19 @@
           prop="in_money_after"
           align="center"
           label="STATE"
+          width="100"
+
           show-overflow-tooltip>
           <template slot="header" slot-scope="scope">
             <div>after</div>
           </template>
         </el-table-column>
+          </el-table-column>
+        <el-table-column label="CashOutbox" align="center">
         <el-table-column
           prop="out_money_before"
           align="center"
+          width="100"
           label="CREATION TIME"
           show-overflow-tooltip>
           <template slot="header" slot-scope="scope">
@@ -97,6 +106,7 @@
         <el-table-column
           prop="out_money_change"
           align="center"
+          width="150"
           label="CashOutbox Changes"
           show-overflow-tooltip>
         </el-table-column>
@@ -104,15 +114,18 @@
           prop="out_money_after"
           align="center"
           label="STATE"
+          width="100"
           show-overflow-tooltip>
           <template slot="header" slot-scope="scope">
             <div>after</div>
           </template>
         </el-table-column>
+        </el-table-column>
         <el-table-column
           prop="create_time"
           align="center"
           label="Date"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="150">
@@ -269,8 +282,7 @@
 
 <style lang="scss">
   .cashbox_log{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     header{
       position: relative;
       height: 136px;

@@ -15,9 +15,10 @@ import locale from 'element-ui/lib/locale/lang/en'
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
 Vue.use(ElementUI);
-
+import format from 'vue-text-format';
+Vue.use(format);
 Vue.prototype.$routerto = function routerTo(name, obj) {
-  console.log(this)
+  // console.log(this)
   this.$router.push({
     name: name,
     query: obj
@@ -25,6 +26,7 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
 }
 let loadingCount=0;
 let isShowLoading =true;
+console.log(isShowLoading)
 function addLoading() {
   // isShowLoading = true;
   // loadingCount++;
@@ -57,7 +59,7 @@ axios.interceptors.request.use(function (config) {
     message: res.data.msg,
   }).then(()=>{
     // router.push({name:'login'})
-    location.href = '/'
+    window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
   })
   return Promise.reject(error)
 });
@@ -66,7 +68,7 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(res => {
     if (res.data.ret) {
       let code = res.data.ret;
-      if (code >= 1000) {
+      if (code > 999) {
         if(isShowLoading){
           isShowLoading=false;
           ElementUI.MessageBox({
@@ -74,7 +76,7 @@ axios.interceptors.response.use(res => {
             message: res.data.msg,
           }).then(()=>{
             // router.push({name:'login'})
-            location.href = '/'
+            window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
             // loadingCount=0;
           })
         }

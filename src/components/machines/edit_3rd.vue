@@ -1,19 +1,25 @@
 <template>
   <div class="add_fifth">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="Need to register:" prop="name">
-        <el-radio-group v-model="ruleForm.needtoregister">
+      <el-form-item label="Need to register: (Everyone need to register an account in CryptoGo to buy/sell cryptocurrency)" prop="name">
+        <el-radio-group v-model="ruleForm.is_register">
           <el-radio :label="1">Yes</el-radio>
           <el-radio :label="2">No</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item >
+      <el-form-item label="Know your customer authentication:" prop="name">
+        <el-radio-group v-model="ruleForm.is_money_range">
+          <el-radio :label="'1'">Yes</el-radio>
+          <el-radio :label="'2'">No</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item v-show="ruleForm.is_money_range==1" >
         <span>Currency range:</span><i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
         <div class="Currencyrange">
           <div class="additem" v-for="(item,index) in arr" :key="index">
-              <el-input   v-model="item.collectMoneyMin"></el-input>
-              <el-input  v-model="item.collectMoneyMax"></el-input>
-            <el-select v-model="item.money_range_identify1" placeholder="请选择">
+              <el-input   v-model="item.money_range_minimum" @input="minimum(item, index)"></el-input>
+              <el-input  v-model="item.money_range_maximum" @input="maximun(item, index)"></el-input>
+            <el-select :popper-append-to-body="false" v-model="item.money_range_identify1" >
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -21,7 +27,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-select v-model="item.money_range_identify2" placeholder="请选择">
+            <el-select :popper-append-to-body="false" v-model="item.money_range_identify2">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -29,7 +35,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-select v-model="item.money_range_identify3" placeholder="请选择">
+            <el-select :popper-append-to-body="false" v-model="item.money_range_identify3">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -42,55 +48,25 @@
         </div>
       </el-form-item>
       <el-form-item label="Whether to support redemption coins:" prop="name">
-        <el-radio-group v-model="ruleForm.supportcoins">
+        <el-radio-group v-model="ruleForm.is_redeem_coin">
           <el-radio :label="1">Yes</el-radio>
           <el-radio :label="2">No</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Whether to support redemption of money:" prop="name">
-        <el-radio-group v-model="ruleForm.supportmoney">
+        <el-radio-group v-model="ruleForm.is_redeem_money">
           <el-radio :label="1">Yes</el-radio>
           <el-radio :label="2">No</el-radio>
         </el-radio-group>
     </el-form-item>
       <el-form-item label="Whether to support the use of coupons:" prop="name">
-        <el-radio-group v-model="ruleForm.supportcoupons">
+        <el-radio-group v-model="ruleForm.is_coupon">
           <el-radio :label="1">Yes</el-radio>
           <el-radio :label="2">No</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Language configuration:" prop="name">
-<!--        <el-radio-group v-model="ruleForm.Languageconfiguration">-->
-<!--        <el-radio :label="1">-->
-<!--          <span>中文简体</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        <el-radio :label="2">-->
-<!--          <span>中文繁体</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        <el-radio :label="3">-->
-<!--          <span>English</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        <el-radio :label="4">-->
-<!--          <span>日本語</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        <el-radio :label="5">-->
-<!--          <span>한국어</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        <el-radio :label="6">-->
-<!--          <span>Melayu</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        <el-radio :label="7">-->
-<!--          <span>ไทย</span>-->
-<!--          <input type="text">-->
-<!--        </el-radio>-->
-<!--        </el-radio-group>-->
-        <el-checkbox-group v-model="ruleForm.Languageconfiguration">
+        <el-checkbox-group v-model="ruleForm.language_name">
           <el-checkbox label="zh-cn">
                       <span>中文简体</span>
                       <input class="lan_input" v-model="ruleForm['language_sort_zh-cn']"  type="number">
@@ -126,7 +102,7 @@
       <button @click="$global.previous">BACK</button>
       <button  @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
-    <!--    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>-->
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 <script>
@@ -155,31 +131,33 @@
         }
       }
       return{
+        msg:'',
+        remindervisible:false,
         options: [{
           value: '',
-          label: 'please choose'
+          label: 'Please choose'
         }, {
-          value: 'Photo',
-          label: 'Photo'
+          value: 'picture',
+            label: 'Picture'
         }, {
-          value:'Fingerprint',
+          value:'fingerprint',
           label: 'Fingerprint'
         }, {
-          value: 'Cetificate',
-          label: 'Cetificate'
+          value: 'certificate',
+          label: 'Certificate'
         }],
         arr:[
           {
             // key:1,
-            collectMoneyMin:null,
-            collectMoneyMax:null,
+            money_range_minimum:'',
+            money_range_maximum:'',
             money_range_identify1:'',
             money_range_identify2:'',
             money_range_identify3:'',
           },
         ],
         ruleForm:{
-          needtoregister:"",
+          is_register:"",
           // Currencyrange:'',
           machine_id:this.$route.query.machine_id,
           token:this.$store.state.token,
@@ -188,10 +166,11 @@
           money_range_identify1:[],
           money_range_identify2:[],
           money_range_identify3:[],
-          supportcoins:'',
-          supportmoney:'',
-          supportcoupons:'',
-          Languageconfiguration:[],
+          is_redeem_coin:'',
+          is_redeem_money:'',
+          is_money_range:'',
+          is_coupon :'',
+          language_name:[],
           'language_sort_zh-cn':null,
           'language_sort_zh-tw':null,
           'language_sort_en-us':null,
@@ -208,70 +187,64 @@
       }
     },
     mounted() {
-      if(this.$route.query.type==2){
-        // console.log(this.tochind)
-        for(let i in this.ruleForm){
-          if(this.tochind.hasOwnProperty(i)){
-            this.ruleForm[i]=this.tochind[i]
-            // console.log(this.tochind)
-          }
-        }
-      }
-    },
-    created() {
-      console.log(this.MachineInfo)
-    },
-    watch:{
-      ruleForm: {
-        handler(newValue, oldValue) {
-          // console.log(newValue)
-          // this.$emit('getchildren',this.ruleForm)
-        },
-        deep: true
-      },
-      // "ruleForm.collectMoneyMin": {
-      //   handler(newvalue, oldvalue) {
-      //     let self=this;
-      //     let newvalue_ =newvalue;
-      //     if( (isNaN(parseFloat(newvalue_.replace(/,/ig,'')))) ){ //如果当前输入的不是数字就停止执行
-      //       self.ruleForm.collectMoneyMin='';  //防止不是数字是input出现NaN提示
-      //       return false;
+      // if(this.$route.query.type==3){
+      //   // console.log(this.tochind)
+      //   for(let i in this.ruleForm){
+      //     if(this.tochind.hasOwnProperty(i)){
+      //       this.ruleForm[i]=this.tochind[i]
+      //       // console.log(this.tochind)
       //     }
-      //     if(parseFloat(newvalue_.replace(/,/ig,''))>1000000000000){
-      //       self.ruleForm.collectMoneyMin=oldvalue;
-      //       return
-      //     }
-      //   },
-      //   deep: true,
-      //   immediate: true
-      // },
-      // "ruleForm.collectMoneyMax": {
-      //   handler(newvalue, oldvalue) {
-      //     let newvalue_ =newvalue;
-      //     console.log(newvalue_)
-      //     if( (isNaN(parseFloat(newvalue_.replace(/,/ig,'')))) ){ //如果当前输入的不是数字就停止执行
-      //       this.ruleForm.collectMoneyMax='';  //防止不是数字是input出现NaN提示
-      //       return false;
-      //     }
-      //     if(parseFloat(newvalue_.replace(/,/ig,''))>1000000000000){
-      //       this.ruleForm.collectMoneyMax=oldvalue;
-      //       return
-      //     }
-      //   },
-      //   deep: true,
-      //   immediate: true
+      //   }
       // }
     },
-    methods:{
-      deleteitem(index){
-        if(this.arr.length===1){
-          return
+    created() {
+      console.log('1,200'*1)
+      this.arr=[...this.MachineInfo.money_range.data];
+      this.arr.forEach(item=>{
+        item.money_range_minimum=item.money_range_minimum?parseInt(item.money_range_minimum.toString().replace(/,/ig,'')).toLocaleString():'';
+        item.money_range_maximum=item.money_range_maximum?parseInt(item.money_range_maximum.toString().replace(/,/ig,'')).toLocaleString():'';
+      })
+      this.ruleForm.is_register=this.MachineInfo.is_register;
+      this.ruleForm.is_redeem_coin=this.MachineInfo.is_redeem_coin;
+      this.ruleForm.is_redeem_money=this.MachineInfo.is_redeem_money;
+      this.ruleForm.is_coupon=this.MachineInfo.is_coupon;
+      this.ruleForm.is_money_range=this.MachineInfo.money_range.is_money_range;
+      this.MachineInfo.language.forEach(item=>{
+        this.ruleForm.language_name.push(item.name)
+        this.ruleForm[`language_sort_${item.name}`]=item.sort*1;
+      })
+    },
+    watch:{
+    },
+    methods: {
+      minimum(item, index) {
+        let value  = parseInt(item.money_range_minimum.replace(/,/ig,''));
+            if((isNaN(value)) || value===NaN ){ //如果当前输入的不是数字就停止执行
+              item.money_range_minimum='';  //防止不是数字是input出现NaN提示
+              return false;
+            }
+            item.money_range_minimum= value.toLocaleString()
+            // if(parseFloat(newvalue_.replace(/,/ig,''))>1000000000000){
+            //   item.money_range_minimum=oldvalue;
+            //   return
+            // }
+      },
+      maximun(item,index){
+        let value  = parseInt(item.money_range_maximum.replace(/,/ig,''));
+        if((isNaN(value)) || value===NaN ){ //如果当前输入的不是数字就停止执行
+          item.money_range_maximum='';  //防止不是数字是input出现NaN提示
+          return false;
         }
+         item.money_range_maximum= value.toLocaleString()
+      },
 
+      deleteitem(index){
+        // if(this.arr.length===1){
+        //   return
+        // }
        this.arr.splice(index,1)
       },
       additem(){
-
         this.arr.push({
           collectMoneyMin:'',
           collectMoneyMax:'',
@@ -279,16 +252,6 @@
           money_range_identify2:'',
           money_range_identify3:'',
         })
-        // console.log(this.arr)
-      },
-      add_xiaoshudian(newvalue,num){
-        let self=this;
-        var value  = parseInt(newvalue.replace(/,/ig,''));
-        if(num==1){
-          self.ruleForm.collectMoneyMin= value.toLocaleString()
-        }else if(num ==2){
-          self.ruleForm.collectMoneyMax= value.toLocaleString()
-        }
       },
       submitForm(){
         let self=this;
@@ -298,31 +261,14 @@
         self.ruleForm.money_range_identify2=[];
         self.ruleForm.money_range_identify3=[];
 
-       //  self.ruleForm.money_range_minimum= self.arr.map(item =>
-       // {
-       //    item.collectMoneyMin
-       //  }
-       //  )
-        self.arr.forEach(item=>{
-          self.ruleForm.money_range_minimum.push(item.collectMoneyMin);
-          self.ruleForm.money_range_maximum.push(item.collectMoneyMax);
-          self.ruleForm.money_range_identify1.push(item.money_range_identify1);
-          self.ruleForm.money_range_identify2.push(item.money_range_identify2);
-          self.ruleForm.money_range_identify3.push(item.money_range_identify3);
-        })
+          self.arr.forEach(item=>{
+            self.ruleForm.money_range_minimum.push(item.money_range_minimum?item.money_range_minimum.replace(/,/ig,'')*1:'');
+            self.ruleForm.money_range_maximum.push(item.money_range_maximum?item.money_range_maximum.replace(/,/ig,'')*1:'');
+            self.ruleForm.money_range_identify1.push(item.money_range_identify1);
+            self.ruleForm.money_range_identify2.push(item.money_range_identify2);
+            self.ruleForm.money_range_identify3.push(item.money_range_identify3);
+          })
         console.log(this.ruleForm);
-        // console.log(self.ruleForm.money_range_minimum)
-        // console.log( self.ruleForm.money_range_maximum)
-        // self.ruleForm.money_range_minimum=
-        // this.$emit('getchildren','','second');
-        // this.ruleForm.token=this.$store.state.token;
-        // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
-        //   .then(res=>{
-        //     if(res.data.ret==0){
-        //       this.$emit('getchildren');
-        //       this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});
-        //     }
-        //   })
         this.$axios({
           method: "post",
           url: `${this.$baseurl}/admin_api/machine.machine/editMachine`,
@@ -332,6 +278,14 @@
           ),
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(res=>{
+          if(res.data.ret==0){
+            this.$emit('getchildren');
+            this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
+          }else{
+            this.msg=res.data.msg;
+            this.remindervisible=true;
           }
         })
       },

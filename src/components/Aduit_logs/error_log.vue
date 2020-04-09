@@ -250,8 +250,7 @@
 
 <style lang="scss">
   .error_log{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     header{
       position: relative;
       height: 136px;

@@ -1,24 +1,26 @@
 <template>
   <div id="home">
     <el-aside width="250px" class="fl-aside">
-      <h1>
-              <img src="../../static/sign.png" alt />
-            </h1>
-      <div class="left_body">
-        <el-menu
-          @open="handleOpen"
-          @close="handleClose"
-          active-text-color="#2AB4E5"
-          :unique-opened="true"
-          @select='selectone'
-        >
-<!--          :default-active="activeName"-->
-
-          <el-menu-item  :class="{bgisactive:text.dashboard}"  @mouseenter.native="changeImageSrc('dashboard', 'hover')"   @mouseleave.native="changeImageSrc('dashboard', 'leave')" index="dashboard"   @click="routerto('/home/dashboard')">
+         <h1>
+          <img src="../../static/sign.png" alt />
+        </h1>
+        <div class="left_body">
+          <el-menu
+            @open="handleOpen"
+            @close="handleClose"
+            :default-active="activeName"
+            active-text-color="#2AB4E5"
+            :unique-opened="true"
+            @select='selectone'
+          >
+<!--         -->
+          <el-menu-item  :class="{bgisactive:text.dashboard}"  @mouseenter.native="changeImageSrc('dashboard', 'hover')"
+               @mouseleave.native="changeImageSrc('dashboard', 'leave')" index="dashboard"   @click="routerto('/home/dashboard')">
             <i><img :src="color_icon.dashboard" alt=""></i>
             <span  slot="title" :class="{textisactive:text.dashboard}">DASHBOARD</span>
           </el-menu-item>
-          <el-submenu :class="{bgisactive:text.user}" @mouseenter.native="changeImageSrc('user', 'hover')"   @mouseleave.native="changeImageSrc('user', 'leave')" index="user" >
+          <el-submenu :class="{bgisactive:text.user}" @mouseenter.native="changeImageSrc('user', 'hover')"
+                      @mouseleave.native="changeImageSrc('user', 'leave')" index="user" >
             <template slot="title">
               <i><img :src="color_icon.user" alt=""></i>
               <span :class="{textisactive:text.user}">USER</span>
@@ -26,7 +28,8 @@
               <el-menu-item   @click="routerto('/home/user/atm_support')" index="atm_support">ATM Technical Support</el-menu-item>
               <el-menu-item  @click="routerto('/home/user/customer_data')" index="customer_data">Customer Data</el-menu-item>
           </el-submenu>
-          <el-submenu  :class="{bgisactive:text.machines}" @mouseenter.native="changeImageSrc('machines', 'hover')"   @mouseleave.native="changeImageSrc('machines', 'leave')" index="machines" >
+          <el-submenu  :class="{bgisactive:text.machines}" @mouseenter.native="changeImageSrc('machines', 'hover')"
+                       @mouseleave.native="changeImageSrc('machines', 'leave')" index="machines" >
             <template slot="title">
               <i><img :src="color_icon.machines" alt=""></i>
               <span  :class="{textisactive:text.machines}">MACHINES</span>
@@ -34,44 +37,41 @@
               <el-menu-item @click="routerto('/home/machines/machine_subtitle')" index="machine_subtitle">MACHINES</el-menu-item>
               <el-menu-item @click="routerto('/home/machines/group_subtitle')" index="group_subtitle">GROUP PATTERN</el-menu-item>
           </el-submenu>
-          <el-menu-item  @mouseenter.native="changeImageSrc('transaction', 'hover')"   @mouseleave.native="changeImageSrc('transaction', 'leave')" index="transaction"   @click="routerto('/home/transaction')">
+          <el-menu-item  :class="{bgisactive:text.transaction}" @mouseenter.native="changeImageSrc('transaction', 'hover')"   @mouseleave.native="changeImageSrc('transaction', 'leave')" index="transaction"   @click="routerto('/home/transaction')">
             <i><img :src="color_icon.transaction" alt=""></i>
-            <span slot="title">TRANSACTIONS</span>
+            <span slot="title"  :class="{textisactive:text.transaction}">TRANSACTIONS</span>
           </el-menu-item>
-          <el-menu-item  @mouseenter.native="changeImageSrc('wallet', 'hover')"   @mouseleave.native="changeImageSrc('wallet', 'leave')" index="wallet"   @click="routerto('/home/wallet')">
+          <el-menu-item  :class="{bgisactive:text.wallet}" @mouseenter.native="changeImageSrc('wallet', 'hover')"   @mouseleave.native="changeImageSrc('wallet', 'leave')" index="wallet"   @click="routerto('/home/wallet')">
             <i><img :src="color_icon.wallet" alt=""></i>
-            <span slot="title">WALLET</span>
+            <span slot="title"  :class="{textisactive:text.wallet}">WALLET</span>
           </el-menu-item>
-          <el-submenu @mouseenter.native="changeImageSrc('report', 'hover')"   @mouseleave.native="changeImageSrc('report', 'leave')" index="report"  >
+          <el-submenu :class="{bgisactive:text.report}" @mouseenter.native="changeImageSrc('report', 'hover')"   @mouseleave.native="changeImageSrc('report', 'leave')" index="report"  >
             <template slot="title">
               <i><img :src="color_icon.report" alt=""></i>
-              <span slot="title">REPORT</span>
+              <span slot="title"  :class="{textisactive:text.report}">REPORT</span>
             </template>
             <el-menu-item index="report_lists"   @click="routerto('/home/report')">
               <span slot="title">REPORTS</span>
             </el-menu-item>
             <el-menu-item index="report_crytocurrency"  @click="routerto('/home/report/report_crytocurrency')">
-
               <span slot="title">CRYTOCURRENCY</span>
             </el-menu-item>
-<!--            <el-menu-item   @click="routerto('/home/user/atm_support')" index="/home/user/atm_support">ATM Technical Support</el-menu-item>-->
-<!--            <el-menu-item  @click="routerto('/home/user/customer_data')" index="/home/user/customer_data">Customer Data</el-menu-item>-->
           </el-submenu>
-          <el-menu-item  index="compliance"  @click="routerto('/home/compliance')">
+          <el-menu-item @mouseenter.native="changeImageSrc('compliance', 'hover')"   @mouseleave.native="changeImageSrc('compliance', 'leave')" :class="{bgisactive:text.compliance}" index="compliance"  @click="routerto('/home/compliance')">
             <i><img :src="color_icon.compliance" alt=""></i>
-            <span slot="title">COMPLIANCE</span>
+            <span slot="title"  :class="{textisactive:text.compliance}">COMPLIANCE</span>
           </el-menu-item>
-          <el-menu-item index="setting"   @click="routerto('/home/setting')">
+          <el-menu-item @mouseenter.native="changeImageSrc('setting', 'hover')"   @mouseleave.native="changeImageSrc('setting', 'leave')":class="{bgisactive:text.setting}" index="setting"   @click="routerto('/home/setting')">
             <i><img :src="color_icon.setting" alt=""></i>
-            <span slot="title">SETTING</span>
+            <span slot="title"  :class="{textisactive:text.setting}">SETTING</span>
           </el-menu-item>
-          <el-menu-item index="alerts"   @click="routerto('/home/alerts')">
+          <el-menu-item @mouseenter.native="changeImageSrc('alerts', 'hover')"   @mouseleave.native="changeImageSrc('alerts', 'leave')" :class="{bgisactive:text.alerts}" index="alerts"   @click="routerto('/home/alerts')">
             <i><img :src="color_icon.alerts" alt=""></i>
-            <span slot="title">ALERTS</span>
+            <span slot="title"  :class="{textisactive:text.alerts}">ALERTS</span>
           </el-menu-item>
-          <el-menu-item index="audit_log"     @click="routerto('/home/audit_log')">
+          <el-menu-item @mouseenter.native="changeImageSrc('audit_log', 'hover')"   @mouseleave.native="changeImageSrc('audit_log', 'leave')" index="audit_log" :class="{bgisactive:text.audit_log}"    @click="routerto('/home/audit_log')">
             <i><img :src="color_icon.audit_log" alt=""></i>
-            <span slot="title">AUDIT LOG</span>
+            <span slot="title"  :class="{textisactive:text.audit_log}">AUDIT LOG</span>
           </el-menu-item>
         </el-menu>
       </div>
@@ -115,18 +115,6 @@ import { log } from "util";
 export default {
   data() {
     return {
-      // coverimg:{
-      //   dashboard:'',
-      //   user:'',
-      //   machines:'',
-      //   transaction:'',
-      //   wallet:'',
-      //   report:'',
-      //   compliance:'',
-      //   setting:'',
-      //   alerts:'',
-      //   audit_log:'',
-      // },
       levelList: null,
       text:{
         dashboard:false,
@@ -195,13 +183,14 @@ export default {
     else{
       this.activeName = path[1];
     }
+    this.text[path[1]]=true;
     this.color_icon[path[1]]=this.new_icon[path[1]];
   },
 
-
-
-  beforeMount() {
-    // this.getActiveNav();
+  mounted() {
+    // this.getBreadcrumb();
+    // document.querySelector('.maincontent')
+    // console.log(document.querySelector('.maincontent'));
   },
   methods: {
 
@@ -242,27 +231,23 @@ export default {
         });
     },
     changeImageSrc (key, way) {
-      // let path = index.path.substr(1).split('/');
-      // console.log(this.$route)
-      // if(this.activeName===key){
-      //   return;
-      // }else if(key==='user' && (this.activeName==='atm_support' || this.activeName==='customer_data')){
-      //   return;
-      // }else if(key==='machines' && (this.activeName==='machine_subtitle' || this.activeName==='group_subtitle')){
-      //   return;
-      // }else if(key==='report' && (this.activeName==='report_lists' || this.activeName==='report_crytocurrency')){
-      //   return;
-      // }
-      // if(way=== 'hover'){
-      //   this.color_icon[key]=this.new_icon[key];
-      //   // console.log(this.color_icon[key])
-      // }else if(way=== 'leave'){
-      //   // console.log(this.color_icon[key],this.new_icon[key])
-      //   // if(this.color_icon[key]===this.new_icon[key]){
-      //     this.color_icon[key]=this.original_icon[key]
-      //   // }
-      //
-      // }
+
+      if(this.activeName===key){
+        return false;
+      }else if(key==='user' && (this.activeName==='atm_support' || this.activeName==='customer_data')){
+        return false;
+      }else if(key==='machines' && (this.activeName==='machine_subtitle' || this.activeName==='group_subtitle')){
+        return false;
+      }else if(key==='report' && (this.activeName==='report_lists' || this.activeName==='report_crytocurrency')){
+        return false  ;
+      }
+      if(way=== 'hover'){
+        this.color_icon[key]=this.new_icon[key];
+        this.text[key]=true;
+      }else if(way=== 'leave'){
+          this.text[key]=false;
+          this.color_icon[key]=this.original_icon[key]
+      }
     },
     toggleShow(x) {
       console.log(x)
@@ -302,9 +287,8 @@ export default {
       // console.log(b);
     },
     handleOpen(index, keyPath) {
-      // console.log(index, keyPath);
+      console.log(index, keyPath);
       // this.text[index]=true;
-      // console.log(this.text.user)
       // if(index='user'){
       //   for(let key in this.coverimg){
       //     this.coverimg[key]='';
@@ -338,21 +322,20 @@ export default {
       // console.log(this.activeName)
     },
   },
-  mounted() {
-    this.getBreadcrumb();
-    // document.querySelector('.maincontent')
-    // console.log(document.querySelector('.maincontent'));
-  },
+
   watch: {
     $route(index) {
+      // console.log(index)
       let path = index.path.substr(1).split('/');
       for(let key in  this.color_icon ){
         if(this.original_icon.hasOwnProperty(key)){
           this.color_icon[key]=this.original_icon[key];
+          this.text[key]=false;
         }
       }
-      console.log(path)
+      // console.log(path)
       this.color_icon[path[1]]=this.new_icon[path[1]];
+      this.text[path[1]]=true;
       if(path[1]=='user' || path[1]=='machines' || path[1]=='report'){
         this.handleSelect(path[2]);
       }
@@ -375,10 +358,13 @@ export default {
     word-break: initial;
   }
   .el-table--border, .el-table--group {
-    border: 1px solid  #d3d3d3;
+    /*border: 1px solid  #d3d3d3;*/
+  }
+  .el-menu-item.is-active{
+    background-color: #ecf5ff;
   }
 .textisactive{
-  /*background-color: #ecf5ff;*/
+
   color: #2AB4E5;
 }
 .fl-aside {

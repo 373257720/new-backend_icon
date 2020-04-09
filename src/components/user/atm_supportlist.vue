@@ -25,7 +25,7 @@
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-        style="width: 100%"
+
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -44,36 +44,42 @@
           prop="username"
           align="center"
           label="Account"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="nickname"
           align="center"
           label="Nickname"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="status_lable"
           align="center"
           label="State"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="email"
           align="center"
           label="Email"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="mobile"
           align="center"
           label="Phone"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="create_time"
           align="center"
           label="Creat time"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
@@ -84,7 +90,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+<!--    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>-->
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -129,7 +135,8 @@
             status:num,
           }).then(res => {
             this.msg=res.data.msg;
-            this.remindervisible=true;
+            // this.remindervisible=true;
+            this.$message(res.data.msg);
             if(res.data.ret==0){
               this.changepage(this.currentpage, this.pagesize);
             }
@@ -162,8 +169,9 @@
               this.tableData[index].status=1;
               this.tableData[index].status_lable='Normal';
             }
-            this.msg=res.data.msg;
-            this.remindervisible=true;
+            // this.msg=res.data.msg;
+            // this.remindervisible=true;
+            this.$message(res.data.msg);
           }
         });
 
@@ -248,9 +256,12 @@
 </script>
 
 <style lang="scss">
+  /*.el-icon-info:before{*/
+  /*  content: "\e79c";*/
+  /*}*/
   .customer_data{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
+
     header{
       position: relative;
       height: 136px;

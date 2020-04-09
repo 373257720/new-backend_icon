@@ -102,25 +102,6 @@
   export default {
     props:["tochind"],
     data(){
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return{
         currencypList:[],
         ruleForm:{
@@ -145,15 +126,6 @@
         rules: {
           username: [
             { required: true, message: '不能为空', trigg: 'change' }
-          ],
-
-          password: [
-            {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-
-          ],
-          repassword: [
-            { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
           ],
           nickname:[
             { required: true, message: '不能为空', trigger: 'blur' }
@@ -183,7 +155,7 @@
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`)
         .then(res=>{
           if (res) {
-            this.currencypList.push({ value: '0', label:'-',})
+            this.currencypList.push({ value: 0, label:'-',})
             for (let i = 0; i < res.data.data.data.length; i++) {
               this.currencypList.push({
                 value: res.data.data.data[i].currency_id,

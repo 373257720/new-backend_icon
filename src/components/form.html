@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Insert title here</title>
+</head>
+<body>
+<p id="help">Helpful notes will appear here</p>
+<p>E-mail: <input type="text" id="email" name="email"></p>
+<p>Name: <input type="text" id="name" name="name"></p>
+<p>Age: <input type="text" id="age" name="age"></p>
+<script type="text/javascript">
+  // function MyObject(name, message) {
+  //   console.log(this)
+  //   this.name = name.toString();
+  //   this.message = message.toString();
+  // }
+  // MyObject.prototype.getName = function() {
+  //   console.log(this.name)
+  //   return this.name;
+  // };
+  // MyObject.prototype.getMessage = function() {
+  //   return this.message;
+  // };
+  // let a=  new MyObject('TONY','JJ')
+  // console.log(a)
+
+  // var PI = "a";
+  // if(true){
+  //   console.log(PI);  // ReferenceError: PI is not defined
+  //   const PI = "3.1415926";
+  // }
+  // let [a, ...b] = [1, 2, 3,{ja:132}];
+  // console.log(a,b)
+  //构造函数
+  // function Egperson (name,age) {
+  //   this.name = name;
+  //   this.age = age;
+  //   this.sayName = function () {
+  //     alert(this.name);
+  //   }
+  // }
+  // var person = new Egperson('mike','18'); //this-->person
+  // console.log(person)
+  // person.sayName();  //'mike'
+  //
+
+  // function Student() {
+  // }
+  //
+  // Student.prototype.name = "easy";
+  // Student.prototype.age = 20;
+  // Student.prototype.alertName = ()=>{
+  //   // alert(this.name);
+  //   console.log(this)
+  // };
+  //
+  // var stu1 = new Student();
+  // var stu2 = new Student();
+  // stu1.alertName();  //easy
+  // stu2.alertName();  //easy
+  // function Student() {
+  // }
+  //
+  // Student.prototype = {
+  //   // constructor : Student,
+  //   name : "easy",
+  //   age : 20,
+  //   alertName : function() {
+  //     alert(this.name);
+  //   }
+  // }
+  // console.log(Student.prototype)
+  const COLOR_RED = "red";
+  const COLOR_YELLOW = "yellow";
+  const COLOR_BLUE = "blue";
+  const MY_BLUE = "blue";
+
+  function ColorException(message) {
+    this.message = message;
+    this.name = "ColorException";
+  }
+
+  function getConstantName(color) {
+    switch (color) {
+      case COLOR_RED :
+        return "COLOR_RED";
+      case COLOR_YELLOW :
+        return "COLOR_YELLOW ";
+      case COLOR_BLUE:
+        return "COLOR_BLUE";
+      case MY_BLUE:
+        return "MY_BLUE";
+      default:
+        throw new ColorException("Can't find this color");
+    }
+  }
+
+  // try {
+  //
+  //   var color = "green"; // green 引发异常
+  //   var colorName = getConstantName(color);
+  // } catch (e) {
+  //   var colorName = "unknown";
+  //   console.log(e.message, e.name); // 传递异常对象到错误处理
+  // }
+  // let sy = Symbol("key1");
+  // let syObject = {};
+  // syObject[sy] = "kk";
+  // console.log(syObject);
+  // var myMap = new Map();
+  // myMap.set(0, "zero");
+  // myMap.set(1, "one");
+  // console.log(myMap)
+  // var myMap = new Map();
+  // myMap.set(0, "zero");
+  // myMap.set(1, "one");
+  //
+  // // 将会显示两个 logs。 一个是 "0 = zero" 另一个是 "1 = one"
+  // myMap.forEach((value, key)=> {
+  //   console.log(key + " = " + value);
+  // }, myMap)
+  // var kvArray = [["key1", "value1"], ["key2", "value2"]];
+  //
+  // // Map 构造函数可以将一个 二维 键值对数组转换成一个 Map 对象
+  // var myMap = new Map(kvArray);
+  //
+  // // 使用 Array.from 函数可以将一个 Map 对象转换成一个二维键值对数组
+  // var outArray = Array.from(myMap);
+  // var a = new Set([1, 2, 3]);
+  // var b = new Set([4, 3, 2]);
+  // var union = new Set([...a, ...b]); //
+  // console.log(union)
+  // let string = "apple,banana,orange";
+  // string.includes("ba");     // true
+  // string.startsWith("apple");    // true
+  // string.endsWith("apple");      // false
+  // string.startsWith("banana",6)
+  // console.log(string.includes("ba"))
+ //  function f(stringArr,...values){
+ //    let result = "";
+ //    for(let i=0;i<stringArr.length;i++){
+ //      result += stringArr[i];
+ //      if(values[i]){
+ //        result += String(values[i]).replace(/&/g, "&amp;")
+ //          .replace(/</g, "&lt;")
+ //          .replace(/>/g, "&gt;");
+ //      }
+ //    }
+ //    return result;
+ //  };
+ //  var name = '<Amy&MIke>';
+ // let a= f`<p>Hi, ${name}.I would like send you some message.</p>`;
+ //  console.log(a)
+  function push(array, ...items) {
+    // console.log(array,...items)
+    array.push(...items);
+    console.log(array)
+  }
+  function add(x, y) {
+    return x + y;
+  }
+  var numbers = [4, 38];
+  // add(...numbers) // 42
+ let a= push([1,2],...numbers)
+  // console.log(a)
+  // <p>Hi, &lt;Amy&amp;MIke&gt;.I would like send you some message.</p>
+  // 将会显示两个 log。 一个是 "0 = zero" 另一个是 "1 = one"
+  // for (var [key, value] of myMap) {
+  //   console.log(key + " = " + value);
+  // }
+  // for (var [key, value] of myMap.entries()) {
+  //   console.log(key + " = " + value);
+  // }
+  // const COLOR_RED = Symbol("red");
+  // const COLOR_YELLOW = Symbol("yellow");
+  // const COLOR_BLUE = Symbol("blue");
+  //
+  // function ColorException(message) {
+  //   this.message = message;
+  //   this.name = "ColorException";
+  // }
+  // function getConstantName(color) {
+  //   switch (color) {
+  //     case COLOR_RED :
+  //       return "COLOR_RED";
+  //     case COLOR_YELLOW :
+  //       return "COLOR_YELLOW ";
+  //     case COLOR_BLUE:
+  //       return "COLOR_BLUE";
+  //     default:
+  //       throw new ColorException("Can't find this color");
+  //   }
+  // }
+  //
+  // try {
+  //
+  //   var color = "green"; // green 引发异常
+  //   var colorName = getConstantName(color);
+  // } catch (e) {
+  //   var colorName = "unknown";
+  //   console.log(e.message, e.name); // 传递异常对象到错误处理
+  // }
+  // const COLOR_RED = "red";
+  // const COLOR_YELLOW = "yellow";
+  // const COLOR_BLUE = "blue";
+  // const MY_BLUE = "blue";
+  //
+  // function ColorException(message) {
+  //   this.message = message;
+  //   this.name = "ColorException";
+  // }
+  //
+  // function getConstantName(color) {
+  //   switch (color) {
+  //     case COLOR_RED :
+  //       return "COLOR_RED";
+  //     case COLOR_YELLOW :
+  //       return "COLOR_YELLOW ";
+  //     case COLOR_BLUE:
+  //       return "COLOR_BLUE";
+  //     case MY_BLUE:
+  //       return "MY_BLUE";
+  //     default:
+  //       throw new ColorException("Can't find this color");
+  //   }
+  // }
+  //
+  // try {
+  //
+  //   var color = "green"; // green 引发异常
+  //   var colorName = getConstantName(color);
+  // } catch (e) {
+  //   console.log(e)
+  //   var colorName = "unknown";
+  //   console.log(e.message, e.name); // 传递异常对象到错误处理
+  // }
+</script>
+
+</body>
+
+</html>

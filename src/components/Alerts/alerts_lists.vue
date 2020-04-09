@@ -135,8 +135,8 @@
 <style lang="scss">
   .alerts_lists{
     /*width: 100%;*/
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
+    width: 100%;
     header{
       position: relative;
       height: 136px;

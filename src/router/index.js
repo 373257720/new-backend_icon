@@ -36,6 +36,7 @@ import edit_1st from '@/components/machines/edit_1st'
 import edit_2nd from '@/components/machines/edit_2nd'
 import edit_3rd from '@/components/machines/edit_3rd'
 import edit_4th from '@/components/machines/edit_4th'
+import edit_5th from '@/components/machines/edit_5th'
 import  test from '@/components/test'
 import machine_subtitle from "../components/machines/machine_subtitle";
 import group_subtitle from "../components/machines/group_subtitle";
@@ -326,6 +327,15 @@ const routes = [{
                     },
                   },
                   {
+                    path: 'edit_5th',
+                    name: 'edit_5th',
+                    component: edit_5th,
+                    meta: {
+                      title: '',
+                      requiretoken:true,
+                    },
+                  },
+                  {
                     path: 'test',
                     name: 'test',
                     component: test,
@@ -517,7 +527,7 @@ let router = new Router({
 //在进入某个路由前执行的代码
 router.beforeEach((to, from, next) => {
   let token = (sessionStorage.getItem('store') && JSON.parse(sessionStorage.getItem('store')).token) || store.state.token;
-  console.log(token)
+  // console.log(token)
   if (to.meta.requiretoken) {
     if (token) {
       next();

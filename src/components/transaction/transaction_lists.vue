@@ -108,6 +108,7 @@
           label="Machine"
           align="center"
           class-name="edit"
+          width="150"
         >
           <template  slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.machine_name}}</span>
@@ -116,6 +117,7 @@
         <el-table-column
           align="center"
           label="Photo"
+          width="150"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <el-popover
@@ -131,16 +133,19 @@
           prop="coin_status"
           align="center"
           label="Status"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="trade_type"
           align="center"
           label="Type"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
+          width="100"
           label="Cash"
           show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.money}}{{scope.row.currency_name}}</template>
@@ -155,12 +160,14 @@
           prop="create_time"
           align="center"
           label="Transaction Date"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="country_name"
           align="center"
           label="Location"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
       </el-table>
@@ -335,9 +342,15 @@
 </script>
 
 <style lang="scss">
+  .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner{
+    width: 250px;
+  }
+  .el-date-editor .el-range-input{
+    /*width: 30%;*/
+  }
   .transcation_lists{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
+    /*width: 90%;*/
     .imgsize{
       width: 50px;
       height: 60px;
@@ -396,23 +409,23 @@
       border: 0;
     }
     nav{
+      font-size: 14px;
       display: flex;
-      height: 100px;
-      /*justify-content: space-between;*/
       margin: 20px 0 0 0 ;
       justify-content: space-between;
-      padding: 0 50px 0 20px;
+      flex-wrap: wrap;
+      padding: 0 20px 0 0;
       >div{
-        /*flex:1;*/
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        margin-bottom: 20px;
+        section:nth-of-type(1){
+          margin-bottom: 20px;
+        }
         section{
           /*display: flex;*/
           display: flex;
           span{
             display: inline-block;
-            width: 120px;
+            width: 110px;
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -438,13 +451,16 @@
         p:nth-child(1){
           color:white;
           background:url(../../../static/add-disable.png) no-repeat;
-            /*margin-bottom:10px;*/
+            margin-bottom:20px;
         }
         p:nth-child(2){
           border: 1px solid #D1D1D1 ;
           /*margin-bottom:10px;*/
 
         }
+      }
+      div:last-child{
+        align-self: flex-end;
       }
     }
     main{

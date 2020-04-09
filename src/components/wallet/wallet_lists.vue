@@ -10,7 +10,7 @@
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-        style="width: 100%">
+>
         <el-table-column
           label="Crypto Currency"
           align="center"
@@ -19,18 +19,22 @@
         </el-table-column>
         <el-table-column
           label="Wallet Address"
+          width="200"
+          show-overflow-tooltip
           align="center">
           <template slot-scope="scope">{{ scope.row.address}}</template>
         </el-table-column>
         <el-table-column
           prop="balance"
           align="center"
+          width="100"
           label="Account Balance"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="platform"
+          width="100"
           label="Hedge Platform"
           show-overflow-tooltip>
         </el-table-column>
@@ -107,7 +111,6 @@
       changepage(currentpage, pagesize) {
         this.pictLoading=true;
         this.$global.get_encapsulation( `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigList`,{
-
                   page: currentpage,
                   size:pagesize,
         })
@@ -132,8 +135,7 @@
 
 <style lang="scss">
   .wallet{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     header{
       position: relative;
       height: 136px;

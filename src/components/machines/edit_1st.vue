@@ -14,7 +14,7 @@
           <el-input v-model="ruleForm.alert_mobile"></el-input>
         </el-form-item>
         <el-form-item label="Group:" prop="region">
-          <el-select v-model="ruleForm.machine_group_id" placeholder="">
+          <el-select :popper-append-to-body="false"  v-model="ruleForm.machine_group_id" placeholder="">
             <el-option
               v-for="item in groupList"
               :key="item.value"
@@ -24,7 +24,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="Location" prop="region">
-          <el-select v-model="ruleForm.country_id" placeholder="">
+          <el-select :popper-append-to-body="false" v-model="ruleForm.country_id" placeholder="">
             <el-option
               v-for="item in CountryList"
               :key="item.value"
@@ -146,8 +146,10 @@
     mounted() {
       this.$nextTick(function () {
         for(var i in this.ruleForm){
-          if(this.MachineInfo.hasOwnProperty(i))
+          if(this.MachineInfo.hasOwnProperty(i)){
             this.ruleForm[i]=this.MachineInfo[i]
+          }
+
         }
         if(this.MachineInfo.machine_picture!=null){
           this.choose(".project_pic .el-upload--picture-card");
@@ -155,7 +157,7 @@
 
         }
       })
-
+      console.log(this.ruleForm)
     },
     created() {
       let axiosList = [
@@ -178,7 +180,7 @@
             // console.log(this.CountryList  )
           }
           if (res2) {
-            this.groupList.push({ value: '0', label:'-',})
+            this.groupList.push({ value: 0, label:'-',})
             for (let i = 0; i < res2.data.data.data.length; i++) {
               this.groupList.push(
                 {
@@ -186,7 +188,11 @@
                 label: res2.data.data.data[i].name,
               });
             }
+            if(this.groupList.indexOf(this.ruleForm.machine_group_id)<0){
+              this.ruleForm.machine_group_id=0;
+            }
           }
+          // console.log(this.groupList)
         })
       );
 

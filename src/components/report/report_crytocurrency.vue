@@ -7,7 +7,6 @@
     </h2>
     </header>
     <nav>
-      <div>
         <section>
           <span class="keyword" >Machine:</span>
           <template>
@@ -46,19 +45,15 @@
           >
           </el-date-picker>
         </section>
-      </div>
-      <div>
-
-      </div>
       <div>
         <p class="button" @click="searcher" >Search</p>
         <p class="button" @click="reset">Reset</p>
       </div>
     </nav>
     <el-main >
-      <div id="myChart" :style="{width: '55%',height: '700px'}"></div>
+      <div id="myChart" :style="{width: '100%',height: '700px'}"></div>
 <!--      <div style="width: 60%;height: 600px;background: grey;"></div>-->
-      <div style="width: 40%;padding-top:60px;height: 700px">
+      <div id="list" style="width: 40%;margin-top:60px;height: 700px">
               <el-table
                 :row-class-name="tabRowClassName"
                 border
@@ -245,8 +240,9 @@
       export_excel(){
         let start_time = this.formdata.timerange==null?0:this.formdata.timerange[0];
         let end_time = this.formdata.timerange==null?0:this.formdata.timerange[1];
-        window.location.href = `${this.$baseurl}/admin_api/machine.order/exportStatisticsCoinOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
-
+        window.location.href = `${this.$baseurl}/admin_api/machine.order/exportStatisticsCoinOrder?
+        token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&
+        machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
       },
       resizeHandler() {
         this.chart.resize()
@@ -422,8 +418,7 @@
 
 <style lang="scss">
   .report_crytocurrency{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     .imgsize{
       width: 50px;
       height: 60px;
@@ -482,22 +477,23 @@
     }
     nav{
       display: flex;
+      flex-wrap: wrap;
       /*height: 60px;*/
       /*justify-content: space-between;*/
       margin: 20px 0 20px 0 ;
       justify-content: space-between;
-      padding: 0 20px 0 20px;
+      /*padding: 0 20px 0 20px;*/
+      section{
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
       >div{
         /*flex:1;*/
         display: flex;
-        /*flex-direction: column;*/
-        /*justify-content: space-between;*/
+        font-size: 14px;
         section{
-          /*display: flex;*/
           display: flex;
           span{
-            display: inline-block;
-            /*width: 120px;*/
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -506,9 +502,7 @@
             flex:1;
           }
         }
-        section:nth-of-type(1){
-          margin-right: 20px;
-        }
+
         p.button{
           /*width: 100%;*/
           cursor: pointer;
@@ -536,10 +530,31 @@
       }
     }
     .el-main{
-      overflow: visible;
+      /*overflow: visible;*/
+      display: flex;
+      flex-wrap: wrap;
+      #myChart{
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      #list{
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      @media (min-width: 1200px){
+        #myChart {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+        #list {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+      }
     }
+
     main{
-      padding:20px 20px 20px 0;
+      /*padding:20px 20px 20px 0;*/
       display: flex;
       /*justify-content: space-between;*/
 

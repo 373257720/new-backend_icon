@@ -31,7 +31,7 @@ export default {
         )
       );
     }
-    window.addEventListener("beforeunload", () => {
+    window.addEventListener("pagehide", () => {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
     });
   },

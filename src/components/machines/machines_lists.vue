@@ -32,6 +32,7 @@
         <el-table-column
           label="Machine"
           align="center"
+          width="150"
         >
 <!--          show-overflow-tooltip="true"-->
          <template slot-scope="scope">{{ scope.row.name}}</template>
@@ -40,6 +41,7 @@
           prop="serial_number"
           align="center"
           label="Serial Number"
+          width="250"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -51,6 +53,7 @@
         <el-table-column
           align="center"
           label="Photo"
+          width="100"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <el-popover
@@ -66,12 +69,14 @@
           prop="country_name"
           align="center"
           label="Location"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="address"
           align="center"
           label="Address"
+          width="150"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
@@ -347,8 +352,7 @@
     height:100%;
   }
   .machines{
-    margin :0 0 0 50px;
-    width: 90%;
+    padding :0 50px 50px 50px;
     header{
       position: relative;
       height: 136px;
