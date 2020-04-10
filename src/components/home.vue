@@ -128,8 +128,20 @@ export default {
         alerts:false,
         audit_log:false,
       },
+      text_false:{
+        dashboard:false,
+        user:false,
+        machines:false,
+        transaction:false,
+        wallet:false,
+        report:false,
+        compliance:false,
+        setting:false,
+        alerts:false,
+        audit_log:false,
+      },
       new_icon:{
-        dashboard:'./static/dashborad2.png',
+        dashboard:'./static/dashborad1.png',
         user:'./static/user1.png',
         machines:'./static/machine1.png',
         transaction:'./static/tran1.png',
@@ -141,7 +153,7 @@ export default {
         audit_log:'./static/audit1.png',
       },
       color_icon:{
-        dashboard:'./static/dashborad1.png',
+        dashboard:'./static/dashborad.png',
         user:'./static/ren.png',
         machines:'./static/machine2.png',
         transaction:'./static/tran2.png',
@@ -153,7 +165,7 @@ export default {
         audit_log:'./static/audit2.png',
       },
       original_icon:{
-        dashboard:'./static/dashborad1.png',
+        dashboard:'./static/dashborad.png',
         user:'./static/ren.png',
         machines:'./static/machine2.png',
         transaction:'./static/tran2.png',
@@ -176,6 +188,7 @@ export default {
   },
   created() {
     let href = window.location.href;
+    console.log(href.split("#")[1])
     let path =  href.split("#")[1].substr(1).split('/');
     if(path[1]=='user' || path[1]=='machines' || path[1]=='report'){
       this.activeName = path[2];
@@ -287,7 +300,7 @@ export default {
       // console.log(b);
     },
     handleOpen(index, keyPath) {
-      console.log(index, keyPath);
+      // console.log(index, keyPath);
       // this.text[index]=true;
       // if(index='user'){
       //   for(let key in this.coverimg){
@@ -325,7 +338,7 @@ export default {
 
   watch: {
     $route(index) {
-      // console.log(index)
+      console.log(index.path)
       let path = index.path.substr(1).split('/');
       for(let key in  this.color_icon ){
         if(this.original_icon.hasOwnProperty(key)){

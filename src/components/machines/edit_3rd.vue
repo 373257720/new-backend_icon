@@ -198,17 +198,19 @@
       // }
     },
     created() {
-      console.log('1,200'*1)
-      this.arr=[...this.MachineInfo.money_range.data];
-      this.arr.forEach(item=>{
-        item.money_range_minimum=item.money_range_minimum?parseInt(item.money_range_minimum.toString().replace(/,/ig,'')).toLocaleString():'';
-        item.money_range_maximum=item.money_range_maximum?parseInt(item.money_range_maximum.toString().replace(/,/ig,'')).toLocaleString():'';
-      })
+
       this.ruleForm.is_register=this.MachineInfo.is_register;
       this.ruleForm.is_redeem_coin=this.MachineInfo.is_redeem_coin;
       this.ruleForm.is_redeem_money=this.MachineInfo.is_redeem_money;
       this.ruleForm.is_coupon=this.MachineInfo.is_coupon;
       this.ruleForm.is_money_range=this.MachineInfo.money_range.is_money_range;
+      if(this.ruleForm.is_money_range==1){
+        this.arr=[...this.MachineInfo.money_range.data];
+        this.arr.forEach(item=>{
+          item.money_range_minimum=item.money_range_minimum?parseInt(item.money_range_minimum.toString().replace(/,/ig,'')).toLocaleString():'';
+          item.money_range_maximum=item.money_range_maximum?parseInt(item.money_range_maximum.toString().replace(/,/ig,'')).toLocaleString():'';
+        })
+      } 
       this.MachineInfo.language.forEach(item=>{
         this.ruleForm.language_name.push(item.name)
         this.ruleForm[`language_sort_${item.name}`]=item.sort*1;
@@ -260,7 +262,7 @@
         self.ruleForm.money_range_identify1=[];
         self.ruleForm.money_range_identify2=[];
         self.ruleForm.money_range_identify3=[];
-
+        if(self.ruleForm.is_money_range==1){
           self.arr.forEach(item=>{
             self.ruleForm.money_range_minimum.push(item.money_range_minimum?item.money_range_minimum.replace(/,/ig,'')*1:'');
             self.ruleForm.money_range_maximum.push(item.money_range_maximum?item.money_range_maximum.replace(/,/ig,'')*1:'');
@@ -268,6 +270,7 @@
             self.ruleForm.money_range_identify2.push(item.money_range_identify2);
             self.ruleForm.money_range_identify3.push(item.money_range_identify3);
           })
+        }
         console.log(this.ruleForm);
         this.$axios({
           method: "post",

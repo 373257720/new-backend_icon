@@ -101,6 +101,7 @@
           label="Transaction ID"
           align="center"
           width="200"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">{{ scope.row.trade_id}}</template>
         </el-table-column>
@@ -153,7 +154,7 @@
         <el-table-column
           prop="coin_number"
           align="center"
-          label="BTC"
+          label="BTC/ETH"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column

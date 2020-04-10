@@ -19,25 +19,19 @@
                 {{item}}
               </p>
             </td>
-            <td class="column" v-else-if="keyword=='certificate_id'">
+            <td class="column" v-else-if="keyword=='certificate_url'">
               <el-popover
                 placement="right"
                 width="400"
                 trigger="click">
-                <img :src="tabledata.picture_url.value" alt="">
-                  <span class="edit" slot="reference">View</span>
-<!--                                <el-button slot="reference">Click</el-button>-->
+                <img :src="tabledata.certificate_url.value" alt="">
+                  <span v-if="tabledata.certificate_url.value"  class="edit" slot="reference">View</span>
+                <span  v-else slot="reference">-</span>
               </el-popover>
             </td>
-            <td class="column" v-else-if="keyword=='fingerprint_id'">
-              <el-popover
-                placement="right"
-                width="400"
-                trigger="click">
-                <img :src="tabledata.picture_url.value" alt="">
-                <span class="edit" slot="reference">View</span>
-<!--                <el-button slot="reference">Click</el-button>-->
-              </el-popover>
+            <td class="column" v-else-if="keyword=='fingerprint_url'">
+              <span v-if="tabledata.fingerprint_url.value" class="edit"  @click="downloadFingerprint(tabledata.fingerprint_url.value)">Download</span>
+              <span  v-else >-</span>
             </td>
             <td class="column" v-else-if="keyword=='picture_url'">
               <el-popover
@@ -45,8 +39,8 @@
                 width="400"
                 trigger="click">
                 <img :src="tabledata.picture_url.value" alt="">
-<!--                <el-button slot="reference">Click</el-button>-->
-                <span class="edit" slot="reference">View</span>
+                <span v-if="tabledata.picture_url.value" class="edit" slot="reference">View</span>
+                <span  v-else slot="reference">-</span>
               </el-popover>
             </td>
             <td class="column" v-else-if="keyword=='redeem_code'">
@@ -99,8 +93,8 @@
           price:{key: 'Original Price', value: ''},
           redeem_code:{key: 'Order redemption code', value: ''},
           coupon_code_list:{key:'Coupon',value:''},
-          certificate_id:{key:'Certificate',value:''},
-          fingerprint_id:{key:'Fingerprint',value:''},
+          certificate_url:{key:'Certificate',value:''},
+          fingerprint_url:{key:'Fingerprint',value:''},
           picture_url:{key:'Picture',value:''}
         },
       };
@@ -120,22 +114,24 @@
           this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
           let name= res.data.data.coin_type.slice(0, 1).toUpperCase() + res.data.data.coin_type.slice(1);
           this.tabledata.coin_number.key=name;
-           // this.tabledata.certificate_id.value= res.data.data.identify.certificate_id;
-           // this.tableData.fingerprint_id.value=res.data.data.identify.fingerprint_id ;
+           this.tabledata.certificate_url.value= res.data.data.identify?res.data.data.identify.certificate_url:'';
+           this.tabledata.fingerprint_url.value=res.data.data.identify?res.data.data.identify.fingerprint_url:'';
            this.tabledata.picture_url.value= res.data.data.identify?res.data.data.identify.picture_url:'';
           for(var i in res.data.data){
-            this.tabledata['trade_type'].value=res.data.data.trade_type==1?'Buy':'Sell';
             if(this.tabledata.hasOwnProperty(i)){
               if(i=='miner_fee'){
-                this.tabledata[i].miner_money=res.data.data['miner_money'];
-              }else if(i=='coupon_code_list'){
-                res.data.data['coupon_code_list'].split(',').length>0?
+                this.tabledata[i].miner_money=res.data.data[i] || '-';
+              }else if(i=='trade_type'){
+                console.log(res.data.data.trade_type)
+                this.tabledata[i].value=res.data.data[i]==1?'Buy':res.data.data[i]==2?'Sell':'-';
+              }
+              else if(i=='coupon_code_list'){
+                res.data.data['coupon_code_list']  && res.data.data['coupon_code_list'].split(',').length>0?
                 this.tabledata['coupon_code_list'].value= res.data.data['coupon_code_list'].split(','):
                 this.tabledata['coupon_code_list'].value = '-';
               }else{
                 this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
               }
-
             }
           }
           // this.initMaps();
@@ -146,6 +142,9 @@
     },
 
     methods: {
+      downloadFingerprint(a){
+        window.location.href =a ;
+      },
       sendtocustomers(){
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.order/sendRedeemCode`,{
           order_id:this.$route.query.order_id,

@@ -149,7 +149,6 @@
           if(this.MachineInfo.hasOwnProperty(i)){
             this.ruleForm[i]=this.MachineInfo[i]
           }
-
         }
         if(this.MachineInfo.machine_picture!=null){
           this.choose(".project_pic .el-upload--picture-card");
@@ -171,13 +170,16 @@
         this.$axios.spread((res1, res2) => {
           if (res1) {
             console.log(res1)
+            this.CountryList.push({ value: 0, label:'-',})
             for (let i = 0; i < res1.data.data.data.length; i++) {
               this.CountryList.push({
                 value: res1.data.data.data[i].country_id,
                 label: res1.data.data.data[i].name
               });
             }
-            // console.log(this.CountryList  )
+            if(this.CountryList.indexOf(this.ruleForm.country_id)<0){
+              this.ruleForm.machine_group_id=0;
+            }
           }
           if (res2) {
             this.groupList.push({ value: 0, label:'-',})
