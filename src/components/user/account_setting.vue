@@ -2,7 +2,7 @@
   <div class="account_setting">
     <header><h2>
       <span>Atm Technical Support</span>
-    <i class="el-icon-arrow-right"></i>
+      <i class="el-icon-arrow-right"></i>
       <span>{{title}}</span>
     </h2>
     </header>
@@ -225,7 +225,7 @@ export default {
     width: 90%;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;

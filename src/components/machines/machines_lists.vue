@@ -158,6 +158,7 @@
 
 <script>
   export default {
+    name:'machines_lists',
     data() {
       return {
         choose:'',
@@ -355,7 +356,7 @@
     padding :0 50px 50px 50px;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;

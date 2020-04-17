@@ -6,9 +6,54 @@
             <span>Crytocurrency</span>
     </h2>
     </header>
+<!--    <nav>-->
+<!--        <section>-->
+<!--          <span class="keyword" >Machine:</span>-->
+<!--          <template>-->
+<!--            <el-select clearable v-model="formdata.machine_id" placeholder="">-->
+<!--              <el-option-->
+<!--                v-for="item in options"-->
+<!--                :key="item.value"-->
+<!--                :label="item.label"-->
+<!--                :value="item.value">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </template>-->
+<!--        </section>-->
+<!--        <section>-->
+<!--          <span class="keyword">Crytocurrency:</span>-->
+<!--          <template>-->
+<!--            <el-select v-model="formdata.coin_type" clearable placeholder="">-->
+<!--              <el-option-->
+<!--                v-for="item in coin_type"-->
+<!--                :key="item.value"-->
+<!--                :label="item.label"-->
+<!--                :value="item.value">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </template>-->
+<!--        </section>-->
+<!--        <section>-->
+<!--          <span class="keyword" >Transaction Date:</span>-->
+<!--          <el-date-picker-->
+<!--            v-model="formdata.timerange"-->
+<!--            type="daterange"-->
+<!--            range-separator="to"-->
+<!--            value-format="yyyy-MM-dd"-->
+<!--            start-placeholder="Start"-->
+<!--            end-placeholder="End"-->
+<!--          >-->
+<!--          </el-date-picker>-->
+<!--        </section>-->
+<!--      <div>-->
+<!--        <p class="button" @click="searcher" >Search</p>-->
+<!--        <p class="button" @click="reset">Reset</p>-->
+<!--      </div>-->
+<!--    </nav>-->
     <nav>
+      <div>
         <section>
-          <span class="keyword" >Machine:</span>
+          <span class="keyword">Machine:</span>
           <template>
             <el-select clearable v-model="formdata.machine_id" placeholder="">
               <el-option
@@ -45,9 +90,10 @@
           >
           </el-date-picker>
         </section>
+      </div>
       <div>
-        <p class="button" @click="searcher" >Search</p>
-        <p class="button" @click="reset">Reset</p>
+                <p class="button" @click="searcher" >Search</p>
+                <p class="button" @click="export_excel">Export</p>
       </div>
     </nav>
     <el-main >
@@ -425,7 +471,7 @@
     }
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -472,28 +518,77 @@
     .el-checkbox__input.is-focus .el-checkbox__inner{
       border-color:#DCDFE6;
     }
+    .el-range-editor.el-input__inner{
+      width: 250px;
+    }
     .el-table td, .el-table th.is-leaf{
       border: 0;
     }
+    /*nav{*/
+    /*  display: flex;*/
+    /*  margin: 20px 0 20px 0 ;*/
+    /*  section{*/
+    /*    margin-right: 20px;*/
+    /*  }*/
+    /*  >section{*/
+    /*    span{*/
+    /*      display: inline-block;*/
+    /*      margin-right: 5px;*/
+    /*      text-align: right;*/
+    /*      line-height: 40px;*/
+    /*    }*/
+    /*  }*/
+    /*  div:nth-of-type(1){*/
+    /*    !*flex:1;*!*/
+    /*    align-self: flex-end;*/
+    /*    display: flex;*/
+    /*    font-size: 14px;*/
+    /*    section{*/
+    /*      display: flex;*/
+    /*      div{*/
+    /*        flex:1;*/
+    /*      }*/
+    /*    }*/
+
+    /*    p.button{*/
+    /*      !*width: 100%;*!*/
+    /*      cursor: pointer;*/
+    /*      height: 40px;*/
+    /*      line-height: 40px;*/
+    /*      width: 120px;*/
+    /*      color: white;*/
+    /*      text-align: center;*/
+    /*      background: #EDF1F4;*/
+    /*      color: #515151;*/
+    /*      background-size: cover;*/
+    /*      box-sizing: border-box;*/
+    /*      border-radius: 5px;*/
+    /*    }*/
+    /*    p:nth-child(1){*/
+    /*      color:white;*/
+    /*      background:url(../../../static/add-disable.png) no-repeat;*/
+    /*      margin-right:20px;*/
+    /*    }*/
+    /*    p:nth-child(2){*/
+    /*      border: 1px solid #D1D1D1 ;*/
+    /*      !*margin-bottom:10px;*!*/
+
+    /*    }*/
+    /*  }*/
+    /*}*/
     nav{
       display: flex;
-      flex-wrap: wrap;
-      /*height: 60px;*/
-      /*justify-content: space-between;*/
       margin: 20px 0 20px 0 ;
-      justify-content: space-between;
-      /*padding: 0 20px 0 20px;*/
-      section{
-        margin-right: 20px;
-        margin-bottom: 20px;
-      }
+      /*padding: 0 50px 0 20px;*/
       >div{
-        /*flex:1;*/
         display: flex;
-        font-size: 14px;
+        /*margin-bottom: 16px;*/
         section{
-          display: flex;
+          /*display: flex;*/
+          margin-right: 20px;
           span{
+            display: inline-block;
+            /*width: 120px;*/
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -502,7 +597,9 @@
             flex:1;
           }
         }
-
+        section:nth-of-type(1){
+          /*margin-right: 20px;*/
+        }
         p.button{
           /*width: 100%;*/
           cursor: pointer;
@@ -527,6 +624,10 @@
           /*margin-bottom:10px;*/
 
         }
+      }
+      div:nth-of-type(2){
+        /*margin-left: 20px;*/
+        align-self: flex-end;
       }
     }
     .el-main{

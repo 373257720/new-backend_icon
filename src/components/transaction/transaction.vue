@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <keep-alive include="transaction_lists">
     <router-view></router-view>
-  </div>
+  </keep-alive>
 </template>
 
 <script>

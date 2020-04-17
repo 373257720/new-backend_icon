@@ -487,7 +487,7 @@ export default {
     }
     h1 {
       width: 252px;
-      height: 136px;
+      height: 80px;
       background: #ffffff;
       display: table-cell;
       vertical-align: middle;

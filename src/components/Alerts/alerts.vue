@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <keep-alive include="alert_lists">
     <router-view></router-view>
-  </div>
+  </keep-alive>
 </template>
 
 <script>

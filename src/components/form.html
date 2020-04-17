@@ -9,7 +9,7 @@
   <div style="width: 50px;height:50px;background-color:#555" class="content"></div>
 </div>
 <script>
-  var arr1 = [1, {tony:27}, 3];
+  // var arr1 = [1, {tony:27}, 3];
   // var arr2 = arr1.concat();
   //  arr2[1].tony = 25;
   //  arr2[0]=0
@@ -28,10 +28,51 @@
   // var b = new Set([4, 3, 2]);
   // var intersect = [...a].filter(x => b.has(x)); // {2, 3}
   // console.log(intersect)
-  var myMap = new Map();
-  myMap.set(0, "zero");
-  myMap.set(1, "one");
-  console.log(myMap)
+  // var myMap = new Map();
+  // myMap.set(0, "zero");
+  // myMap.set(1, "one");
+  // console.log(myMap)
+  // let sy = Symbol("key1");
+  // let sy2 = Symbol("key1");
+  // // 写法1
+  // let syObject = {};
+  // syObject[sy] = "kk";
+  // syObject[sy2]='456'
+  // console.log(syObject);    // {Symbol(key1): "kk"}
+
+  // var Greeter1 = /** @class */ (function () {
+  //     function Greeter(message) {
+  //     this.greeting = message;
+  //     // console.log(message)
+  //   }
+  //   Greeter.prototype.greet = function () {
+  //     return "Hello, " + this.greeting;
+  //   };
+  //   return Greeter;
+  // }());
+  // var greeter = new Greeter1("world");
+  // console.log(greeter)
+  class Greeter {
+    greeting: string;
+    constructor(message: string) {
+      this.greeting = message;
+    }
+    greet() {
+      return "Hello, " + this.greeting;
+    }
+  }
+  // console.log(greeter.greet)
+  // // 写法2
+  // let syObject = {
+  //   [sy]: "kk"
+  // };
+  // console.log(syObject);    // {Symbol(key1): "kk"}
+  //
+  // // 写法3
+  // let syObject = {};
+  // Object.defineProperty(syObject, sy, {value: "kk"});
+  // Object.defineProperty(syObject, sy, {value: "kk"});
+  // console.log(syObject);   // {Symbol(key1): "kk"}
   // 1 2 3
   // console.log(1, ...[2, 3, 4], 5)
 // 1 2 3 4 5

@@ -1,7 +1,7 @@
 <template>
-    <div>
+  <keep-alive include="customer_data">
         <router-view></router-view>
-    </div>
+  </keep-alive>
 </template>
 
 <script>

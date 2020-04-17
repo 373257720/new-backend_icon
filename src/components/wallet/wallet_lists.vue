@@ -14,6 +14,7 @@
         <el-table-column
           label="Crypto Currency"
           align="center"
+          width="150"
         >
           <template slot-scope="scope">{{ scope.row.coin_type}}</template>
         </el-table-column>
@@ -27,14 +28,14 @@
         <el-table-column
           prop="balance"
           align="center"
-          width="100"
+          width="200"
           label="Account Balance"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="platform"
-          width="100"
+          width="200"
           label="Hedge Platform"
           show-overflow-tooltip>
         </el-table-column>
@@ -42,11 +43,13 @@
           prop="coin_number"
           align="center"
           label="Hedge Balance"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="interval_time"
           align="center"
+          width="200"
           label="Hedge Interval(mins)"
           show-overflow-tooltip>
         </el-table-column>
@@ -54,6 +57,7 @@
         <el-table-column
           align="center"
           label="API Parameter"
+          width="200"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.api_parameter?JSON.parse(scope.row.api_parameter).key+','+JSON.parse(scope.row.api_parameter).secret:'-'}}</span>
@@ -78,6 +82,7 @@
 
 <script>
   export default {
+    name:'wallet_lists',
     data() {
       return {
         pictLoading:false,
@@ -138,7 +143,7 @@
     padding :0 50px 50px 50px;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -232,6 +237,8 @@
     }
     main{
       padding:20px 20px 20px 0;
+      /*height: 100%;*/
+      /*width: 100%;*/
       .el-table thead{
         color:black;
       }

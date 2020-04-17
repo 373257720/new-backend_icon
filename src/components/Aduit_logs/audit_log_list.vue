@@ -155,7 +155,7 @@
     width: 90%;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -174,8 +174,14 @@
     }
     .pic{
       img{
-        width: 100px;
+        /*width: 100px;*/
+        width: 80px;
 
+        /*height: 50px;*/
+        /*width: auto;*/
+        /*height: auto;*/
+        /*max-width: 80%;*/
+        /*max-height: 80%;*/
       }
     }
     .edit{

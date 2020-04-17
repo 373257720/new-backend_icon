@@ -9,7 +9,7 @@
     </header>
     <nav>
       <div class="nav_right">
-        <span class="keyword" @click="$routerto('alerts_lists',{'currentpages':$route.query.currentpages})" ><i class="el-icon-d-arrow-left"></i>Return</span>
+        <span class="keyword" @click="$router.back(-1)" ><i class="el-icon-d-arrow-left"></i>Return</span>
       </div>
     </nav>
     <el-main>
@@ -73,7 +73,7 @@
     width: 90%;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -102,9 +102,15 @@
       color: #787878;
       p{
         color: black;
-        font-size: 16px;
-        margin-bottom: 18px;
+        font-size: 14px;
+        /*margin-bottom: 18px;*/
         font-weight: 600;
+      }
+      article{
+        p{
+          color: #787878;
+          font-weight: initial;
+        }
       }
       footer{
         margin-bottom: 18px;

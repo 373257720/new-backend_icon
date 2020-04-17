@@ -49,20 +49,20 @@ function isCloseLoading() {
 Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios
 // //让ajax携带cookie
-axios.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
-  return config;
-}, function (error) {
-  // 对请求错误做些什么
-  ElementUI.MessageBox({
-    title: 'Reminder',
-    message: res.data.msg,
-  }).then(()=>{
-    // router.push({name:'login'})
-    window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
-  })
-  return Promise.reject(error)
-});
+// axios.interceptors.request.use(function (config) {
+//   // 在发送请求之前做些什么
+//   return config;
+// }, function (error) {
+//   // 对请求错误做些什么
+//   ElementUI.MessageBox({
+//     title: 'Reminder',
+//     message: res.data.msg,
+//   }).then(()=>{
+//     // router.push({name:'login'})
+//     window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
+//   })
+//   return Promise.reject(error)
+// });
 
 // axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {

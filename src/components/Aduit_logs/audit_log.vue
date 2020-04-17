@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <keep-alive include="cashbox_log">
     <router-view></router-view>
-  </div>
+  </keep-alive>
 </template>
 
 <script>

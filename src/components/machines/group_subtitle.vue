@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <keep-alive include="group_pattern">
     <router-view></router-view>
-  </div>
+  </keep-alive>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div class="pagemodel">
     <div class="pagevue">
-      <el-pagination v-if="pagesizes>0"
+      <el-pagination v-if="pagenum>0"
         @current-change="handleCurrentChange"
         :current-page="currentpages"
         :page-size="pagesizes"
@@ -9,7 +9,7 @@
         :total="pagenum" :pager-count="5"
       ></el-pagination>
     </div>
-    <div class="export" @click="childtodad" v-if="isexport">Export</div>
+<!--    <div class="export" @click="childtodad" v-if="isexport">Export</div>-->
   </div>
 </template>
 <script>
@@ -25,11 +25,11 @@ export default {
   },
 
   created() {
-    if(this.$route.name=='transaction_lists' || this.$route.name=='report_lists' || this.$route.name=='report_crytocurrency'){
-      if(this.pagesizes>0){
-        this.isexport=true;
-      }
-    }
+    // if(this.$route.name=='transaction_lists' || this.$route.name=='report_lists' || this.$route.name=='report_crytocurrency'){
+    //   if(this.pagenum>0){
+    //     this.isexport=true;
+    //   }
+    // }
   },
 
 

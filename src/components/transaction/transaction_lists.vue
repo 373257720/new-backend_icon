@@ -1,6 +1,7 @@
 <template>
   <div class="transcation_lists" v-loading="loading">
-    <header><h2>
+    <header>
+      <h2>
 <!--      <span @click="$routerto('audit_log')">Audit Logs</span>-->
 <!--      <i class="el-icon-arrow-right"></i>-->
       <span>Transactions</span>
@@ -85,7 +86,7 @@
       </div>
       <div>
         <p class="button" @click="searcher">Search</p>
-        <p class="button" @click="reset">Reset</p>
+        <p class="button" @click="export_excel">Export</p>
       </div>
     </nav>
     <el-main>
@@ -146,7 +147,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          width="100"
+
           label="Cash"
           show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.money}}{{scope.row.currency_name}}</template>
@@ -155,6 +156,7 @@
           prop="coin_number"
           align="center"
           label="BTC/ETH"
+          width="100"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -186,6 +188,7 @@
 
 <script>
   export default {
+    name:'transaction_lists',
     data() {
       return {
         // centerDialogVisible: false,
@@ -343,6 +346,12 @@
 </script>
 
 <style lang="scss">
+  /*.el-input--suffix .el-input__inner {*/
+  /*  padding: 0;*/
+  /*}*/
+  .el-input--suffix .el-input__inner{
+    padding: 0 15px;
+  }
   .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner{
     width: 250px;
   }
@@ -358,7 +367,7 @@
     }
     header{
       position: relative;
-      height: 136px;
+      height:80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -412,21 +421,21 @@
     nav{
       font-size: 14px;
       display: flex;
-      margin: 20px 0 0 0 ;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      margin: 16px 0 0 0 ;
+      /*justify-content: space-between;*/
+      /*flex-wrap: wrap;*/
       padding: 0 20px 0 0;
       >div{
-        margin-bottom: 20px;
+        margin-bottom: 16px;
+        /*margin-right: 20px;*/
         section:nth-of-type(1){
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
         section{
-          /*display: flex;*/
           display: flex;
           span{
             display: inline-block;
-            width: 110px;
+            width: 70px;
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -440,7 +449,7 @@
           cursor: pointer;
           height: 40px;
           line-height: 40px;
-          width: 120px;
+          width: 100px;
           color: white;
           text-align: center;
           background: #EDF1F4;
@@ -452,7 +461,7 @@
         p:nth-child(1){
           color:white;
           background:url(../../../static/add-disable.png) no-repeat;
-            margin-bottom:20px;
+            margin-bottom:16px;
         }
         p:nth-child(2){
           border: 1px solid #D1D1D1 ;
@@ -460,8 +469,16 @@
 
         }
       }
-      div:last-child{
+      div:nth-of-type(2){
+        span{
+          display: inline-block;
+          width: 110px;
+        }
+
+      }
+      >div:last-child{
         align-self: flex-end;
+        margin-left: 20px;
       }
     }
     main{

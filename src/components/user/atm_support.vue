@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <keep-alive include="atm_supportlist">
     <router-view></router-view>
-  </div>
+  </keep-alive>
 </template>
 
 <script>

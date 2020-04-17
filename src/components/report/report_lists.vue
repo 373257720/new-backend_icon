@@ -35,11 +35,8 @@
         </section>
       </div>
       <div>
-
-      </div>
-      <div>
         <p class="button" @click="drawLineChart">Search</p>
-        <p class="button" @click="reset">Reset</p>
+        <p class="button" @click="export_excel">Export</p>
       </div>
     </nav>
     <div id="myChart" :style="{width: '100%', height: '400px'}"></div>
@@ -64,7 +61,7 @@
           label="Purchase Amount"
           prop="buy_money"
           align="center"
-          width="150"
+          width="200"
         >
 
         </el-table-column>
@@ -72,18 +69,20 @@
           prop="sell_money"
           align="center"
           label="Sell Amount"
-          width="150"
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="fee"
           align="center"
+          width="300"
           label="Cumulative Revenve"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="system_fee"
           align="center"
+          width="300"
           label="CrytoGo Commision"
           show-overflow-tooltip>
         </el-table-column>
@@ -91,7 +90,7 @@
           prop="profit"
           align="center"
           label="Net profit"
-          width="100"
+          min-width="200"
           show-overflow-tooltip>
         </el-table-column>
       </el-table>
@@ -116,6 +115,7 @@
   require('echarts/lib/component/tooltip');
   require('echarts/lib/component/title');
   export default {
+    name:'report_lists',
     data() {
       return {
         loading:false,
@@ -250,7 +250,6 @@
         let start_time = this.formdata.timerange==null?0:this.formdata.timerange[0];
         let end_time = this.formdata.timerange==null?0:this.formdata.timerange[1];
         window.location.href = `${this.$baseurl}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
-
       },
       getmachineid(){
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
@@ -404,9 +403,12 @@
       width: 50px;
       height: 60px;
     }
+    .el-date-editor--daterange.el-input__inner{
+      width: 250px;
+    }
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -458,19 +460,12 @@
     }
     nav{
       display: flex;
-      /*height: 60px;*/
-      /*justify-content: space-between;*/
       margin: 20px 0 20px 0 ;
-      justify-content: space-between;
-      padding: 0 50px 0 20px;
+      /*padding: 0 50px 0 20px;*/
       >div{
-        /*flex:1;*/
         display: flex;
-        /*flex-direction: column;*/
-        /*justify-content: space-between;*/
         section{
           /*display: flex;*/
-          display: flex;
           span{
             display: inline-block;
             /*width: 120px;*/
@@ -509,6 +504,10 @@
           /*margin-bottom:10px;*/
 
         }
+      }
+      div:nth-of-type(2){
+        margin-left: 20px;
+        align-self: flex-end;
       }
     }
     main{

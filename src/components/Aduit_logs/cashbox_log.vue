@@ -75,7 +75,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          width="100"
+          width="200"
           label="CashInbox Changes"
           prop="in_money_change"
           show-overflow-tooltip>
@@ -106,7 +106,7 @@
         <el-table-column
           prop="out_money_change"
           align="center"
-          width="150"
+          width="200"
           label="CashOutbox Changes"
           show-overflow-tooltip>
         </el-table-column>
@@ -147,6 +147,7 @@
 
 <script>
   export default {
+    name:'cashbox_log',
     data() {
       return {
         msg:'',
@@ -285,7 +286,7 @@
     padding :0 50px 50px 50px;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;

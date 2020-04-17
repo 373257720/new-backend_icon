@@ -57,6 +57,7 @@
         </el-table-column>
         <el-table-column
           label="Machine Name"
+          width="150"
           align="center">
           <template slot-scope="scope">{{ scope.row.machine_name}}</template>
         </el-table-column>
@@ -253,7 +254,7 @@
     padding :0 50px 50px 50px;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;

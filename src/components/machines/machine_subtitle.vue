@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <keep-alive include="machines_lists">
     <router-view></router-view>
-  </div>
+  </keep-alive>
 </template>
 
 <script>

@@ -23,9 +23,9 @@
            <header ><span>Recent Transactions</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
             <el-table  max-height="100%" :row-class-name="tableRowClassName"   :data="order_infors" border style="width:100%;">
-              <el-table-column  prop="trade_id"  label="Transation ID" align="center"></el-table-column>
-              <el-table-column prop="coin_status" label="Type" align="center"></el-table-column>
-              <el-table-column prop="create_time" label="Days" align="center"></el-table-column>
+              <el-table-column show-overflow-tooltip prop="trade_id"  label="Transation ID" align="center"></el-table-column>
+              <el-table-column show-overflow-tooltip prop="coin_status" label="Type" align="center"></el-table-column>
+              <el-table-column  show-overflow-tooltip prop="create_time" label="Days" align="center"></el-table-column>
             </el-table>
           </el-main>
         </article>
@@ -460,8 +460,7 @@ export default {
       /*width: 100%;*/
       display: flex;
       flex-wrap: wrap;
-      /*justify-content: space-between;*/
-
+      justify-content: space-between;
       aside {
         padding:0 20px;
         height: 486px;
@@ -577,8 +576,8 @@ export default {
          max-width: 50%;
        }
        article  {
-         flex: 0 0 50%;
-         max-width: 50%;
+         flex: 0 0 45%;
+         max-width: 45%;
        }
      }
 

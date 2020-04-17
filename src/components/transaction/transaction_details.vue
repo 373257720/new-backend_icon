@@ -15,9 +15,11 @@
             <td class="column" v-else-if="keyword=='miner_fee'">{{'$'+tabledata['miner_fee'].miner_money+'/ ฿'+tabledata['miner_fee'].value}}</td>
             <td class="column" v-else-if="keyword=='fee'">{{item.value+'%'}}</td>
             <td class="column" v-else-if="keyword=='coupon_code_list'">
-              <p v-for="(item) in tabledata.coupon_code_list.value" :key="item">
-                {{item}}
+              <p v-if="tabledata.coupon_code_list.value.length<1">-</p>
+              <p v-else v-for="(item) in tabledata.coupon_code_list.value" :key="item">
+                {{item}},
               </p>
+              <span v-if="tabledata.coupon_code_list.value.length>0">({{coupon_money}})</span>
             </td>
             <td class="column" v-else-if="keyword=='certificate_url'">
               <el-popover
@@ -78,6 +80,7 @@
         trade_picture1:'',
         trade_picture2:'',
         address:'',
+        coupon_money:'',
         tabledata:{
           trade_id:{key: 'Transaction ID', value: ''},
           coin_status: {key: 'Status',value:""},
@@ -95,7 +98,7 @@
           coupon_code_list:{key:'Coupon',value:''},
           certificate_url:{key:'Certificate',value:''},
           fingerprint_url:{key:'Fingerprint',value:''},
-          picture_url:{key:'Picture',value:''}
+          picture_url:{key:'Picture',value:''},
         },
       };
     },
@@ -110,6 +113,7 @@
       }).then(res => {
         if(res.data.ret==0){
           this.address=res.data.data.address;
+          this.coupon_money=res.data.data.coupon_money;
           this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
           this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
           let name= res.data.data.coin_type.slice(0, 1).toUpperCase() + res.data.data.coin_type.slice(1);
@@ -128,13 +132,14 @@
               else if(i=='coupon_code_list'){
                 res.data.data['coupon_code_list']  && res.data.data['coupon_code_list'].split(',').length>0?
                 this.tabledata['coupon_code_list'].value= res.data.data['coupon_code_list'].split(','):
-                this.tabledata['coupon_code_list'].value = '-';
-              }else{
+                this.tabledata['coupon_code_list'].value = [];
+              }
+              else{
                 this.tabledata[i].value=res.data.data[i]?res.data.data[i]:'-';
               }
             }
           }
-          // this.initMaps();
+          this.initMaps();
         }
       });
 
@@ -231,7 +236,7 @@
     width: 90%;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;

@@ -24,6 +24,9 @@
         </div>
       </nav>
       <el-main v-loading="pictLoading">
+        <div v-if="tableData.length<1" style="text-align: center">
+          No more
+        </div>
         <ul>
           <li v-for="(item) in tableData" :key="item.notice_id">
             <div>
@@ -51,6 +54,7 @@
 
 <script>
   export default {
+    name:'alert_lists',
     data() {
       return {
         pictLoading:false,
@@ -69,11 +73,11 @@
     },
     methods: {
       getlists(){
-        if(this.$route.query.currentpages){
-          this.currentpage=this.$route.query.currentpages*1;
-        }else{
-          this.currentpage=1;
-        }
+        // if(this.$route.query.currentpages){
+        //   this.currentpage=this.$route.query.currentpages*1;
+        // }else{
+        //   this.currentpage=1;
+        // }
         if(this.timerange==null){
           this.changepage(this.currentpage, this.pagesize,this.keyword,'','');
         }else{
@@ -102,7 +106,6 @@
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
                 item.create_time=this.$global.timestampToTime(item.create_time);
-
               })
               this.pictLoading=false
               // console.log(this.tableData)
@@ -135,11 +138,15 @@
 <style lang="scss">
   .alerts_lists{
     /*width: 100%;*/
+    div.alerts_lists2{
+      justify-content: left;
+    }
+    font-size: 14px;
     padding :0 50px 50px 50px;
     width: 100%;
     header{
       position: relative;
-      height: 136px;
+      height: 80px;
       border-bottom: 1px solid #d3d3d3;
       h2{
         font-size: 20px;
@@ -217,8 +224,7 @@
             justify-content: space-between;
             /*height: 25px;*/
             height: 24px;
-            font-size: 16px;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             p:nth-of-type(1){
               display: flex;
               align-items: center;
@@ -242,7 +248,6 @@
           article{
             height: 34px;
             line-height: 18px;
-            /*overflow: hidden;*/
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
