@@ -196,8 +196,8 @@
             this.msg=res.data.msg;
             this.remindervisible=true;
             if(res.data.ret==0){
-              this.$emit('getchildren');
-              // this.successto='machines_lists'
+              // this.$emit('getchildren');
+              this.successto='machines_lists'
             }
           })
       },

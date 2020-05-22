@@ -8,7 +8,7 @@
     </header>
     <el-main>
       <article>
-        <table class="mailTable" style="width:80%;" >
+        <table class="mailTable" >
           <tr v-for="(item,keyword) in tabledata">
             <td class="column">{{item.key}}</td>
             <td class="column" v-if="keyword=='money' || keyword=='price' || keyword=='trade_price'">{{item.value+tabledata['currency_name'].value}}</td>
@@ -230,7 +230,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .transcation_details{
     padding :0 50px 50px 50px;
     width: 90%;
@@ -327,12 +327,22 @@
       padding:20px 20px 20px 0;
       article{
         display: flex;
-        width: 90%;
+        /*width: 90%;*/
         /*height: 450px;*/
         margin-bottom: 50px;
         .mailTable{
+          width: 80%;
           margin-right: 50px;
         }
+        @media (max-width: 1024px){
+
+          .mailTable{
+            width: 100%;
+            margin-right: 0;
+          }
+
+        }
+
         　.mailTable, .mailTable tr, {
           border:1px solid #D4D4D4;
           color: #7A7A7A;
@@ -368,10 +378,43 @@
             }
           }
         }
+        @media (max-width: 1024px){
+          aside{
+            flex-direction: initial;
+            width: 100%;
+            margin-top: 20px;
+            h3{
+              text-align: center;
+              color: #7A7A7A;
+
+            }
+            div{
+              /*width: 100%;*/
+              width: 50%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              /*height: 30%;*/
+              img{
+                display: block;
+                font-size: 0;
+                width: 80%;
+                height: 220px;
+                margin-bottom: 5px;
+                border: 1px solid #D4D4D4;
+              }
+            }
+          }
+        }
+      }
+      @media (max-width: 1024px){
+        article{
+          flex-wrap: wrap;
+        }
       }
 
       #map{
-        width: 90%;
+        /*width: 90%;*/
         height: 400px;
         box-sizing: border-box;
         border: 1px solid #D4D4D4;

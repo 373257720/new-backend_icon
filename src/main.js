@@ -24,46 +24,25 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
     query: obj
   })
 }
-let loadingCount=0;
+const restore_obj=deepCopy(store._modules.root.state);
+Vue.prototype.$restore_obj=restore_obj;
+function deepCopy(obj) {
+  var result = Array.isArray(obj) ? [] : {};
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        result[key] = deepCopy(obj[key]); //递归复制
+      } else {
+        result[key] = obj[key];
+      }
+    }
+  }
+  return result;
+};
 let isShowLoading =true;
 console.log(isShowLoading)
-function addLoading() {
-  // isShowLoading = true;
-  // loadingCount++;
-  // if(loadingCount==1){
-  //   Vue.prototype.$toast.loading({
-  //     loadingType: 'circular',
-  //     overlay:true,
-  //     className:'loading',
-  //     duration: 0,
-  //   });
-  // }
-};
-function isCloseLoading() {
-  // loadingCount--
-  // if (loadingCount == 0) {
-  //    isShowLoading = false
-  //    Vue.prototype.$toast.clear();
-  // }
-};
 Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios
-// //让ajax携带cookie
-// axios.interceptors.request.use(function (config) {
-//   // 在发送请求之前做些什么
-//   return config;
-// }, function (error) {
-//   // 对请求错误做些什么
-//   ElementUI.MessageBox({
-//     title: 'Reminder',
-//     message: res.data.msg,
-//   }).then(()=>{
-//     // router.push({name:'login'})
-//     window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
-//   })
-//   return Promise.reject(error)
-// });
-
 // axios.defaults.withCredentials = true;
 axios.interceptors.response.use(res => {
     if (res.data.ret) {
@@ -71,22 +50,35 @@ axios.interceptors.response.use(res => {
       if (code > 999) {
         if(isShowLoading){
           isShowLoading=false;
+          console.log(isShowLoading)
           ElementUI.MessageBox({
             title: 'Reminder',
             message: res.data.msg,
           }).then(()=>{
+            window.sessionStorage.clear();
+            store.dispatch("reset_actions",this.$restore_obj)
+            location.href='http://atm.wearetechman.com/dist/index.html'
             // router.push({name:'login'})
-            window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
-            // loadingCount=0;
           })
+          return;
         }
       }
     }
+
     return res
   },
   error => {
     // alert('请求失败，请稍后重试！')
-    return Promise.reject(error)
+      ElementUI.MessageBox({
+        title: 'Reminder',
+        message: 'Network exception, please try again later',
+      }).then(()=>{
+        window.sessionStorage.clear();
+        store.dispatch("reset_actions",this.$restore_obj)
+        location.href='http://atm.wearetechman.com/dist/index.html';
+        // window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
+      })
+    //   return Promise.reject(error)
   }
 )
 // //设置baseurl

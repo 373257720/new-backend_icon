@@ -5,7 +5,8 @@
     </nav>
     <el-main>
       <el-table ref="multipleTable" border :span-method="objectSpanMethod" :cell-class-name="tableRowClassName"
-                @cell-mouse-leave="cellMouseLeave"  @cell-mouse-enter="cellMouseEnter" :data="tableData" style="width:100%;margin:0 auto;">
+                @cell-mouse-leave="cellMouseLeave"  @cell-mouse-enter="cellMouseEnter" :data="tableData"
+                style="width:100%;margin:0 auto;">
         <el-table-column label="Type" align="center">
           <template slot-scope="scope" width="160">
             <div>{{scope.row.productType}}</div>
@@ -47,7 +48,7 @@
             productName: 'Cash Inbox',
           },{
             productType: "Transaction",
-            productName: 'Transaction Time',
+            productName: 'Transaction Timeout',
           },
           // {
           //   productType: "Coin & Price",
@@ -88,8 +89,10 @@
     },
     methods: {
       handleDelete(index, row) {
-        console.log(row)
-        this.$routerto('setting_edit',{rowindex:row.rowIndex})
+
+        // console.log(row)
+      this.$routerto('setting_edit',{rowindex:row.rowIndex})
+
       },
       // 获取相同编号的数组
       getOrderNumber() {

@@ -23,7 +23,11 @@
            <header ><span>Recent Transactions</span><span @click="$routerto('transaction')">SEE ALL</span></header>
           <el-main>
             <el-table  max-height="100%" :row-class-name="tableRowClassName"   :data="order_infors" border style="width:100%;">
-              <el-table-column show-overflow-tooltip prop="trade_id"  label="Transation ID" align="center"></el-table-column>
+              <el-table-column  class-name="edit" show-overflow-tooltip   label="Transation ID" align="center">
+                <template slot-scope="scope"  class="edit">
+                  <span  @click="$routerto('transaction_details',{order_id:scope.row.order_id})"> {{ scope.row.trade_id}}</span>
+                </template>
+              </el-table-column>
               <el-table-column show-overflow-tooltip prop="coin_status" label="Type" align="center"></el-table-column>
               <el-table-column  show-overflow-tooltip prop="create_time" label="Days" align="center"></el-table-column>
             </el-table>
@@ -48,7 +52,6 @@
                 >
                   <template slot-scope="scope"  class="edit">
                     <span  @click="handleEdit(scope.$index, scope.row)"> {{ scope.row.name}}</span>
-
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -81,12 +84,12 @@
           </main>
         </div>
 
-    <pagevue
-      :pagenum="pagetotal"
-      :currentpages="currentpage"
-      :pagesizes="pagesize"
-      v-on:fromchildren="fromchildren1"
-    ></pagevue>
+<!--    <pagevue-->
+<!--      :pagenum="pagetotal"-->
+<!--      :currentpages="currentpage"-->
+<!--      :pagesizes="pagesize"-->
+<!--      v-on:fromchildren="fromchildren1"-->
+<!--    ></pagevue>-->
 <!--    <el-dialog title="提示" v-model="fafa" width="30%" height="50%">-->
 <!--      <span>{{this.$store.state.commondialog}}</span>-->
 <!--      <span slot="footer" class="dialog-footer">-->
@@ -309,7 +312,7 @@ export default {
     order_infor(){
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderList`,{
         page:1,
-        size:5,
+        size:7,
       }).then(res=>{
         if(res.data.ret==0){
           this.order_infors=[...res.data.data.data];
@@ -474,6 +477,9 @@ export default {
         justify-content: stretch;
         margin-bottom: 76px;
         .myChart_top{
+          h2{
+            font-weight: bold;
+          }
           height: 50px;
           display: flex;
           display: -webkit-flex;
@@ -524,6 +530,22 @@ export default {
 
       }
       article {
+        .edit{
+          >div{
+            display: flex;
+            flex-direction: column;
+
+          }
+          span{
+            color: #2ABEE2;
+            text-decoration:underline;
+            cursor: pointer;
+          }
+          span.left{
+          }
+
+
+        }
         /*width: 50%;*/
         height: 486px;
         /*height: 100%;*/
@@ -541,6 +563,7 @@ export default {
           height: 50px;
           span:nth-of-type(1){
             margin-right: 15px;
+            font-weight: bold;
           }
           span:nth-of-type(2){
             display: inline-block;
@@ -588,6 +611,7 @@ export default {
       width: 100%;
       header {
         font-size: 16px;
+        font-weight: bold;
         margin-bottom: 20px;
       }
       main {
@@ -615,6 +639,12 @@ export default {
       .success-row {
         background: #f0f9eb;
       }
+
+    }
+  }
+  @media (max-width: 768px){
+    .dashboard {
+ padding: 30px;
 
     }
   }

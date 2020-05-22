@@ -9,7 +9,7 @@
       <span slot="title" class="dialog-footer">Reminder</span>
       <p class="thick">{{msg}}</p>
       <span slot="footer" class="dialog-footer">
-<!--        <button  @click="centerDialogVisible = false">Cancel</button>-->
+
         <button @click="handleClose">Confirm</button>
     </span>
     </el-dialog>
@@ -29,8 +29,12 @@
     methods: {
       handleClose(done) {
         this.$emit("update:remindervisible", false)
-        if(this.successto){
-          this.$routerto(this.successto)
+        // console.log(this.successto)
+        if(this.successto===555){
+          this.$router.back(-1);
+        }else if(this.successto){
+          // this.$routerto(this.successto)
+          this.$router.push({ name: this.successto, params: { editSuccess: '1' } })
         }
       }
     },
@@ -79,4 +83,3 @@
 
 
 </style>
-

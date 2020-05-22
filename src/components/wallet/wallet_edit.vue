@@ -22,17 +22,17 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-show="ruleForm.platform=='none'" label="Hedge Balance:" >
-          <el-input v-model="ruleForm2.coin_number" clearable autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item v-show="ruleForm.platform=='none'"  label="Hedge Interval(mins):" >
-          <el-input v-model.number="ruleForm2.interval_time" clearable autocomplete="off"></el-input>
-        </el-form-item>
+<!--        <el-form-item v-show="ruleForm.platform=='none'" label="Hedge Balance:" >-->
+<!--          <el-input v-model="ruleForm2.coin_number" clearable autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item v-show="ruleForm.platform=='none'"  label="Hedge Interval(mins):" >-->
+<!--          <el-input v-model.number="ruleForm2.interval_time" clearable autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item v-show="ruleForm.platform=='binance'" label="Hedge Balance:" prop="coin_number">
-          <el-input v-model="ruleForm.coin_number" clearable autocomplete="off"></el-input>
+          <el-input v-model="ruleForm.coin_number" oninput="value=value.replace(/[^\d.]/g,'')"  clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item v-show="ruleForm.platform=='binance'" label="Hedge Interval(mins):" prop="interval_time">
-          <el-input v-model="ruleForm.interval_time" clearable autocomplete="off"></el-input>
+          <el-input v-model="ruleForm.interval_time" oninput = "value=value.replace(/[^\d.]/g,'')"  clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item v-show="ruleForm.platform=='binance'" label="Key:" prop="key">
           <el-input v-model="ruleForm.key" clearable autocomplete="off"></el-input>
@@ -44,8 +44,6 @@
       <section>
         <button @click="$routerto('wallet')">Cancel</button>
         <button @click="submitForm('ruleForm')">Save Change</button>
-
-
       </section>
     </main>
     <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
@@ -55,25 +53,18 @@
 <script>
   export default {
     data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
+         // var validatePass= (rule, value, callback) => {
+         //    console.log(value)
+         //    let min=  value*1;
+         //    // if (min === '') {
+         //    //   callback(new Error('请输入'))
+         //    // } else
+         //    if (min < 0) {
+         //      callback(new Error('金额需要大于0'))
+         //    } else {
+         //      callback()
+         //    }
+         //  }
       return {
         msg:'',
         remindervisible:false,
@@ -83,10 +74,12 @@
           platform: '',
           coin_number: '',
           interval_time: '',
+          key: '',
+          secret: '',
         },
         ruleForm: {
           coin_type: this.$route.query.coin_type,
-          platform: '',
+          platform: 'binance',
           coin_number: '',
           interval_time: '',
           key: '',
@@ -101,16 +94,16 @@
         }],
         rules: {
           coin_number: [
-            { required: true, message: 'Please input', trigg: 'blur' }
+            { required: true, message: 'Please input', trigger: 'blur' }
           ],
           interval_time: [
-            { required: true, message: 'Please input', trigg: 'blur' }
+            { required: true, message: 'Please input', trigger: 'blur' }
           ],
           key: [
-            { required: true, message: 'Please input', trigg: 'blur' }
+            { required: true, message: 'Please input', trigger: 'blur' }
           ],
           secret:[
-            { required: true, message: 'Please input', trigg: 'blur' }
+            { required: true, message: 'Please input', trigger: 'blur' }
           ],
 
         }
@@ -121,30 +114,27 @@
     },
     methods: {
       getdata() {
-        // this.$axios({
-        //   method: 'get',
-        //   url: `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
-        //   params: {
-        //     token: this.$store.state.token,
-        //     coin_type: this.$route.query.coin_type,
-        //   },
-        // })
-
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
           {  coin_type: this.$route.query.coin_type,}
         )
           .then(res => {
           if (res.data.ret == 0) {
             // console.log(res.data.data.api_parameter.key)
-            if(res.data.data.api_parameter){
-              this.ruleForm.key = res.data.data.api_parameter.key;
-              this.ruleForm.secret = res.data.data.api_parameter.secret;
-            }
-            for (let key in res.data.data) {
-              if (this.ruleForm.hasOwnProperty(key)) {
-                this.ruleForm[key] = res.data.data[key];
+            if(res.data.data.platform=='binance'){
+                this.ruleForm.platform='binance';
+              if(res.data.data.api_parameter){
+                this.ruleForm.key = res.data.data.api_parameter.key;
+                this.ruleForm.secret = res.data.data.api_parameter.secret;
               }
+              for (let key in res.data.data) {
+                if (this.ruleForm.hasOwnProperty(key)) {
+                  this.ruleForm[key] = res.data.data[key];
+                }
+              }
+            }else{
+              this.ruleForm.platform='none';
             }
+
             // console.log(this.ruleForm)
           }
         });
@@ -153,11 +143,12 @@
         if(this.ruleForm.platform=='binance'){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm)
+              this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`,
+              this.ruleForm)
                 .then(res => {
                   this.msg=res.data.msg;
                   this.remindervisible=true;
-                  if (res.data.ret == 0) {
+                  if (res.data.ret === 0) {
                       this.successto='wallet_lists'
                   }
                 });
@@ -167,11 +158,12 @@
             }
           });
         }else if(this.ruleForm.platform=='none'){
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`, this.ruleForm2)
+          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`,
+           this.ruleForm2)
             .then(res => {
               this.msg=res.data.msg;
               this.remindervisible=true;
-              if (res.data.ret == 0) {
+              if (res.data.ret === 0) {
                 this.successto='wallet_lists'
               }
             });

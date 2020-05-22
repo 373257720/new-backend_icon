@@ -12,25 +12,27 @@
         <section @click="export_excel">Export</section>
       </div>
       <div class="nav_right">
-        <span class="keyword" >Time:</span>
-        <el-date-picker
-          v-model="timerange"
-          type="daterange"
-          range-separator="to"
-          value-format="yyyy-MM-dd"
-          start-placeholder="Start"
-          end-placeholder="End"
-        >
-        </el-date-picker>
-        <span class="keyword">Keyword:</span>
-        <el-input
-          placeholder="Machine Name"
-          v-model="keyword"
-          clearable>
-        </el-input>
-        <i @click="searcher"  class="el-icon-search"></i>
-
-
+        <div>
+          <span class="keyword" >Time:</span>
+          <el-date-picker
+            v-model="timerange"
+            type="daterange"
+            range-separator="to"
+            value-format="yyyy-MM-dd"
+            start-placeholder="Start"
+            end-placeholder="End"
+          >
+          </el-date-picker>
+        </div>
+       <div>
+         <span class="keyword">Keyword:</span>
+         <el-input
+           placeholder="Machine Name"
+           v-model="keyword"
+           clearable>
+         </el-input>
+         <i @click="searcher"  class="el-icon-search"></i>
+       </div>
       </div>
 
     </nav>
@@ -128,7 +130,7 @@
           width="200"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="Operation"  class-name="edit" width="150">
+        <el-table-column   align="center" label="Operation"  class-name="edit" width="150">
           <template slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">Delete</span>
           </template>
@@ -164,8 +166,11 @@
       };
     },
     created() {
-      this.searcher();
+      // this.searcher();
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+    },
+    activated() {
+      this.searcher();
     },
     methods: {
       export_excel(){
@@ -359,6 +364,9 @@
       }
       div.nav_right{
         display: flex;
+        >div{
+          display: flex;
+        }
         i.el-icon-search{
           height: 40px;
           /*width: 40px;*/
@@ -374,16 +382,52 @@
           text-align: center;
           margin: 0 20px;
         }
-        div{
-          flex:1;
+        div.el-date-editor--daterange{
+          width: 250px;
+          flex: initial;
+        }
+        div.el-input--suffix{
+          width: 150px;
+          flex: initial;
         }
       }
 
     }
+    @media (max-width: 1024px){
+      nav{
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20px 0 0 0 ;
+        justify-content: space-between;
+        padding: 0;
+        div.nav_right{
+          margin-top: 10px;
+          flex-wrap: wrap;
+          >div{
+            display: flex;
+
+          }
+          div:nth-of-type(2){
+            margin-top: 10px;
+          }
+        }
+
+      }
+    }
+    @media (max-width: 768px){
+      nav{
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20px 0 0 0 ;
+        justify-content: space-between;
+        padding: 0;
+
+      }
+    }
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
       /*margin-top: 60px;*/
       /*width: 100%;*/

@@ -1,5 +1,5 @@
 <template>
-  <div class="remote_control_records" v-loading="loading">
+  <div class="remote_control_records">
     <!--    <header><h2>CUSTOMERS DATAS</h2></header>-->
     <header><h2>
       <span>Machines</span>
@@ -43,17 +43,17 @@
           label="Group"
           align="center"
           width="200"
-
         >
           <template slot-scope="scope">{{ scope.row.name}}</template>
         </el-table-column>
         <el-table-column
+
           label="Applied Machine"
           show-overflow-tooltip
           align="center">
           <template slot-scope="scope">{{scope.row.machinelist}}</template>
         </el-table-column>
-        <el-table-column  align="center" label="Operation"  width="300" class-name="edit">
+        <el-table-column  align="center" label="Operation" fixed="right"  width="250" class-name="edit">
           <template slot-scope="scope">
             <span  @click="handleDelete(scope.$index, scope.row)">View & Edit</span>
             <span  @click="handleapply(scope.$index, scope.row)">Apply Attributes</span>
@@ -86,12 +86,12 @@
           </el-select>
         </template>
       </div>
-
       <span slot="footer" class="dialog-footer">
         <button  @click="centerDialogVisible = false">Cancel</button>
         <button @click="apply">Apply</button>
         </span>
     </el-dialog>
+    <confirm_dialog :msg="msg" v-on:todad="beforedelete" :remindervisible1.sync="remindervisible1"></confirm_dialog>
     <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
@@ -109,7 +109,8 @@
       return {
         msg:'',
         remindervisible:false,
-        // centerDialogVisible: false,
+        remindervisible1:false,
+        centerDialogVisible: false,
         type:{
           '1':'Restart CyptoGo',
           '2':'Reboot System',
@@ -127,22 +128,20 @@
         keyword:'',
         Group_Name:'',
         machine_group_id:'',
-        centerDialogVisible:false,
         currentpage: 1,
         pagesize: 10,
         pagetotal: null,
         tableData: [],
         multipleSelection: [],
-        options: [
-        ],
-        loading:false,
+        options: [],
         machine_id: [],
       };
     },
     created() {
 
-      this.searcher();
-      // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
+    },
+    activated() {
+      this.changepage(this.currentpage, this.pagesize,this.keyword);
     },
     methods: {
       apply(){
@@ -153,10 +152,15 @@
           if(res.data.ret==0){
             this.$message({
               showClose: true,
-              message: 'Congrats, this is a success message.',
+              message: res.data.msg,
               type: 'success'
             });
             this.centerDialogVisible=false;
+          }else{
+            this.$message({
+              showClose: true,
+              message:res.data.msg ,
+            });
           }
         })
 
@@ -166,47 +170,36 @@
         this.changepage(this.currentpage, this.pagesize,this.keyword);
       },
       alldelete(){
-        let userid_arr=[];
         if(this.multipleSelection.length>0){
-          this.multipleSelection.forEach(item=>{
-            userid_arr.push(item.machine_group_id)
-          })
-          this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
-            confirmButtonText: 'OK',
-            cancelButtonText: 'Cancel',
-            type: 'warning'
-          }).then(() => {
-            this.beforedelete(userid_arr);
-          }).catch(() => {
-          });
+          this.msg='This will permanently delete the file'
+          this.remindervisible1=true;
         }else{
           this.msg="Please select"
-          this.remindervisible=true;
+          // this.remindervisible=true;
+         this.$message({
+           message: "Please select",
+           type: 'warning'
+         });
         }
       },
       add(){
         this.$routerto('add_Group_Pattern')
       },
       handleapply(index, row) {
+        // console.log(row)
+        this.options=[];
         this.centerDialogVisible=true;
         this.Group_Name =row.name;
         this.machine_group_id=row.machine_group_id
-        console.log()
         let arr=  row.machine_list;
-        if(  Array.isArray(arr)){
+        if( Array.isArray(arr)){
           this.options= arr.map(item=>{
             return {
               value: item.machine_id,
               label:item.name,
             }
-
           })
         }
-
-        console.log(this.options)
-        // this.options=machine_list
-        // this.$routerto('edit_Group_Pattern',{type:2,machine_group_id:row.machine_group_id})
-        // this.beforedelete(row.machine_operate_id);
       },
       handleDelete(index, row) {
         console.log(row)
@@ -214,8 +207,12 @@
         // this.beforedelete(row.machine_operate_id);
       },
       beforedelete(param){
+        let userid_arr=[];
+        this.multipleSelection.forEach(item=>{
+          userid_arr.push(item.machine_group_id)
+        });
           this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/deleteMachineGroup`,{
-            machine_group_id: param,
+            machine_group_id: userid_arr,
           })
             .then(res => {
               this.msg=res.data.msg;
@@ -232,27 +229,18 @@
           return 'warning-row'
         }
       },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        this.loading=true;
+        // this.loading=true;
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
           page: currentpage,
           size:pagesize,
           keyword:keyword,
         })
           .then(res => {
-            this.loading=false;
+            // this.loading=false;
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
@@ -277,7 +265,7 @@
         });
         // this.$router.push("/home/userlist/verified_user/usercheck");
       },
-      fromchildren1(data) {
+        fromchildren1(data) {
         // console.log(data)
         this.currentpage=data.currentpage;
         if(this.timerange==null){
@@ -394,7 +382,7 @@
         cursor: pointer;
       }
       span:nth-of-type(1){
-        margin-right: 40px;
+        margin-right: 20px;
       }
 
     }
@@ -404,6 +392,7 @@
       background: #2ABEE2;
       border-color: #2ABEE2;
     }
+
     /*.is-checked .el-checkbox__inner::after{*/
     /*  box-sizing: content-box;*/
     /*  content: "";*/
@@ -441,6 +430,12 @@
           box-sizing: border-box;
           margin-right: 20px;
         }
+        @media (max-width: 1024px){
+              section{
+                width: 100px;
+                margin-right: 10px;
+              }
+        }
       }
       div.nav_right{
         display: flex;
@@ -468,7 +463,7 @@
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
       /*margin-top: 60px;*/
       /*width: 100%;*/

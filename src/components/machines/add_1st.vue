@@ -4,7 +4,7 @@
       <el-form-item label="Group:" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="Warning E-mail Address:" prop="name">
+      <el-form-item label="Warning E-mail Address:" prop="alert_email">
         <el-input v-model="ruleForm.alert_email"></el-input>
       </el-form-item>
       <el-form-item label="Emergent Contact Number:" prop="name">
@@ -68,13 +68,9 @@
           nickname:[
             { required: true, message: '不能为空', trigger: 'blur' }
           ],
-          email: [
-            { required: true, message: "请输入邮箱地址", trigger: "blur" },
-            {
-              type: "email",
-              message: "请输入正确的邮箱地址",
-              trigger: ["blur", "change"]
-            }
+          alert_email: [
+            {  message: 'Please input email address', trigger: 'blur' },
+            { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
           ],
           mobile:[
             { required: true, message: '不能为空', trigger: 'blur' }

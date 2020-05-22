@@ -1,5 +1,5 @@
 <template>
-  <div class="transcation_lists" v-loading="loading">
+  <div class="transcation_lists">
     <header>
       <h2>
 <!--      <span @click="$routerto('audit_log')">Audit Logs</span>-->
@@ -102,9 +102,13 @@
           label="Transaction ID"
           align="center"
           width="200"
+          class-name="edit"
           show-overflow-tooltip
         >
-          <template slot-scope="scope">{{ scope.row.trade_id}}</template>
+          <template  slot-scope="scope">
+            <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.trade_id}}</span>
+          </template>
+<!--          <template slot-scope="scope"></template>-->
         </el-table-column>
         <el-table-column
           label="Machine"
@@ -113,7 +117,7 @@
           width="150"
         >
           <template  slot-scope="scope">
-            <span  @click="handleDelete(scope.$index, scope.row)">{{ scope.row.machine_name}}</span>
+            <span  @click="$routerto('machines_edit',{machine_id:scope.row.machine_id})">{{ scope.row.machine_name}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -424,7 +428,7 @@
       margin: 16px 0 0 0 ;
       /*justify-content: space-between;*/
       /*flex-wrap: wrap;*/
-      padding: 0 20px 0 0;
+      /*padding: 0 20px 0 0;*/
       >div{
         margin-bottom: 16px;
         /*margin-right: 20px;*/
@@ -436,6 +440,7 @@
           span{
             display: inline-block;
             width: 70px;
+            color: #777777;
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -481,12 +486,97 @@
         margin-left: 20px;
       }
     }
+
+    @media (max-width: 1024px){
+      nav{
+        font-size: 14px;
+        display: flex;
+        margin: 16px 0 0 0 ;
+        /*flex-direction: column;*/
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 0 20px 0 0;
+        >div{
+          margin-bottom: 10px;
+          /*margin-right: 20px;*/
+          section:nth-of-type(1){
+            margin-bottom: 10px;
+          }
+          section{
+            display: flex;
+            span{
+              display: inline-block;
+              width: 70px;
+              margin-right: 5px;
+              text-align: right;
+              line-height: 40px;
+            }
+            div{
+              flex:1;
+              width: 200px;
+            }
+          }
+        }
+        div:nth-of-type(2){
+          span{
+            display: inline-block;
+            width: 110px;
+          }
+
+        }
+        >div:last-child{
+          align-self: flex-end;
+          margin-left: 20px;
+        }
+      }
+    }
+    @media (max-width: 768px){
+      nav{
+        padding: 0;
+        >div{
+          section:nth-of-type(1){
+            margin-bottom: 0px;
+          }
+          section{
+            flex-direction: column;
+            span{
+              width: initial;
+              text-align: left;
+              line-height: 32px;
+            }
+            div{
+              /*flex:1;*/
+              width: 200px;
+            }
+          }
+        }
+        div:nth-of-type(2){
+          span{
+            display: inline-block;
+            width: initial;
+          }
+
+        }
+        >div:last-child{
+          display: flex;
+          margin-left: 0;
+          p:nth-of-type(1){
+            margin-right: 10px;
+          }
+        }
+      }
+    }
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
 
+    }
+  }
+  @media (max-width: 768px){
+    .transcation_lists{
+      padding: 0 30px 30px 30px;
     }
   }
 </style>

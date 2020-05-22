@@ -11,14 +11,14 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="Cash Inbox Denomination:" prop="name">
+      <el-form-item label="Cash Inbox Denomination: (Fill in numbers separated by commas)" prop="name">
         <el-input :label="num" v-model="ruleForm.in_support_money"></el-input>
       </el-form-item>
-      <el-form-item label="Cash Outbox Denomination:" prop="name">
+      <el-form-item label="Cash Outbox Denomination: (Fill in numbers separated by commas)" prop="name">
         <el-input v-model="ruleForm.out_support_money"></el-input>
       </el-form-item>
-      <el-form-item label="Fast Withdraw Denomination:" prop="name">
-        <el-input v-model="ruleForm.shortcut_money"></el-input>
+      <el-form-item label="Fast Withdraw Denomination: (Fill in numbers separated by commas)" prop="name">
+        <el-input  v-model="ruleForm.shortcut_money"></el-input>
       </el-form-item>
       <el-form-item  label="Cryptocurrency:" prop="name">
         <el-radio-group v-model="ruleForm.is_buy_sell">
@@ -27,12 +27,12 @@
           <el-radio :label="3">Both</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item  label="KYC Registration:" prop="region">
-        <el-radio-group v-model="ruleForm.is_register">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
-        </el-radio-group>
-      </el-form-item>
+<!--      <el-form-item  label="KYC Registration:" prop="region">-->
+<!--        <el-radio-group v-model="ruleForm.is_register">-->
+<!--          <el-radio :label="1">Yes</el-radio>-->
+<!--          <el-radio :label="2">No</el-radio>-->
+<!--        </el-radio-group>-->
+<!--      </el-form-item>-->
       <el-form-item label="Cryptocurrency Type">
         <el-collapse accordion>
           <el-collapse-item>
@@ -48,18 +48,18 @@
             <el-form-item  label="Commission Rate (%):" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span><el-input v-model="ruleForm.buy_bitcoin_fee"></el-input>
+                  <span>Buy:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')"  v-model="ruleForm.buy_bitcoin_fee"></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.sell_bitcoin_fee"></el-input>
+                  <span>Sell:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')"  v-model="ruleForm.sell_bitcoin_fee"></el-input>
                 </div>
               </div>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Minimum):" prop="name">
-              <el-input v-model="ruleForm.minimum_bitcoin_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.minimum_bitcoin_buy"></el-input>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Maximum):" prop="name">
-              <el-input v-model="ruleForm.maximum_bitcoin_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.maximum_bitcoin_buy"></el-input>
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item>
@@ -75,18 +75,18 @@
             <el-form-item  label="Commission Rate (%):" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span><el-input v-model="ruleForm.buy_ethereum_fee"></el-input>
+                  <span>Buy:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')"  v-model="ruleForm.buy_ethereum_fee"></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.sell_ethereum_fee"></el-input>
+                  <span>Sell:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')"  v-model="ruleForm.sell_ethereum_fee"></el-input>
                 </div>
               </div>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Minimum):" prop="name">
-              <el-input v-model="ruleForm.minimum_ethereum_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')"  v-model="ruleForm.minimum_ethereum_buy"></el-input>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Maximum):" prop="name">
-              <el-input v-model="ruleForm.maximum_ethereum_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')"  v-model="ruleForm.maximum_ethereum_buy"></el-input>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>

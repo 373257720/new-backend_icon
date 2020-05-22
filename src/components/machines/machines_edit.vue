@@ -8,27 +8,16 @@
     </header>
     <main>
         <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
-          <el-tab-pane label="CryptoGo" name="first"></el-tab-pane>
-          <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>
-          <el-tab-pane label="Flow" name="third"></el-tab-pane>
-          <el-tab-pane label="Operator" name="fourth"></el-tab-pane>
-          <el-tab-pane label="Advertisement" name="fifth"></el-tab-pane>
+          <el-tab-pane label="CryptoGo" name="edit_1st"></el-tab-pane>
+          <el-tab-pane label="Price & Fee" name="edit_2nd"></el-tab-pane>
+          <el-tab-pane label="Flow" name="edit_3rd"></el-tab-pane>
+          <el-tab-pane label="Operator" name="edit_4th"></el-tab-pane>
+          <el-tab-pane label="Advertisement" name="edit_5th"></el-tab-pane>
         </el-tabs>
-<!--      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">-->
-<!--        <el-tab-pane label="Group Pattern" name="first"></el-tab-pane>-->
-<!--        <el-tab-pane label="Price & Fee" name="second"></el-tab-pane>-->
-<!--        <el-tab-pane label="Operator" name="third"></el-tab-pane>-->
-<!--        <el-tab-pane label="Advertisement" name="fourth"></el-tab-pane>-->
-<!--      </el-tabs>-->
-<!--      <el-steps :active="0" finish-status="wait" simple >-->
-<!--        <el-step title="CryptoGo"  icon="el-icon-info" ><i slot="icon">1</i></el-step>-->
-<!--        <el-step title="Price & Fee" icon="el-icon-info" ><i slot="icon">2</i></el-step>-->
-<!--        <el-step title="Operator" icon="el-icon-info"><i slot="icon">3</i></el-step>-->
-<!--        <el-step title="Advertisement" icon="el-icon-info"><i slot="icon">4</i></el-step>-->
-<!--      </el-steps>-->
-      <router-view v-if='status'  v-on:getchildren="fromchildren"  :MachineInfo="MachineInfo"></router-view>
+        <keep-alive >
+           <router-view v-if='status'   v-on:getchildren="fromchildren"  :MachineInfo="MachineInfo"></router-view>
+        </keep-alive>
     </main>
-
   </div>
 </template>
 
@@ -40,57 +29,30 @@
         title:'',
         MachineInfo: {},
         status:false,
+        isupdated:false,
+        machineId:this.$route.query.machine_id
       };
     },
-
     watch:{
       $route(to,from){
-        switch(to.name) {
-          case 'edit_1st':
-            this.activeName='first';
-            break;
-          case 'edit_2nd':
-            this.activeName='second';
-            break;
-          case  'edit_3rd':
-            this.activeName='third';
-            break;
-          case  'edit_4th':
-            this.activeName='fourth';
-            break;
-          case  'edit_5th':
-            this.activeName='fifth';
-            break;
-        }
+        this.activeName=to.name;
       }
     },
     created() {
       if(this.$route.name){
-        switch(this.$route.name) {
-          case 'edit_1st':
-            this.activeName='first';
-            break;
-          case 'edit_2nd':
-            this.activeName='second';
-            break;
-          case  'edit_3rd':
-            this.activeName='third';
-            break;
-          case  'edit_4th':
-            this.activeName='fourth';
-            break;
-          case  'edit_5th':
-            this.activeName='fifth';
-            break;
-        }
+        this.activeName=this.$route.name;
       }
-      this.fromchildren();
+      this.getInfor();
     },
     methods: {
       fromchildren(){
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{machine_id:this.$route.query.machine_id}
+          // this.isupdated=true;
+      },
+      getInfor(){
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,
+        {machine_id:this.machineId}
         ).then(res=>{
-          console.log(res)
+          // console.log(res)
           this.MachineInfo=res.data.data;
           this.MachineInfo['is_register']=parseInt(this.MachineInfo['is_register']);
           this.MachineInfo['is_support_ethereum']=parseInt(this.MachineInfo['is_support_ethereum']);
@@ -99,30 +61,8 @@
         })
       },
       handleClick(tab, event) {
-        if(tab.name=='first'){
-          this.$routerto('edit_1st',{machine_id:this.$route.query.machine_id});
-        }
-        if(tab.name=='second'){
-          this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});
-        };
-        if(tab.name=='third'){
-          this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
-        }
-        if(tab.name=='fourth'){
-          this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
-        }
-        if(tab.name=='fifth'){
-          this.$routerto('edit_5th',{machine_id:this.$route.query.machine_id});
-        }
+         this.$routerto(tab.name,{machine_id:this.$route.query.machine_id});
       }
-      // fromchildren(data) {
-      //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
-      //   ).then(res=>{
-      //     console.log(res )
-      //     this.MachineInfo=res.data.data;
-      //   })
-      //
-      // },
     },
   };
 </script>
@@ -148,7 +88,7 @@
     /*}*/
     .el-tabs__item{
       font-weight: 600;
-      color: #C0C4CC;
+      color: #777777;
     }
 
     .el-tabs__item.is-active{

@@ -1,88 +1,50 @@
 <template>
-  <div class="machines"  v-loading="loading">
-    <header><h2>Machines</h2></header>
+  <div class="machines">
+    <header>
+      <h2>Machines</h2>
+    </header>
     <nav>
       <div>
-        <section @click="alledit" >Apply Group Pattern</section>
+        <section @click="alledit">Apply Group Pattern</section>
       </div>
       <div>
         <span class="keyword">Keyword:</span>
-        <el-input
-          placeholder=""
-          v-model="keyword"
-          clearable>
+        <el-input placeholder="" v-model="keyword" clearable>
         </el-input>
-        <i @click="searcher"  class="el-icon-search"></i>
+        <i @click="searcher" class="el-icon-search"></i>
       </div>
     </nav>
     <el-main>
-      <el-table
-        :row-class-name="tabRowClassName"
-        border
-        :data="tableData"
-        tooltip-effect="dark"
-        style="width: 100%"
+      <el-table :row-class-name="tabRowClassName" border :data="tableData" tooltip-effect="dark" style="width: 100%"
         @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          align="center"
-          label="ID"
-          width="55">
+        <el-table-column type="selection" align="center" label="ID" width="55">
         </el-table-column>
-        <el-table-column
-          label="Machine"
-          align="center"
-          width="150"
-        >
-<!--          show-overflow-tooltip="true"-->
-         <template slot-scope="scope">{{ scope.row.name}}</template>
+        <el-table-column label="Machine" align="center" width="150">
+          <!--          show-overflow-tooltip="true"-->
+          <template slot-scope="scope">{{ scope.row.name}}</template>
         </el-table-column>
-        <el-table-column
-          prop="serial_number"
-          align="center"
-          label="Serial Number"
-          width="250"
-          show-overflow-tooltip>
+        <el-table-column prop="serial_number" align="center" label="Serial Number" width="250" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
-          prop="machine_group_name"
-          align="center"
-          label="Group"
-          show-overflow-tooltip>
+        <el-table-column prop="machine_group_name" align="center" label="Group" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
-          align="center"
-          label="Photo"
-          width="100"
-          show-overflow-tooltip>
+        <el-table-column align="center" label="Photo" width="100" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-popover
-              placement="right"
-              width="400"
-              trigger="click">
-              <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
-              <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original" alt="">
+            <el-popover placement="right" width="400" trigger="click">
+              <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original"
+                alt="">
+              <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original"
+                alt="">
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="country_name"
-          align="center"
-          label="Location"
-          width="100"
-          show-overflow-tooltip>
+        <el-table-column prop="country_name" align="center" label="Location" width="100" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
-          prop="address"
-          align="center"
-          label="Address"
-          width="150"
-          show-overflow-tooltip>
+        <el-table-column prop="address" align="center" label="Address" width="150" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
+        <el-table-column fixed="right" align="center" label="Operation" class-name="edit" width="200">
           <template slot-scope="scope">
-            <span class="left"  @click="handleEdit(scope.$index, scope.row)">View & Edit</span>
-            <span  @click="handleDelete(scope.$index, scope.row)">
+            <span class="left" @click="handleEdit(scope.$index, scope.row)">View & Edit</span>
+            <span @click="handleDelete(scope.$index, scope.row)">
               Remote Control
             </span>
           </template>
@@ -90,21 +52,16 @@
       </el-table>
 
     </el-main>
-    <el-dialog
-      class="remote_control"
-      :visible.sync="DialogVisible"
-      width="30%"
-      :modal="false"
-      :show-close="false"
+    <el-dialog class="remote_control" :visible.sync="DialogVisible" width="30%" :modal="false" :show-close="false"
       center>
       <span slot="title" class="dialog">
         <span>{{machine_name}}</span>
         <span @click="$routerto('remote_control_records')">View more Details</span>
       </span>
       <p class="thick">Do you want to?</p>
-      <el-radio-group  v-model="remote_control_type">
+      <el-radio-group v-model="remote_control_type">
         <div>
-          <el-radio :label="2">Restart CyptoGo</el-radio>
+          <el-radio :label="2">Restart CRYPTOGO</el-radio>
         </div>
         <div>
           <el-radio :label="1">Reboot System</el-radio>
@@ -118,169 +75,164 @@
 
       </el-radio-group>
       <span slot="footer" class="dialog-footer">
-        <button  @click="DialogVisible = false">Cancel</button>
+        <button @click="DialogVisible = false">Cancel</button>
         <button @click="creat">Create</button>
-        </span>
+      </span>
     </el-dialog>
-    <el-dialog
-      :visible.sync="centerDialogVisible"
-      width="30%"
-      :modal="false"
-      center>
+    <el-dialog :visible.sync="centerDialogVisible" width="30%" :modal="false" center>
       <span slot="title" class="dialog-footer">Group</span>
       <p class="thick">Select:</p>
       <p class="select" v-html="machine_name"></p>
       <p class="thick">Please Choose ONE Group:</p>
       <template>
         <el-select v-model="machine_group_id" placeholder="">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
       </template>
       <span slot="footer" class="dialog-footer">
-        <button  @click="centerDialogVisible = false">Cancel</button>
+        <button @click="centerDialogVisible = false">Cancel</button>
         <button @click="apply">Apply</button>
-        </span>
+      </span>
     </el-dialog>
     <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
-    <pagevue
-      :pagenum="pagetotal"
-      :currentpages="currentpage"
-      :pagesizes="pagesize"
-      v-on:fromchildren="fromchildren1"
-    ></pagevue>
+    <pagevue :pagenum="pagetotal" :currentpages="currentpage" :pagesizes="pagesize" v-on:fromchildren="fromchildren1"></pagevue>
   </div>
 </template>
 
 <script>
   export default {
-    name:'machines_lists',
+    name: 'machines_lists',
     data() {
       return {
-        choose:'',
-        msg:"Please select",
-        remindervisible:false,
-        machine_name:'',
-        DialogVisible:false,
+        choose: '',
+        msg: "Please select",
+        remindervisible: false,
+        machine_name: '',
+        DialogVisible: false,
         centerDialogVisible: false,
-        keyword:'',
-        machine_group_id:[],
-        remote_control_type:'',
-        machine_id:[],
+        keyword: '',
+        machine_group_id: [],
+        remote_control_type: '',
+        machine_id: [],
         currentpage: 1,
         pagesize: 10,
         pagetotal: null,
-        tableData: [
-        ],
-        machine_idx:'',
+        tableData: [],
+        machine_idx: '',
         multipleSelection: [],
         options: [],
         machine_group_id: '',
-        loading:false,
+        // loading:false,
       };
     },
 
     created() {
-      this.loading=true;
-      this.changepage(this.currentpage, this.pagesize);
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
-        page:this.currentpage,
-        size:this.pagesize,
-        keyword:'',
-      }).then(res=>{
-        // console.log(res)
-
-        if(res.data.ret==0){
-       this.options=   res.data.data.data.map((item,idx)=>{
-                  return{
-                       value: item.machine_group_id,
-                       label: item.name
-                     }
+      // this.changepage(this.currentpage, this.pagesize);
+      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`, {
+        page: this.currentpage,
+        size: this.pagesize,
+        keyword: '',
+      }).then(res => {
+        if (res.data.ret == 0) {
+          this.options = res.data.data.data.map((item, idx) => {
+            return {
+              value: item.machine_group_id,
+              label: item.name
+            }
           })
 
         }
       })
     },
+    activated() {
+      // if (this.$route.params.editSuccess) {
+        this.changepage(this.currentpage, this.pagesize);
+      // }
+    },
     methods: {
-      getTemplateRow(index,row){
+      getTemplateRow(index, row) {
         // console.log(row)//获取选中数据
-        this.machine_name=row.name;
+        this.machine_name = row.name;
         // this.templateSelection = row;
       },
-      creat(){
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`,{
-            type:this.remote_control_type,
-            machine_id:this.machine_idx
-          }).then(res=>{
-            if(res.data.ret==0){
-              this.$message({
-                message: res.data.msg,
-                type: 'success'
-              });
-            this.DialogVisible = false;
-            }
-          })
-      },
-      apply(){
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editGroup`,{
-          machine_id:this.machine_id,
-          machine_group_id:this.machine_group_id,
-        }).then(res=>{
-          console.log(res)
-          if(res.data.ret==0){
+      creat() {
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`, {
+          type: this.remote_control_type,
+          machine_id: this.machine_idx
+        }).then(res => {
+          if (res.data.ret == 0) {
             this.$message({
               message: res.data.msg,
               type: 'success'
             });
+            this.DialogVisible = false;
+          }
+        })
+      },
+      apply() {
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editGroup`, {
+          machine_id: this.machine_id,
+          machine_group_id: this.machine_group_id,
+        }).then(res => {
+          console.log(res)
+          if (res.data.ret == 0) {
+            this.$message({
+              message: res.data.msg,
+            });
 
-          }else{
+          } else {
             this.$message({
               message: res.data.msg,
               type: 'warn'
             });
           }
-          this.centerDialogVisible=false;
+          this.centerDialogVisible = false;
         })
 
       },
-      searcher(){
-        this.changepage(this.currentpage, this.pagesize,this.keyword);
+      searcher() {
+        this.changepage(this.currentpage, this.pagesize, this.keyword);
       },
-      alledit(num){
-        if(this.multipleSelection.length>0){
-          var a=[];
-          this.multipleSelection.forEach(item=>{
+      alledit(num) {
+        if (this.multipleSelection.length > 0) {
+          var a = [];
+          this.multipleSelection.forEach(item => {
             a.push(`${item.name}</br>`)
             this.machine_id.push(item.machine_id);
           })
-          this.machine_name=a.join('') ;
-          this.centerDialogVisible=true;
-        }else{
-            this.remindervisible=true;
+          this.machine_name = a.join('');
+          this.centerDialogVisible = true;
+        } else {
+          // this.remindervisible = true;
+          this.$message({
+            message: "Please select",
+            type: 'warning'
+          });
         }
-
 
       },
       handleEdit(index, row) {
         // console.log(index, row);
-        this.$routerto('machines_edit',{machine_id:row.machine_id})
+        this.$routerto('machines_edit', {
+          machine_id: row.machine_id
+        })
       },
       handleDelete(index, row) {
         console.log(row)
-        this.machine_idx=row.machine_id;
+        this.machine_idx = row.machine_id;
         this.machine_name = row.name;
-        this.DialogVisible=true;
+        this.DialogVisible = true;
         // console.log(this.currentpage, this.pagesize)
         // this.$routerto('account_setting',{type:2,atm_user_id:row.atm_user_id})
 
       },
-      tabRowClassName({row,rowIndex}){
+      tabRowClassName({
+        row,
+        rowIndex
+      }) {
         let index = rowIndex;
-        if(index %2 == 0){
+        if (index % 2 == 0) {
           return 'warning-row'
         }
       },
@@ -296,7 +248,7 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      changepage(currentpage, pagesize,keyword) {
+      changepage(currentpage, pagesize, keyword) {
         // this.$axios
         //   .get(
         //     `${this.$baseurl}/admin_api/machine.machine/getMachineList`,
@@ -313,16 +265,16 @@
         //       }
         //     }
         //   )
-          this.$global.get_encapsulation(  `${this.$baseurl}/admin_api/machine.machine/getMachineList`,{
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`, {
             page: currentpage,
-            size:pagesize,
-            keyword:keyword,
+            size: pagesize,
+            keyword: keyword,
           })
           .then(res => {
-            this.loading=false;
-            if(res.data.ret==0){
-              this.pagetotal=res.data.data.total;
-              this.tableData=[...res.data.data.data];
+            // this.loading=false;
+            if (res.data.ret == 0) {
+              this.pagetotal = res.data.data.total;
+              this.tableData = [...res.data.data.data];
             }
           })
           .catch(error => {});
@@ -330,13 +282,16 @@
       handleClick(row) {
         this.$router.push({
           name: "usercheck",
-          query: { idx: row.userId, userIdentityType: row.userIdentityType }
+          query: {
+            idx: row.userId,
+            userIdentityType: row.userIdentityType
+          }
         });
         // this.$router.push("/home/userlist/verified_user/usercheck");
       },
       fromchildren1(data) {
         // console.log(data)
-        this.currentpage=data.currentpage;
+        this.currentpage = data.currentpage;
         this.changepage(data.currentpage, data.pagesize);
       }
     },
@@ -348,70 +303,86 @@
 </script>
 
 <style lang="scss">
-  .bigpic{
+  .bigpic {
     width: 100%;
-    height:100%;
+    height: 100%;
   }
-  .machines{
-    padding :0 50px 50px 50px;
-    header{
+
+  .machines {
+    padding: 0 50px 50px 50px;
+
+    header {
       position: relative;
       height: 80px;
       border-bottom: 1px solid #d3d3d3;
-      h2{
+
+      h2 {
         font-size: 20px;
         position: absolute;
-        bottom:20px;
+        bottom: 20px;
         /*font-weight: 550;*/
       }
 
     }
-    .el-table{
-      color:#7A7A7A;
+
+    .el-table {
+      color: #7A7A7A;
     }
-    .dialog{
+
+    .dialog {
       display: flex;
       justify-content: space-between;
-      span:nth-of-type(1){
-          font-weight: 600;
+align-items: center;
+    width: 100%;
+      span:nth-of-type(1) {
+        font-weight: 600;
       }
-      span:nth-of-type(2){
+
+      span:nth-of-type(2) {
         font-size: 12px;
         cursor: pointer;
-        text-decoration:underline;
+        text-decoration: underline;
         color: #2ABEE2;
       }
     }
-    .remote_control{
-      .el-dialog--center .el-dialog__body{
+
+    .remote_control {
+      .el-dialog--center .el-dialog__body {
         padding: 20px;
       }
-      p.thick{
-        color:black;
+
+      p.thick {
+        color: black;
         font-size: 16px;
         margin-bottom: 30px;
       }
-      .el-radio-group{
-        >div{
+
+      .el-radio-group {
+        >div {
           margin-bottom: 10px;
 
         }
       }
-      .el-radio__input.is-checked .el-radio__inner{
-        border-color:#2ABEE2;
+
+      .el-radio__input.is-checked .el-radio__inner {
+        border-color: #2ABEE2;
         background: #2ABEE2;
 
       }
-      .el-radio__inner:hover{
-        border-color:#2ABEE2;
+
+      .el-radio__inner:hover {
+        border-color: #2ABEE2;
       }
-      .el-radio__input.is-checked+.el-radio__label{
-        color:#2ABEE2;
+
+      .el-radio__input.is-checked+.el-radio__label {
+        color: #2ABEE2;
       }
-      .el-radio__input.is-checked .el-radio__inner::after{
+
+      .el-radio__input.is-checked .el-radio__inner::after {
         transform: rotate(45deg) scaleY(1);
       }
-      .el-radio__inner::after{
+
+      .el-radio__inner::after {
         box-sizing: content-box;
         content: "";
         background: none;
@@ -435,84 +406,105 @@
         /*transform-origin: center;*/
       }
     }
-    .el-checkbox__inner{
+
+    .el-checkbox__inner {
       border-radius: 50%;
       /*background: ;*/
       /*background: red;*/
       /*border-color: red;*/
     }
-    .el-select .el-input.is-focus .el-input__inner{
-     /*border-color: #2ABEE2*/
+
+    .el-select .el-input.is-focus .el-input__inner {
+      /*border-color: #2ABEE2*/
     }
-    .el-table .warning-row{
-      background:#EDF1F4;
+
+    .el-table .warning-row {
+      background: #EDF1F4;
     }
-    .el-table_1_column_8  .el-button{
+
+    .el-table_1_column_8 .el-button {
       color: #2ABEE2;
     }
-    .edit{
-      .cell{
+
+    .edit {
+      .cell {
         text-align: center;
         display: flex;
         flex-direction: column;
       }
-      span{
+
+      span {
         color: #2ABEE2;
-        text-decoration:underline;
+        text-decoration: underline;
         cursor: pointer;
       }
 
     }
-    .el-dialog--center{
+
+    .el-dialog--center {
       margin-top: 35vh !important;
       width: 25% !important;
-      .thick{
+
+      .thick {
         color: black;
         font-size: 14px;
         margin-bottom: 2px;
         /*font-weight: 600;*/
       }
-      .select{
-          color: #797979;
-          margin-bottom: 20px;
+
+      .select {
+        color: #797979;
+        margin-bottom: 20px;
       }
-      .el-select{
+
+      .el-select {
         width: 100%;
       }
-      .el-input__inner{
+
+      .el-input__inner {
         height: 30px;
 
       }
-      .el-input__prefix, .el-input__suffix{
-        top:50%;
+
+      .el-input__prefix,
+      .el-input__suffix {
+        top: 50%;
         transform: translateY(-50%);
       }
-      .el-input__icon{
+
+      .el-input__icon {
         line-height: 30px;
       }
     }
-    .el-dialog__header{
+
+    .el-dialog__header {
       background: #EDF1F4;
       font-size: 16px;
-      line-height: 30px;
+      // line-height: 30px;
       text-align: left;
       height: 50px;
       box-sizing: border-box;
       padding: 10px 20px;
       position: relative;
+          display: flex;
+          align-items: center;
     }
-    .el-dialog__headerbtn{
-      top:50%;
+
+    .el-dialog__headerbtn {
+      top: 50%;
       transform: translateY(-50%);
     }
+
     .el-dialog--center .el-dialog__footer {
-      padding-top:0;
-      .dialog-footer{
+      padding-top: 0;
+
+      .dialog-footer {
 
         display: flex;
         width: 100%;
         justify-content: space-between;
-        button{
+
+        button {
           cursor: pointer;
           width: 45%;
           line-height: 40px;
@@ -522,61 +514,71 @@
           background: #EDF1F4;
           border: 1px solid #B7B7B7;
           border-radius: 5px;
-          color:#515153;
+          color: #515153;
           text-align: center;
           /*margin-right: 20px;*/
         }
-        button:nth-of-type(2){
-          border:0;
+
+        button:nth-of-type(2) {
+          border: 0;
           color: white;
-          background:url(../../../static/add-disable.png) no-repeat;
+          background: url(../../../static/add-disable.png) no-repeat;
           background-size: cover;
           /*;*/
         }
       }
     }
 
-    .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
       /*border-color:white;*/
       background: #2ABEE2;
       border-color: #2ABEE2;
     }
-    .el-checkbox__input.is-focus .el-checkbox__inner{
-      border-color:#DCDFE6;
+
+    .el-checkbox__input.is-focus .el-checkbox__inner {
+      border-color: #DCDFE6;
     }
-    .el-table td, .el-table th.is-leaf{
+
+    .el-table td,
+    .el-table th.is-leaf {
       border: 0;
     }
-    nav{
+
+    nav {
       display: flex;
-      margin: 20px 0 0 0 ;
+      margin: 20px 0 0 0;
       justify-content: space-between;
       padding: 0 50px 0 20px;
-      >div{
+
+      >div {
         display: flex;
+
         /*width: 300px;*/
         /*justify-content: space-between;*/
-        section{
+        section {
           cursor: pointer;
           width: 200px;
           line-height: 40px;
           height: 40px;
-          background:url(../../../static/add-disable.png) no-repeat;
+          background: url(../../../static/add-disable.png) no-repeat;
           background-size: cover;
           border-radius: 5px;
-          color:white;
+          color: white;
           text-align: center;
           box-sizing: border-box;
           margin-right: 20px;
         }
-        span.keyword{
+
+        span.keyword {
           line-height: 40px;
           /*height: 40px;*/
           color: #777777;
           text-align: center;
           margin-right: 20px;
         }
-        i{
+
+        i {
           height: 40px;
           /*width: 40px;*/
           cursor: pointer;
@@ -589,12 +591,15 @@
         }
       }
     }
-    main{
-      padding:20px 20px 20px 0;
-      .el-table thead{
-        color:black;
+
+    main {
+      padding: 20px 20px 20px 0;
+
+      .el-table thead {
+        /*color:black;*/
       }
-      .imgsize{
+
+      .imgsize {
         width: 50px;
         height: 60px;
       }

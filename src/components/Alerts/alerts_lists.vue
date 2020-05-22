@@ -30,7 +30,7 @@
         <ul>
           <li v-for="(item) in tableData" :key="item.notice_id">
             <div>
-              <p><img src="../../../static/ba8ba44db0bb05354954e18c91a4170.png" alt=""><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><i></i>{{item.title}}</p>
+              <p><img src="../../../static/ba8ba44db0bb05354954e18c91a4170.png" alt=""><span v-if="item.notice_category_name">[{{item.notice_category_name}}]</span><span>{{item.title}}</span></p>
               <p @click="$routerto('alerts_details',{'notice_id':item.notice_id,'currentpages':currentpage})"><i class="el-icon-d-arrow-right"></i>{{item.is_read=='1'?'read':'unread'}}</p>
             </div>
             <article v-html="item.content">
@@ -69,6 +69,9 @@
       };
     },
     created() {
+      // this.getlists();
+    },
+    activated() {
       this.getlists();
     },
     methods: {
@@ -104,6 +107,7 @@
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
+
               this.tableData.forEach(item=>{
                 item.create_time=this.$global.timestampToTime(item.create_time);
               })
@@ -143,6 +147,7 @@
     }
     font-size: 14px;
     padding :0 50px 50px 50px;
+    box-sizing: border-box;
     width: 100%;
     header{
       position: relative;
@@ -201,6 +206,7 @@
       /*justify-content: space-between;*/
       /*padding: 0 50px 0 20px;*/
       div.nav_right{
+        color:#777777;
         /*display: flex;*/
         div{
           /*flex:1;*/
@@ -210,7 +216,9 @@
     }
     main{
       width: 70%;
-      padding:20px 20px 20px 0;
+      // box-sizing:border-box;
+      /*min-width: 560px;*/
+      padding:20px 0;
       ul{
         li{
           height: 130px;
@@ -246,16 +254,14 @@
             }
           }
           article{
-            height: 34px;
-            line-height: 18px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            height: 50px;
+            line-height: 16px;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
-           -webkit-box-orient: vertical;
-
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
             color: #A2A2A2;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
           }
           footer{
             display: flex;
@@ -271,6 +277,13 @@
       /*  border: 1px solid #EBEEF5;*/
 
     }
+    @media (max-width: 1024px){
+      main {
+        width: 80%;
+        padding:20px  0;
+      }
+    }
+
     .alerts_lists2{
       .pagevue{
         left:0;
@@ -279,4 +292,10 @@
     }
 
   }
+  @media (max-width: 768px){
+    .alerts_lists{
+      padding: 0 30px 30px 30px;
+    }
+  }
+
 </style>

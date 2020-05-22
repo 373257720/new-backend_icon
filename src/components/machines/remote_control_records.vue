@@ -53,14 +53,14 @@
           prop="is_tell"
           align="center"
           label="Client Signal Reception"
-
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           label="Successful Configuration"
           prop="is_finish"
-
+          width="200"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -230,11 +230,37 @@
 
   };
 </script>
-
 <style lang="scss">
   .remote_control_records{
-    margin :0 0 0 50px;
-    width: 90%;
+    .el-checkbox__inner {
+      border-radius: 50%;
+      /*background: ;*/
+      /*background: red;*/
+      /*border-color: red;*/
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+      /*border-color:white;*/
+      background: #2ABEE2;
+      border-color: #2ABEE2;
+    }
+
+    .el-checkbox__input.is-focus .el-checkbox__inner {
+      border-color: #DCDFE6;
+    }
+
+    .el-table td,
+    .el-table th.is-leaf {
+      border: 0;
+    }
+  }
+
+</style>
+<style lang="scss" scoped>
+  .remote_control_records{
+    padding: 0 50px 50px;
+    /*margin :0 0 0 50px;*/
+    /*width: 90%;*/
     header{
       position: relative;
       height: 80px;

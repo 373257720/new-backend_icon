@@ -12,7 +12,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           align="center"
-          width="350"
+
           class-name="pic"
         >
           <template slot-scope="scope">
@@ -24,7 +24,7 @@
           align="center"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center"  class-name="edit" width="350">
+        <el-table-column  align="center"  class-name="edit" >
           <template slot-scope="scope">
 <!--            <span>{{}}</span>-->
             <span   @click="view(scope.$index, scope.row)">View</span>

@@ -8,11 +8,12 @@
     </h2>
     </header>
     <nav>
-      <div class="nav_left">
+<!--      <div class="nav_left">-->
 <!--        <section @click="alledit(1)">Delete</section>-->
 <!--        <section @click="alledit(2)">Export</section>-->
-      </div>
+<!--      </div>-->
       <div class="nav_right">
+        <div>
           <span class="keyword" >Time:</span>
           <el-date-picker
             v-model="timerange"
@@ -23,6 +24,8 @@
             end-placeholder="End"
           >
           </el-date-picker>
+        </div>
+        <div>
           <span class="keyword">Keyword:</span>
           <el-input
             placeholder="Machine Name"
@@ -30,6 +33,7 @@
             clearable>
           </el-input>
           <i @click="searcher"  class="el-icon-search"></i>
+        </div>
       </div>
     </nav>
     <el-main v-loading="pictLoading">
@@ -316,6 +320,9 @@
       }
       div.nav_right{
         display: flex;
+        >div{
+          display: flex;
+        }
         i.el-icon-search{
           height: 40px;
           /*width: 40px;*/
@@ -337,10 +344,39 @@
       }
 
     }
+    @media (max-width: 1024px){
+      nav{
+        display: flex;
+        margin: 20px 0 0 0 ;
+        justify-content: space-between;
+        padding: 0;
+        div.nav_right{
+          display: flex;
+          flex-wrap: wrap;
+          div.el-date-editor--daterange{
+            width: 250px;
+            flex: initial;
+          }
+          div.el-input--suffix{
+            width: 150px;
+            flex: initial;
+          }
+          div:nth-of-type(2){
+            margin-top: 10px;
+          }
+        }
+
+
+      }
+    }
+    @media (max-width: 768px){
+      nav{
+      }
+    }
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
       /*margin-top: 60px;*/
       /*width: 100%;*/

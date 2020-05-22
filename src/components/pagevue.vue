@@ -9,7 +9,6 @@
         :total="pagenum" :pager-count="5"
       ></el-pagination>
     </div>
-<!--    <div class="export" @click="childtodad" v-if="isexport">Export</div>-->
   </div>
 </template>
 <script>
@@ -18,46 +17,26 @@ export default {
   name: "pagevue",
   data() {
     return {
-      isexport:false,
-      // currentPage: 1,
-      // pagesize: 1,
+      // isexport:false,
     };
   },
-
   created() {
-    // if(this.$route.name=='transaction_lists' || this.$route.name=='report_lists' || this.$route.name=='report_crytocurrency'){
-    //   if(this.pagenum>0){
-    //     this.isexport=true;
-    //   }
-    // }
   },
-
-
-  // watch: {
-  //   $route: {
-  //     handler: function(val, oldVal){
-  //       console.log(val);
-  //       // if(val)
-  //     },
-  //     // 深度观察监听
-  //     deep: true
-  //   }
-  //   //  pagenum:function(addd,oldd){
-  //   //    console.log(addd,oldd);
-  //   //  }
-  // },
   methods: {
     childtodad(data){
-      this.$emit("passtoparent");
+      // this.$emit("passtoparent");
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.currentPag = val;
+      // this.currentpages = val;
       var obj = {};
       obj.pagesize = this.pagesizes;
       obj.currentpage = val;
+      // let query=Object.assign({},this.$route.query,obj)
+      // this.$router.push({query})
+      // console.log(query1)
       this.$emit("fromchildren", obj);
     }
   }

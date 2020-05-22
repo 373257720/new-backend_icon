@@ -57,14 +57,18 @@ export default new Vuex.Store({
     submit_formdata_mutation(state, obj) {
       if (obj) {
         state.formobj = obj
-        //    state.isLogin = true
       } else if (user == null) {
-
       }
+    },
+    reset_mutation(state, usertype) {
+      Object.assign(state, usertype)
     },
 
   },
   actions: {
+    reset_actions(context,obj) {
+      context.commit('reset_mutation',obj)
+    },
     submit_formdata_action(context, obj) {
       context.commit('submit_formdata_mutation', obj)
     },

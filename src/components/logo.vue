@@ -1,8 +1,9 @@
 <template>
   <div @click="$routerto('home')" id="logo">
     <div class="logo con">
-        <header><img src="../../static/home.png" alt=""></header>
-        <p>WELCOME TO ATM BACKEND ADMIN SYSTEM</p>
+        <header><img src="../../static/logo.png" alt=""></header>
+        <nav>CRYPTOGO</nav>
+        <p>WELCOME TO CRYPTOGO BACKEND ADMIN SYSTEM</p>
     </div>
   </div>
 </template>
@@ -11,14 +12,43 @@ export default {
   name: "logo",
   data() {
     return {
+      timer:null,
     };
   },
-  created() {},
+  created() {
+   this.timer= setTimeout(()=>{
+      this.$routerto('home');
+    },3000)
+  },
+  beforeDestroy(){
+    clearTimeout(this.timer);
+  },
   methods: {
+
   }
 };
 </script>
 <style lang='scss'>
+  @keyframes LogoRotate
+  {
+    /*1% {*/
+    /*  -webkit-transform: rotateY(1deg);*/
+    /*  -ms-transform: rotateY(1deg);*/
+    /*  transform: rotateY(1deg);*/
+    /*}*/
+
+    25%{
+
+      -webkit-transform: rotateY( 0deg);
+      -ms-transform:rotateY( 0deg);
+      transform: rotateY(0deg);
+    }
+    100%{
+      -webkit-transform: rotateY( -360deg);
+      -ms-transform:rotateY( -360deg);
+      transform: rotateY(360deg);
+    }
+  }
 #logo {
   .logo {
     text-align: center;
@@ -40,9 +70,11 @@ export default {
 <style lang='scss' scoped>
 #logo {
   position: relative;
-  top: 50px;
-  cursor: pointer;
-  height: calc(100% - 50px);
+  height: 100%;
+  width: 100%;
+  /*top: 50px;*/
+  /*cursor: pointer;*/
+  /*height: calc(100% - 50px);*/
 }
 .logo {
   width: 830px;
@@ -51,12 +83,39 @@ export default {
   text-align: center;
   position: absolute;
   left: 50%;
-  top: 188px;
-  transform: translate(-50%, 0);
+  top:50%;
+  /*top: 188px;*/
+  transform: translate(-50%, -50%);
   overflow: hidden;
+  img{
+    width: 275px;
+    height: 275px;
+  }
+  nav{
+    color: #919191;
+    // line-height: 40px;
+    font-size: 46px;
+    font-weight: 600;
+    margin-bottom: 36px;
 
+    font-family: Facto,Facto-Regular,Facto-Light,Microsoft YaHei,'微软雅黑',Hiragino Sans GB,'冬青黑体简体中文',WenQuanYi Micro Hei,sans-serif;
+  }
   header{
-      margin-bottom: 36px;
+    img{
+      -webkit-animation-name: LogoRotate;
+      animation-name: LogoRotate;
+      animation-delay:1s;
+      -webkit-animation-delay:1s;
+      -webkit-animation-duration: 1.8s;
+      animation-duration:1.8s;
+      transition: transform 1.8s;
+      -webkit-animation-timing-function:ease;
+      animation-timing-function: ease;
+      -webkit-animation-iteration-count: infinite;
+      animation-iteration-count: infinite;
+      -webkit-animation-fill-mode:forwards;
+      animation-fill-mode: forwards;
+    }
   }
   p {
     color: #919191;
@@ -66,5 +125,53 @@ export default {
   }
 
 }
-</style>
+@media (max-width: 768px){
+  .logo {
+    width: 830px;
+    //   height: 345px;
+    //   background:  #f36d6c;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    /*top: 188px;*/
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    img{
+      width: 245px;
+      height: 245px;
+    }
+    nav{
+      color: #919191;
+      // line-height: 40px;
+      font-size: 40px;
+      font-weight: 600;
+      margin-bottom: 36px;
 
+      font-family: Facto,Facto-Regular,Facto-Light,Microsoft YaHei,'微软雅黑',Hiragino Sans GB,'冬青黑体简体中文',WenQuanYi Micro Hei,sans-serif;
+    }
+    header{
+      img{
+        -webkit-animation-name: LogoRotate;
+        animation-name: LogoRotate;
+        -webkit-animation-duration: 1.8s;
+        animation-duration:1.8s;
+        transition: transform 1.8s;
+        -webkit-animation-timing-function:ease;
+        animation-timing-function: ease;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        -webkit-animation-fill-mode:forwards;
+        animation-fill-mode: forwards;
+      }
+    }
+    p {
+      color: #919191;
+      // line-height: 40px;
+      font-size: 26px;
+      // height: 40px;
+    }
+
+  }
+}
+</style>

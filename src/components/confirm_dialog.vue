@@ -1,7 +1,7 @@
 <template>
   <div id="confirm_dialog">
     <el-dialog
-      :visible="remindervisible"
+      :visible="remindervisible1"
       width="30%"
       :modal="false"
       :before-close="handleClose"
@@ -9,8 +9,8 @@
       <span slot="title" class="dialog-footer">Reminder</span>
       <p class="thick">{{msg}}</p>
       <span slot="footer" class="dialog-footer">
-        <button >Cancel</button>
-        <button @click="handleClose">Ok</button>
+        <button  @click="handleClose">Cancel</button>
+        <button @click="handledele">Yes</button>
     </span>
     </el-dialog>
   </div>
@@ -18,7 +18,7 @@
 </template>
 <script>
   export default {
-    props:['remindervisible','msg'],
+    props:['remindervisible1','msg'],
     data() {
       return {
         // message:'kjsjlkdsjkldsjfkldsjfklsdjfskljf',
@@ -28,8 +28,13 @@
     },
     methods: {
       handleClose(done) {
-        this.$emit("tell_delete", false)
-        // done();
+        this.$emit("update:remindervisible1", false)
+        // this.$emit("tell_delete", false)
+
+      },
+      handledele(){
+        this.$emit("todad");
+        this.$emit("update:remindervisible1", false);
       }
     },
   };
@@ -70,6 +75,11 @@
           text-align: center;
           /*margin-right: 20px;*/
         }
+        button:nth-of-type(2){
+             background: #2ABEE2;
+             border: 1px solid #2ABEE2;
+             color:white;
+        }
 
       }
     }
@@ -77,4 +87,3 @@
 
 
 </style>
-

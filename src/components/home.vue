@@ -25,8 +25,8 @@
               <i><img :src="color_icon.user" alt=""></i>
               <span :class="{textisactive:text.user}">USER</span>
             </template>
-              <el-menu-item   @click="routerto('/home/user/atm_support')" index="atm_support">ATM Technical Support</el-menu-item>
-              <el-menu-item  @click="routerto('/home/user/customer_data')" index="customer_data">Customer Data</el-menu-item>
+              <el-menu-item   @click="routerto('/home/user/atm_support')" index="atm_support">TECHNICAL SUPPORT</el-menu-item>
+              <el-menu-item  @click="routerto('/home/user/customer_data')" index="customer_data">CUSTOMER DATA</el-menu-item>
           </el-submenu>
           <el-submenu  :class="{bgisactive:text.machines}" @mouseenter.native="changeImageSrc('machines', 'hover')"
                        @mouseleave.native="changeImageSrc('machines', 'leave')" index="machines" >
@@ -57,10 +57,10 @@
               <span slot="title">CRYTOCURRENCY</span>
             </el-menu-item>
           </el-submenu>
-          <el-menu-item @mouseenter.native="changeImageSrc('compliance', 'hover')"   @mouseleave.native="changeImageSrc('compliance', 'leave')" :class="{bgisactive:text.compliance}" index="compliance"  @click="routerto('/home/compliance')">
-            <i><img :src="color_icon.compliance" alt=""></i>
-            <span slot="title"  :class="{textisactive:text.compliance}">COMPLIANCE</span>
-          </el-menu-item>
+<!--          <el-menu-item @mouseenter.native="changeImageSrc('compliance', 'hover')"   @mouseleave.native="changeImageSrc('compliance', 'leave')" :class="{bgisactive:text.compliance}" index="compliance"  @click="routerto('/home/compliance')">-->
+<!--            <i><img :src="color_icon.compliance" alt=""></i>-->
+<!--            <span slot="title"  :class="{textisactive:text.compliance}">COMPLIANCE</span>-->
+<!--          </el-menu-item>-->
           <el-menu-item @mouseenter.native="changeImageSrc('setting', 'hover')"   @mouseleave.native="changeImageSrc('setting', 'leave')":class="{bgisactive:text.setting}" index="setting"   @click="routerto('/home/setting')">
             <i><img :src="color_icon.setting" alt=""></i>
             <span slot="title"  :class="{textisactive:text.setting}">SETTING</span>
@@ -102,8 +102,10 @@
             </el-dropdown>
           </div>
       </div>
-      <div class="maincontent">
-        <router-view></router-view>
+      <div class="layer" v-loading="Loading">
+        <div class="maincontent" >
+          <router-view></router-view>
+        </div>
       </div>
     </div>
 
@@ -116,6 +118,8 @@ export default {
   data() {
     return {
       levelList: null,
+      Loading:false,
+      LoadingCount:0,
       text:{
         dashboard:false,
         user:false,
@@ -177,18 +181,18 @@ export default {
         audit_log:'./static/audit2.png',
       },
       activeName: "",
-      isActive:{
-        '1':false,
-        '2':false,
-        '3':false,
-        '4':false,
-      },
+      // isActive:{
+      //   '1':false,
+      //   '2':false,
+      //   '3':false,
+      //   '4':false,
+      // },
 
     };
   },
   created() {
     let href = window.location.href;
-    console.log(href.split("#")[1])
+    // console.log(href.split("#")[1])
     let path =  href.split("#")[1].substr(1).split('/');
     if(path[1]=='user' || path[1]=='machines' || path[1]=='report'){
       this.activeName = path[2];
@@ -198,15 +202,53 @@ export default {
     }
     this.text[path[1]]=true;
     this.color_icon[path[1]]=this.new_icon[path[1]];
+
+    let self = this;
+    this.$axios.interceptors.request.use(
+      (config) =>{
+        self.addLoading();
+        return config;
+      },
+      function(error) {
+        // 对请求错误做些什么
+        self.Loading = false;
+        self.LoadingCount = 0;
+        return Promise.reject(error);
+      }
+    );
+    this.$axios.interceptors.response.use(
+      res => {
+        self.isCloseLoading();
+        if (res.data) {
+          // let code = res.data.resultCode;
+          return res;
+        }
+      },
+      error => {
+        self.Loading = false;
+        self.LoadingCount = 0;
+        return Promise.reject(error);
+      }
+    );
   },
 
   mounted() {
+
     // this.getBreadcrumb();
     // document.querySelector('.maincontent')
     // console.log(document.querySelector('.maincontent'));
   },
   methods: {
-
+    addLoading() {
+      this.Loading = true;
+      this.LoadingCount++;
+    },
+    isCloseLoading() {
+      this.LoadingCount--;
+      if (this.LoadingCount == 0) {
+        this.Loading = false;
+      }
+    },
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then(_ => {
@@ -220,31 +262,22 @@ export default {
       } else if (command == "account") {
         this.$routerto("account");
       } else if (command == "login") {
-        this.$routerto("login");
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.back_user/logout`)
+          .then(res=>{
+            if(res.data.ret==0){
+              window.sessionStorage.clear();
+              this.$store.dispatch("reset_actions",this.$restore_obj)
+              this.$routerto("login");
+            }else if(res.data.ret>999){
+              window.sessionStorage.clear();
+              this.$store.dispatch("reset_actions",this.$restore_obj)
+              this.$routerto("login");
+            }
+          })
       }
     },
-    handleCommandlang(command) {
-      // this.$axios({
-      //   method: "get",
-      //   url: `${this.$baseurl}/bsl_admin_web/base/language.do?lan=${command}`,
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded"
-      //   }
-      // })
-      this.$global.get_encapsulation( `${this.$baseurl}/bsl_admin_web/base/language.do`,{
-        lan:command
-      })
-        .then(res => {
-          if (command == "en_US") {
-            this.language = "ENGLISH";
-          } else if (command == "zh_CN") this.language = "中文";
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    changeImageSrc (key, way) {
 
+    changeImageSrc (key, way) {
       if(this.activeName===key){
         return false;
       }else if(key==='user' && (this.activeName==='atm_support' || this.activeName==='customer_data')){
@@ -338,7 +371,8 @@ export default {
 
   watch: {
     $route(index) {
-      console.log(index.path)
+      // console.log(index.path)
+      this.Loading = false;
       let path = index.path.substr(1).split('/');
       for(let key in  this.color_icon ){
         if(this.original_icon.hasOwnProperty(key)){
@@ -346,7 +380,6 @@ export default {
           this.text[key]=false;
         }
       }
-      // console.log(path)
       this.color_icon[path[1]]=this.new_icon[path[1]];
       this.text[path[1]]=true;
       if(path[1]=='user' || path[1]=='machines' || path[1]=='report'){
@@ -362,10 +395,14 @@ export default {
 
 <style lang='scss'>
 
-
+  .el-loading-mask{
+    /*width: 100%;*/
+    /*height: 100%;*/
+  }
   .bgisactive{
     background-color: #ecf5ff;
     /*color: #2AB4E5;*/
+
   }
   .el-table .cell{
     word-break: initial;
@@ -377,7 +414,7 @@ export default {
     background-color: #ecf5ff;
   }
 .textisactive{
-
+  /*font-weight: bold;*/
   color: #2AB4E5;
 }
 .fl-aside {
@@ -394,8 +431,10 @@ export default {
     .el-submenu__title,.el-menu-item{
       /*color:#606266;*/
       /*#b6b6b6;*/
+      font-weight: bold;
       font-size: 14px;
       display: flex;
+     color:#777777;
       i{
         /*align-items: center;*/
         display: flex;
@@ -473,7 +512,12 @@ export default {
     box-sizing: border-box;
     .is-active{
       margin:0;
+
+
     }
+    /*.el-menu-item.is-active{*/
+    /*  font-weight: bold;*/
+    /*}*/
     border-right: 1px solid #d3d3d3;
     width: 252px;
     .left_body{
@@ -530,11 +574,15 @@ export default {
         }
       }
   }
-
+.layer{
+  height: calc(100% - 50px);
+  /*width: 100%;*/
+}
     .maincontent {
     /*flex:1;*/
     box-sizing: border-box;
       /*padding-top: 60px;*/
+      /* overflow-x: hidden; */
     overflow-y: scroll;
     /*top: 50px;*/
     /*left: 250px;*/
@@ -542,7 +590,7 @@ export default {
     /*width: 100%;*/
     /*height: 100%;*/
     /*width: calc(100% - 250px);**/
-    height: calc(100% - 50px);
+    height: 100%;
   }
 }
 

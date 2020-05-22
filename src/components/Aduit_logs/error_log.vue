@@ -13,23 +13,28 @@
 <!--        <section @click="alledit(2)">Export</section>-->
       </div>
       <div class="nav_right">
-        <span class="keyword" >Time:</span>
-        <el-date-picker
-          v-model="timerange"
-          type="daterange"
-          range-separator="to"
-          value-format="yyyy-MM-dd"
-          start-placeholder="Start"
-          end-placeholder="End"
-        >
-        </el-date-picker>
-        <span class="keyword">Keyword:</span>
-        <el-input
-          placeholder="Machine Name"
-          v-model="keyword"
-          clearable>
-        </el-input>
-        <i @click="searcher"  class="el-icon-search"></i>
+        <div>
+          <span class="keyword" >Time:</span>
+          <el-date-picker
+            v-model="timerange"
+            type="daterange"
+            range-separator="to"
+            value-format="yyyy-MM-dd"
+            start-placeholder="Start"
+            end-placeholder="End"
+          >
+          </el-date-picker>
+        </div>
+        <div>
+          <span class="keyword">Keyword:</span>
+          <el-input
+            placeholder="Machine Name"
+            v-model="keyword"
+            clearable>
+          </el-input>
+          <i @click="searcher"  class="el-icon-search"></i>
+        </div>
+
       </div>
 
     </nav>
@@ -325,6 +330,9 @@
       }
       div.nav_right{
         display: flex;
+        >div{
+          display: flex;
+        }
         i.el-icon-search{
           height: 40px;
           /*width: 40px;*/
@@ -340,21 +348,40 @@
           text-align: center;
           margin: 0 20px;
         }
-        div{
-          flex:1;
-        }
+        /*div{*/
+        /*  flex:1;*/
+        /*}*/
       }
+
+    }
+    @media (max-width: 1024px){
+      nav{
+        padding: 0;
+        div.nav_right{
+          flex-wrap: wrap;
+          div.el-date-editor--daterange{
+            width: 250px;
+            flex: initial;
+          }
+          div.el-input--suffix{
+            width: 150px;
+            flex: initial;
+          }
+          div:nth-of-type(2){
+            margin-top: 10px;
+          }
+        }
+
+      }
+    }
+    @media (max-width: 768px){
 
     }
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
-      /*margin-top: 60px;*/
-      /*width: 100%;*/
-      /*  padding: 0;*/
-      /*  border: 1px solid #EBEEF5;*/
 
     }
   }

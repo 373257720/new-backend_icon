@@ -181,7 +181,6 @@
         bottom:20px;
         /*font-weight: 550;*/
       }
-
     }
     .el-form--label-top .el-form-item__label{
       padding: 0;

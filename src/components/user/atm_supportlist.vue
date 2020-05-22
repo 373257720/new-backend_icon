@@ -1,6 +1,6 @@
 <template>
-  <div class="customer_data">
-    <header><h2>Atm Technical Support</h2></header>
+  <div class="atm_supportlist">
+    <header><h2>Technical Support</h2></header>
     <nav>
       <div>
         <section @click="$routerto('account_setting',{type:1})">Add</section>
@@ -25,7 +25,6 @@
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
-
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -44,28 +43,28 @@
           prop="username"
           align="center"
           label="Account"
-          width="100"
+          width="150"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="nickname"
           align="center"
           label="Nickname"
-          width="100"
+          width="150"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="status_lable"
           align="center"
           label="State"
-          width="100"
+          width="150"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="email"
           align="center"
           label="Email"
-          width="200"
+          width="250"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -82,7 +81,7 @@
           width="200"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
+        <el-table-column  width="200" fixed="right" align="center" label="Operation"  class-name="edit" >
           <template slot-scope="scope">
             <span class="left"  @click="handleEdit(scope.$index, scope.row)">{{scope.row.status==1?'Disable':scope.row.status==2?'Enable':'Disable'}}</span>
             <span  @click="handleDelete(scope.$index, scope.row)">Edit</span>
@@ -90,7 +89,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-<!--    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>-->
+    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"
@@ -118,8 +117,14 @@
         multipleSelection: []
       };
     },
+
     created() {
-      this.changepage(this.currentpage, this.pagesize);
+        this.changepage(this.currentpage, this.pagesize);
+    },
+    activated(){
+        if(this.$route.params.editSuccess){
+          this.changepage(this.currentpage, this.pagesize);
+        }
     },
     methods: {
       searcher(){
@@ -135,7 +140,7 @@
             atm_user_id: userid_arr,
             status:num,
           }).then(res => {
-            this.msg=res.data.msg;
+            // this.msg=res.data.msg;
             // this.remindervisible=true;
             this.$message(res.data.msg);
             if(res.data.ret==0){
@@ -143,8 +148,13 @@
             }
           });
         }else{
-          this.msg="Please select"
-          this.remindervisible=true;
+           // this.$message("Please select");
+           this.$message({
+             message: "Please select",
+             type: 'warning'
+           });
+          // this.msg="Please select"
+          // this.remindervisible=true;
         }
 
       },
@@ -165,7 +175,7 @@
           if(res.data.ret==0){
             if(row.status==1){
               this.tableData[index].status=2;
-              this.tableData[index].status_lable='Banned';
+              this.tableData[index].status_lable='Ban';
             }else if(row.status==2){
               this.tableData[index].status=1;
               this.tableData[index].status_lable='Normal';
@@ -186,7 +196,9 @@
       },
       tabRowClassName({row,rowIndex}){
         let index = rowIndex;
-        if(index %2 == 0){
+        if(row.status==2){
+            return 'ban-row'
+        }else if(index %2 == 0){
           return 'warning-row'
         }
       },
@@ -203,23 +215,6 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        // this.$axios
-        //   .get(
-        //     `${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
-        //     { params:{
-        //         token: this.$store.state.token,
-        //         page: currentpage,
-        //         size:pagesize,
-        //         keyword:keyword,
-        //         lang:'en-us'
-        //       }
-        //     },
-        //     {
-        //       headers: {
-        //         "Content-Type": "application/x-www-form-urlencoded"
-        //       }
-        //     }
-        //   )
         this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
          {  page: currentpage,
            size:pagesize,
@@ -227,12 +222,11 @@
            lang:'en-us'}
         )
           .then(res => {
-
             if(res.data.ret==0){
               this.pagetotal=res.data.data.total;
               this.tableData=[...res.data.data.data];
               this.tableData.forEach(item=>{
-                item.status_lable=item.status==1?'Normal':"Banned"
+                item.status_lable=item.status==1?'Normal':"Ban"
                 item.create_time=this.$global.timestampToTime(item.create_time)
               })
               // console.log(this.tableData)
@@ -260,9 +254,11 @@
   /*.el-icon-info:before{*/
   /*  content: "\e79c";*/
   /*}*/
-  .customer_data{
+  .atm_supportlist{
     padding :0 50px 50px 50px;
-
+    .el-table__body tr.hover-row >td{
+      background-color:#dcdfe6;
+    }
     header{
       position: relative;
       height: 80px;
@@ -284,9 +280,13 @@
       /*background: red;*/
       /*border-color: red;*/
     }
-
+    .el-table .ban-row{
+      /*background:#EDF1F4;*/
+      /*opacity: 0.5;*/
+      background: #dcdfe6;
+    }
     .el-table .warning-row{
-      background:#EDF1F4;
+      /*background:#EDF1F4;*/
     }
     .el-table_1_column_8  .el-button{
       color: #2ABEE2;
@@ -316,6 +316,7 @@
     }
     nav{
       display: flex;
+
       margin: 20px 0 0 0 ;
       justify-content: space-between;
       padding: 0 50px 0 20px;
@@ -355,16 +356,41 @@
         }
       }
     }
+    @media (max-width: 1024px){
+      nav{
+        padding:0px;
+        >div{
+          section{
+            width: 80px;
+            margin-right: 10px;
+          }
+        }
+      }
+
+    }
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
       /*margin-top: 60px;*/
       /*width: 100%;*/
       /*  padding: 0;*/
       /*  border: 1px solid #EBEEF5;*/
 
+    }
+  }
+  @media (max-width: 768px){
+    .atm_supportlist{
+      padding :0 30px 30px 30px;
+      nav{
+        flex-wrap: wrap;
+        margin: 20px 0 0 0 ;
+        padding:0;
+       div:nth-of-type(2){
+         margin-top: 10px;
+       }
+      }
     }
   }
 </style>

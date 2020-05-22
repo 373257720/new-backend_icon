@@ -28,8 +28,8 @@
         </el-form-item>
         <el-form-item label="State" prop="status">
           <template>
-            <el-radio  v-model="ruleForm.status" label="1">Enable</el-radio>
-            <el-radio v-model="ruleForm.status" label="2">Disable</el-radio>
+            <el-radio  v-model="ruleForm.status" :label="1">Enable</el-radio>
+            <el-radio v-model="ruleForm.status" :label="2">Disable</el-radio>
           </template>
         </el-form-item>
 <!--        <el-form-item>-->
@@ -37,16 +37,13 @@
 <!--          <el-button @click="resetForm('ruleForm')">重置</el-button>-->
 <!--        </el-form-item>-->
 
-
       </el-form>
       <section>
         <button @click="$routerto('atm_support')">Cancel</button>
         <button  @click="submitForm('ruleForm')">Save Change</button>
-
-
       </section>
     </main>
-
+    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
   </div>
 </template>
 
@@ -74,6 +71,9 @@ export default {
     };
     return {
       title:'',
+      msg:'',
+      remindervisible:false,
+      successto:'',
       ruleForm: {
         username:'',
         password: '',
@@ -81,7 +81,7 @@ export default {
         nickname: '',
         email:'',
         mobile:'',
-        status:"1",
+        status:1,
       },
       rules: {
         username: [
@@ -117,7 +117,6 @@ export default {
     this.ruleForm.token=this.$store.state.token;
     if(this.$route.query.type==1){
         this.title='Add';
-
     }else if(this.$route.query.type==2){
       this.title='Edit';
       this.ruleForm.atm_user_id=this.$route.query.atm_user_id;
@@ -127,15 +126,6 @@ export default {
   },
   methods: {
     getdata(){
-      // this.$axios({
-      //   method: 'get',
-      //   url: `${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,
-      //   params: {
-      //     token:this.$store.state.token,
-      //     atm_user_id:this.$route.query.atm_user_id,
-      //   },
-      // })
-
       this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,{
         atm_user_id:this.$route.query.atm_user_id
       })
@@ -143,15 +133,10 @@ export default {
         if(res.data.ret==0){
           console.log(res)
         for( let key in res.data.data){
-
           if(this.ruleForm.hasOwnProperty(key)){
             this.ruleForm[key]=res.data.data[key];
           }
         }
-
-
-          // if(this.ruleForm.hasOwnProperty())
-          // this.$routerto('atm_support');
         }
       });
     },
@@ -167,40 +152,26 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.$route.query.type==1){
-            // this.$axios({
-            //   method: 'post',
-            //   url: `${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
-            //   data: this.ruleForm,
-            // })
             this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
               this.ruleForm,
             )
               .then(res => {
-              if(res.data.ret==0){
-                this.$message({
-                  message: res.data.msg,
-                  type: 'success'
-                });
-                this.$routerto('atm_support');
+              if(res.data.ret===0){
+                this.successto='atm_supportlist';
               }
+                this.msg=res.data.msg;
+                this.remindervisible=true;
             });
           }else if(this.$route.query.type==2){
-            // this.$axios({
-            //   method: 'post',
-            //   url: `${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
-            //   data: this.ruleForm,
-            // })
             this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
               this.ruleForm,
             )
               .then(res => {
-              if(res.data.ret==0){
-                this.$message({
-                  message: res.data.msg,
-                  type: 'success'
-                });
-                this.$routerto('atm_support');
-              }
+                if(res.data.ret===0){
+                  this.successto='atm_supportlist';
+                }
+                this.msg=res.data.msg;
+                this.remindervisible=true;
             });
           }
 
@@ -223,6 +194,43 @@ export default {
   .account_setting{
     margin :0 0 0 50px;
     width: 90%;
+    .el-radio__input.is-checked .el-radio__inner{
+      border-color:#2ABEE2;
+      background: #2ABEE2;
+
+    }
+    .el-radio__inner:hover{
+      border-color:#2ABEE2;
+    }
+    .el-radio__input.is-checked+.el-radio__label{
+      color:#2ABEE2;
+    }
+    .el-radio__input.is-checked .el-radio__inner::after{
+      transform: rotate(45deg) scaleY(1);
+    }
+    .el-radio__inner::after{
+      box-sizing: content-box;
+      content: "";
+      background: none;
+      border: 2px solid #FFF;
+      border-left: 0;
+      border-top: 0;
+      height: 7px;
+      left: 4px;
+      position: absolute;
+      top: 1px;
+      border-radius: 0;
+      /*!*-webkit-transform: rotate(45deg) scaleY(0);*!*/
+      /*!*transform: rotate(45deg) scaleY(0);*!*/
+      width: 3px;
+      /*-webkit-transition: -webkit-transform .15s ease-in .05s;*/
+      /*transition: -webkit-transform .15s ease-in .05s;*/
+      /*transition: transform .15s ease-in .05s;*/
+      /*transition: transform .15s ease-in .05s, -webkit-transform .15s ease-in .05s;*/
+      /*transition: transform .15s ease-in .05s,-webkit-transform .15s ease-in .05s;*/
+      /*-webkit-transform-origin: center;*/
+      /*transform-origin: center;*/
+    }
     header{
       position: relative;
       height: 80px;

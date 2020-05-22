@@ -4,7 +4,7 @@
       <h2>
         <img src="../../static/sign.png" alt />
       </h2>
-      <p>{{remind}}</p>
+      <p :class="{'reminder':reminder}">{{remind}}</p>
       <div class="username">
         <el-input placeholder="Email Account" v-model="username" clearable>
           <i slot="prefix" class="icon-user"></i>
@@ -35,40 +35,33 @@ export default {
       password: "",
       remind: "",
       code:'',
-      loading: false
+      loading: false,
+      reminder:false,
     };
   },
   created() {},
   methods: {
     getcode(){
+      this.remind = "";
       this.loading=true;
+      this.reminder=false;
       this.$global.post_encapsulation(`${this.$baseurl}/admin_api/common.common/sendEmailCode`,{
         email:this.username,
         type:'login',
       }).then(res=>{
         this.loading=false;
+        if(res.data.ret==0){
+          this.reminder=true;
+        }
         this.remind=res.data.msg;
-
         // console.log(res)
       })
     },
     login() {
       this.remind = "";
+      this.loading=true;
+      this.reminder=false;
       if (this.username) {
-        // this.$axios
-        //   .post(
-        //     `${this.$baseurl}/admin_api/user.back_user/login`,
-        //     this.$qs.stringify({
-        //       username: this.username,
-        //       password: this.password,
-        //       verify:this.code,
-        //     }),
-        //     {
-        //       headers: {
-        //         "Content-Type": "application/x-www-form-urlencoded"
-        //       }
-        //     }
-        //   )
           this.$global.post_encapsulation( `${this.$baseurl}/admin_api/user.back_user/login`,{
             username: this.username,
             password: this.password,
@@ -78,6 +71,8 @@ export default {
             this.loading = false;
             var rescode = res.data.ret;
             if (rescode == 0) {
+              window.sessionStorage.clear();
+              this.$store.dispatch("reset_actions", this.$restore_obj);
               this.$store.dispatch("setUser",res.data.data.nickname);
               this.$store.dispatch("settoken_action",res.data.data.token);
               this.$routerto("logo");
@@ -96,6 +91,9 @@ export default {
 };
 </script>
 <style lang='scss'>
+  .el-loading-mask{
+    opacity: 0.5;
+  }
 #login {
   .login {
     text-align: center;
@@ -117,8 +115,10 @@ export default {
 <style lang='scss' scoped>
 #login {
   position: relative;
-  top: 50px;
-  height: calc(100% - 50px);
+  height: 100%;
+  width: 100%;
+  /*top: 50px;*/
+  /*height: calc(100% - 50px);*/
 }
 .login {
   width: 890px;
@@ -132,8 +132,12 @@ export default {
   overflow: hidden;
   p {
     color: #f36d6c;
+
     line-height: 40px;
     height: 40px;
+  }
+  .reminder{
+    color: #2ab4e5;
   }
   h2 {
     margin: 62px 0 18px 0;
@@ -165,10 +169,10 @@ export default {
     // margin-top:35px;
     font-size: 18px;
     color: white;
-    // font-weight: 700;
+     font-weight: 500;
     cursor: pointer;
     // color:
+
   }
 }
 </style>
-

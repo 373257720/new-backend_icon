@@ -40,7 +40,50 @@ export default {
   }
 };
 </script>
-
+<style>
+.el-message-box{
+	border-radius: 5px;
+}
+.el-button--primary {
+    color: #FFF;
+    background-color: #2ABEE2;
+    border-color: #2ABEE2;
+}
+.el-button--primary:hover{
+  background-color: #2ABEE2;
+  border-color: #2ABEE2;
+}
+.el-message-box__header{
+         background: #EDF1F4;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: left;
+    height: 50px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    position: relative;
+}
+.el-message-box__title{
+  line-height: 30px;
+}
+.el-date-editor .el-range-separator{
+  color:#777777;
+}
+.el-table thead {
+  /*color: #909399;*/
+  color:#777777;
+  /*font-weight: 500;*/
+}
+.el-table__fixed-right::before{
+  /* height: 0; */
+      /* background-color:initial; */
+}
+.el-table--border {
+/*   border-right: 2px;
+    border-bottom: 2px; */
+}
+</style>
 <style lang='scss' scoped>
   .el-dropdown-menu__item{
     i{

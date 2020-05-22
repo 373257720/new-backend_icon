@@ -1,20 +1,21 @@
 <template>
   <div class="add_fifth">
     <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="Need to register: (Everyone need to register an account in CryptoGo to buy/sell cryptocurrency)" prop="name">
+      <el-form-item label="Need to register:  (Everyone need to register an account in CryptoGo to buy/sell cryptocurrency)" prop="name">
         <el-radio-group v-model="ruleForm.is_register">
           <el-radio :label="1">Yes</el-radio>
           <el-radio :label="2">No</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Know your customer authentication:" prop="name">
+      <el-form-item label="Know your customer authentication:">
         <el-radio-group v-model="ruleForm.is_money_range">
-          <el-radio :label="'1'">Yes</el-radio>
-          <el-radio :label="'2'">No</el-radio>
+          <el-radio :label="1">Yes</el-radio>
+          <el-radio :label="2">No</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-show="ruleForm.is_money_range==1" >
-        <span>Currency range:</span><i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
+        <span style="color: #606266;">Currency range:</span><span style="color: #606266;">(Fill in the minimum in the front and the maximum in the back)
+        </span><i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
         <div class="Currencyrange">
           <div class="additem" v-for="(item,index) in arr" :key="index">
               <el-input   v-model="item.money_range_minimum" @input="minimum(item, index)"></el-input>
@@ -43,7 +44,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-button @click="deleteitem(index)" type="primary" icon="el-icon-delete"></el-button>
+            <el-button v-show="arr.length>1" @click="deleteitem(index)" type="primary" icon="el-icon-delete"></el-button>
           </div>
         </div>
       </el-form-item>
@@ -168,7 +169,7 @@
           money_range_identify3:[],
           is_redeem_coin:'',
           is_redeem_money:'',
-          is_money_range:'',
+          is_money_range:null,
           is_coupon :'',
           language_name:[],
           'language_sort_zh-cn':null,
@@ -187,30 +188,22 @@
       }
     },
     mounted() {
-      // if(this.$route.query.type==3){
-      //   // console.log(this.tochind)
-      //   for(let i in this.ruleForm){
-      //     if(this.tochind.hasOwnProperty(i)){
-      //       this.ruleForm[i]=this.tochind[i]
-      //       // console.log(this.tochind)
-      //     }
-      //   }
-      // }
+
     },
     created() {
 
-      this.ruleForm.is_register=this.MachineInfo.is_register;
+      this.ruleForm.is_register=this.MachineInfo.is_register ||this.ruleForm.is_register;
       this.ruleForm.is_redeem_coin=this.MachineInfo.is_redeem_coin;
       this.ruleForm.is_redeem_money=this.MachineInfo.is_redeem_money;
       this.ruleForm.is_coupon=this.MachineInfo.is_coupon;
-      this.ruleForm.is_money_range=this.MachineInfo.money_range.is_money_range;
+      this.ruleForm.is_money_range=(this.MachineInfo.money_range.is_money_range)*1||2;
       if(this.ruleForm.is_money_range==1){
         this.arr=[...this.MachineInfo.money_range.data];
         this.arr.forEach(item=>{
           item.money_range_minimum=item.money_range_minimum?parseInt(item.money_range_minimum.toString().replace(/,/ig,'')).toLocaleString():'';
           item.money_range_maximum=item.money_range_maximum?parseInt(item.money_range_maximum.toString().replace(/,/ig,'')).toLocaleString():'';
         })
-      } 
+      }
       this.MachineInfo.language.forEach(item=>{
         this.ruleForm.language_name.push(item.name)
         this.ruleForm[`language_sort_${item.name}`]=item.sort*1;
@@ -225,6 +218,7 @@
               item.money_range_minimum='';  //防止不是数字是input出现NaN提示
               return false;
             }
+        console.log(value)
             item.money_range_minimum= value.toLocaleString()
             // if(parseFloat(newvalue_.replace(/,/ig,''))>1000000000000){
             //   item.money_range_minimum=oldvalue;
@@ -283,10 +277,15 @@
             "Content-Type": "application/x-www-form-urlencoded"
           }
         }).then(res=>{
-          if(res.data.ret==0){
-            this.$emit('getchildren');
+          // console.log('back')
+          if(res.data.ret===0){
+            // this.$emit('getchildren');
             this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
-          }else{
+          }
+        // else if(res.data.ret>999 ){
+        //     return
+        //   }
+          else{
             this.msg=res.data.msg;
             this.remindervisible=true;
           }
@@ -300,6 +299,7 @@
   .addsymbol{
     /*display: inline-block;*/
     cursor: pointer;
+    color: #777777;
     vertical-align: middle;
     font-size: 15px;
   }
@@ -317,11 +317,15 @@
     font-size: 12px;
   }
   .add_fifth{
+    .el-form-item__label{
+      line-height:30px;
+    }
      .el-checkbox__input.is-checked .el-checkbox__inner,
     .el-checkbox__input.is-indeterminate .el-checkbox__inner{
       background:#2ABEE2;
       border-radius: 50%;
       border-color: #2ABEE2;
+
     }
     .el-checkbox__input.is-checked+.el-checkbox__label{
       color: #2AB4E2;

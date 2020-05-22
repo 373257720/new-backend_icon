@@ -3,7 +3,8 @@
     <header><h2>Wallet</h2></header>
     <nav>
     </nav>
-    <el-main v-loading="pictLoading">
+<!--    v-loading="pictLoading"-->
+    <el-main >
       <el-table
         :row-class-name="tabRowClassName"
         border
@@ -63,7 +64,7 @@
             <span>{{ scope.row.api_parameter?JSON.parse(scope.row.api_parameter).key+','+JSON.parse(scope.row.api_parameter).secret:'-'}}</span>
           </template>
         </el-table-column>
-        <el-table-column  align="center" label="Operation"  class-name="edit" width="200">
+        <el-table-column  fixed="right" align="center" label="Operation"  class-name="edit" min-width="200">
           <template slot-scope="scope">
             <span  @click="handleedit(scope.$index, scope.row)">Edit</span>
           </template>
@@ -97,9 +98,12 @@
       };
     },
     created() {
-      this.changepage(this.currentpage, this.pagesize);
-
-
+          this.changepage(this.currentpage, this.pagesize);
+    },
+    activated() {
+        if(this.$route.params.editSuccess){
+          this.changepage(this.currentpage, this.pagesize);
+        }
     },
     methods: {
       handleedit(index, row) {
@@ -240,7 +244,7 @@
       /*height: 100%;*/
       /*width: 100%;*/
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
       /*margin-top: 60px;*/
       /*width: 100%;*/

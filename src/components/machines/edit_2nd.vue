@@ -1,6 +1,8 @@
+
 <template>
   <div class="edit_second">
-    <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="ruleForm" label-position="top" :rules="rules" ref="ruleForm" label-width="100px"
+    class="demo-ruleForm">
       <el-form-item label="Currency:" prop="currency_id">
         <el-select :popper-append-to-body="false" v-model="ruleForm.currency_id" placeholder="">
           <el-option
@@ -11,23 +13,23 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="Cash Inbox Denomination:" prop="name">
+      <el-form-item label="Cash Inbox Denomination: (Fill in numbers separated by commas)" prop="name">
         <el-input :label="num" v-model="ruleForm.in_support_money"></el-input>
       </el-form-item>
-      <el-form-item label="Cash Outbox Denomination:" prop="name">
+      <el-form-item label="Cash Outbox Denomination: (Fill in numbers separated by commas)" prop="name">
         <el-input v-model="ruleForm.out_support_money"></el-input>
       </el-form-item>
-      <el-form-item label="Fast Withdraw Denomination:" prop="name">
+      <el-form-item label="Fast Withdraw Denomination: (Fill in numbers separated by commas)" prop="name">
         <el-input v-model="ruleForm.shortcut_money"></el-input>
       </el-form-item>
-      <el-form-item  label="Cryptocurrency:" prop="name">
+      <el-form-item  label="Customer can ___ Cryptocurrency:" prop="name">
           <el-radio-group v-model="ruleForm.is_buy_sell">
             <el-radio :label="1">Buy</el-radio>
             <el-radio :label="2">Sell</el-radio>
             <el-radio :label="3">Both</el-radio>
           </el-radio-group>
     </el-form-item>
-      <el-form-item label="Cryptocurrency Type">
+      <el-form-item label="Cryptocurrency Type:">
         <el-collapse accordion>
           <el-collapse-item>
             <template slot="title">BTC</template>
@@ -42,18 +44,18 @@
             <el-form-item  label="Commission Rate (%):" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span><el-input v-model="ruleForm.buy_bitcoin_fee"></el-input>
+                  <span>Buy:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.buy_bitcoin_fee"></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.sell_bitcoin_fee"></el-input>
+                  <span>Sell:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.sell_bitcoin_fee"></el-input>
                 </div>
               </div>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Minimum):" prop="name">
-              <el-input v-model="ruleForm.minimum_bitcoin_buy"></el-input>
+              <el-input   oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.minimum_bitcoin_buy"></el-input>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Maximum):" prop="name">
-              <el-input v-model="ruleForm.maximum_bitcoin_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.maximum_bitcoin_buy"></el-input>
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item>
@@ -69,18 +71,18 @@
             <el-form-item  label="Commission Rate (%):" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span><el-input v-model="ruleForm.buy_ethereum_fee"></el-input>
+                  <span>Buy:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.buy_ethereum_fee"></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span><el-input v-model="ruleForm.sell_ethereum_fee"></el-input>
+                  <span>Sell:</span><el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.sell_ethereum_fee"></el-input>
                 </div>
               </div>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Minimum):" prop="name">
-              <el-input v-model="ruleForm.minimum_ethereum_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.minimum_ethereum_buy"></el-input>
             </el-form-item>
             <el-form-item label="Purchase Limitation (Maximum):" prop="name">
-              <el-input v-model="ruleForm.maximum_ethereum_buy"></el-input>
+              <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="ruleForm.maximum_ethereum_buy"></el-input>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>
@@ -97,25 +99,6 @@
   export default {
     props:["MachineInfo"],
     data(){
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return{
         msg:'',
         remindervisible:false,
@@ -143,15 +126,6 @@
           username: [
             { required: true, message: '不能为空', trigg: 'change' }
           ],
-
-          password: [
-            {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-
-          ],
-          repassword: [
-            { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-          ],
           nickname:[
             { required: true, message: '不能为空', trigger: 'blur' }
           ],
@@ -174,19 +148,19 @@
       }
     },
     created() {
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`,{token:this.$store.state.token})
-        .then(res=>{
-          if (res) {
-            this.currencypList.push({ value: 0, label:'-',})
-            for (let i = 0; i < res.data.data.data.length; i++) {
-              this.currencypList.push({
-                value: res.data.data.data[i].currency_id,
-                label: res.data.data.data[i].name
-              });
+        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.currency/getCurrencyList`)
+          .then(res=>{
+            if (res) {
+              this.currencypList.push({ value: 0, label:'-',})
+              for (let i = 0; i < res.data.data.data.length; i++) {
+                this.currencypList.push({
+                  value: res.data.data.data[i].currency_id,
+                  label: res.data.data.data[i].name
+                });
+              }
+              console.log(this.currencypList)
             }
-            console.log(this.currencypList)
-          }
-        })
+          })
     },
     mounted() {
         for(var i in this.ruleForm){
@@ -195,16 +169,16 @@
         };
     },
     methods:{
-    toThousands(num) {
-    var num = (num || 0).toString(), result = '';
-    while (num.length > 3) {
-      result = ',' + num.slice(-3) + result;
-      num = num.slice(0, num.length - 3);
-    }
-    if (num) { result = num + result; }
-      console.log(result)
-    this.num=result
-  },
+  //   toThousands(num) {
+  //   var num = (num || 0).toString(), result = '';
+  //   while (num.length > 3) {
+  //     result = ',' + num.slice(-3) + result;
+  //     num = num.slice(0, num.length - 3);
+  //   }
+  //   if (num) { result = num + result; }
+  //     console.log(result)
+  //   this.num=result
+  // },
   goback(){
         // this.$emit('sontodad', 2);
         this.$global.previous();
@@ -214,7 +188,7 @@
         this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
           .then(res=>{
             if(res.data.ret==0){
-              this.$emit('getchildren');
+              // this.$emit('getchildren');
               this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
             }else{
               this.msg=res.data.msg;
@@ -222,54 +196,6 @@
             }
           })
       },
-      appear3() {
-        this.handleRemove(
-          ".project_pic .el-upload--picture-card",
-          ".project_pic .el-upload-list__item"
-        );
-      },
-      handleRemove(a, b) {
-        document.querySelector(a).style =
-          "position:absolute;bottom:0;display:block;";
-        document.querySelector(b).style = "display:none";
-      },
-      dispear3(file, fileList) {
-        this.choose(".project_pic .el-upload--picture-card");
-      },
-      choose(a) {
-        var b = document.querySelector(a);
-        b.style = "display:none;";
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      uploadFile(params) {
-        // console.log(params,index);formData
-        const _file = params.file;
-        // const isLt2M = _file.size / 1024 / 1024 < 2;
-        this.formData = new FormData();
-        this.formData.append("file", _file);
-        this.$axios({
-          method: "post",
-          url: `${this.$baseurl}/bsl_admin_web/upload/pic`,
-          data: this.formData
-          // headers: {
-          //   "Content-Type": "multipart/form-data"
-          // }
-        })
-          .then(res => {
-            this.form.pic = [];
-            this.form.pic.push(res.data.data.urlBase + res.data.data.url);
-            this.form.pic.push(res.data.data.urlBase + res.data.data.url);
-            // this.form.pic = res.data.data.url;
-            // this.form.pic=JSON.stringify(arr)
-            console.log(this.form.pic);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
     }
   }
 </script>

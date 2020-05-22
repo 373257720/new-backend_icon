@@ -235,7 +235,10 @@
       };
     },
     created() {
-      this.formdata.machine_id=this.$route.query.machine_id;
+      if(this.$route.query.machine_id){
+        this.formdata.machine_id=this.$route.query.machine_id;
+      }
+
       // this.changepage(this.currentpage, this.pagesize,this.keyword,this.timerange[0],this.timerange[1]);
     },
     mounted() {
@@ -259,14 +262,16 @@
         }).then(res=>{
           if(res.data.ret==0){
             if(!this.formdata.machine_id){
-              this.formdata.machine_id=res.data.data.data[0].machine_id
+              if(res.data.data.data.length>0){
+                this.formdata.machine_id=res.data.data.data[0].machine_id
+                res.data.data.data.forEach(item=>{
+                  this.options.push({
+                    value:item.machine_id,
+                    label:item.name,
+                  })
+                })
+              }
             }
-            res.data.data.data.forEach(item=>{
-              this.options.push({
-                value:item.machine_id,
-                label:item.name,
-              })
-            })
             this.drawLineChart()
           }
         })
@@ -278,7 +283,7 @@
         // 绘制基本图表
         this.myChart.setOption(this.option);
         //显示加载动画
-        // this.myChart.showLoading();
+        this.myChart.showLoading();
         //获取数据
         this.searcher()
 
@@ -469,6 +474,7 @@
           span{
             display: inline-block;
             /*width: 120px;*/
+            color: #777777;
             margin-right: 5px;
             text-align: right;
             line-height: 40px;
@@ -504,16 +510,46 @@
           /*margin-bottom:10px;*/
 
         }
+        @media (max-width: 1024px){
+          p:nth-child(1){
+            width: 80px;
+            color:white;
+            background:url(../../../static/add-disable.png) no-repeat;
+            margin-right:10px;
+          }
+          p:nth-child(2){
+            width: 80px;
+            border: 1px solid #D1D1D1 ;
+            /*margin-bottom:10px;*/
+
+          }
+        }
       }
       div:nth-of-type(2){
         margin-left: 20px;
         align-self: flex-end;
       }
+      @media (max-width: 1024px){
+        div:nth-of-type(2){
+          margin-left: 10px;
+        }
+
+      }
     }
+    @media (max-width: 768px){
+      nav{
+      flex-wrap: wrap;
+        div:nth-of-type(2){
+          margin-top: 10px;
+          margin-left: 0;
+        }
+      }
+    }
+
     main{
       padding:20px 20px 20px 0;
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
 
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="report_crytocurrency" v-loading="loading">
     <header><h2>
-      <span @click="$routerto('audit_log')">Reports</span>
+      <span @click="$routerto('audit_log')">Report</span>
           <i class="el-icon-arrow-right"></i>
             <span>Crytocurrency</span>
     </h2>
@@ -105,8 +105,6 @@
                 border
                 ref="multipleTable"
                 :data="tableData"
-                :summary-method="getSummaries"
-                show-summary
                 tooltip-effect="dark"
                 style="width: 100%">
                 <el-table-column
@@ -129,7 +127,6 @@
                 </el-table-column>
               </el-table>
             <pagevue
-              v-on:passtoparent="export_excel"
               :pagenum="pagetotal"
               :currentpages="currentpage"
               :pagesizes="pagesize"
@@ -139,12 +136,6 @@
 
     </el-main>
 
-<!--    <pagevue-->
-<!--      :pagenum="pagetotal"-->
-<!--      :currentpages="currentpage"-->
-<!--      :pagesizes="pagesize"-->
-<!--      v-on:fromchildren="fromchildren1"-->
-<!--    ></pagevue>-->
   </div>
 </template>
 
@@ -261,20 +252,20 @@
 
           ]
         },
-
         coin_type:[
           {
             value:'bitcoin',
-            label:'bitcoin',
+            label:'Bitcoin',
           },
           {
             value:'ethereum',
-            label:'ethereum',
+            label:'Ethereum',
           }
         ],
       };
     },
     created() {
+      this.formdata.coin_type='bitcoin';
     },
     mounted() {
       this.getmachineid();
@@ -300,14 +291,16 @@
           keyword:'',
         }).then(res=>{
           if(res.data.ret==0){
-            // console.log(res)
-            this.formdata.machine_id=res.data.data.data[0].machine_id
-            res.data.data.data.forEach(item=>{
-              this.options.push({
-                value:item.machine_id,
-                label:item.name,
+            console.log(res)
+            if(res.data.data.data.length>0){
+              this.formdata.machine_id=res.data.data.data[0].machine_id
+              res.data.data.data.forEach(item=>{
+                this.options.push({
+                  value:item.machine_id,
+                  label:item.name,
+                })
               })
-            })
+            }
             this.drawLineChart();
           }
         })
@@ -319,7 +312,7 @@
         // 绘制基本图表
         this.myChart.setOption(this.option);
         //显示加载动画
-        // this.myChart.showLoading();
+        this.myChart.showLoading();
         //获取数据
         this.searcher()
 
@@ -441,6 +434,7 @@
           .catch(error => {});
       },
       fromchildren1(data) {
+
         this.currentpage=data.currentpage;
         if(this.formdata.timerange==null){
           this.changepage(this.currentpage, this.pagesize,this.formdata.machine_id,'','');
@@ -585,6 +579,7 @@
         /*margin-bottom: 16px;*/
         section{
           /*display: flex;*/
+          color: #777777;
           margin-right: 20px;
           span{
             display: inline-block;
@@ -624,10 +619,65 @@
           /*margin-bottom:10px;*/
 
         }
+        @media (max-width: 1024px){
+          p:nth-child(1){
+            width: 100px;
+            color:white;
+            background:url(../../../static/add-disable.png) no-repeat;
+            margin-right:10px;
+          }
+          p:nth-child(2){
+            width: 100px;
+            border: 1px solid #D1D1D1 ;
+            /*margin-bottom:10px;*/
+
+          }
+        }
       }
       div:nth-of-type(2){
         /*margin-left: 20px;*/
         align-self: flex-end;
+      }
+
+    }
+    @media (max-width: 1024px){
+      nav{
+        display: flex;
+        margin: 10px 0 10px 0 ;
+        flex-direction: column;
+        /*flex-wrap: wrap;*/
+        /*padding: 0 50px 0 20px;*/
+        >div{
+          display: flex;
+          /*margin-bottom: 16px;*/
+          section{
+            margin-right:10px;
+          }
+            p:nth-child(1){
+              width: 100px;
+              color:white;
+              background:url(../../../static/add-disable.png) no-repeat;
+              margin-right:10px;
+            }
+            p:nth-child(2){
+              width: 100px;
+              border: 1px solid #D1D1D1 ;
+              /*margin-bottom:10px;*/
+
+            }
+
+        }
+        div:nth-of-type(2){
+          /*margin-left: 20px;*/
+          align-self: flex-end;
+        }
+        @media (max-width: 1024px){
+          div:nth-of-type(2){
+            margin-top: 10px;
+            align-self: flex-end;
+          }
+
+        }
       }
     }
     .el-main{
@@ -658,9 +708,8 @@
       /*padding:20px 20px 20px 0;*/
       display: flex;
       /*justify-content: space-between;*/
-
       .el-table thead{
-        color:black;
+        /*color:black;*/
       }
       .pagemodel {
         display: flex;

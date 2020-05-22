@@ -7,10 +7,10 @@
         <el-form-item label="Serial Number:" prop="name">
           <el-input v-model="ruleForm.serial_number"   :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="Warning E-mail Adress" prop="name">
+        <el-form-item label="Warning E-mail Adress:" prop="alert_email">
           <el-input v-model="ruleForm.alert_email"></el-input>
         </el-form-item>
-        <el-form-item label="Emergent Contact Number" prop="name">
+        <el-form-item label="Emergent Contact Number:" prop="name">
           <el-input v-model="ruleForm.alert_mobile"></el-input>
         </el-form-item>
         <el-form-item label="Group:" prop="region">
@@ -23,7 +23,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Location" prop="region">
+        <el-form-item label="Location:" prop="region">
           <el-select :popper-append-to-body="false" v-model="ruleForm.country_id" placeholder="">
             <el-option
               v-for="item in CountryList"
@@ -33,10 +33,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Address" prop="name">
+        <el-form-item label="Address:" prop="name">
           <el-input v-model="ruleForm.address"></el-input>
         </el-form-item>
-        <el-form-item label="Photo">
+        <el-form-item label="Photo:">
           <div class="project_pic">
             <el-upload
               action
@@ -58,7 +58,7 @@
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$global.previous">BACK</button>
+        <button @click="goback">BACK</button>
         <button  @click="submitForm('ruleForm')">SUBMIT</button>
       </section>
     <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
@@ -69,25 +69,6 @@
   export default {
     props:["MachineInfo"],
     data(){
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return{
         msg:'',
         remindervisible:false,
@@ -103,7 +84,7 @@
             serial_number:'',
             alert_email:'',
             alert_mobile:'',
-            machine_group_id:'',
+            machine_group_id:null,
             country_id:'',
             address:'',
             machine_picture_id:'',
@@ -112,24 +93,13 @@
           username: [
             { required: true, message: '不能为空', trigg: 'change' }
           ],
-          password: [
-            {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-
-          ],
-          repassword: [
-            { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-          ],
           nickname:[
             { required: true, message: '不能为空', trigger: 'blur' }
           ],
-          email: [
-            { required: true, message: "请输入邮箱地址", trigger: "blur" },
-            {
-              type: "email",
-              message: "请输入正确的邮箱地址",
-              trigger: ["blur", "change"]
-            }
+          alert_email: [
+            {  message: 'Please input email address', trigger: 'blur' },
+            { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+
           ],
           mobile:[
             { required: true, message: '不能为空', trigger: 'blur' }
@@ -143,21 +113,7 @@
     watch: {
 
     },
-    mounted() {
-      this.$nextTick(function () {
-        for(var i in this.ruleForm){
-          if(this.MachineInfo.hasOwnProperty(i)){
-            this.ruleForm[i]=this.MachineInfo[i]
-          }
-        }
-        if(this.MachineInfo.machine_picture!=null){
-          this.choose(".project_pic .el-upload--picture-card");
-          this.fileList.push({name: 'food.jpeg', url:this.$baseurl+this.MachineInfo.machine_picture})
 
-        }
-      })
-      console.log(this.ruleForm)
-    },
     created() {
       let axiosList = [
         this.$axios.get(`${this.$baseurl}/admin_api/content.country/getCountryList`,{
@@ -169,7 +125,7 @@
       this.$axios.all(axiosList).then(
         this.$axios.spread((res1, res2) => {
           if (res1) {
-            console.log(res1)
+            // console.log(res1)
             this.CountryList.push({ value: 0, label:'-',})
             for (let i = 0; i < res1.data.data.data.length; i++) {
               this.CountryList.push({
@@ -177,9 +133,9 @@
                 label: res1.data.data.data[i].name
               });
             }
-            if(this.CountryList.indexOf(this.ruleForm.country_id)<0){
-              this.ruleForm.machine_group_id=0;
-            }
+            // if(this.CountryList.indexOf(this.ruleForm.country_id)<0){
+            //   this.ruleForm.country_id=0;
+            // }
           }
           if (res2) {
             this.groupList.push({ value: 0, label:'-',})
@@ -190,24 +146,40 @@
                 label: res2.data.data.data[i].name,
               });
             }
-            if(this.groupList.indexOf(this.ruleForm.machine_group_id)<0){
-              this.ruleForm.machine_group_id=0;
-            }
           }
-          // console.log(this.groupList)
+
+
         })
       );
 
     },
+    mounted() {
+      this.$nextTick(function () {
+        for(var i in this.ruleForm){
+          if(this.MachineInfo.hasOwnProperty(i)){
+            this.ruleForm[i]=this.MachineInfo[i]
+          }
+        }
+           // console.log(this.ruleForm)
+        if(this.MachineInfo.machine_picture!=null){
+          this.choose(".project_pic .el-upload--picture-card");
+          this.fileList.push({name: 'food.jpeg', url:this.$baseurl+this.MachineInfo.machine_picture})
+
+        }
+      })
+      // console.log(this.MachineInfo)
+    },
     methods:{
-
-
+      goback(){
+          this.$router.push({name:'machines_lists',params: { userId: '123' }})
+      },
       submitForm(){
-        console.log(this.ruleForm);
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+        // console.log(this.ruleForm);
+        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,
+        this.ruleForm)
         .then(res=>{
           if(res.data.ret==0){
-            this.$emit('getchildren');
+            this.$emit('update:isupdated',true);
             this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});
           }else{
             this.msg=res.data.msg;
@@ -307,4 +279,3 @@
 
 
 </style>
-

@@ -6,9 +6,9 @@
       <span>{{title}}</span>
     </h2>
     </header>
-    <main v-if="rowid==0">
+    <main v-if="rowid==1">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item  label="Cash Inbox Percent:" prop="in_cashbox_warn_percent">
+        <el-form-item  label="Cash Inbox Percent (%):" prop="in_cashbox_warn_percent">
           <el-input  v-model="ruleForm.in_cashbox_warn_percent" clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -18,12 +18,12 @@
 
       </section>
     </main>
-    <main v-if="rowid==1">
+    <main v-else-if="rowid==0">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 <!--        <el-form-item  label="Cash Inbox Percent:" prop="in_cashbox_warn_percent">-->
 <!--          <el-input  v-model="ruleForm.in_cashbox_warn_percent" clearable autocomplete="off"></el-input>-->
 <!--        </el-form-item>-->
-        <el-form-item  label="Cash Outbox Percent:" prop="out_cashbox_warn_percent">
+        <el-form-item  label="Cash Outbox Percent (%):" prop="out_cashbox_warn_percent">
           <el-input  v-model="ruleForm.out_cashbox_warn_percent"  clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -33,7 +33,7 @@
 
       </section>
     </main>
-    <main v-if="rowid==2">
+    <main v-else-if="rowid==2">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Transaction Time(seconds):" prop="sell_coin_wait_time">
           <el-input  v-model="ruleForm.sell_coin_wait_time" clearable autocomplete="off"></el-input>
@@ -45,7 +45,7 @@
 
       </section>
     </main>
-    <main v-if="rowid==3">
+    <main v-else-if="rowid==3">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Website:" prop="website">
           <el-input  v-model="ruleForm.customer_service_website" clearable autocomplete="off">{{ruleForm.website}}</el-input>
@@ -63,7 +63,7 @@
 
       </section>
     </main>
-    <main v-if="rowid==4">
+    <main v-else-if="rowid==4">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="Ethereum Wallet Address:" prop="contact_num">
           <el-input  v-model="ruleForm.wallet"   clearable autocomplete="off"></el-input>
@@ -78,7 +78,7 @@
 
       </section>
     </main>
-    <main v-if="rowid==5">
+    <main v-else-if="rowid==5">
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="Token:" prop="password">
           <el-input type="password" v-model="ruleForm.token" show-password  autocomplete="off"></el-input>
@@ -102,25 +102,6 @@
 <script>
   export default {
     data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return {
         title:'',
         msg:'',
@@ -132,44 +113,7 @@
         },
         ruleForm: {},
         rules: {
-          // website:[{
-          //
-          // }],
-          // inbox: [
-          //   { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          // ],
-          // outbox:[
-          //   { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          // ],
-          // username: [
-          //   { required: true, message: 'this gap can not be empty', trigg: 'change' }
-          // ],
-          //
-          // password: [
-          //   {required: true, validator: validatePass, trigger: 'blur' },
-          //   { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
-          //
-          // ],
-          // repassword: [
-          //   { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
-          // ],
-          // nickname:[
-          //   { required: true, message: 'this gap can not be empty', trigger: 'blur' }
-          // ],
-          // email: [
-          //   { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          //   {
-          //     type: "email",
-          //     message: "请输入正确的邮箱地址",
-          //     trigger: ["blur", "change"]
-          //   }
-          // ],
-          // mobile:[
-          //   { required: true, message: 'this gap can not be empty', trigger: 'blur' }
-          // ],
-          // status:[
-          //   { required: true,},
-          // ]
+
         },
 
       };
@@ -183,22 +127,22 @@
       this.ruleForm.token=this.$store.state.token;
       this.rowid=this.$route.query.rowindex;
       if(this.rowid==0){
-        this.title='Cash Inbox';
-        this.ruleForm=Object.assign({}, this.ruleForm,{
-          in_cashbox_warn_percent:'',
-        })
-        Object.assign(this.parameter_obj,{
-          name:'in_cashbox_warn_percent',
-        })
-
-      }
-      else if(this.rowid==1){
         this.title='Cash Outbox';
         this.ruleForm=Object.assign({}, this.ruleForm,{
           out_cashbox_warn_percent:'',
         })
         Object.assign(this.parameter_obj,{
           name:'out_cashbox_warn_percent',
+        })
+
+      }
+      else if(this.rowid==1){
+        this.title='Cash Inbox';
+        this.ruleForm=Object.assign({}, this.ruleForm,{
+          in_cashbox_warn_percent :'',
+        })
+        Object.assign(this.parameter_obj,{
+          name:'in_cashbox_warn_percent',
         })
       }
       else if(this.rowid==2){
@@ -396,6 +340,11 @@
           border-radius: 5px;
           background: #ddd;
 
+        }
+        @media (max-width: 1024px){
+          button{
+            font-size: 14px;
+          }
         }
         button:nth-of-type(2){
           background:url("../../../static/savechange.png") no-repeat;
