@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/home'
-import logo from '@/components/logo'
-import login from '@/components/login'
 import store from '../store/store'
 // 添加这下面一段代码，就可以解决报错
 const originalPush = Router.prototype.push;
@@ -10,64 +7,127 @@ Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 };
 
-// account
-import  account from '@/components/account'
-// dashboard
-import dashboard from '@/components/dashboard'
-// user
-import account_setting from '@/components/user/account_setting'
-import atm_support from '@/components/user/atm_support'
-import atm_supportlist from "../components/user/atm_supportlist";
-import user from '@/components/user/user'
-import customer_data from '@/components/user/customer_data'
-// machines
-import machines from '@/components/machines/machines'
-import group_pattern  from "../components/machines/group_pattern";
-import remote_control_records from  '@/components/machines/remote_control_records'
-import machines_lists from '@/components/machines/machines_lists'
-import machines_edit from '@/components/machines/machines_edit'
-import add_Group_Pattern from '@/components/machines/add_Group_Pattern'
-import edit_Group_Pattern from '@/components/machines/edit_Group_Pattern'
-import add_1st from '@/components/machines/add_1st'
-import add_2nd from '@/components/machines/add_2nd'
-import add_3rd from '@/components/machines/add_3rd'
-import add_4th from "../components/machines/add_4th";
-import edit_1st from '@/components/machines/edit_1st'
-import edit_2nd from '@/components/machines/edit_2nd'
-import edit_3rd from '@/components/machines/edit_3rd'
-import edit_4th from '@/components/machines/edit_4th'
-import edit_5th from '@/components/machines/edit_5th'
-import  test from '@/components/test'
-import machine_subtitle from "../components/machines/machine_subtitle";
-import group_subtitle from "../components/machines/group_subtitle";
-// alerts
-import  alerts from '@/components/alerts/alerts'
-import  alerts_lists from '@/components/alerts/alerts_lists'
-import  alerts_details from  '@/components/alerts/alerts_details'
-// settting
-import setting from '@/components/settting/setting'
-import  setting_edit from '@/components/settting/setting_edit'
-import  setting_list from '@/components/settting/setting_list'
-//audit_log
-import  audit_log from '@/components/Aduit_logs/audit_log'
-import setting_edit_lists from '@/components/Aduit_logs/audit_log_list'
-import  cashbox_log from  '@/components/Aduit_logs/cashbox_log';
-import  error_log from  '@/components/Aduit_logs/error_log';
-import  machine_connect_status from  '@/components/Aduit_logs/machine_connect_status';
+const home = () => import('@/components/home')
+const logo = () => import('@/components/logo')
+const login = () => import('@/components/login')
+const account = () => import('@/components/login')
+const dashboard = () => import('@/components/dashboard')
 
-import transaction from '@/components/transaction/transaction'
-import  transaction_lists from '@/components/transaction/transaction_lists'
-import  transaction_details from "@/components/transaction/transaction_details"
+const account_setting = () => import('@/components/user/account_setting')
+const atm_support = () => import('@/components/user/atm_support')
+const atm_supportlist = () => import('@/components/user/atm_supportlist')
+const user = () => import('@/components/user/user')
+const customer_data = () => import('@/components/user/customer_data')
+
+// import home from '@/components/home'
+// import logo from '@/components/logo'
+// import login from '@/components/login'
+// // account
+// import account from '@/components/account'
+// // dashboard
+// import dashboard from '@/components/dashboard'
+// // user
+// import account_setting from '@/components/user/account_setting'
+// import atm_support from '@/components/user/atm_support'
+// import atm_supportlist from "../components/user/atm_supportlist";
+// import user from '@/components/user/user'
+// import customer_data from '@/components/user/customer_data'
+// machines
+// import machines from '@/components/machines/machines'
+// import group_pattern from "../components/machines/group_pattern";
+// import remote_control_records from '@/components/machines/remote_control_records'
+// import machines_lists from '@/components/machines/machines_lists'
+// import machines_edit from '@/components/machines/machines_edit'
+
+
+
+
+// import add_Group_Pattern from '@/components/machines/add_Group_Pattern'
+// import edit_Group_Pattern from '@/components/machines/edit_Group_Pattern'
+// import add_1st from '@/components/machines/add_1st'
+// import add_2nd from '@/components/machines/add_2nd'
+// import add_3rd from '@/components/machines/add_3rd'
+// import add_4th from "../components/machines/add_4th";
+// import edit_1st from '@/components/machines/edit_1st'
+// import edit_2nd from '@/components/machines/edit_2nd'
+// import edit_3rd from '@/components/machines/edit_3rd'
+// import edit_4th from '@/components/machines/edit_4th'
+// import edit_5th from '@/components/machines/edit_5th'
+
+
+
+const machines = () => import('@/components/machines/machines')
+const group_pattern = () => import('@/components/machines/group_pattern')
+const remote_control_records = () => import('@/components/machines/remote_control_records')
+const machines_lists = () => import('@/components/machines/machines_lists')
+const machines_edit = () => import('@/components/machines/machines_edit')
+const add_Group_Pattern = () => import('@/components/machines/add_Group_Pattern')
+const edit_Group_Pattern = () => import('@/components/machines/edit_Group_Pattern')
+const add_1st = () => import('@/components/machines/add_1st')
+const add_2nd = () => import('@/components/machines/add_2nd')
+const add_3rd = () => import('@/components/machines/add_3rd')
+const add_4th = () => import('@/components/machines/add_4th')
+const edit_1st = () => import('@/components/machines/edit_1st')
+const edit_2nd = () => import('@/components/machines/edit_2nd')
+const edit_3rd = () => import('@/components/machines/edit_3rd')
+const edit_4th = () => import('@/components/machines/edit_4th')
+const edit_5th = () => import('@/components/machines/edit_5th')
+const test = () => import('@/components/test')
+const machine_subtitle = () => import('@/components/machines/machine_subtitle')
+const group_subtitle = () => import('@/components/machines/group_subtitle')
+
+
+// alerts
+// import alerts from '@/components/alerts/alerts'
+// import alerts_lists from '@/components/alerts/alerts_lists'
+// import alerts_details from '@/components/alerts/alerts_details'
+const alerts = () => import('@/components/alerts/alerts')
+const alerts_lists = () => import('@/components/alerts/alerts_lists')
+const alerts_details = () => import('@/components/alerts/alerts_details')
+// settting
+// import setting from '@/components/settting/setting'
+// import setting_edit from '@/components/settting/setting_edit'
+// import setting_list from '@/components/settting/setting_list'
+const setting = () => import('@/components/settting/setting')
+const setting_edit = () => import('@/components/settting/setting_edit')
+const setting_list = () => import('@/components/settting/setting_list')
+//audit_log
+// import audit_log from '@/components/Aduit_logs/audit_log'
+// import setting_edit_lists from '@/components/Aduit_logs/audit_log_list'
+// import cashbox_log from '@/components/Aduit_logs/cashbox_log';
+// import error_log from '@/components/Aduit_logs/error_log';
+// import machine_connect_status from '@/components/Aduit_logs/machine_connect_status';
+const audit_log  = () => import('@/components/Aduit_logs/audit_log')
+const setting_edit_lists = () => import('@/components/Aduit_logs/audit_log_list')
+const cashbox_log= () => import('@/components/Aduit_logs/cashbox_log')
+const error_log = () => import('@/components/Aduit_logs/error_log')
+const machine_connect_status = () => import('@/components/Aduit_logs/machine_connect_status')
+
+
+
+// import transaction from '@/components/transaction/transaction'
+// import transaction_lists from '@/components/transaction/transaction_lists'
+// import transaction_details from "@/components/transaction/transaction_details"
+const transaction= () => import('@/components/transaction/transaction')
+const transaction_lists = () => import('@/components/transaction/transaction_lists')
+const transaction_details = () => import('@/components/transaction/transaction_details')
 // complaince
-import  compliance from '@/components/compliance/compliance'
+// import compliance from '@/components/compliance/compliance'
+const compliance = () => import('@/components/compliance/compliance')
 // report
-import report from "../components/report/report";
-import report_lists from "../components/report/report_lists";
-import report_crytocurrency from "../components/report/report_crytocurrency";
+// import report from "../components/report/report";
+// import report_lists from "../components/report/report_lists";
+// import report_crytocurrency from "../components/report/report_crytocurrency";
+const report = () => import('@/components/report/report')
+const report_lists = () => import('@/components/report/report_lists')
+const report_crytocurrency = () => import('@/components/report/report_crytocurrency')
 // wallet
-import wallet from "../components/wallet/wallet";
-import wallet_lists from "../components/wallet/wallet_lists";
-import wallet_edit from "../components/wallet/wallet_edit";
+// import wallet from "../components/wallet/wallet";
+// import wallet_lists from "../components/wallet/wallet_lists";
+// import wallet_edit from "../components/wallet/wallet_edit";
+const wallet = () => import('@/components/wallet/wallet')
+const wallet_lists = () => import('@/components/wallet/wallet_lists')
+const wallet_edit = () => import('@/components/wallet/wallet_edit')
 // import verified_user from '@/components/userlist/verified_user'
 // import userroot from '@/components/userlist/verified_useroot'
 // import verified_usercheck from '@/components/userlist/verified_usercheck'
@@ -85,7 +145,7 @@ const routes = [{
     component: login,
     meta: {
       title: '',
-      requiretoken:false,
+      requiretoken: false,
     },
   },
   {
@@ -93,7 +153,7 @@ const routes = [{
     name: 'logo',
     component: logo,
     meta: {
-      requiretoken:true,
+      requiretoken: true,
     },
   },
   {
@@ -102,73 +162,69 @@ const routes = [{
     component: home,
     meta: {
       title: '',
-      requiretoken:true,
+      requiretoken: true,
     },
     redirect: '/home/dashboard',
-    children: [
-      {
-      path: 'user',
-      name: 'user',
-      component: user,
-      meta: {
-        title: '',
-        requiretoken:true,
-      },
-      // redirect: '/home/user/dashboard',
-      children: [
-        {
-          path: 'atm_support',
-          name: 'atm_support',
-          component: atm_support,
-          redirect: '/home/user/atm_support/atm_supportlist',
-          children:[
-            {
-              path: 'atm_supportlist',
-              name: 'atm_supportlist',
-              component: atm_supportlist,
-              meta: {
-                title: '',
-                requiretoken:true,
-              },
-            },
-            {
-              path: 'account_setting',
-              name: 'account_setting',
-              component: account_setting,
-              meta: {
-                title: '',
-                requiretoken:true,
-              },
-            },
-          ]
+    children: [{
+        path: 'user',
+        name: 'user',
+        component: user,
+        meta: {
+          title: '',
+          requiretoken: true,
         },
-        {
-          path: 'customer_data',
-          name: 'customer_data',
-          component: customer_data,
-          meta: {
-            title: '',
-            requiretoken:true,
+        // redirect: '/home/user/dashboard',
+        children: [{
+            path: 'atm_support',
+            name: 'atm_support',
+            component: atm_support,
+            redirect: '/home/user/atm_support/atm_supportlist',
+            children: [{
+                path: 'atm_supportlist',
+                name: 'atm_supportlist',
+                component: atm_supportlist,
+                meta: {
+                  title: '',
+                  requiretoken: true,
+                },
+              },
+              {
+                path: 'account_setting',
+                name: 'account_setting',
+                component: account_setting,
+                meta: {
+                  title: '',
+                  requiretoken: true,
+                },
+              },
+            ]
           },
-        },
-      ]
-    },{
-      path: 'setting',
-      name: 'setting',
-      component:setting,
-      meta: {
-        title: '',
-        requiretoken:true,
-      },
-        redirect: '/home/setting/setting_list',
-        children: [
           {
+            path: 'customer_data',
+            name: 'customer_data',
+            component: customer_data,
+            meta: {
+              title: '',
+              requiretoken: true,
+            },
+          },
+        ]
+      }, {
+        path: 'setting',
+        name: 'setting',
+        component: setting,
+        meta: {
+          title: '',
+          requiretoken: true,
+        },
+        redirect: '/home/setting/setting_list',
+        children: [{
             path: 'setting_edit',
             name: 'setting_edit',
             component: setting_edit,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
           {
@@ -177,28 +233,27 @@ const routes = [{
             component: setting_list,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
         ]
-    },
+      },
       {
         path: 'audit_log',
         name: 'audit_log',
-        component:audit_log,
+        component: audit_log,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
         redirect: '/home/audit_log/setting_edit_lists',
-        children: [
-          {
+        children: [{
             path: 'setting_edit_lists',
             name: 'setting_edit_lists',
             component: setting_edit_lists,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
           {
@@ -207,7 +262,7 @@ const routes = [{
             component: cashbox_log,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
           {
@@ -216,16 +271,16 @@ const routes = [{
             component: error_log,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
           {
             path: 'machine_connect_status',
             name: 'machine_connect_status',
-            component:machine_connect_status,
+            component: machine_connect_status,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
         ]
@@ -233,20 +288,19 @@ const routes = [{
       {
         path: 'transaction',
         name: 'transaction',
-        component:transaction,
+        component: transaction,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
         redirect: '/home/transaction/transaction_lists',
-        children: [
-          {
+        children: [{
             path: 'transaction_lists',
             name: 'transaction_lists',
             component: transaction_lists,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
           {
@@ -255,7 +309,7 @@ const routes = [{
             component: transaction_details,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
         ]
@@ -263,112 +317,108 @@ const routes = [{
       {
         path: 'machines',
         name: 'machines',
-        component:machines,
+        component: machines,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
-        children: [
-          {
+        children: [{
             path: 'machine_subtitle',
             name: 'machine_subtitle',
-            component:machine_subtitle,
+            component: machine_subtitle,
             redirect: '/home/machines/machine_subtitle/machines_lists',
-            children:[
-              {
-                path: 'machines_lists',
-                name: 'machines_lists',
-                component: machines_lists,
-                meta: {
-                  title: '',
-                  requiretoken:true,
-                },
-              },  {
-                path: 'machines_edit',
-                name: 'machines_edit',
-                component: machines_edit,
-                redirect: '/home/machines/machine_subtitle/machines_edit/edit_1st',
-                children:[
-
-                  {
-                    path: 'edit_1st',
-                    name: 'edit_1st',
-                    component: edit_1st,
-                    meta: {
-                      title: '',
-                      requiretoken:true,
-                    },
-                  },
-                  {
-                    path: 'edit_2nd',
-                    name: 'edit_2nd',
-                    component: edit_2nd,
-                    meta: {
-                      title: '',
-                      requiretoken:true,
-                    },
-                  },
-                  {
-                    path: 'edit_3rd',
-                    name: 'edit_3rd',
-                    component: edit_3rd,
-                    meta: {
-                      title: '',
-                      requiretoken:true,
-                    },
-                  },
-                  {
-                    path: 'edit_4th',
-                    name: 'edit_4th',
-                    component: edit_4th,
-                    meta: {
-                      title: '',
-                      requiretoken:true,
-                    },
-                  },
-                  {
-                    path: 'edit_5th',
-                    name: 'edit_5th',
-                    component: edit_5th,
-                    meta: {
-                      title: '',
-                      requiretoken:true,
-                    },
-                  },
-                  {
-                    path: 'test',
-                    name: 'test',
-                    component: test,
-                    meta: {
-                      title: '',
-                      requiretoken:true,
-                    },
-                  },
-                ],
-              },   {
-                path: 'remote_control_records',
-                name: 'remote_control_records',
-                component: remote_control_records,
-                meta: {
-                  title: '',
-                  requiretoken:true,
-                },
+            children: [{
+              path: 'machines_lists',
+              name: 'machines_lists',
+              component: machines_lists,
+              meta: {
+                title: '',
+                requiretoken: true,
               },
-            ]
+            }, {
+              path: 'machines_edit',
+              name: 'machines_edit',
+              component: machines_edit,
+              redirect: '/home/machines/machine_subtitle/machines_edit/edit_1st',
+              children: [
+
+                {
+                  path: 'edit_1st',
+                  name: 'edit_1st',
+                  component: edit_1st,
+                  meta: {
+                    title: '',
+                    requiretoken: true,
+                  },
+                },
+                {
+                  path: 'edit_2nd',
+                  name: 'edit_2nd',
+                  component: edit_2nd,
+                  meta: {
+                    title: '',
+                    requiretoken: true,
+                  },
+                },
+                {
+                  path: 'edit_3rd',
+                  name: 'edit_3rd',
+                  component: edit_3rd,
+                  meta: {
+                    title: '',
+                    requiretoken: true,
+                  },
+                },
+                {
+                  path: 'edit_4th',
+                  name: 'edit_4th',
+                  component: edit_4th,
+                  meta: {
+                    title: '',
+                    requiretoken: true,
+                  },
+                },
+                {
+                  path: 'edit_5th',
+                  name: 'edit_5th',
+                  component: edit_5th,
+                  meta: {
+                    title: '',
+                    requiretoken: true,
+                  },
+                },
+                {
+                  path: 'test',
+                  name: 'test',
+                  component: test,
+                  meta: {
+                    title: '',
+                    requiretoken: true,
+                  },
+                },
+              ],
+            }, {
+              path: 'remote_control_records',
+              name: 'remote_control_records',
+              component: remote_control_records,
+              meta: {
+                title: '',
+                requiretoken: true,
+              },
+            }, ]
           },
           {
             path: 'group_subtitle',
             name: 'group_subtitle',
             component: group_subtitle,
             redirect: '/home/machines/group_subtitle/group_pattern',
-            children:[
-              {
+            children: [{
                 path: 'add_Group_Pattern',
                 name: 'add_Group_Pattern',
                 component: add_Group_Pattern,
                 meta: {
                   title: '',
-                  requiretoken:true,
+                  requiretoken: true,
                 },
               },
               {
@@ -377,7 +427,7 @@ const routes = [{
                 component: edit_Group_Pattern,
                 meta: {
                   title: '',
-                  requiretoken:true,
+                  requiretoken: true,
                 },
               },
               {
@@ -386,7 +436,7 @@ const routes = [{
                 component: group_pattern,
                 meta: {
                   title: '',
-                  requiretoken:true,
+                  requiretoken: true,
                 },
 
               },
@@ -397,38 +447,37 @@ const routes = [{
       {
         path: 'compliance',
         name: 'compliance',
-        component:compliance,
+        component: compliance,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
       },
       {
         path: 'wallet',
         name: 'wallet',
-        component:wallet,
+        component: wallet,
         meta: {
           title: ''
         },
         redirect: '/home/wallet/wallet_lists',
-        children:[   {
+        children: [{
           path: 'wallet_lists',
           name: 'wallet_lists',
           component: wallet_lists,
           meta: {
             title: '',
-            requiretoken:true,
+            requiretoken: true,
           },
-        },  {
+        }, {
           path: 'wallet_edit',
           name: 'wallet_edit',
           component: wallet_edit,
           meta: {
             title: '',
-            requiretoken:true,
+            requiretoken: true,
           },
-        },
-        ]
+        }, ]
       },
       {
         path: 'dashboard',
@@ -436,15 +485,15 @@ const routes = [{
         component: dashboard,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
-      },{
+      }, {
         path: 'account',
         name: 'account',
         component: account,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
       },
       {
@@ -453,17 +502,16 @@ const routes = [{
         component: alerts,
         meta: {
           title: '',
-          requiretoken:true,
+          requiretoken: true,
         },
         redirect: '/home/alerts/alerts_lists',
-        children: [
-          {
+        children: [{
             path: 'alerts_lists',
             name: 'alerts_lists',
             component: alerts_lists,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
           {
@@ -472,32 +520,32 @@ const routes = [{
             component: alerts_details,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
         ]
       },
-      { path: 'report',
+      {
+        path: 'report',
         name: 'report',
         component: report,
         redirect: '/home/report/report_lists',
-        children:[
-          {
-          path: 'report_lists',
-          name: 'report_lists',
-          component: report_lists,
+        children: [{
+            path: 'report_lists',
+            name: 'report_lists',
+            component: report_lists,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
-        },
+          },
           {
             path: 'report_crytocurrency',
             name: 'report_crytocurrency',
             component: report_crytocurrency,
             meta: {
               title: '',
-              requiretoken:true,
+              requiretoken: true,
             },
           },
         ]
@@ -526,7 +574,8 @@ let router = new Router({
 
 //在进入某个路由前执行的代码
 router.beforeEach((to, from, next) => {
-  let token = (sessionStorage.getItem('store') && JSON.parse(sessionStorage.getItem('store')).token) || store.state.token;
+  let token = (sessionStorage.getItem('store') && JSON.parse(sessionStorage.getItem('store')).token) || store.state
+    .token;
   // console.log(token)
   if (to.meta.requiretoken) {
     if (token) {

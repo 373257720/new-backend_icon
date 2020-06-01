@@ -36,7 +36,7 @@
         </div>
       </div>
     </nav>
-    <el-main v-loading="pictLoading">
+    <el-main>
       <el-table
         :row-class-name="tabRowClassName"
         border

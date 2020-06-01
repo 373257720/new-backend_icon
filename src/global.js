@@ -5,6 +5,20 @@ import qs from 'qs'
 import store from "./store/store";
 
 const global = {
+  isRouterAlive:true,
+	deepCopy:function(obj) {
+	  var result = Array.isArray(obj) ? [] : {};
+	  for (var key in obj) {
+	    if (obj.hasOwnProperty(key)) {
+	      if (typeof obj[key] === 'object' && obj[key] !== null) {
+	        result[key] = this.deepCopy(obj[key]); //递归复制
+	      } else {
+	        result[key] = obj[key];
+	      }
+	    }
+	  }
+	  return result;
+	},
   stamptodate: function (stamp) {
     var date = new Date(stamp*1000);
     var Y = date.getFullYear() + "-";

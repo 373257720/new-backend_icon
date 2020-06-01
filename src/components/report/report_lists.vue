@@ -283,7 +283,20 @@
         // 绘制基本图表
         this.myChart.setOption(this.option);
         //显示加载动画
-        this.myChart.showLoading();
+        this.myChart.showLoading(
+            {text:'loading',
+            color: '#2ABEE2',
+            textColor: '#000',
+            maskColor: 'rgba(255, 255, 255, 0.8)',
+            zlevel: 0,
+            // 字体大小。从 `v4.8.0` 开始支持。
+            fontSize: 12,
+            // 是否显示旋转动画（spinner）。从 `v4.8.0` 开始支持。
+            showSpinner: true,
+            // 旋转动画（spinner）的半径。从 `v4.8.0` 开始支持。
+            spinnerRadius: 10,
+            // 旋转动画（spinner）的线宽。从 `v4.8.0` 开始支持。
+            lineWidth: 3})
         //获取数据
         this.searcher()
 

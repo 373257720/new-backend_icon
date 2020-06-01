@@ -267,7 +267,8 @@ export default {
             if(res.data.ret==0){
               window.sessionStorage.clear();
               this.$store.dispatch("reset_actions",this.$restore_obj)
-              this.$routerto("login");
+                this.$routerto("login");
+
             }else if(res.data.ret>999){
               window.sessionStorage.clear();
               this.$store.dispatch("reset_actions",this.$restore_obj)

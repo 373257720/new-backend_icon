@@ -6,17 +6,26 @@ import router from './router'
 import store from './store/store'
 import "./css/base.css";
 import qs from 'qs'
-import ElementUI from 'element-ui';
+Vue.prototype.$qs = qs;
+// import ElementUI from 'element-ui';
 import axios from 'axios';
+Vue.prototype.$axios = axios
 import 'element-ui/lib/theme-chalk/index.css';
+import element from './element.js'
+Vue.use(element)
 import global from '../src/global';
 Vue.prototype.$global = global;
-import locale from 'element-ui/lib/locale/lang/en'
-Vue.use(ElementUI, { locale })
+// import locale from 'element-ui/lib/locale/lang/en'
+// Vue.use(element, { locale })
+
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+locale.use(lang);
+
 Vue.config.productionTip = false
-Vue.use(ElementUI);
-import format from 'vue-text-format';
-Vue.use(format);
+// Vue.use(ElementUI);
+// import format from 'vue-text-format';
+// Vue.use(format);
 Vue.prototype.$routerto = function routerTo(name, obj) {
   // console.log(this)
   this.$router.push({
@@ -24,26 +33,13 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
     query: obj
   })
 }
-const restore_obj=deepCopy(store._modules.root.state);
+const restore_obj=global.deepCopy(store._modules.root.state);
+console.log(restore_obj)
 Vue.prototype.$restore_obj=restore_obj;
-function deepCopy(obj) {
-  var result = Array.isArray(obj) ? [] : {};
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
-        result[key] = deepCopy(obj[key]); //递归复制
-      } else {
-        result[key] = obj[key];
-      }
-    }
-  }
-  return result;
-};
+
 let isShowLoading =true;
-console.log(isShowLoading)
-Vue.prototype.$qs = qs;
-Vue.prototype.$axios = axios
 // axios.defaults.withCredentials = true;
+// console.log(Vue.$nextTick)
 axios.interceptors.response.use(res => {
     if (res.data.ret) {
       let code = res.data.ret;
@@ -51,14 +47,18 @@ axios.interceptors.response.use(res => {
         if(isShowLoading){
           isShowLoading=false;
           console.log(isShowLoading)
-          ElementUI.MessageBox({
+          Vue.prototype.$msgbox({
             title: 'Reminder',
             message: res.data.msg,
           }).then(()=>{
             window.sessionStorage.clear();
             store.dispatch("reset_actions",this.$restore_obj)
-            location.href='http://atm.wearetechman.com/dist/index.html'
-            // router.push({name:'login'})
+            // location.href='http://atm.wearetechman.com/dist/index.html'
+            // this.$nextTick(function() {
+            //   this.isRouterAlive = true
+            // });
+            router.push({name:'login'})
+
           })
           return;
         }
@@ -69,7 +69,7 @@ axios.interceptors.response.use(res => {
   },
   error => {
     // alert('请求失败，请稍后重试！')
-      ElementUI.MessageBox({
+      Vue.$msgbox({
         title: 'Reminder',
         message: 'Network exception, please try again later',
       }).then(()=>{
@@ -114,4 +114,3 @@ new Vue({
   },
   template: '<App/>'
 })
-

@@ -1,7 +1,7 @@
 <template>
   <div @click="$routerto('home')" id="logo">
     <div class="logo con">
-        <header><img src="../../static/logo.png" alt=""></header>
+        <header><img src="static/logo.png" alt=""></header>
         <nav>CRYPTOGO</nav>
         <p>WELCOME TO CRYPTOGO BACKEND ADMIN SYSTEM</p>
     </div>
@@ -10,12 +10,14 @@
 <script>
 export default {
   name: "logo",
+
   data() {
     return {
       timer:null,
     };
   },
   created() {
+
    this.timer= setTimeout(()=>{
       this.$routerto('home');
     },3000)
@@ -88,8 +90,8 @@ export default {
   transform: translate(-50%, -50%);
   overflow: hidden;
   img{
-    width: 275px;
-    height: 275px;
+    width: 245px;
+    height: 245px;
   }
   nav{
     color: #919191;

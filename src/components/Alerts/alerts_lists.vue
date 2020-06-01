@@ -23,7 +23,7 @@
           </el-date-picker>
         </div>
       </nav>
-      <el-main v-loading="pictLoading">
+      <el-main>
         <div v-if="tableData.length<1" style="text-align: center">
           No more
         </div>
