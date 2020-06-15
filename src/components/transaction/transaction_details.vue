@@ -89,7 +89,7 @@
           trade_price:{key: 'Purchase Price', value: ''},
           money:  {key: 'Cash', value: ''},
           coin_number:  {key: '', value: ''},
-          customer_coin_address:{key:'ATM Wallet Address',value:''},
+          customer_coin_address:{key:'CryptoGo Wallet Address',value:''},
           user_coin_address: {key: 'Buyer Wallet Address', value: ''},
           miner_fee: {key: 'Miner Fee', value: ''},
           fee:{key: 'Fee Rate', value: ''},

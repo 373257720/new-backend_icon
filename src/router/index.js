@@ -10,7 +10,7 @@ Router.prototype.push = function push(location) {
 const home = () => import('@/components/home')
 const logo = () => import('@/components/logo')
 const login = () => import('@/components/login')
-const account = () => import('@/components/login')
+const account = () => import('@/components/account')
 const dashboard = () => import('@/components/dashboard')
 
 const account_setting = () => import('@/components/user/account_setting')
