@@ -75,13 +75,23 @@
   };
 </script>
 <style>
+
+ .el-pager li:hover{
+   color: #2ABEE2;  
+}
+.el-pager li.active{
+  color: #2ABEE2;
+} 
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
+  color: #2ABEE2;
+}
   .el-message-box {
     border-radius: 5px;
   }
 
   .el-button--primary {
     color: #FFF;
-    background-color: #2ABEE2;
+    background-color: #2ABEE2 !important;
     border-color: #2ABEE2;
   }
 

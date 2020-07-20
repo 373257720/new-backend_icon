@@ -54,16 +54,6 @@
   export default {
     props:["tochind"],
     data(){
-      // var validatePass = (rule, value, callback) => {
-      //   if (value === '') {
-      //     callback(new Error('请输入密码'));
-      //   } else {
-      //     if (this.ruleForm.checkPass !== '') {
-      //       this.$refs.ruleForm.validateField('checkPass');
-      //     }
-      //     callback();
-      //   }
-      // };
       var validatePass = (rule, value, callback) => {
         // if
         // (value === '') {

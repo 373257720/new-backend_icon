@@ -83,7 +83,7 @@
           prop="system_fee"
           align="center"
           width="300"
-          label="CrytoGo Commision"
+          label="CryptoGo Commision"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column

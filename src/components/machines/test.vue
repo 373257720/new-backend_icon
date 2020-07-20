@@ -29,10 +29,10 @@
         <i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
         <div class="Currencyrange">
           <div class="additem" v-for="(item,index) in ruleForm.arr" :key="index">
-            <el-form-item :prop="'arr.' + index + '.money_range_minimum'" :rules="rules.minimum123">
-              <el-input v-model="item.money_range_minimum" @input="minimum(item, index)"></el-input>
+            <el-form-item  prop="minimum123">
+              <el-input v-model="item.money_range_minimum"></el-input>
             </el-form-item>
-            <el-form-item :prop="'arr.' + index + '.money_range_maximum'" :rules="rules.maximun">
+            <el-form-item prop="maximun">
               <el-input v-model="item.money_range_maximum" @input="maximun(item, index)"></el-input>
             </el-form-item>
             <el-select :popper-append-to-body="false" v-model="item.money_range_identify1">
@@ -60,7 +60,7 @@
               ></el-option>
             </el-select>
             <el-button
-              v-show="ruleForm.arr.length>1"
+              v-show="arr.length>1"
               @click="deleteitem(index)"
               type="primary"
               icon="el-icon-delete"
@@ -131,115 +131,29 @@ export default {
   props: ["MachineInfo"],
   data() {
     var validatePass2 = (rule, value, callback) => {
-      let order = rule.fullField.split(".")[1] * 1;
-      // name = rule.fullField.split(".")[2];
-      let a = this.ruleForm.arr[order];
-      if (a.money_range_minimum && a.money_range_maximum) {
-        let minimum = a.money_range_minimum.replace(/,/gi, "") * 1,
-          maximum = a.money_range_maximum.replace(/,/gi, "") * 1;
-        if (maximum <= minimum) {
-          callback(new Error("Less than" + maximum));
-        }
-      }
-      if (order > 0) {
-        if (
-          this.ruleForm.arr[order].money_range_minimum &&
-          this.ruleForm.arr[order - 1].money_range_maximum
-        ) {
-          if (
-            this.ruleForm.arr[order].money_range_minimum.replace(/,/gi, "") *
-              1 <=
-            this.ruleForm.arr[order - 1].money_range_maximum.replace(
-              /,/gi,
-              ""
-            ) *
-              1
-          ) {
-            callback(
-              new Error(
-                "More than" + this.ruleForm.arr[order - 1].money_range_maximum
-              )
-            );
-          }
-        } else if (
-          this.ruleForm.arr[order].money_range_minimum &&
-          this.ruleForm.arr[order - 1].money_range_maximum == "" &&
-          this.ruleForm.arr[order - 1].money_range_minimum
-        ) {
-          if (
-            this.ruleForm.arr[order].money_range_minimum.replace(/,/gi, "") *
-              1 <=
-            this.ruleForm.arr[order - 1].money_range_minimum.replace(
-              /,/gi,
-              ""
-            ) *
-              1
-          ) {
-            callback(
-              new Error(
-                "More than" + this.ruleForm.arr[order - 1].money_range_minimum
-              )
-            );
-          }
-        }
-      }
-
-      callback();
+      // console.log(rule,value,1123);
+      console.log(this.$props);
+      
+      // let min = this.ruleForm.collectMoneyMin.replace(/,/g, "") * 1;
+      // let max = value.replace(/,/g, "") * 1;
+      // if (max == "") {
+      //   callback(new Error("请输入"));
+      // } else if (max <= min) {
+      //   callback(new Error("金额需要大于最小值"));
+      // } else {
+      //   callback();
+      // }
     };
     var validatePass = (rule, value, callback) => {
-      let order = rule.fullField.split(".")[1] * 1;
-      let a = this.ruleForm.arr[order];
-      if (a.money_range_minimum && a.money_range_maximum) {
-        let minimum = a.money_range_minimum.replace(/,/gi, "") * 1,
-          maximum = a.money_range_maximum.replace(/,/gi, "") * 1;
-        console.log(minimum, maximum);
-        if (maximum <= minimum) {
-          callback(new Error("More than" + a.money_range_minimum));
-        }
-      } else if (a.money_range_maximum && a.money_range_minimum == "") {
-        if (order > 0 && this.ruleForm.arr[order - 1]) {
-          // console.log(this.ruleForm.arr[order - 1]);
-          if (
-            this.ruleForm.arr[order - 1].money_range_maximum.replace(
-              /,/gi,
-              ""
-            ) *
-              1 >
-            this.ruleForm.arr[order].money_range_maximum.replace(/,/gi, "") * 1
-          ) {
-            callback(
-              new Error(
-                "More than" + this.ruleForm.arr[order - 1].money_range_maximum
-              )
-            );
-          }
-        }
-      }
-
-      if (this.ruleForm.arr.length > 1) {
-        if (
-          this.ruleForm.arr[order].money_range_maximum &&
-          this.ruleForm.arr[order + 1] &&
-          this.ruleForm.arr[order + 1].money_range_minimum
-        ) {
-          if (
-            this.ruleForm.arr[order].money_range_maximum.replace(/,/gi, "") *
-              1 >=
-            this.ruleForm.arr[order + 1].money_range_minimum.replace(
-              /,/gi,
-              ""
-            ) *
-              1
-          ) {
-            callback(
-              new Error(
-                "Less than" + this.ruleForm.arr[order + 1].money_range_minimum
-              )
-            );
-          }
-        }
-      }
-      callback();
+       console.log(rule,value);
+      // let min = value.replace(/,/g, "") * 1;
+      // if (min === "") {
+      //   callback(new Error("请输入"));
+      // } else if (min <= 0) {
+      //   callback(new Error("金额需要大于0"));
+      // } else {
+      //   callback();
+      // }
     };
     return {
       msg: "",
@@ -305,26 +219,20 @@ export default {
         "language_sort_ms-my": null,
         "language_sort_th-th": null
       },
-
       rules: {
         minimum123: [
-          // { message: "请输入经纬度", trigger: "blur" }, //经纬度必填
-          { validator: validatePass2, trigger: "blur" }
+          { required: true, validator: validatePass2, trigger: "blur" }
         ],
-        // minimum: [
-        //   { required: true, validator: validatePass2, trigger: "blur" }
-        // ],
         maximun: [
-          // { required: true, message: "请输入经纬度", trigger: "blur" }, //经纬度必填
-          { validator: validatePass, trigger: "blur" }
+          { required: true, validator: validatePass2, trigger: "blur" }
+        ],
+      
+        collectMoneyMax: [
+          { required: true, validator: validatePass2, trigger: "blur" }
+        ],
+        collectMoneyMin: [
+          { required: true, validator: validatePass, trigger: "blur" }
         ]
-
-        // collectMoneyMax: [
-        //   { required: true, validator: validatePass2, trigger: "blur" }
-        // ],
-        // collectMoneyMin: [
-        //   { required: true, validator: validatePass, trigger: "blur" }
-        // ]
       }
     };
   },
@@ -338,8 +246,8 @@ export default {
     this.ruleForm.is_money_range =
       this.MachineInfo.money_range.is_money_range * 1 || 2;
     if (this.ruleForm.is_money_range == 1) {
-      this.ruleForm.arr = [...this.MachineInfo.money_range.data];
-      this.ruleForm.arr.forEach(item => {
+      this.arr = [...this.MachineInfo.money_range.data];
+      this.arr.forEach(item => {
         item.money_range_minimum = item.money_range_minimum
           ? parseInt(
               item.money_range_minimum.toString().replace(/,/gi, "")
@@ -391,10 +299,10 @@ export default {
       // if(this.arr.length===1){
       //   return
       // }
-      this.ruleForm.arr.splice(index, 1);
+      this.arr.splice(index, 1);
     },
     additem() {
-      this.ruleForm.arr.push({
+      this.arr.push({
         collectMoneyMin: "",
         collectMoneyMax: "",
         money_range_identify1: "",
@@ -402,70 +310,52 @@ export default {
         money_range_identify3: ""
       });
     },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        console.log(valid);
-        if (valid) {
-          let self = this;
-          self.ruleForm.money_range_minimum = [];
-          self.ruleForm.money_range_maximum = [];
-          self.ruleForm.money_range_identify1 = [];
-          self.ruleForm.money_range_identify2 = [];
-          self.ruleForm.money_range_identify3 = [];
-          if (self.ruleForm.is_money_range == 1) {
-            self.ruleForm.arr.forEach(item => {
-              self.ruleForm.money_range_minimum.push(
-                item.money_range_minimum
-                  ? item.money_range_minimum.replace(/,/gi, "") * 1
-                  : ""
-              );
-              self.ruleForm.money_range_maximum.push(
-                item.money_range_maximum
-                  ? item.money_range_maximum.replace(/,/gi, "") * 1
-                  : ""
-              );
-              self.ruleForm.money_range_identify1.push(
-                item.money_range_identify1
-              );
-              self.ruleForm.money_range_identify2.push(
-                item.money_range_identify2
-              );
-              self.ruleForm.money_range_identify3.push(
-                item.money_range_identify3
-              );
-            });
-          }
-          let obj = this.$global.deepCopy(self.ruleForm);
-          obj.arr = undefined;
-          delete obj.arr;
-          console.log(obj, this.ruleForm);
-          this.$axios({
-            method: "post",
-            url: `${this.$baseurl}/admin_api/machine.machine/editMachine`,
-            data: this.$qs.stringify(obj, { arrayFormat: "brackets" }),
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            }
-          }).then(res => {
-            // console.log('back')
-            if (res.data.ret === 0) {
-              // this.$emit('getchildren');
-              this.$routerto("edit_4th", {
-                machine_id: this.$route.query.machine_id
-              });
-            }
-            // else if(res.data.ret>999 ){
-            //     return
-            //   }
-            else {
-              this.msg = res.data.msg;
-              this.remindervisible = true;
-            }
+    submitForm() {
+      let self = this;
+      self.ruleForm.money_range_minimum = [];
+      self.ruleForm.money_range_maximum = [];
+      self.ruleForm.money_range_identify1 = [];
+      self.ruleForm.money_range_identify2 = [];
+      self.ruleForm.money_range_identify3 = [];
+      if (self.ruleForm.is_money_range == 1) {
+        self.arr.forEach(item => {
+          self.ruleForm.money_range_minimum.push(
+            item.money_range_minimum
+              ? item.money_range_minimum.replace(/,/gi, "") * 1
+              : ""
+          );
+          self.ruleForm.money_range_maximum.push(
+            item.money_range_maximum
+              ? item.money_range_maximum.replace(/,/gi, "") * 1
+              : ""
+          );
+          self.ruleForm.money_range_identify1.push(item.money_range_identify1);
+          self.ruleForm.money_range_identify2.push(item.money_range_identify2);
+          self.ruleForm.money_range_identify3.push(item.money_range_identify3);
+        });
+      }
+      console.log(this.ruleForm);
+      this.$axios({
+        method: "post",
+        url: `${this.$baseurl}/admin_api/machine.machine/editMachine`,
+        data: this.$qs.stringify(this.ruleForm, { arrayFormat: "brackets" }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      }).then(res => {
+        // console.log('back')
+        if (res.data.ret === 0) {
+          // this.$emit('getchildren');
+          this.$routerto("edit_4th", {
+            machine_id: this.$route.query.machine_id
           });
-        } else {
-          console.log(123);
-          // console.log("error submit!!");
-          return false;
+        }
+        // else if(res.data.ret>999 ){
+        //     return
+        //   }
+        else {
+          this.msg = res.data.msg;
+          this.remindervisible = true;
         }
       });
     }
@@ -544,7 +434,6 @@ export default {
     div.additem {
       display: flex;
       justify-content: space-between;
-      padding-bottom: 20px;
     }
 
     .el-button {

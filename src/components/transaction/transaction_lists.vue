@@ -506,7 +506,7 @@
             display: flex;
             span{
               display: inline-block;
-              width: 70px;
+              width: 100px;
               margin-right: 5px;
               text-align: right;
               line-height: 40px;
@@ -516,11 +516,17 @@
               width: 200px;
             }
           }
+             p:nth-child(1){
+          color:white;
+          // background:url(../../../static/add-disable.png) no-repeat;
+            margin-bottom:10px;
         }
+        }
+     
         div:nth-of-type(2){
           span{
             display: inline-block;
-            width: 110px;
+            width: 100px;
           }
 
         }

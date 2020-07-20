@@ -7,17 +7,17 @@ Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 };
 
-const home = () => import('@/components/home')
-const logo = () => import('@/components/logo')
-const login = () => import('@/components/login')
-const account = () => import('@/components/account')
-const dashboard = () => import('@/components/dashboard')
+const home = () => import(/* webpackChunkName: "group-foo" */'@/components/home')
+const logo = () => import(/* webpackChunkName: "group-foo" */'@/components/logo')
+const login = () => import(/* webpackChunkName: "group-foo" */'@/components/login')
+const account = () => import(/* webpackChunkName: "group-foo" */'@/components/account')
+const dashboard = () => import(/* webpackChunkName: "group-foo" */'@/components/dashboard')
 
-const account_setting = () => import('@/components/user/account_setting')
-const atm_support = () => import('@/components/user/atm_support')
-const atm_supportlist = () => import('@/components/user/atm_supportlist')
-const user = () => import('@/components/user/user')
-const customer_data = () => import('@/components/user/customer_data')
+const account_setting = () => import(/* webpackChunkName: "group-foo" */'@/components/user/account_setting')
+const atm_support = () => import(/* webpackChunkName: "group-foo" */'@/components/user/atm_support')
+const atm_supportlist = () => import(/* webpackChunkName: "group-foo" */'@/components/user/atm_supportlist')
+const user = () => import(/* webpackChunkName: "group-foo" */'@/components/user/user')
+const customer_data = () => import(/* webpackChunkName: "group-foo" */'@/components/user/customer_data')
 
 // import home from '@/components/home'
 // import logo from '@/components/logo'
@@ -56,78 +56,78 @@ const customer_data = () => import('@/components/user/customer_data')
 
 
 
-const machines = () => import('@/components/machines/machines')
-const group_pattern = () => import('@/components/machines/group_pattern')
-const remote_control_records = () => import('@/components/machines/remote_control_records')
-const machines_lists = () => import('@/components/machines/machines_lists')
-const machines_edit = () => import('@/components/machines/machines_edit')
-const add_Group_Pattern = () => import('@/components/machines/add_Group_Pattern')
-const edit_Group_Pattern = () => import('@/components/machines/edit_Group_Pattern')
-const add_1st = () => import('@/components/machines/add_1st')
-const add_2nd = () => import('@/components/machines/add_2nd')
-const add_3rd = () => import('@/components/machines/add_3rd')
-const add_4th = () => import('@/components/machines/add_4th')
-const edit_1st = () => import('@/components/machines/edit_1st')
-const edit_2nd = () => import('@/components/machines/edit_2nd')
-const edit_3rd = () => import('@/components/machines/edit_3rd')
-const edit_4th = () => import('@/components/machines/edit_4th')
-const edit_5th = () => import('@/components/machines/edit_5th')
-const test = () => import('@/components/test')
-const machine_subtitle = () => import('@/components/machines/machine_subtitle')
-const group_subtitle = () => import('@/components/machines/group_subtitle')
+const machines = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/machines')
+const group_pattern = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/group_pattern')
+const remote_control_records = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/remote_control_records')
+const machines_lists = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/machines_lists')
+const machines_edit = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/machines_edit')
+const add_Group_Pattern = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/add_Group_Pattern')
+const edit_Group_Pattern = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/edit_Group_Pattern')
+const add_1st = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/add_1st')
+const add_2nd = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/add_2nd')
+const add_3rd = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/add_3rd')
+const add_4th = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/add_4th')
+const edit_1st = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/edit_1st')
+const edit_2nd = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/edit_2nd')
+const edit_3rd = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/edit_3rd')
+const edit_4th = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/edit_4th')
+const edit_5th = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/edit_5th')
+const test = () => import(/* webpackChunkName: "group-foo" */'@/components/test')
+const machine_subtitle = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/machine_subtitle')
+const group_subtitle = () => import(/* webpackChunkName: "group-foo" */'@/components/machines/group_subtitle')
 
 
 // alerts
 // import alerts from '@/components/alerts/alerts'
 // import alerts_lists from '@/components/alerts/alerts_lists'
 // import alerts_details from '@/components/alerts/alerts_details'
-const alerts = () => import('@/components/alerts/alerts')
-const alerts_lists = () => import('@/components/alerts/alerts_lists')
-const alerts_details = () => import('@/components/alerts/alerts_details')
+const alerts = () => import(/* webpackChunkName: "group-foo" */'@/components/alerts/alerts')
+const alerts_lists = () => import(/* webpackChunkName: "group-foo" */'@/components/alerts/alerts_lists')
+const alerts_details = () => import(/* webpackChunkName: "group-foo" */'@/components/alerts/alerts_details')
 // settting
 // import setting from '@/components/settting/setting'
 // import setting_edit from '@/components/settting/setting_edit'
 // import setting_list from '@/components/settting/setting_list'
-const setting = () => import('@/components/settting/setting')
-const setting_edit = () => import('@/components/settting/setting_edit')
-const setting_list = () => import('@/components/settting/setting_list')
+const setting = () => import(/* webpackChunkName: "group-foo" */'@/components/settting/setting')
+const setting_edit = () => import(/* webpackChunkName: "group-foo" */'@/components/settting/setting_edit')
+const setting_list = () => import(/* webpackChunkName: "group-foo" */'@/components/settting/setting_list')
 //audit_log
 // import audit_log from '@/components/Aduit_logs/audit_log'
 // import setting_edit_lists from '@/components/Aduit_logs/audit_log_list'
 // import cashbox_log from '@/components/Aduit_logs/cashbox_log';
 // import error_log from '@/components/Aduit_logs/error_log';
 // import machine_connect_status from '@/components/Aduit_logs/machine_connect_status';
-const audit_log  = () => import('@/components/Aduit_logs/audit_log')
-const setting_edit_lists = () => import('@/components/Aduit_logs/audit_log_list')
-const cashbox_log= () => import('@/components/Aduit_logs/cashbox_log')
-const error_log = () => import('@/components/Aduit_logs/error_log')
-const machine_connect_status = () => import('@/components/Aduit_logs/machine_connect_status')
+const audit_log  = () => import(/* webpackChunkName: "group-foo" */'@/components/Aduit_logs/audit_log')
+const setting_edit_lists = () => import(/* webpackChunkName: "group-foo" */'@/components/Aduit_logs/audit_log_list')
+const cashbox_log= () => import(/* webpackChunkName: "group-foo" */'@/components/Aduit_logs/cashbox_log')
+const error_log = () => import(/* webpackChunkName: "group-foo" */'@/components/Aduit_logs/error_log')
+const machine_connect_status = () => import(/* webpackChunkName: "group-foo" */'@/components/Aduit_logs/machine_connect_status')
 
 
 
 // import transaction from '@/components/transaction/transaction'
 // import transaction_lists from '@/components/transaction/transaction_lists'
 // import transaction_details from "@/components/transaction/transaction_details"
-const transaction= () => import('@/components/transaction/transaction')
-const transaction_lists = () => import('@/components/transaction/transaction_lists')
-const transaction_details = () => import('@/components/transaction/transaction_details')
+const transaction= () => import(/* webpackChunkName: "group-foo" */'@/components/transaction/transaction')
+const transaction_lists = () => import(/* webpackChunkName: "group-foo" */'@/components/transaction/transaction_lists')
+const transaction_details = () => import(/* webpackChunkName: "group-foo" */'@/components/transaction/transaction_details')
 // complaince
 // import compliance from '@/components/compliance/compliance'
-const compliance = () => import('@/components/compliance/compliance')
+const compliance = () => import(/* webpackChunkName: "group-foo" */'@/components/compliance/compliance')
 // report
 // import report from "../components/report/report";
 // import report_lists from "../components/report/report_lists";
 // import report_crytocurrency from "../components/report/report_crytocurrency";
-const report = () => import('@/components/report/report')
-const report_lists = () => import('@/components/report/report_lists')
-const report_crytocurrency = () => import('@/components/report/report_crytocurrency')
+const report = () => import(/* webpackChunkName: "group-foo" */'@/components/report/report')
+const report_lists = () => import(/* webpackChunkName: "group-foo" */'@/components/report/report_lists')
+const report_crytocurrency = () => import(/* webpackChunkName: "group-foo" */'@/components/report/report_crytocurrency')
 // wallet
 // import wallet from "../components/wallet/wallet";
 // import wallet_lists from "../components/wallet/wallet_lists";
 // import wallet_edit from "../components/wallet/wallet_edit";
-const wallet = () => import('@/components/wallet/wallet')
-const wallet_lists = () => import('@/components/wallet/wallet_lists')
-const wallet_edit = () => import('@/components/wallet/wallet_edit')
+const wallet = () => import(/* webpackChunkName: "group-foo" */'@/components/wallet/wallet')
+const wallet_lists = () => import(/* webpackChunkName: "group-foo" */'@/components/wallet/wallet_lists')
+const wallet_edit = () => import(/* webpackChunkName: "group-foo" */'@/components/wallet/wallet_edit')
 // import verified_user from '@/components/userlist/verified_user'
 // import userroot from '@/components/userlist/verified_useroot'
 // import verified_usercheck from '@/components/userlist/verified_usercheck'

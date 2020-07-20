@@ -9,7 +9,7 @@
     <el-main>
       <article>
         <table class="mailTable" >
-          <tr v-for="(item,keyword) in tabledata">
+          <tr v-for="(item,keyword) in tabledata" :key="item.key">
             <td class="column">{{item.key}}</td>
             <td class="column" v-if="keyword=='money' || keyword=='price' || keyword=='trade_price'">{{item.value+tabledata['currency_name'].value}}</td>
             <td class="column" v-else-if="keyword=='miner_fee'">{{'$'+tabledata['miner_fee'].miner_money+'/ ฿'+tabledata['miner_fee'].value}}</td>
@@ -47,7 +47,7 @@
             </td>
             <td class="column" v-else-if="keyword=='redeem_code'">
               <span> {{item.value}}</span>
-              <span class="edit blank" @click="sendtocustomers">Send to customer</span>
+              <!-- <span v-if="tabledata.trade_type.value==='Buy'"  class="edit blank" @click="sendtocustomers">Send to customer</span> -->
             </td>
             <td class="column" v-else>{{item.value}}</td>
           </tr>
@@ -343,7 +343,7 @@
 
         }
 
-        　.mailTable, .mailTable tr, {
+        　.mailTable, .mailTable tr{
           border:1px solid #D4D4D4;
           color: #7A7A7A;
 

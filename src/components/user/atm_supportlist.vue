@@ -119,6 +119,7 @@
     },
 
     created() {
+        
         this.changepage(this.currentpage, this.pagesize);
     },
     activated(){

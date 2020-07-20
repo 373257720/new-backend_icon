@@ -8,7 +8,7 @@
     </header>
     <main>
       <nav>
-        <span>Cryto Currency:</span>
+        <span>CryptoCurrency:</span>
         <span>{{this.ruleForm.coin_type}}</span>
       </nav>
       <el-form label-position="top" :rules="rules" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -38,7 +38,7 @@
           <el-input v-model="ruleForm.key" clearable autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item v-show="ruleForm.platform=='binance'" label="Secret:" prop="secret">
-          <el-input v-model="ruleForm.secret" clearable autocomplete="off"></el-input>
+          <el-input v-model="ruleForm.secret" show-password clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>

@@ -1,79 +1,163 @@
 <html>
-<head>
-  <title>Place Autocomplete Address Form</title>
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-  <style>
-    /* Always set the map height explicitly to define the size of the div
+  <head>
+    <title>Place Autocomplete Address Form</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+    <style>
+      /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
-    #map {
-      height: 100%;
-    }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
-  <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-  <style>
-    #locationField, #controls {
-      position: relative;
-      width: 480px;
-    }
-    #autocomplete {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 99%;
-    }
-    .label {
-      text-align: right;
-      font-weight: bold;
-      width: 100px;
-      color: #303030;
-      font-family: "Roboto";
-    }
-    #address {
-      border: 1px solid #000090;
-      background-color: #f0f9ff;
-      width: 480px;
-      padding-right: 2px;
-    }
-    #address td {
-      font-size: 10pt;
-    }
-    .field {
-      width: 99%;
-    }
-    .slimField {
-      width: 80px;
-    }
-    .wideField {
-      width: 200px;
-    }
-    #locationField {
-      height: 20px;
-      margin-bottom: 2px;
-    }
-  </style>
-</head>
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <!-- <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"> -->
+    <style>
+      #locationField,
+      #controls {
+        position: relative;
+        width: 480px;
+      }
+      #autocomplete {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 99%;
+      }
+      .label {
+        text-align: right;
+        font-weight: bold;
+        width: 100px;
+        color: #303030;
+        font-family: "Roboto";
+      }
+      #address {
+        border: 1px solid #000090;
+        background-color: #f0f9ff;
+        width: 480px;
+        padding-right: 2px;
+      }
+      #address td {
+        font-size: 10pt;
+      }
+      .field {
+        width: 99%;
+      }
+      .slimField {
+        width: 80px;
+      }
+      .wideField {
+        width: 200px;
+      }
+      #locationField {
+        height: 20px;
+        margin-bottom: 2px;
+      }
+    </style>
+  </head>
 
-<body>
-<div id="locationField">
+  <body>
+    <script>
+      //     let node = {
+      //         type : 'identifier',
+      //         name : 'foo'
+      // };
+      // // let {type,name} = node;
+      // ({type,name} = node);
+      // console.log(this);//'identifier'
+      // // console.log(name);//'foo'
+      // let node = {
+      //      type: "Identifier",
+      //      name: "foo",
+      //      loc: {
+      //        start: {
+      //              line: 1,
+      //              column: 1
+      //         },
+      //        end: {
+      //              line: 1,
+      //              column: 4
+      //         }
+      //     }
+      // };
+      // let {loc:{start:tony}}=node;
+      // console.log(tony);
+      // let node = {
+      //         type : 'identifier',
+      //         name : 'foo'
+      // };
+      // let node = {
+      //     type: "Identifier",
+      //     loc: {
+      //       start: {
+      //       line: 1,
+      //       column: 1
+      //        }
+      //     },
+      //     range: [0, 3]
+      // };
+      // let {
+      //     loc: { start },
+      //     range: [ startIndex ]
+      //   } = node;
+      //   console.log(start.line); // 1
+      // console.log(start.column); // 1
+      // console.log(startIndex); // 0
+      // options 上的属性表示附加参数
+      // function setCookie(name, value, options) {
+      //   options = options || {};
+      //   let secure = options.secure,
+      //     path = options.path,
+      //     domain = options.domain,
+      //     expires = options.expires;
+      //   // 设置 cookie 的代码
+      // }
+      // let options={ secure: 1 }
+      // setCookie(1, 2,options );
+      // //可以改写为：对options进行解构并赋予默认值
+      // function setCookie(name, value, { secure, path, domain, expires } = {}) {
+      //   // ...
+      //   console.log(secure);
+      // }
+      function add(x, y) {
+        // return x + y;
+        console.log(x,y);
+        
+
+      }
+
+      const numbers = [4, 38];
+      add([4, 38]); // 42
+      // let colors = [ "red", [ "ddd", "lightgreen" ], "blue" ];
+      // let [ firstColor, [secondColor,dd,q] ] = colors;
+      // console.log(secondColor,q); // "green"
+      // ({type:tony,name} = node);
+      // console.log(tony);//'identifier'
+      // let colors = [ "red" ];
+      // let [ firstColor, secondColor = "green" ] = colors;
+      // console.log(firstColor); // "red"
+      // console.log(secondColor); // "green"
+      // console.log(localName);//'foo'
+    </script>
+    <!-- <div id="locationField">
   <input id="autocomplete"
          placeholder="Enter your address"
          onFocus="geolocate()"
          type="text"/>
-</div>
+</div> -->
 
-<!-- Note: The address components in this sample are typical. You might need to adjust them for
+    <!-- Note: The address components in this sample are typical. You might need to adjust them for
            the locations relevant to your app. For more information, see
      https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
 -->
 
-<table id="address">
+    <!-- <table id="address">
   <tr>
     <td class="label">Street address</td>
     <td class="slimField"><input class="field" id="street_number" disabled="true"/></td>
@@ -93,9 +177,9 @@
     <td class="label">Country</td>
     <td class="wideField" colspan="3"><input class="field" id="country" disabled="true"/></td>
   </tr>
-</table>
+</table> -->
 
-<script>
+    <!-- <script>
   // This sample uses the Autocomplete widget to help the user select a
   // place, then it retrieves the address components associated with that
   // place, and then it populates the form fields with those details.
@@ -165,8 +249,8 @@
       });
     }
   }
-</script>
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGUHg6nxNtAAksUnoaP-U9RSbZQ9FUr-A&libraries=places&callback=initAutocomplete"-->
-<!--        async defer></script>-->
-</body>
+</script> -->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGUHg6nxNtAAksUnoaP-U9RSbZQ9FUr-A&libraries=places&callback=initAutocomplete"-->
+    <!--        async defer></script>-->
+  </body>
 </html>

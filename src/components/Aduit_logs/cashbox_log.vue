@@ -393,7 +393,7 @@
       }
 
     }
-    @media (max-width: 1024px){
+    @media (max-width: 1360px){
       nav{
         display: flex;
         flex-wrap: wrap;
@@ -404,11 +404,13 @@
           margin-top: 10px;
           flex-wrap: wrap;
           >div{
-            display: flex;
+            // display: flex;
+                 margin-top: 10px;
+            // align-items: center
 
           }
           div:nth-of-type(2){
-            margin-top: 10px;
+            // margin-top: 10px;
           }
         }
 

@@ -90,6 +90,10 @@
               // console.log(this.tochind)
             }
           }
+          // ({alert_email} = this.tochind);
+          // console.log(this.alert_email);
+          
+          
       }
     },
     created() {

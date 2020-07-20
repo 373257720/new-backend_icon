@@ -19,6 +19,7 @@
     "google": "^2.1.0",
     "google-maps": "^3.3.0",
     "vue": "^2.5.2",
+    "vue-jsonp": "^0.1.8",
     "vue-router": "^3.0.1",
     "vue-text-format": "^1.2.5",
     "vue2-google-maps": "^0.10.7",

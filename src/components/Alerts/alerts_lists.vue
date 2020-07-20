@@ -24,7 +24,7 @@
         </div>
       </nav>
       <el-main>
-        <div v-if="tableData.length<1" style="text-align: center">
+        <div v-if="tableData.length<1" class="nonedata" >
           No more
         </div>
         <ul>
@@ -142,6 +142,10 @@
 <style lang="scss">
   .alerts_lists{
     /*width: 100%;*/
+    .nonedata{
+      color: #777777;
+      text-align: center;
+    }
     div.alerts_lists2{
       justify-content: left;
     }
