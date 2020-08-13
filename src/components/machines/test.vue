@@ -337,7 +337,7 @@ export default {
       console.log(this.ruleForm);
       this.$axios({
         method: "post",
-        url: `${this.$baseurl}/admin_api/machine.machine/editMachine`,
+        url: `${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,
         data: this.$qs.stringify(this.ruleForm, { arrayFormat: "brackets" }),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"

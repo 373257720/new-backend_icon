@@ -176,7 +176,7 @@
       export_excel(){
         let start_time = this.timerange==null?0:this.timerange[0];
         let end_time = this.timerange==null?0:this.timerange[1];
-        window.location.href = `${this.$baseurl}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.keyword}`;
+        window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.keyword}`;
 
       },
       searcher(){
@@ -220,7 +220,7 @@
       },
       beforedelete(params){
         // console.log(params)
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/deleteMachineMoneyLog`,{
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_money_log/deleteMachineMoneyLog`,{
           machine_money_log_id: params,
         }).then(res => {
           this.msg=res.data.msg;
@@ -244,7 +244,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_money_log/getMachineMoneyLogList`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_money_log/getMachineMoneyLogList`,{
           page: currentpage,
           size:pagesize,
           keyword:keyword,

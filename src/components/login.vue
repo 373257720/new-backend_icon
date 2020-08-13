@@ -53,7 +53,7 @@ export default {
       this.reminder = false;
       this.$global
         .post_encapsulation(
-          `${this.$baseurl}/admin_api/common.common/sendEmailCode`,
+          `${this.$axios.defaults.baseURL}/admin_api/common.common/sendEmailCode`,
           {
             email: this.username,
             type: "login"
@@ -76,7 +76,7 @@ export default {
           this.loading = true;
           this.$global
             .post_encapsulation(
-              `${this.$baseurl}/admin_api/user.back_user/login`,
+              `${this.$axios.defaults.baseURL}/admin_api/user.back_user/login`,
               {
                 username: this.username,
                 password: this.password,

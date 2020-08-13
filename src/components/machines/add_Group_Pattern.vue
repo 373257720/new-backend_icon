@@ -126,7 +126,7 @@
         this.activeName=num;
       },
       // getdata(){
-      //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
+      //   this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
       //   ).then(res=>{
       //     console.log(res)
       //     this.MachineInfo=res.data.data;
@@ -152,7 +152,7 @@
         // }
       }
       // fromchildren(data) {
-      //   this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
+      //   this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
       //   ).then(res=>{
       //     console.log(res )
       //     this.MachineInfo=res.data.data;

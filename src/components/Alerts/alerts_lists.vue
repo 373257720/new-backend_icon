@@ -97,7 +97,7 @@
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
         this.pictLoading=true;
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.notice/getNoticeList`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/content.notice/getNoticeList`,{
           page: currentpage,
           size:pagesize,
           start_time:starttime,

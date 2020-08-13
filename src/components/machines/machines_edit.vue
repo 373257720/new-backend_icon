@@ -53,7 +53,7 @@ export default {
     getInfor() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/machine.machine/getMachineInfo`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineInfo`,
           { machine_id: this.machineId }
         )
         .then(res => {

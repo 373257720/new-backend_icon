@@ -30,6 +30,7 @@
             <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">Edit</el-button>
           </template>
         </el-table-column>
+        
       </el-table>
     </el-main>
     <!--    <pagevue-->
@@ -81,6 +82,14 @@ export default {
         {
           productType: "Advanced Setting",
           productName: "Bitgo"
+        },
+         {
+          productType: "Order SMS",
+          productName: "order_sms"
+        },
+         {
+          productType: "Order mail",
+          productName: "order_email"
         }
         // {
         //   productType:"Advanced Setting",
@@ -183,7 +192,7 @@ export default {
     changepage(currentpage, pagesize) {
       // this.$axios({
       //   method: "get",
-      //   url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
+      //   url: `${this.$axios.defaults.baseURL}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
       //   headers: {
       //     "Content-Type": "application/x-www-form-urlencoded"
       //   }
@@ -191,7 +200,7 @@ export default {
 
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/bsl_admin_web/user/getUserAuthList`,
+          `${this.$axios.defaults.baseURL}/bsl_admin_web/user/getUserAuthList`,
           {
             optStatus: 1,
             pageIndex: currentpage,

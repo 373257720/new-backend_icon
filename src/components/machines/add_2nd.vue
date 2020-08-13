@@ -188,7 +188,7 @@ export default {
   created() {
     this.$global
       .get_encapsulation(
-        `${this.$baseurl}/admin_api/content.currency/getCurrencyList`
+        `${this.$axios.defaults.baseURL}/admin_api/content.currency/getCurrencyList`
       )
       .then(res => {
         if (res) {
@@ -244,7 +244,7 @@ export default {
       // console.log(this.ruleForm);
       this.$emit("getchildren", "", "third");
       // this.ruleForm.token=this.$store.state.token;
-      // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+      // this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,this.ruleForm)
       //   .then(res=>{
       //     if(res.data.ret==0){
       //       this.$emit('getchildren');
@@ -282,7 +282,7 @@ export default {
       this.formData.append("file", _file);
       this.$axios({
         method: "post",
-        url: `${this.$baseurl}/bsl_admin_web/upload/pic`,
+        url: `${this.$axios.defaults.baseURL}/bsl_admin_web/upload/pic`,
         data: this.formData
         // headers: {
         //   "Content-Type": "multipart/form-data"

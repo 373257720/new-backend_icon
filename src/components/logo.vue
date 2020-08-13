@@ -104,10 +104,21 @@ export default {
   }
   header{
     img{
+      cursor: pointer;
       -webkit-animation-name: LogoRotate;
       animation-name: LogoRotate;
       animation-delay:1s;
       -webkit-animation-delay:1s;
+
+
+
+
+
+
+
+
+
+      
       -webkit-animation-duration: 1.8s;
       animation-duration:1.8s;
       transition: transform 1.8s;

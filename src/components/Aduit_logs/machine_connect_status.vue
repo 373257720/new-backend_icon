@@ -111,7 +111,7 @@
         }).then(() => {
           // this.$axios
           //   .post(
-          //     `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+          //     `${this.$axios.defaults.baseURL}/admin_api/user.front_user/editUserStatus`,
           //     { params:{
           //         token: this.$store.state.token,
           //         user_id: currentpage,
@@ -125,7 +125,7 @@
           //     }
           //   )
 
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.front_user/editUserStatus`,
             {
               user_id: currentpage,
               status:2
@@ -154,7 +154,7 @@
         })
         // this.$axios({
         //   method: 'post',
-        //   url: `${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+        //   url: `${this.$axios.defaults.baseURL}/admin_api/user.front_user/editUserStatus`,
         //   data: {
         //     token:this.$store.state.token,
         //     user_id: userid_arr,
@@ -162,7 +162,7 @@
         //   }
         // })
 
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`,
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.front_user/editUserStatus`,
           {
             user_id: userid_arr,
             status:num,
@@ -194,7 +194,7 @@
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
         this.pictLoading=true;
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.communication/getCommunicationList`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.communication/getCommunicationList`,{
           page: currentpage,
           size:pagesize,
           keyword:keyword,

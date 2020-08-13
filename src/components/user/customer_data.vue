@@ -33,7 +33,7 @@
         <el-table-column class-name="edit" align="center" label="User Icon" width="150" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-popover placement="right" width="400" trigger="click">
-              <img :src="$baseurl+scope.row.avatar_picture" alt="">
+              <img :src="$axios.defaults.baseURL+scope.row.avatar_picture" alt="">
               <span slot="reference">Picture</span>
             </el-popover>
           </template>
@@ -88,7 +88,7 @@
           this.multipleSelection.forEach(item => {
             userid_arr.push(item.user_id)
           })
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`, {
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.front_user/editUserStatus`, {
               user_id: userid_arr,
               status: num,
             })
@@ -123,7 +123,7 @@
         } else if (row.status == 2) {
           tostatus = 1;
         }
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/editUserStatus`, {
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.front_user/editUserStatus`, {
             user_id: row.user_id,
             status: tostatus,
           })
@@ -150,7 +150,7 @@
 
       },
       fromson(){
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.front_user/deleteUser`, {
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.front_user/deleteUser`, {
               user_id: this.rowuser_id,
             })
             .then(res => {
@@ -194,7 +194,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize, keyword) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.front_user/getUserList`, {
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.front_user/getUserList`, {
             page: currentpage,
             size: pagesize,
             keyword: keyword,

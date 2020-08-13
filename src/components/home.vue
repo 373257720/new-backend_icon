@@ -347,7 +347,7 @@ export default {
         this.$routerto("account");
       } else if (command == "login") {
         this.$global
-          .get_encapsulation(`${this.$baseurl}/admin_api/user.back_user/logout`)
+          .get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.back_user/logout`)
           .then(res => {
             if (res.data.ret == 0) {
               window.sessionStorage.clear();

@@ -121,7 +121,7 @@ export default {
   created() {
     this.$global
       .get_encapsulation(
-        `${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupInfo`,
+        `${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/getMachineGroupInfo`,
         {
           machine_group_id: this.$route.query.machine_group_id
         }

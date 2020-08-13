@@ -105,13 +105,13 @@
       getdata(){
         // this.$axios({
         //   method: 'get',
-        //   url: `${this.$baseurl}/admin_api/user.back_user/getUserInfo`,
+        //   url: `${this.$axios.defaults.baseURL}/admin_api/user.back_user/getUserInfo`,
         //   params: {
         //     token:this.$store.state.token,
         //     // user_id:this.$route.query.atm_user_id,
         //   },
         // })
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.back_user/getUserInfo`)
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.back_user/getUserInfo`)
           .then(res => {
           if(res.data.ret==0){
             console.log(res)
@@ -138,10 +138,10 @@
           if (valid) {
               // this.$axios({
               //   method: 'post',
-              //   url: `${this.$baseurl}/admin_api/user.back_user/editUser`,
+              //   url: `${this.$axios.defaults.baseURL}/admin_api/user.back_user/editUser`,
               //   data: this.ruleForm,
               // })
-            this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.back_user/editUser`, this.ruleForm)
+            this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.back_user/editUser`, this.ruleForm)
                 .then(res => {
                 if(res.data.ret==0){
                   console.log(res)

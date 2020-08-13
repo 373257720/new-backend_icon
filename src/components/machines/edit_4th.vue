@@ -187,7 +187,7 @@
     methods: {
       submitForm() {
         console.log(this.ruleForm);
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`, this.ruleForm)
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`, this.ruleForm)
           .then(res => {
             if (res.data.ret == 0) {
               // this.$emit('getchildren');

@@ -7,25 +7,26 @@ import store from "./store/store";
 import "./css/base.css";
 import qs from "qs";
 Vue.prototype.$qs = qs;
-// import ElementUI from 'element-ui';
 import axios from "axios";
 Vue.prototype.$axios = axios;
+const url = process.env.BASE_API;
+axios.defaults.baseURL = url;
 import "element-ui/lib/theme-chalk/index.css";
 import element from "./element.js";
 Vue.use(element);
 import global from "../src/global";
 Vue.prototype.$global = global;
-// import locale from 'element-ui/lib/locale/lang/en'
-// Vue.use(element, { locale })
-
 import lang from "element-ui/lib/locale/lang/en";
 import locale from "element-ui/lib/locale";
 locale.use(lang);
+import '../static/UE/ueditor.config.js'
+import '../static/UE/ueditor.all.min.js'
+import   '../static/UE/lang/en/en.js'
+import  '../static/UE/lang/zh-cn/zh-cn.js'
+// console.log(UE.I18N);
 
+import '../static/UE/ueditor.parse.min'
 Vue.config.productionTip = false;
-// Vue.use(ElementUI);
-// import format from 'vue-text-format';
-// Vue.use(format);
 Vue.prototype.$routerto = function routerTo(name, obj) {
   this.$router.push({
     name: name,
@@ -33,7 +34,6 @@ Vue.prototype.$routerto = function routerTo(name, obj) {
   });
 };
 const restore_obj = global.deepCopy(store._modules.root.state);
-// console.log(restore_obj);
 Vue.prototype.$restore_obj = restore_obj;
 
 let isShowLoading = true;
@@ -94,12 +94,12 @@ axios.interceptors.response.use(
 //         return this.$jsonp(url);
 //     };
 // //设置baseurl
-var baseurl = {
-  // api: "http://192.168.1.37:80",
-  // api: "https://www.cryptogolab.com"
-  api: "http://atm.wearetechman.com"
-};
-Vue.prototype.$baseurl = baseurl.api;
+// var baseurl = {
+//   // api: "http://192.168.1.37:80",
+//   api: "https://www.cryptogolab.com"
+//   // api: "http://atm.wearetechman.com"
+// };
+// Vue.prototype.$baseurl = baseurl.api;
 
 router.beforeEach((to, from, next) => {
   store.commit("toprightt", to.name);

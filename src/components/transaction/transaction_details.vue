@@ -108,14 +108,14 @@
 
     },
     mounted () {
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.order/getOrderInfo`,{
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.order/getOrderInfo`,{
         order_id: this.$route.query.order_id,
       }).then(res => {
         if(res.data.ret==0){
           this.address=res.data.data.address;
           this.coupon_money=res.data.data.coupon_money;
-          this.trade_picture1=this.$baseurl+res.data.data.trade_picture1;
-          this.trade_picture2=this.$baseurl+res.data.data.trade_picture2;
+          this.trade_picture1=this.$axios.defaults.baseURL+res.data.data.trade_picture1;
+          this.trade_picture2=this.$axios.defaults.baseURL+res.data.data.trade_picture2;
           let name= res.data.data.coin_type.slice(0, 1).toUpperCase() + res.data.data.coin_type.slice(1);
           this.tabledata.coin_number.key=name;
            this.tabledata.certificate_url.value= res.data.data.identify?res.data.data.identify.certificate_url:'';
@@ -151,7 +151,7 @@
         window.location.href =a ;
       },
       sendtocustomers(){
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.order/sendRedeemCode`,{
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.order/sendRedeemCode`,{
           order_id:this.$route.query.order_id,
         }).then(res=>{
           this.msg=res.data.msg;

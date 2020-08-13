@@ -92,9 +92,9 @@
       changepage(currentpage, pagesize) {
         // this.$axios({
         //   method: "get",
-        //   url: `${this.$baseurl}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
+        //   url: `${this.$axios.defaults.baseURL}/bsl_admin_web/user/getUserAuthList?optStatus=1&pageIndex=${currentpage}&pageSize=${pagesize}`,
         // })
-        this.$global.get_encapsulation(`${this.$baseurl}/bsl_admin_web/user/getUserAuthList`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/bsl_admin_web/user/getUserAuthList`,
           {
             optStatus:1,
             pageIndex:currentpage,

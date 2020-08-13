@@ -68,14 +68,14 @@
         this.formData.append('attach_dir', 'machine')
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/home/common.picture/upload.html`,
+          url: `${this.$axios.defaults.baseURL}/home/common.picture/upload.html`,
           data: this.formData,
           headers: {
             "Content-Type": "multipart/form-data"
           }
         })
           .then(res => {
-            this.imageUrl=this.$baseurl+ res.data.data.picture_list.original;
+            this.imageUrl=this.$axios.defaults.baseURL+ res.data.data.picture_list.original;
             console.log(this.imageUrl)
             // this.form.pic.push(res.data.data.urlBase + res.data.data.url);
             // this.form.pic.push(res.data.data.urlBase + res.data.data.url);

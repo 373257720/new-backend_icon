@@ -145,7 +145,7 @@
     },
     methods: {
       apply(){
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/attribute`,{
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/attribute`,{
           machine_group_id:this.machine_group_id,
           machine_id:this.machine_id,
         }).then(res=>{
@@ -211,7 +211,7 @@
         this.multipleSelection.forEach(item=>{
           userid_arr.push(item.machine_group_id)
         });
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/deleteMachineGroup`,{
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/deleteMachineGroup`,{
             machine_group_id: userid_arr,
           })
             .then(res => {
@@ -234,7 +234,7 @@
       },
       changepage(currentpage, pagesize,keyword) {
         // this.loading=true;
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/getMachineGroupList`,{
           page: currentpage,
           size:pagesize,
           keyword:keyword,

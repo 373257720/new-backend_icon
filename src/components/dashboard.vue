@@ -302,7 +302,7 @@ export default {
       //获取数据
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/machine.order/statisticsDayOrder`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.order/statisticsDayOrder`,
           {
             page: 1,
             size: 10
@@ -344,7 +344,7 @@ export default {
     order_infor() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/machine.order/getOrderList`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.order/getOrderList`,
           {
             page: 1,
             size: 7
@@ -363,7 +363,7 @@ export default {
     MACHINE_INFORMATION() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/machine.machine/getMachineList`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineList`,
           {
             page: this.currentpage,
             size: this.pagesize,
@@ -416,7 +416,7 @@ export default {
       }
       // this.$axios({
       //   method: "post",
-      //   url: `${this.$baseurl}/bsl_admin_web/project/getProject`,
+      //   url: `${this.$axios.defaults.baseURL}/bsl_admin_web/project/getProject`,
       //   data: this.$qs.stringify({
       //     signStatus: status,
       //     searchKey: this.searchkey,
@@ -432,7 +432,7 @@ export default {
 
       this.$global
         .post_encapsulation(
-          `${this.$baseurl}/bsl_admin_web/project/getProject`,
+          `${this.$axios.defaults.baseURL}/bsl_admin_web/project/getProject`,
           {
             signStatus: status,
             searchKey: this.searchkey,

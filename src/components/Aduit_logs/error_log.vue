@@ -169,7 +169,7 @@
 
       },
       beforedelete(param){
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.user_machine_error/deleteUserMachineError`,{
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.user_machine_error/deleteUserMachineError`,{
             user_machine_error_id: param,
           })
             .then(res => {
@@ -204,7 +204,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword,starttime,endtime) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.user_machine_error/getUserMachineErrorList`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.user_machine_error/getUserMachineErrorList`,{
           token: this.$store.state.token,
           page: currentpage,
           size:pagesize,

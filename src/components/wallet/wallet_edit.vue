@@ -114,7 +114,7 @@
     },
     methods: {
       getdata() {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigInfo`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/content.hedge_config/getHedgeConfigInfo`,
           {  coin_type: this.$route.query.coin_type,}
         )
           .then(res => {
@@ -143,7 +143,7 @@
         if(this.ruleForm.platform=='binance'){
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`,
+              this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/content.hedge_config/editHedgeConfig`,
               this.ruleForm)
                 .then(res => {
                   this.msg=res.data.msg;
@@ -158,7 +158,7 @@
             }
           });
         }else if(this.ruleForm.platform=='none'){
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/content.hedge_config/editHedgeConfig`,
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/content.hedge_config/editHedgeConfig`,
            this.ruleForm2)
             .then(res => {
               this.msg=res.data.msg;

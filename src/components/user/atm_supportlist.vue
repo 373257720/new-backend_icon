@@ -137,7 +137,7 @@
           this.multipleSelection.forEach(item=>{
             userid_arr.push(item.atm_user_id)
           })
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`, {
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.atm_user/editAtmUserStatus`, {
             atm_user_id: userid_arr,
             status:num,
           }).then(res => {
@@ -168,7 +168,7 @@
           tostatus=1;
         }
         console.log(row.status)
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/editAtmUserStatus`,{
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.atm_user/editAtmUserStatus`,{
             atm_user_id: row.atm_user_id,
             status: tostatus,
           }).then(res => {
@@ -216,7 +216,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/user.atm_user/getAtmUserList`,
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.atm_user/getAtmUserList`,
          {  page: currentpage,
            size:pagesize,
            keyword:keyword,

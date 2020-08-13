@@ -113,7 +113,7 @@ export default {
 
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/content.hedge_config/getHedgeConfigList`,
+          `${this.$axios.defaults.baseURL}/admin_api/content.hedge_config/getHedgeConfigList`,
           {
             page: currentpage,
             size: pagesize

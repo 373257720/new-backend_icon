@@ -179,28 +179,28 @@ export default {
       this.choose(".background_picture .el-upload--picture-card");
       this.fileList.push({
         name: "background_picture",
-        url: this.$baseurl + this.MachineInfo.background_picture
+        url: this.$axios.defaults.baseURL + this.MachineInfo.background_picture
       });
     }
     if (this.MachineInfo.logo_picture != null) {
       this.choose(".logo_picture .el-upload--picture-card");
       this.fileList2.push({
         name: "logo_picture",
-        url: this.$baseurl + this.MachineInfo.logo_picture
+        url: this.$axios.defaults.baseURL + this.MachineInfo.logo_picture
       });
     }
     if (this.MachineInfo.logo2_picture != null) {
       this.choose(".logo2_picture .el-upload--picture-card");
       this.fileList3.push({
         name: "logo2_picture",
-        url: this.$baseurl + this.MachineInfo.logo2_picture
+        url: this.$axios.defaults.baseURL + this.MachineInfo.logo2_picture
       });
     }
     if (this.MachineInfo.advertisement_picture != null) {
       this.choose(".advertisement_picture .el-upload--picture-card");
       this.fileList4.push({
         name: "advertisement_picture",
-        url: this.$baseurl + this.MachineInfo.advertisement_picture
+        url: this.$axios.defaults.baseURL + this.MachineInfo.advertisement_picture
       });
     }
   },
@@ -208,7 +208,7 @@ export default {
     submitForm() {
       this.$global
         .post_encapsulation(
-          `${this.$baseurl}/admin_api/machine.machine/editMachine`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,
           this.ruleForm
         )
         .then(res => {
@@ -425,7 +425,7 @@ export default {
       console.log(this.formData);
       this.$axios({
         method: "post",
-        url: `${this.$baseurl}/home/common.picture/upload.html`,
+        url: `${this.$axios.defaults.baseURL}/home/common.picture/upload.html`,
         data: this.formData,
         headers: {
           "Content-Type": "multipart/form-data"

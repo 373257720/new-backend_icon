@@ -30,9 +30,9 @@
         <el-table-column align="center" label="Photo" width="100" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-popover placement="right" width="400" trigger="click">
-              <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original"
+              <img class="bigpic" v-if="scope.row.machine_picture==null?false:true" :src="$axios.defaults.baseURL+scope.row.machine_picture.original"
                 alt="">
-              <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$baseurl+scope.row.machine_picture.original"
+              <img slot="reference" class="imgsize" v-if="scope.row.machine_picture==null?false:true" :src="$axios.defaults.baseURL+scope.row.machine_picture.original"
                 alt="">
             </el-popover>
           </template>
@@ -129,7 +129,7 @@
 
     created() {
       // this.changepage(this.currentpage, this.pagesize);
-      this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`, {
+      this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/getMachineGroupList`, {
         page: this.currentpage,
         size: this.pagesize,
         keyword: '',
@@ -157,7 +157,7 @@
         // this.templateSelection = row;
       },
       creat() {
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/addMachineOperate`, {
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_operate/addMachineOperate`, {
           type: this.remote_control_type,
           machine_id: this.machine_idx
         }).then(res => {
@@ -171,7 +171,7 @@
         })
       },
       apply() {
-        this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editGroup`, {
+        this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editGroup`, {
           machine_id: this.machine_id,
           machine_group_id: this.machine_group_id,
         }).then(res => {
@@ -251,7 +251,7 @@
       changepage(currentpage, pagesize, keyword) {
         // this.$axios
         //   .get(
-        //     `${this.$baseurl}/admin_api/machine.machine/getMachineList`,
+        //     `${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineList`,
         //     { params:{
         //         token: this.$store.state.token,
         //         page: currentpage,
@@ -265,7 +265,7 @@
         //       }
         //     }
         //   )
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine/getMachineList`, {
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineList`, {
             page: currentpage,
             size: pagesize,
             keyword: keyword,

@@ -63,7 +63,7 @@
           </el-dialog>
         </div>
       </el-form-item>
-      <el-form-item label="Email photo:">
+      <!-- <el-form-item label="Email photo:">
         <div class="email_picture">
           <el-upload
             action
@@ -82,7 +82,7 @@
             <img width="100%" :src="dialogImageUrl" alt />
           </el-dialog>
         </div>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <section>
       <button @click="goback">BACK</button>
@@ -116,7 +116,7 @@ export default {
         country_id: "",
         address: "",
         machine_picture_id: null,
-        email_picture_id: null
+        // email_picture_id: null
       },
       rules: {
         username: [{ required: true, message: "不能为空", trigg: "change" }],
@@ -139,13 +139,13 @@ export default {
   created() {
     let axiosList = [
       this.$axios.get(
-        `${this.$baseurl}/admin_api/content.country/getCountryList`,
+        `${this.$axios.defaults.baseURL}/admin_api/content.country/getCountryList`,
         {
           params: { token: this.$store.state.token, lang: "en-us" }
         }
       ),
       this.$axios.get(
-        `${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`,
+        `${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/getMachineGroupList`,
         {
           params: {
             token: this.$store.state.token,
@@ -197,14 +197,14 @@ export default {
         this.choose(".machine_picture .el-upload--picture-card");
         this.fileList.push({
           name: "machine_picture.jpeg",
-          url: this.$baseurl + this.MachineInfo.machine_picture
+          url: this.$axios.defaults.baseURL + this.MachineInfo.machine_picture
         });
       }
       if (this.MachineInfo.email_picture) {
         this.choose(".email_picture .el-upload--picture-card");
         this.Email_photo.push({
           name: "Email_photo.jpeg",
-          url: this.$baseurl + this.MachineInfo.email_picture
+          url: this.$axios.defaults.baseURL + this.MachineInfo.email_picture
         });
       }
     });
@@ -217,7 +217,7 @@ export default {
     submitForm() {
       this.$global
         .post_encapsulation(
-          `${this.$baseurl}/admin_api/machine.machine/editMachine`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,
           this.ruleForm
         )
         .then(res => {
@@ -345,7 +345,7 @@ export default {
 
       this.$axios({
         method: "post",
-        url: `${this.$baseurl}/home/common.picture/upload.html`,
+        url: `${this.$axios.defaults.baseURL}/home/common.picture/upload.html`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data"

@@ -37,7 +37,11 @@ module.exports = {
 
   build: {
     // Template for index.html
+    testEnv:require('./test.env'),
+    prodEnv:require('./prod.env'),
+    devEnv:require('./dev.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
+
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),

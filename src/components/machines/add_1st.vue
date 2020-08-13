@@ -98,9 +98,9 @@
     },
     created() {
       let axiosList = [
-        this.$axios.get(`${this.$baseurl}/admin_api/content.country/getCountryList`,{
+        this.$axios.get(`${this.$axios.defaults.baseURL}/admin_api/content.country/getCountryList`,{
           params:{ token:this.$store.state.token,lang:'en-us'}}),
-        this.$axios.get(`${this.$baseurl}/admin_api/machine.machine_group/getMachineGroupList`, {
+        this.$axios.get(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/getMachineGroupList`, {
           params: {token: this.$store.state.token, page: 1, size: 10000,keyword:''},
         })
       ];
@@ -144,7 +144,7 @@
         // console.log(this.ruleForm);
         this.$emit('getchildren','','second');
         // this.ruleForm.token=this.$store.state.token;
-        // this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine/editMachine`,this.ruleForm)
+        // this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,this.ruleForm)
         //   .then(res=>{
         //     if(res.data.ret==0){
         //       this.$emit('getchildren');

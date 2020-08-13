@@ -185,7 +185,7 @@ export default {
   created() {
     this.$global
       .get_encapsulation(
-        `${this.$baseurl}/admin_api/content.currency/getCurrencyList`
+        `${this.$axios.defaults.baseURL}/admin_api/content.currency/getCurrencyList`
       )
       .then(res => {
         if (res) {
@@ -232,7 +232,7 @@ export default {
       console.log(this.ruleForm);
       this.$global
         .post_encapsulation(
-          `${this.$baseurl}/admin_api/machine.machine/editMachine`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,
           this.ruleForm
         )
         .then(res => {

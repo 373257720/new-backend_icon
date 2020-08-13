@@ -43,7 +43,7 @@
 
       changepage() {
         // this.pictLoading=true;
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/content.notice/getNoticeInfo`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/content.notice/getNoticeInfo`,{
           notice_id:this.$route.query.notice_id,
         })
           .then(res => {

@@ -192,19 +192,19 @@
         }
           if(this.tochind.background_picture!=null){
             this.choose(".background_picture .el-upload--picture-card");
-            this.fileList.push({name: 'background_picture', url:this.$baseurl+this.tochind.background_picture})
+            this.fileList.push({name: 'background_picture', url:this.$axios.defaults.baseURL+this.tochind.background_picture})
           }
           if(this.tochind.logo_picture!=null){
             this.choose(".logo_picture .el-upload--picture-card");
-            this.fileList2.push({name: 'logo_picture', url:this.$baseurl+this.tochind.logo_picture})
+            this.fileList2.push({name: 'logo_picture', url:this.$axios.defaults.baseURL+this.tochind.logo_picture})
           }
           if(this.tochind.logo2_picture!=null){
             this.choose(".logo2_picture .el-upload--picture-card");
-            this.fileList3.push({name: 'logo2_picture', url:this.$baseurl+this.tochind.logo2_picture})
+            this.fileList3.push({name: 'logo2_picture', url:this.$axios.defaults.baseURL+this.tochind.logo2_picture})
           }
           if(this.tochind.advertisement_picture!=null){
             this.choose(".advertisement_picture .el-upload--picture-card");
-            this.fileList4.push({name: 'advertisement_picture', url:this.$baseurl+this.tochind.advertisement_picture})
+            this.fileList4.push({name: 'advertisement_picture', url:this.$axios.defaults.baseURL+this.tochind.advertisement_picture})
           }
 
       }
@@ -224,7 +224,7 @@
         // this.$emit('getchildren',this.ruleForm);
         // console.log(this.ruleForm)
     if(this.$route.query.type==2){
-      this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/editMachineGroup`,this.submitfordata)
+      this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/editMachineGroup`,this.submitfordata)
         .then(res=>{
           this.msg=res.data.msg;
           this.remindervisible=true;
@@ -233,7 +233,7 @@
           }
         })
     }else{
-      this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_group/addMachineGroup`,this.tochind)
+      this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_group/addMachineGroup`,this.tochind)
         .then(res=>{
           this.msg=res.data.msg;
           this.remindervisible=true;
@@ -390,7 +390,7 @@
         // console.log(this.formData);
         this.$axios({
           method: "post",
-          url: `${this.$baseurl}/home/common.picture/upload.html`,
+          url: `${this.$axios.defaults.baseURL}/home/common.picture/upload.html`,
           data: this.formData,
           headers: {
             "Content-Type": "multipart/form-data"

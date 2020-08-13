@@ -160,7 +160,7 @@ export default {
     getdata() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/user.atm_user/getAtmUserInfo`,
+          `${this.$axios.defaults.baseURL}/admin_api/user.atm_user/getAtmUserInfo`,
           {
             atm_user_id: this.$route.query.atm_user_id
           }
@@ -195,7 +195,7 @@ export default {
           if (this.$route.query.type == 1) {
             this.$global
               .post_encapsulation(
-                `${this.$baseurl}/admin_api/user.atm_user/addAtmUser`,
+                `${this.$axios.defaults.baseURL}/admin_api/user.atm_user/addAtmUser`,
                 this.ruleForm
               )
               .then(res => {
@@ -208,7 +208,7 @@ export default {
           } else if (this.$route.query.type == 2) {
             this.$global
               .post_encapsulation(
-                `${this.$baseurl}/admin_api/user.atm_user/editAtmUser`,
+                `${this.$axios.defaults.baseURL}/admin_api/user.atm_user/editAtmUser`,
                 this.ruleForm
               )
               .then(res => {

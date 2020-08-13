@@ -142,7 +142,7 @@ export default {
       dataAxis: [],
       buy_money: [],
       sell_money: [],
-      currency_name:"",
+      currency_name: "",
       yMax: 500,
       myChart: "",
       dataShadow: [],
@@ -268,9 +268,13 @@ export default {
         this.formdata.timerange == null ? 0 : this.formdata.timerange[0];
       let end_time =
         this.formdata.timerange == null ? 0 : this.formdata.timerange[1];
-      window.location.href = `${this.$baseurl}/admin_api/machine.order/exportStatisticsCoinOrder?
+      // window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsCoinOrder?
+      //   token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&
+      //   machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
+        window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsCoinOrder?
         token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&
         machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
+     
     },
     resizeHandler() {
       this.chart.resize();
@@ -278,7 +282,7 @@ export default {
     getmachineid() {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/machine.machine/getMachineList`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineList`,
           {
             page: 1,
             size: 10000,
@@ -399,7 +403,7 @@ export default {
     changepage(currentpage, pagesize, machine_id, starttime, endtime) {
       this.$global
         .get_encapsulation(
-          `${this.$baseurl}/admin_api/machine.order/statisticsCoinOrder`,
+          `${this.$axios.defaults.baseURL}/admin_api/machine.order/statisticsCoinOrder`,
           {
             page: currentpage,
             size: pagesize,
@@ -412,12 +416,12 @@ export default {
         .then(res => {
           this.loading = false;
           console.log(res);
-          
+
           if (res.data.ret == 0) {
             this.buy_money = [];
             this.sell_money = [];
             this.dataAxis = [];
-            this.currency_name=res.data.data.currency_name || "";
+            this.currency_name = res.data.data.currency_name || "";
             this.pagetotal = res.data.data.total;
             this.tableData = [...res.data.data.data];
             this.tableData.forEach(item => {

@@ -157,7 +157,7 @@
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          this.$global.post_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/deleteMachineOperate`,{
+          this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_operate/deleteMachineOperate`,{
             machine_operate_id: param,
           })
             .then(res => {
@@ -189,7 +189,7 @@
         this.multipleSelection = val;
       },
       changepage(currentpage, pagesize,keyword) {
-        this.$global.get_encapsulation(`${this.$baseurl}/admin_api/machine.machine_operate/getMachineOperateList`,{
+        this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine_operate/getMachineOperateList`,{
           page: currentpage,
           size:pagesize,
           keyword:keyword,
