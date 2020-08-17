@@ -56,17 +56,17 @@
         <el-input clearable v-model="ruleForm.customer_service_email"></el-input>
       </el-form-item>
       <el-form-item label="Safe Mode Password:(digits only)" prop="safe_password">
-        <el-input clearable show-password clearable oninput="value=value.replace(/[^\d]/g,'')" v-model="ruleForm.safe_password"></el-input>
+        <el-input clearable show-password  oninput="value=value.replace(/[^\d]/g,'')" v-model="ruleForm.safe_password"></el-input>
       </el-form-item>
       <el-form-item label="Withdrawl Password:(digits only)" prop="withdraw_password">
-        <el-input clearable show-password clearable oninput="value=value.replace(/[^\d]/g,'')" v-model="ruleForm.withdraw_password"></el-input>
+        <el-input clearable show-password  oninput="value=value.replace(/[^\d]/g,'')" v-model="ruleForm.withdraw_password"></el-input>
       </el-form-item>
     </el-form>
     <section>
       <button @click="$global.previous">BACK</button>
       <button @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
 </template>
 <script>

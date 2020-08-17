@@ -50,7 +50,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-       <confirm_dialog :msg="msg"  v-on:todad='fromson'  :remindervisible1.sync="remindervisible"></confirm_dialog>
+       <confirmDialog :msg="msg"  v-on:todad='fromson'  :remindervisible1.sync="remindervisible"></confirmDialog>
 
     <pagevue :pagenum="pagetotal" :currentpages="currentpage" :pagesizes="pagesize" v-on:fromchildren="fromchildren1"></pagevue>
   </div>

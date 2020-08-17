@@ -71,7 +71,7 @@
           label="ACCOUNT NUMBERS"
           width="100"
           show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
+          <template slot="header" :slot-scope="scope">
             <div>before</div>
           </template>
         </el-table-column>
@@ -89,7 +89,7 @@
           width="100"
 
           show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
+          <template slot="header" :slot-scope="scope">
             <div>after</div>
           </template>
         </el-table-column>
@@ -101,7 +101,7 @@
           width="100"
           label="CREATION TIME"
           show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
+          <template slot="header" :slot-scope="scope">
             <div>before</div>
           </template>
         </el-table-column>
@@ -118,7 +118,7 @@
           label="STATE"
           width="100"
           show-overflow-tooltip>
-          <template slot="header" slot-scope="scope">
+          <template slot="header" :slot-scope="scope">
             <div>after</div>
           </template>
         </el-table-column>
@@ -137,7 +137,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"

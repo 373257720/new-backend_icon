@@ -22,7 +22,7 @@
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid===0">
@@ -43,7 +43,7 @@
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid==2">
@@ -61,7 +61,7 @@
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid==3">
@@ -89,7 +89,7 @@
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid==4">
@@ -110,7 +110,7 @@
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid==5">
@@ -140,7 +140,7 @@
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid==6" class="text">
@@ -152,35 +152,55 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-       <el-form-item label="example（Replace the order data with variables）">
+        <el-form-item>
           <ul class="example">
             <li>
-              <el-input type="textarea" autosize readonly v-model="textarea"></el-input>
+              <p>Rules:</p>
+              <textarea readonly>
+Thank you for using the digital assets exchange machine. Attached below is the receipt:
+
+{coin_type} {trade_type}
+Date: {create_time}
+Transaction ID: {trade_id}
+{trade_type} price: {price}
+{trade_type} amount: {money}
+Quantity bought: {coin_number}
+Redemption code: {redeem_code}
+
+Contact us
+Phone: {customer_service_phone}
+Email: {customer_service_email}
+Website: {customer_service_website}
+
+Please download mobile application ixWallet to manage your coins (for IOS and Android only)
+                    </textarea>
+              <!-- <el-input type="textarea"  autosize readonly v-model="textarea"></el-input> -->
             </li>
             <li>
-              <el-input type="textarea"  autosize readonly v-model="textareaSample"></el-input>
+              <p>Result:</p>
+              <textarea readonly>
+Thank you for using the digital assets exchange machine. Attached below is the receipt:
+
+BTC Buy
+Date: 2020-07-30 18:25:57
+Transaction ID: ejrhrjjrj378347jdjddjdjd
+Buying price: HKD 64112.34
+Buying amount: HKD 300
+Quantity bought: BTC 0.38737
+Redemption code: 4dhdjdj47Heje47
+
+Contact us
+Phone: (+852) 3595 3868
+Email: info@ixfintech.com
+Website: https://ixfintech.com/crypto.html
+
+Please download mobile application ixWallet to manage your coins (for IOS and Android only)
+                    </textarea>
+              <!-- <el-input type="textarea"  autosize readonly v-model="textareaSample"></el-input> -->
             </li>
           </ul>
         </el-form-item>
-        <el-form-item label="configuration value（Simplified）">
-          <el-input
-            type="textarea"
-            :autosize="{ minRows: 10, maxRows: 10}"
-            v-model="SimplifiedText"
-            show-password
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="configuration value（Traditional Chinese）" prop="password">
-          <el-input
-            type="textarea"
-            :autosize="{ minRows: 10, maxRows: 10}"
-            v-model="traditionalText"
-            show-password
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="configuration value（English）" prop="password">
+        <el-form-item label="SMS-English:">
           <el-input
             type="textarea"
             :autosize="{ minRows: 10, maxRows: 10}"
@@ -189,10 +209,28 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
+        <el-form-item label="SMS-Traditional Chinese:" prop="password">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 10, maxRows: 10}"
+            v-model="traditionalText"
+            show-password
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="SMS-Simplified Chinese:" prop="password">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 10, maxRows: 10}"
+            v-model="SimplifiedText"
+            show-password
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
     <main v-else-if="rowid==7" class="richtext">
@@ -204,37 +242,56 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="example（Replace the order data with variables）">
+        <el-form-item>
           <ul class="example">
             <li>
-              <el-input type="textarea" autosize readonly v-model="richpattern"></el-input>
+              <p>Rules:</p>
+              <textarea readonly>
+Thank you for using the digital assets exchange machine. Attached below is the receipt:
+
+{coin_type} {trade_type}
+Date: {create_time}
+Transaction ID: {trade_id}
+{trade_type} price: {price}
+{trade_type} amount: {money}
+Quantity bought: {coin_number}
+Redemption code: {redeem_code}
+
+Contact us
+Phone: {customer_service_phone}
+Email: {customer_service_email}
+Website: {customer_service_website}
+
+Please download mobile application ixWallet to manage your coins (for IOS and Android only)
+                    </textarea>
+
+              <!-- <el-input type="textarea" autosize readonly v-model="richpattern"></el-input> -->
             </li>
             <li>
-              <el-input type="textarea"  autosize readonly v-model="richsample"></el-input>
+              <p>Result:</p>
+              <textarea readonly>
+Thank you for using the digital assets exchange machine. Attached below is the receipt:
+
+BTC Buy
+Date: 2020-07-30 18:25:57
+Transaction ID: ejrhrjjrj378347jdjddjdjd
+Buying price: HKD 64112.34
+Buying amount: HKD 300
+Quantity bought: BTC 0.38737
+Redemption code: 4dhdjdj47Heje47
+
+Contact us
+Phone: (+852) 3595 3868
+Email: info@ixfintech.com
+Website: https://ixfintech.com/crypto.html
+
+Please download mobile application ixWallet to manage your coins (for IOS and Android only)
+                    </textarea>
+              <!-- <el-input type="textarea" autosize readonly v-model="richsample"></el-input> -->
             </li>
           </ul>
         </el-form-item>
-        <el-form-item label="configuration value（Simplified）">
-          <UE
-            id="Simplified"
-            @ready="editorReady"
-            :config="config1"
-            :content="Simplified"
-            ref="Simplified"
-            style="width:100%;"
-          ></UE>
-        </el-form-item>
-        <el-form-item label="configuration value（Traditional Chinese）">
-          <UE
-            id="traditional"
-            @ready="editorReady"
-            :config="config1"
-            :content="traditional"
-            ref="traditional"
-            style="width:100%;"
-          ></UE>
-        </el-form-item>
-        <el-form-item label="configuration value（English）">
+        <el-form-item label="Email-English:">
           <UE
             id="english"
             @ready="editorReady"
@@ -244,13 +301,33 @@
             style="width:100%;"
           ></UE>
         </el-form-item>
+        <el-form-item label="Email-Traditional Chinese:">
+          <UE
+            id="traditional"
+            @ready="editorReady"
+            :config="config1"
+            :content="traditional"
+            ref="traditional"
+            style="width:100%;"
+          ></UE>
+        </el-form-item>
+        <el-form-item label="Email-Simplified Chinese:">
+          <UE
+            id="Simplified"
+            @ready="editorReady"
+            :config="config1"
+            :content="Simplified"
+            ref="Simplified"
+            style="width:100%;"
+          ></UE>
+        </el-form-item>
       </el-form>
       <section>
         <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
-    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
 </template>
 
@@ -266,79 +343,15 @@ export default {
     return {
       title: "",
       msg: "",
-      SimplifiedText:'',
-      englishText:'',
-      traditionalText:'',
+      SimplifiedText: "",
+      englishText: "",
+      traditionalText: "",
       successto: "",
       remindervisible: false,
       rowid: "", //which  edit
       parameter_obj: {
         name: ""
       },
-      richpattern:`Thank you for using the digital assets exchange machine. Attached below is the receipt:
-
-{coin_type} {trade_type}
-Date: {create_time}
-Transaction ID: {trade_id}
-{trade_type} price: {price}
-{trade_type} amount: {money}
-Quantity bought: {coin_number}
-Redemption code: {redeem_code}
-
-Contact us
-Phone: {customer_service_phone}
-Email: {customer_service_email}
-Website: {customer_service_website}
-
-Please download mobile application ixWallet to manage your coins (for IOS and Android only)`,
-    richsample:`Thank you for using the digital assets exchange machine. Attached below is the receipt:
-
-BTC Buy
-Date: 2020-07-30 18:25:57
-Transaction ID: ejrhrjjrj378347jdjddjdjd
-Buying price: HKD 64112.34
-Buying amount: HKD 300
-Quantity bought: BTC 0.38737
-Redemption code: 4dhdjdj47Heje47
-
-Contact us
-Phone: (+852) 3595 3868
-Email: info@ixfintech.com
-Website: https://ixfintech.com/crypto.html
-
-Please download mobile application ixWallet to manage your coins (for IOS and Android only)`,
-      textarea: `Thank you for using the digital assets exchange machine. Attached below is the receipt:
-
-{coin_type} {trade_type}
-Date: {create_time}
-Transaction ID: {trade_id}
-{trade_type} price: {price}
-{trade_type} amount: {money}
-Quantity bought: {coin_number}
-Redemption code: {redeem_code}
-
-Contact us
-Phone: {customer_service_phone}
-Email: {customer_service_email}
-Website: {customer_service_website}
-
-Please download mobile application ixWallet to manage your coins (for IOS and Android only)`,
-      textareaSample: `Thank you for using the digital assets exchange machine. Attached below is the receipt:
-
-BTC Buy
-Date: 2020-07-30 18:25:57
-Transaction ID: ejrhrjjrj378347jdjddjdjd
-Buying price: HKD 64112.34
-Buying amount: HKD 300
-Quantity bought: BTC 0.38737
-Redemption code: 4dhdjdj47Heje47
-
-Contact us
-Phone: (+852) 3595 3868
-Email: info@ixfintech.com
-Website: https://ixfintech.com/crypto.html
-
-Please download mobile application ixWallet to manage your coins (for IOS and Android only)`,
       config1: {
         initialFrameWidth: null,
         initialFrameHeight: 300,
@@ -352,18 +365,13 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
       Simplified: "",
       traditional: "",
       english: "",
-      // form: {
-      //   content: ""
-      // },
       ruleForm: {},
       rules: {}
     };
   },
-
-  watch: {},
   created() {
     // console.log(this.$route.query)
-    this.parameter_obj.token = this.$store.state.token;
+    // this.parameter_obj.token = this.$store.state.token;
     // this.ruleForm.token=this.$store.state.token;
     this.rowid = this.$route.query.rowindex;
     if (this.rowid == 0) {
@@ -421,11 +429,11 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
       Object.assign(this.parameter_obj, {
         name: "bitgo"
       });
-    }else if (this.rowid == 6) {
+    } else if (this.rowid == 6) {
       this.title = "Order SMS";
       this.ruleForm = Object.assign({}, this.ruleForm, {
         user_config_id: null,
-        value: null,
+        value: null
       });
       Object.assign(this.parameter_obj, {
         name: "order_sms"
@@ -467,23 +475,23 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
               for (var i in res.data.data[0].value) {
                 if (this.ruleForm.hasOwnProperty(i)) {
                   this.ruleForm[i] = res.data.data[0].value[i];
-                } 
-              } 
+                }
+              }
             } else if (this.rowid == 6) {
               this.SimplifiedText = res.data.data[0].value.simplify_value || "";
-              this.traditionalText = res.data.data[0].value.traditional_value || "";
+              this.traditionalText =
+                res.data.data[0].value.traditional_value || "";
               this.englishText = res.data.data[0].value.english_value || "";
             } else if (this.rowid == 7) {
-              this.Simplified = res.data.data[0].value.simplify_value;
-              this.traditional = res.data.data[0].value.traditional_value;
-              this.english = res.data.data[0].value.english_value;
+              this.Simplified = res.data.data[0].value.simplify_value || "";
+              this.traditional = res.data.data[0].value.traditional_value || "";
+              this.english = res.data.data[0].value.english_value || "";
             } else {
               res.data.data.forEach(item => {
                 if (this.ruleForm.hasOwnProperty(item.name)) {
                   this.ruleForm[item.name] = item.value;
                 }
               });
-
             }
           }
         });
@@ -505,14 +513,14 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
           wallet: this.ruleForm.wallet,
           private_key: this.ruleForm.private_key
         };
-      }else if (this.$route.query.rowindex == 6) {
+      } else if (this.$route.query.rowindex == 6) {
         ruleform = {
           name: "order_sms",
           simplify_value: this.SimplifiedText,
           traditional_value: this.traditionalText,
           english_value: this.englishText
         };
-      }  else if (this.$route.query.rowindex == 7) {
+      } else if (this.$route.query.rowindex == 7) {
         ruleform = {
           name: "order_email",
           simplify_value: this.Simplified,
@@ -589,32 +597,47 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
       }
     }
   }
-  main.text{
-
+  main.text {
   }
-   main.richtext{
-      width: 90%;
-   }
-    main.text{
-      width: 80%; 
-    }
-   main.text,main.richtext {
+  main.richtext {
+    width: 90%;
+  }
+  main.text {
+    width: 80%;
+  }
+  main.text,
+  main.richtext {
     //  width: 90%;
     .example {
       display: flex;
+      justify-content: space-between;
       li {
         // flex:1;
-        width: 40%;
-        .el-textarea {
-          height: 100%;
-          .el-textarea__inner {
-            height: 100%;
-            font-family: 'Roboto,RobotoDraft,Helvetica,Arial,sans-serif';
-          }
+        width: 45%;
+        // width: 400px;
+        // .el-textarea {
+        //   height: 100%;
+        //   .el-textarea__inner {
+        //     height: 100%;
+        //     // border: none !important;
+        //     font-family: "Roboto,RobotoDraft,Helvetica,Arial,sans-serif";
+        //   }
+        // }
+        p {
+          color: #606266;
+        }
+        textarea {
+          font-family: "Roboto,RobotoDraft,Helvetica,Arial,sans-serif";
+          width: 100%;
+          height: 365px;
+          padding: 10px;
+          border-radius: 4px;
+          border-color: #dcdfe6;
+          box-sizing: border-box;
         }
       }
       li:nth-of-type(1) {
-        margin-right: 30px;
+        // margin-right: 30px;
         // font-weight: 550;
       }
     }

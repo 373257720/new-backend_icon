@@ -20,7 +20,7 @@
       </el-form>
       <section>
         <button @click="$routerto('atm_support')">Cancel</button>
-        <button  @click="submitForm('ruleForm')">Save Change</button>
+        <button  @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
 

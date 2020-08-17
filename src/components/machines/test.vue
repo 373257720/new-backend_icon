@@ -123,7 +123,7 @@
       <button @click="$global.previous">BACK</button>
       <button @click="submitForm('ruleForm')">SUBMIT</button>
     </section>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
 </template>
 <script>

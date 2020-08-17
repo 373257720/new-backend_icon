@@ -1,5 +1,5 @@
 <template>
-  <div class="report_lists" v-loading="loading">
+  <div class="report_lists">
     <header>
       <h2>
         <span @click="$routerto('audit_log')">Reports</span>

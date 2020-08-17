@@ -95,7 +95,7 @@
         <button @click="apply">Apply</button>
       </span>
     </el-dialog>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
     <pagevue :pagenum="pagetotal" :currentpages="currentpage" :pagesizes="pagesize" v-on:fromchildren="fromchildren1"></pagevue>
   </div>
 </template>

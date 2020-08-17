@@ -43,10 +43,10 @@
       </el-form>
       <section>
         <button @click="$routerto('wallet')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save Change</button>
+        <button @click="submitForm('ruleForm')">Save</button>
       </section>
     </main>
-    <dialog_reminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
 </template>
 

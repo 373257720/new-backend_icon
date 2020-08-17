@@ -85,11 +85,11 @@ export default {
         },
          {
           productType: "Order SMS",
-          productName: "order_sms"
+          productName: "Order SMS"
         },
          {
           productType: "Order mail",
-          productName: "order_email"
+          productName: "Order mail"
         }
         // {
         //   productType:"Advanced Setting",

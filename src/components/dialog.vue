@@ -1,5 +1,5 @@
 <template>
-  <div id="dialog_reminder">
+  <div id="dialogReminder">
     <el-dialog
       :visible="remindervisible"
       width="30%"
@@ -25,15 +25,15 @@
       };
     },
     created() {
+      
+      
     },
     methods: {
       handleClose(done) {
         this.$emit("update:remindervisible", false)
-        // console.log(this.successto)
         if(this.successto===555){
           this.$router.back(-1);
         }else if(this.successto){
-          // this.$routerto(this.successto)
           this.$router.push({ name: this.successto, params: { editSuccess: '1' } })
         }
       }
@@ -41,7 +41,7 @@
   };
 </script>
 <style lang="scss">
-    #dialog_reminder{
+    #dialogReminder{
     .el-dialog--center {
         margin-top: 35vh !important;
         width: 25% !important;

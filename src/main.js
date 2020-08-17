@@ -19,13 +19,13 @@ Vue.prototype.$global = global;
 import lang from "element-ui/lib/locale/lang/en";
 import locale from "element-ui/lib/locale";
 locale.use(lang);
-import '../static/UE/ueditor.config.js'
-import '../static/UE/ueditor.all.min.js'
-import   '../static/UE/lang/en/en.js'
-import  '../static/UE/lang/zh-cn/zh-cn.js'
+import "../static/UE/ueditor.config.js";
+import "../static/UE/ueditor.all.min.js";
+import "../static/UE/lang/en/en.js";
+// import  '../static/UE/lang/zh-cn/zh-cn.js'
 // console.log(UE.I18N);
 
-import '../static/UE/ueditor.parse.min'
+import "../static/UE/ueditor.parse.min";
 Vue.config.productionTip = false;
 Vue.prototype.$routerto = function routerTo(name, obj) {
   this.$router.push({
@@ -39,7 +39,6 @@ Vue.prototype.$restore_obj = restore_obj;
 let isShowLoading = true;
 Vue.prototype.$isShowLoading = isShowLoading;
 // axios.defaults.withCredentials = true;
-// console.log(Vue.$nextTick)
 axios.interceptors.response.use(
   res => {
     if (res.data.ret) {
@@ -47,7 +46,6 @@ axios.interceptors.response.use(
       if (code > 999) {
         if (isShowLoading) {
           isShowLoading = false;
-          // console.log(isShowLoading);
           Vue.prototype
             .$msgbox({
               title: "Reminder",
@@ -67,7 +65,6 @@ axios.interceptors.response.use(
     return res;
   },
   error => {
-    // alert('请求失败，请稍后重试！')
     Vue.$msgbox({
       title: "Reminder",
       message: "Network exception, please try again later"
@@ -76,9 +73,6 @@ axios.interceptors.response.use(
       store.dispatch("reset_actions", this.$restore_obj);
       isShowLoading = true;
       router.push({ name: "login" });
-
-      // location.href='http://www.cryptogolab.com/master';
-      // window.location.href = 'http://atm.wearetechman.com/dist/index.html#/login';
     });
     //   return Promise.reject(error)
   }
@@ -114,9 +108,9 @@ String.prototype.getAns = function() {
 import pagevue from "./components/pagevue.vue";
 Vue.component("pagevue", pagevue);
 import dialog from "./components/dialog.vue";
-Vue.component("dialog_reminder", dialog);
-import confirm_dialog from "./components/confirm_dialog.vue";
-Vue.component("confirm_dialog", confirm_dialog);
+Vue.component("dialogReminder", dialog);
+import confirmDialog from "./components/confirm_dialog.vue";
+Vue.component("confirmDialog", confirmDialog);
 /* eslint-disable no-new */
 new Vue({
   el: "#app",

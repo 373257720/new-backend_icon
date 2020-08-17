@@ -97,7 +97,7 @@
         </el-table-column>
       </el-table>
     </el-main>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"

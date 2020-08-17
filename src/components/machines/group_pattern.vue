@@ -91,8 +91,8 @@
         <button @click="apply">Apply</button>
         </span>
     </el-dialog>
-    <confirm_dialog :msg="msg" v-on:todad="beforedelete" :remindervisible1.sync="remindervisible1"></confirm_dialog>
-    <dialog_reminder :msg="msg" :remindervisible.sync="remindervisible"></dialog_reminder>
+    <confirmDialog :msg="msg" v-on:todad="beforedelete" :remindervisible1.sync="remindervisible1"></confirmDialog>
+    <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
     <pagevue
       :pagenum="pagetotal"
       :currentpages="currentpage"

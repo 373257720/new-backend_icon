@@ -114,10 +114,18 @@
               <span slot="title">CRYPTOCURRENCY</span>
             </el-menu-item>
           </el-submenu>
-          <!--          <el-menu-item @mouseenter.native="changeImageSrc('compliance', 'hover')"   @mouseleave.native="changeImageSrc('compliance', 'leave')" :class="{bgisactive:text.compliance}" index="compliance"  @click="routerto('/home/compliance')">-->
-          <!--            <i><img :src="color_icon.compliance" alt=""></i>-->
-          <!--            <span slot="title"  :class="{textisactive:text.compliance}">COMPLIANCE</span>-->
-          <!--          </el-menu-item>-->
+          <el-menu-item
+            @mouseenter.native="changeImageSrc('promotion', 'hover')"
+            @mouseleave.native="changeImageSrc('promotion', 'leave')"
+            :class="{bgisactive:text.promotion}"
+            index="promotion"
+            @click="routerto('/home/promotion')"
+          >
+            <i>
+              <img :src="color_icon.promotion" alt />
+            </i>
+            <span slot="title" :class="{textisactive:text.promotion}">PROMOTION</span>
+          </el-menu-item>
           <el-menu-item
             @mouseenter.native="changeImageSrc('setting', 'hover')"
             @mouseleave.native="changeImageSrc('setting', 'leave')"
@@ -211,7 +219,7 @@ export default {
         transaction: false,
         wallet: false,
         report: false,
-        compliance: false,
+        promotion: false,
         setting: false,
         alerts: false,
         audit_log: false
@@ -223,7 +231,7 @@ export default {
         transaction: false,
         wallet: false,
         report: false,
-        compliance: false,
+        promotion: false,
         setting: false,
         alerts: false,
         audit_log: false
@@ -235,7 +243,7 @@ export default {
         transaction: "./static/tran1.png",
         wallet: "./static/wallet1.png",
         report: "./static/repo1.png",
-        compliance: "./static/comp1.png",
+        promotion: "./static/comp1.png",
         setting: "./static/setting2.png",
         alerts: "./static/alert1.png",
         audit_log: "./static/audit1.png"
@@ -247,7 +255,7 @@ export default {
         transaction: "./static/tran2.png",
         wallet: "./static/wallet2.png",
         report: "./static/repo2.png",
-        compliance: "./static/comp2.png",
+        promotion: "./static/comp2.png",
         setting: "./static/setting.png",
         alerts: "./static/alert2.png",
         audit_log: "./static/audit2.png"
@@ -259,7 +267,7 @@ export default {
         transaction: "./static/tran2.png",
         wallet: "./static/wallet2.png",
         report: "./static/repo2.png",
-        compliance: "./static/comp2.png",
+        promotion: "./static/comp2.png",
         setting: "./static/setting.png",
         alerts: "./static/alert2.png",
         audit_log: "./static/audit2.png"
@@ -347,7 +355,9 @@ export default {
         this.$routerto("account");
       } else if (command == "login") {
         this.$global
-          .get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/user.back_user/logout`)
+          .get_encapsulation(
+            `${this.$axios.defaults.baseURL}/admin_api/user.back_user/logout`
+          )
           .then(res => {
             if (res.data.ret == 0) {
               window.sessionStorage.clear();
