@@ -8,7 +8,9 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="Background (1440 * 900)">
+      <el-form-item 
+      :label="$t('machines.BackgroundPic')" 
+      >
         <div class="background_picture">
           <el-upload
             action
@@ -25,7 +27,9 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Logo1 (192 * 78)">
+      <el-form-item 
+        :label="$t('machines.Logo1')" 
+      >
         <div class="logo_picture">
           <el-upload
             action
@@ -42,7 +46,9 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Logo2 (256 * 256)">
+      <el-form-item 
+      :label="$t('machines.Logo2')" 
+      >
         <div class="logo2_picture">
           <el-upload
             action
@@ -76,7 +82,9 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Slogan:">
+      <el-form-item 
+      :label="$t('machines.Slogan')" 
+      >
         <el-input
           type="textarea"
           :autosize="{ minRows: 10, maxRows: 10}"
@@ -89,8 +97,8 @@
       </el-dialog>
     </el-form>
     <section>
-      <button @click="$global.previous">BACK</button>
-      <button @click="submitForm('ruleForm')">SUBMIT</button>
+      <button @click="$global.previous">{{$t('common.BACK')}}</button>
+      <button @click="submitForm('ruleForm')">{{$t('common.SUBMIT')}}</button>
     </section>
     <dialogReminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>

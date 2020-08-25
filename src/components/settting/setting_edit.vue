@@ -2,7 +2,7 @@
   <div class="setting_edit">
     <header>
       <h2>
-        <span>Setting</span>
+        <span>{{$t('home.SETTING')}}</span>
         <i class="el-icon-arrow-right"></i>
         <span>{{title}}</span>
       </h2>
@@ -16,13 +16,13 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="Cash Inbox Percent (%):" prop="in_cashbox_warn_percent">
+        <el-form-item :label="$t('Report.CashInboxPercent')" prop="in_cashbox_warn_percent">
           <el-input v-model="ruleForm.in_cashbox_warn_percent" clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid===0">
@@ -37,13 +37,13 @@
         <!--        <el-form-item  label="Cash Inbox Percent:" prop="in_cashbox_warn_percent">-->
         <!--          <el-input  v-model="ruleForm.in_cashbox_warn_percent" clearable autocomplete="off"></el-input>-->
         <!--        </el-form-item>-->
-        <el-form-item label="Cash Outbox Percent (%):" prop="out_cashbox_warn_percent">
+        <el-form-item :label="$t('Report.CashOutboxPercent')" prop="out_cashbox_warn_percent">
           <el-input v-model="ruleForm.out_cashbox_warn_percent" clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid==2">
@@ -55,13 +55,13 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="Transaction Time(seconds):" prop="sell_coin_wait_time">
+        <el-form-item :label="$t('Report.TransactionTime')" prop="sell_coin_wait_time">
           <el-input v-model="ruleForm.sell_coin_wait_time" clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid==3">
@@ -73,23 +73,23 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="Website:" prop="website">
+        <el-form-item :label="$t('Report.Website')" prop="website">
           <el-input
             v-model="ruleForm.customer_service_website"
             clearable
             autocomplete="off"
           >{{ruleForm.website}}</el-input>
         </el-form-item>
-        <el-form-item label="E-mail:" prop="email">
+        <el-form-item :label="$t('Report.Email')" prop="email">
           <el-input v-model="ruleForm.customer_service_email" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Contact Number:" prop="contact_num">
+        <el-form-item :label="$t('Report.ContactNumber')" prop="contact_num">
           <el-input v-model="ruleForm.customer_service_phone" clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid==4">
@@ -101,16 +101,16 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="Ethereum Wallet Address:" prop="contact_num">
+        <el-form-item :label="$t('Report.EthereumWalletAddress')" prop="contact_num">
           <el-input v-model="ruleForm.wallet" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Ethereum Private key" prop="contact_num">
+        <el-form-item :label="$t('Report.EthereumPrivatekey')" prop="contact_num">
           <el-input show-password v-model="ruleForm.private_key" clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid==5">
@@ -122,13 +122,13 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="Token:" prop="password">
+        <el-form-item :label="$t('Report.Token')" prop="password">
           <el-input type="password" v-model="ruleForm.token" show-password autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Wallet ID:" prop="wallet_id">
+        <el-form-item :label="$t('Report.WalletID')" prop="wallet_id">
           <el-input v-model="ruleForm.wallet_id" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Wallet Password:" prop="wallet_passphrase">
+        <el-form-item :label="$t('Report.WalletPassword')" prop="wallet_passphrase">
           <el-input
             type="password"
             v-model.number="ruleForm.wallet_passphrase"
@@ -139,8 +139,8 @@
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid==6" class="text">
@@ -155,7 +155,7 @@
         <el-form-item>
           <ul class="example">
             <li>
-              <p>Rules:</p>
+              <p>{{$t('Report.Rules')}}:</p>
               <textarea readonly>
 Thank you for using the digital assets exchange machine. Attached below is the receipt:
 
@@ -164,7 +164,7 @@ Date: {create_time}
 Transaction ID: {trade_id}
 {trade_type} price: {price}
 {trade_type} amount: {money}
-Quantity bought: {coin_number}
+{trade_type} quantity: {coin_number}
 Redemption code: {redeem_code}
 
 Contact us
@@ -177,7 +177,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
               <!-- <el-input type="textarea"  autosize readonly v-model="textarea"></el-input> -->
             </li>
             <li>
-              <p>Result:</p>
+              <p>{{$t('Report.Result')}}:</p>
               <textarea readonly>
 Thank you for using the digital assets exchange machine. Attached below is the receipt:
 
@@ -200,7 +200,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
             </li>
           </ul>
         </el-form-item>
-        <el-form-item label="SMS-English:">
+        <el-form-item :label="$t('Report.SMSEnglish')">
           <el-input
             type="textarea"
             :autosize="{ minRows: 10, maxRows: 10}"
@@ -209,7 +209,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="SMS-Traditional Chinese:" prop="password">
+        <el-form-item :label="$t('Report.SMSTraditionalChinese')" prop="password">
           <el-input
             type="textarea"
             :autosize="{ minRows: 10, maxRows: 10}"
@@ -218,7 +218,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="SMS-Simplified Chinese:" prop="password">
+        <el-form-item :label="$t('Report.SMSSimplifiedChinese')" prop="password">
           <el-input
             type="textarea"
             :autosize="{ minRows: 10, maxRows: 10}"
@@ -229,8 +229,8 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <main v-else-if="rowid==7" class="richtext">
@@ -245,7 +245,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
         <el-form-item>
           <ul class="example">
             <li>
-              <p>Rules:</p>
+              <p>{{$t('Report.Rules')}}:</p>
               <textarea readonly>
 Thank you for using the digital assets exchange machine. Attached below is the receipt:
 
@@ -254,7 +254,7 @@ Date: {create_time}
 Transaction ID: {trade_id}
 {trade_type} price: {price}
 {trade_type} amount: {money}
-Quantity bought: {coin_number}
+{trade_type} quantity: {coin_number}
 Redemption code: {redeem_code}
 
 Contact us
@@ -268,7 +268,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
               <!-- <el-input type="textarea" autosize readonly v-model="richpattern"></el-input> -->
             </li>
             <li>
-              <p>Result:</p>
+              <p>{{$t('Report.Result')}}:</p>
               <textarea readonly>
 Thank you for using the digital assets exchange machine. Attached below is the receipt:
 
@@ -291,7 +291,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
             </li>
           </ul>
         </el-form-item>
-        <el-form-item label="Email-English:">
+        <el-form-item :label="$t('Report.EmailEnglish')">
           <UE
             id="english"
             @ready="editorReady"
@@ -301,7 +301,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
             style="width:100%;"
           ></UE>
         </el-form-item>
-        <el-form-item label="Email-Traditional Chinese:">
+        <el-form-item :label="$t('Report.EmailTraditionalChinese')">
           <UE
             id="traditional"
             @ready="editorReady"
@@ -311,7 +311,7 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
             style="width:100%;"
           ></UE>
         </el-form-item>
-        <el-form-item label="Email-Simplified Chinese:">
+        <el-form-item :label="$t('Report.EmailSimplifiedChinese')">
           <UE
             id="Simplified"
             @ready="editorReady"
@@ -323,8 +323,8 @@ Please download mobile application ixWallet to manage your coins (for IOS and An
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('setting')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('setting')">{{$t('common.BACK')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <dialogReminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialogReminder>
@@ -373,7 +373,7 @@ export default {
     // console.log(this.$route.query)
     // this.parameter_obj.token = this.$store.state.token;
     // this.ruleForm.token=this.$store.state.token;
-    this.rowid = this.$route.query.rowindex;
+    this.rowid = this.$route.query.rowindex * 1;
     if (this.rowid == 0) {
       this.title = "Cash Outbox";
       this.ruleForm = Object.assign({}, this.ruleForm, {
@@ -471,27 +471,35 @@ export default {
         )
         .then(res => {
           if (res.data.ret == 0) {
-            if (this.rowid == 5 || this.rowid == 4) {
-              for (var i in res.data.data[0].value) {
-                if (this.ruleForm.hasOwnProperty(i)) {
-                  this.ruleForm[i] = res.data.data[0].value[i];
+            if (res.data.data) {
+              if (this.rowid == 5 || this.rowid == 4) {
+                for (var i in res.data.data[0].value) {
+                  if (this.ruleForm.hasOwnProperty(i)) {
+                    this.ruleForm[i] = res.data.data[0].value[i];
+                  }
                 }
+              } else if (this.rowid == 6) {
+                if (res.data.data[0].value) {
+                  this.SimplifiedText =
+                    res.data.data[0].value.simplify_value || "";
+                  this.traditionalText =
+                    res.data.data[0].value.traditional_value || "";
+                  this.englishText = res.data.data[0].value.english_value || "";
+                }
+              } else if (this.rowid == 7) {
+                if (res.data.data[0].value) {
+                  this.Simplified = res.data.data[0].value.simplify_value || "";
+                  this.traditional =
+                    res.data.data[0].value.traditional_value || "";
+                  this.english = res.data.data[0].value.english_value || "";
+                }
+              } else {
+                res.data.data.forEach(item => {
+                  if (this.ruleForm.hasOwnProperty(item.name)) {
+                    this.ruleForm[item.name] = item.value;
+                  }
+                });
               }
-            } else if (this.rowid == 6) {
-              this.SimplifiedText = res.data.data[0].value.simplify_value || "";
-              this.traditionalText =
-                res.data.data[0].value.traditional_value || "";
-              this.englishText = res.data.data[0].value.english_value || "";
-            } else if (this.rowid == 7) {
-              this.Simplified = res.data.data[0].value.simplify_value || "";
-              this.traditional = res.data.data[0].value.traditional_value || "";
-              this.english = res.data.data[0].value.english_value || "";
-            } else {
-              res.data.data.forEach(item => {
-                if (this.ruleForm.hasOwnProperty(item.name)) {
-                  this.ruleForm[item.name] = item.value;
-                }
-              });
             }
           }
         });

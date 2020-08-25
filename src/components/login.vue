@@ -3,9 +3,7 @@
     <div class="login con" v-loading="loading">
       <h2>
         <img src="../../static/sign.png" alt />
-  
       </h2>
-
       <p :class="{'reminder':reminder}">{{remind}}</p>
       <div class="username">
         <el-input placeholder="Email Account" v-model.trim="username" clearable>

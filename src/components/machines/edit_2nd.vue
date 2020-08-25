@@ -9,7 +9,7 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="Currency:" prop="currency_id">
+      <el-form-item :label="$t('machines.Currency')+':'" prop="currency_id">
         <el-select :popper-append-to-body="false" v-model="ruleForm.currency_id" placeholder>
           <el-option
             v-for="item in currencypList"
@@ -19,54 +19,45 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item
-        label="Cash Inbox Denomination: (Fill in numbers separated by commas)"
-        prop="name"
-      >
+      <el-form-item :label="$t('machines.CashInboxDenomination')+':'" prop="name">
         <el-input :label="num" v-model="ruleForm.in_support_money"></el-input>
       </el-form-item>
-      <el-form-item
-        label="Cash Outbox Denomination: (Fill in numbers separated by commas)"
-        prop="name"
-      >
+      <el-form-item :label="$t('machines.CashOutboxDenomination')+':'" prop="name">
         <el-input v-model="ruleForm.out_support_money"></el-input>
       </el-form-item>
-      <el-form-item
-        label="Fast Withdraw Denomination: (Fill in numbers separated by commas)"
-        prop="name"
-      >
+      <el-form-item :label="$t('machines.FastWithdrawDenomination')+':'" prop="name">
         <el-input v-model="ruleForm.shortcut_money"></el-input>
       </el-form-item>
-      <el-form-item label="Customer can ___ Cryptocurrency:" prop="name">
+      <el-form-item :label="$t('machines.CustomerCan')+':'" prop="name">
         <el-radio-group v-model="ruleForm.is_buy_sell">
-          <el-radio :label="1">Buy</el-radio>
-          <el-radio :label="2">Sell</el-radio>
-          <el-radio :label="3">Both</el-radio>
+          <el-radio :label="1">{{$t('machines.Buy')}}</el-radio>
+          <el-radio :label="2">{{$t('machines.Sell')}}</el-radio>
+          <el-radio :label="3">{{$t('machines.Both')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Cryptocurrency Type:">
+      <el-form-item :label="$t('machines.CryptocurrencyType')+':'">
         <el-collapse accordion>
           <el-collapse-item>
             <template slot="title">BTC</template>
-            <el-form-item label="Local Transaction Regulation:" prop="name">
+            <el-form-item :label="$t('machines.LocalTransactionRegulation')+':'" prop="name">
               <el-radio-group v-model="ruleForm.is_support_bitcoin">
-                <el-radio :label="2">Buy</el-radio>
-                <el-radio :label="3">Sell</el-radio>
-                <el-radio :label="1">Both</el-radio>
-                <el-radio :label="4">Not allow</el-radio>
+                <el-radio :label="2">{{$t('machines.Buy')}}</el-radio>
+                <el-radio :label="3">{{$t('machines.Sell')}}</el-radio>
+                <el-radio :label="1">{{$t('machines.Both')}}</el-radio>
+                <el-radio :label="4">{{$t('machines.NotAllow')}}</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="Commission Rate (%):" prop="name">
+            <el-form-item :label="$t('machines.NotAllow')+'(%):'" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span>
+                  <span>{{$t('machines.Buy')}}:</span>
                   <el-input
                     oninput="value=value.replace(/[^\d.]/g,'')"
                     v-model="ruleForm.buy_bitcoin_fee"
                   ></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span>
+                  <span>{{$t('machines.Sell')}}:</span>
                   <el-input
                     oninput="value=value.replace(/[^\d.]/g,'')"
                     v-model="ruleForm.sell_bitcoin_fee"
@@ -74,13 +65,13 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label="Purchase Limitation (Minimum):" prop="name">
+            <el-form-item :label="$t('machines.PurchaseLimitationMin')+'(%):'" prop="name">
               <el-input
                 oninput="value=value.replace(/[^\d.]/g,'')"
                 v-model="ruleForm.minimum_bitcoin_buy"
               ></el-input>
             </el-form-item>
-            <el-form-item label="Purchase Limitation (Maximum):" prop="name">
+            <el-form-item :label="$t('machines.PurchaseLimitationMax')+'(%):'" prop="name">
               <el-input
                 oninput="value=value.replace(/[^\d.]/g,'')"
                 v-model="ruleForm.maximum_bitcoin_buy"
@@ -88,26 +79,26 @@
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item>
-            <template slot="title">ETH</template>
+            <template slot="title">{{$t('machines.ETH')}}</template>
             <el-form-item label="Local Transaction Regulation:" prop="name">
               <el-radio-group v-model="ruleForm.is_support_ethereum">
-                <el-radio :label="2">Buy</el-radio>
-                <el-radio :label="3">Sell</el-radio>
-                <el-radio :label="1">Both</el-radio>
-                <el-radio :label="4">Not allow</el-radio>
+                <el-radio :label="2">{{$t('machines.Buy')}}</el-radio>
+                <el-radio :label="3">{{$t('machines.Sell')}}</el-radio>
+                <el-radio :label="1">{{$t('machines.Both')}}</el-radio>
+                <el-radio :label="4">{{$t('machines.NotAllow')}}</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="Commission Rate (%):" prop="name">
+            <el-form-item :label="$t('machines.CommissionRate')+'(%):'" prop="name">
               <div class="flexbox">
                 <div class="box">
-                  <span>Buy:</span>
+                  <span>{{$t('machines.Buy')}}:</span>
                   <el-input
                     oninput="value=value.replace(/[^\d.]/g,'')"
                     v-model="ruleForm.buy_ethereum_fee"
                   ></el-input>
                 </div>
                 <div class="box">
-                  <span>Sell:</span>
+                  <span>{{$t('machines.Sell')}}:</span>
                   <el-input
                     oninput="value=value.replace(/[^\d.]/g,'')"
                     v-model="ruleForm.sell_ethereum_fee"
@@ -115,13 +106,13 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label="Purchase Limitation (Minimum):" prop="name">
+            <el-form-item :label="$t('machines.PurchaseLimitationMin')" prop="name">
               <el-input
                 oninput="value=value.replace(/[^\d.]/g,'')"
                 v-model="ruleForm.minimum_ethereum_buy"
               ></el-input>
             </el-form-item>
-            <el-form-item label="Purchase Limitation (Maximum):" prop="name">
+            <el-form-item :label="$t('machines.PurchaseLimitationMax')" prop="name">
               <el-input
                 oninput="value=value.replace(/[^\d.]/g,'')"
                 v-model="ruleForm.maximum_ethereum_buy"
@@ -132,8 +123,8 @@
       </el-form-item>
     </el-form>
     <section>
-      <button @click="goback">BACK</button>
-      <button @click="submitForm('ruleForm')">SUBMIT</button>
+      <button @click="goback">{{$t('common.BACK')}}</button>
+      <button @click="submitForm('ruleForm')">{{$t('common.SUBMIT')}}</button>
     </section>
     <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
@@ -205,25 +196,8 @@ export default {
         }
       });
   },
-  mounted() {
-    // this.$nextTick(function() {
-    //   for (var i in this.ruleForm) {
-    //     if (this.MachineInfo.hasOwnProperty(i))
-    //       this.ruleForm[i] = this.MachineInfo[i];
-    //   }
-    // });
-  },
+  mounted() {},
   methods: {
-    //   toThousands(num) {
-    //   var num = (num || 0).toString(), result = '';
-    //   while (num.length > 3) {
-    //     result = ',' + num.slice(-3) + result;
-    //     num = num.slice(0, num.length - 3);
-    //   }
-    //   if (num) { result = num + result; }
-    //     console.log(result)
-    //   this.num=result
-    // },
     goback() {
       // this.$emit('sontodad', 2);
       this.$global.previous();

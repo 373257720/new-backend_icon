@@ -2,9 +2,9 @@
   <div class="report_crytocurrency" v-loading="loading">
     <header>
       <h2>
-        <span @click="$routerto('audit_log')">Report</span>
+        <span @click="$routerto('audit_log')">{{$t('Report.Report')}}</span>
         <i class="el-icon-arrow-right"></i>
-        <span>Cryptocurrency</span>
+        <span>{{$t('Report.Cryptocurrency')}}</span>
       </h2>
     </header>
     <!--    <nav>-->
@@ -54,7 +54,7 @@
     <nav>
       <div>
         <section>
-          <span class="keyword">Machine:</span>
+          <span class="keyword">{{$t('machines.Machine')}}:</span>
           <template>
             <el-select clearable v-model="formdata.machine_id" placeholder>
               <el-option
@@ -67,7 +67,7 @@
           </template>
         </section>
         <section>
-          <span class="keyword">Cryptocurrency:</span>
+          <span class="keyword">{{$t('Report.Cryptocurrency')}}:</span>
           <template>
             <el-select v-model="formdata.coin_type" clearable placeholder>
               <el-option
@@ -80,7 +80,7 @@
           </template>
         </section>
         <section>
-          <span class="keyword">Transaction Date:</span>
+          <span class="keyword">{{$t('Report.TransactionDate')}}:</span>
           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
@@ -92,8 +92,8 @@
         </section>
       </div>
       <div>
-        <p class="button" @click="searcher">Search</p>
-        <p class="button" @click="export_excel">Export</p>
+        <p class="button" @click="searcher">{{$t('common.Search')}}</p>
+        <p class="button" @click="export_excel">{{$t('common.Export')}}</p>
       </div>
     </nav>
     <el-main>
@@ -108,11 +108,21 @@
           tooltip-effect="dark"
           style="width: 100%"
         >
-          <el-table-column label="Transaction Date" align="center">
+          <el-table-column :label="$t('Report.TransactionDate')" align="center">
             <template slot-scope="scope">{{ scope.row.day}}</template>
           </el-table-column>
-          <el-table-column prop="buy_money" align="center" label="Buy" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="sell_money" align="center" label="Sell" show-overflow-tooltip></el-table-column>
+          <el-table-column
+            prop="buy_money"
+            align="center"
+            :label="$t('machines.Buy')"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            prop="sell_money"
+            align="center"
+            :label="$t('machines.Sell')"
+            show-overflow-tooltip
+          ></el-table-column>
         </el-table>
         <pagevue
           :pagenum="pagetotal"
@@ -271,10 +281,9 @@ export default {
       // window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsCoinOrder?
       //   token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&
       //   machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
-        window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsCoinOrder?
+      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsCoinOrder?
         token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&
         machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
-     
     },
     resizeHandler() {
       this.chart.resize();

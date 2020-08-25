@@ -8,19 +8,19 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="Machine:" prop="name">
+      <el-form-item :label="$t('machines.Machine')+':'" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="Serial Number:" prop="name">
+      <el-form-item :label="$t('common.SerialNumber')+':'" prop="name">
         <el-input v-model="ruleForm.serial_number" :disabled="true"></el-input>
       </el-form-item>
-      <el-form-item label="Warning E-mail Adress:" prop="alert_email">
+      <el-form-item :label="$t('machines.WarningEmailAddress')+':'" prop="alert_email">
         <el-input v-model="ruleForm.alert_email"></el-input>
       </el-form-item>
-      <el-form-item label="Emergent Contact Number:" prop="name">
+      <el-form-item :label="$t('machines.EmergentContactNumber')+':'" prop="name">
         <el-input v-model="ruleForm.alert_mobile"></el-input>
       </el-form-item>
-      <el-form-item label="Group:" prop="region">
+      <el-form-item :label="$t('machines.Group')+':'" prop="region">
         <el-select :popper-append-to-body="false" v-model="ruleForm.machine_group_id" placeholder>
           <el-option
             v-for="item in groupList"
@@ -30,7 +30,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="Location:" prop="region">
+      <el-form-item :label="$t('machines.Location')+':'" prop="region">
         <el-select :popper-append-to-body="false" v-model="ruleForm.country_id" placeholder>
           <el-option
             v-for="item in CountryList"
@@ -40,10 +40,10 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="Address:" prop="name">
+      <el-form-item :label="$t('machines.Address')+':'" prop="name">
         <el-input v-model="ruleForm.address"></el-input>
       </el-form-item>
-      <el-form-item label="Machine photo:">
+      <el-form-item  :label="$t('machines.Machinephoto')+':'">
         <div class="machine_picture">
           <el-upload
             action
@@ -82,11 +82,11 @@
             <img width="100%" :src="dialogImageUrl" alt />
           </el-dialog>
         </div>
-      </el-form-item> -->
+      </el-form-item>-->
     </el-form>
     <section>
-      <button @click="goback">BACK</button>
-      <button @click="submitForm('ruleForm')">SUBMIT</button>
+      <button @click="goback">{{$t('common.BACK')}}</button>
+      <button @click="submitForm('ruleForm')">{{$t('common.SUBMIT')}}</button>
     </section>
     <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
@@ -115,7 +115,7 @@ export default {
         machine_group_id: null,
         country_id: "",
         address: "",
-        machine_picture_id: null,
+        machine_picture_id: null
         // email_picture_id: null
       },
       rules: {
@@ -298,7 +298,7 @@ export default {
           "email_picture .el-upload-list__item"
         );
         const isSize = new Promise(function(resolve, reject) {
-           if (!/.(jpg|jpeg|png)$/.test(file.type)) {
+          if (!/.(jpg|jpeg|png)$/.test(file.type)) {
             // alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
             return reject("typeErr");
           }
@@ -311,10 +311,10 @@ export default {
             );
             return file;
           },
-          (err) => {
+          err => {
             if ((err = "typeErr")) {
               this.$message.error(
-               "The image type must be one of  JPEG, JPG, PNG"
+                "The image type must be one of  JPEG, JPG, PNG"
               );
             }
             // this.$message.error('The uploaded picture must be equal to or greater than 1440 * 900!');

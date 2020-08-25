@@ -2,9 +2,9 @@
   <div class="machine_connect">
 <!--    <header><h2>CUSTOMERS DATAS</h2></header>-->
     <header><h2>
-      <span>Audit Logs</span>
+      <span>{{$t('auditLog.AuditLogs')}}</span>
       <i class="el-icon-arrow-right"></i>
-      <span>Machine Connect Status</span>
+      <span>{{$t('auditLog.MachineConnectStatus')}}</span>
     </h2>
     </header>
     <nav>
@@ -14,7 +14,7 @@
 <!--      </div>-->
       <div class="nav_right">
         <div>
-          <span class="keyword" >Time:</span>
+          <span class="keyword" >{{$t('common.Time')}}:</span>
           <el-date-picker
             v-model="timerange"
             type="daterange"
@@ -26,9 +26,9 @@
           </el-date-picker>
         </div>
         <div>
-          <span class="keyword">Keyword:</span>
+          <span class="keyword">{{$t('common.Keyword')}}:</span>
           <el-input
-            placeholder="Machine Name"
+            :placeholder="$t('common.MachineName')"
             v-model="keyword"
             clearable>
           </el-input>
@@ -46,20 +46,20 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column
-          label="Machine Name"
+          :label="$t('common.MachineName')"
           align="center">
           <template slot-scope="scope">{{ scope.row.machine_name}}</template>
         </el-table-column>
         <el-table-column
           prop="serial_number"
           align="center"
-          label="Serial Number"
+          :label="$t('common.SerialNumber')"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="create_time"
           align="center"
-          label="Date"
+          :label="$t('common.Date')"
           show-overflow-tooltip>
         </el-table-column>
       </el-table>

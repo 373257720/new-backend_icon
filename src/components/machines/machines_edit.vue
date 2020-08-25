@@ -2,9 +2,9 @@
   <div id="machines_edit">
     <header>
       <h2>
-        <span>Machines</span>id
+        <span>{{$t('Machines')}}</span>
         <i class="el-icon-arrow-right"></i>
-        <span>Edit</span>
+        <span>{{$t('common.Edit')}}</span>
       </h2>
     </header>
     <main>

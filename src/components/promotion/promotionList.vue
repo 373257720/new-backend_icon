@@ -1,19 +1,19 @@
 <template>
   <div class="promotion_list">
     <header>
-      <h2>Promotion</h2>
+      <h2>{{$t('promotion.Promotion')}}</h2>
     </header>
     <nav>
       <div>
-        <section @click="$routerto('promotionAdd',{type:1})">Add</section>
-        <section @click="alledit(1)">Enable</section>
-        <section @click="alledit(2)">Disable</section>
-        <section @click="beforeDelect">Delete</section>
+        <section @click="$routerto('promotionAdd',{type:1})">{{$t('promotion.Add')}}</section>
+        <section @click="alledit(1)">{{$t('promotion.Enable')}}</section>
+        <section @click="alledit(2)">{{$t('promotion.Disable')}}</section>
+        <section @click="beforeDelect">{{$t('common.Delete')}}</section>
       </div>
       <div>
-        <span class="keyword">Keyword:</span>
-        <el-input placeholder="ID,Account,Nickname" v-model="keyword" clearable></el-input>
-        <i @click="changepage" class="el-icon-search"></i>
+        <span class="keyword">{{$t('common.Keyword')}}:</span>
+        <el-input placeholder="ID,coin wallet address" v-model="keyword" clearable></el-input>
+        <i @click="search" class="el-icon-search"></i>
       </div>
     </nav>
     <el-main>
@@ -25,41 +25,58 @@
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" align="center" label="ID" width="55"></el-table-column>
+        <el-table-column type="selection" align="center" width="55"></el-table-column>
         <el-table-column label="ID" align="center" width="100">
-          <template slot-scope="scope">{{ scope.row.discount_id}}</template>
+          <template slot-scope="scope">{{scope.row.coin_address_fee_id}}</template>
         </el-table-column>
         <el-table-column
           prop="coin_type"
           align="center"
-          label="Coin type"
+          :label="$t('promotion.Cointype')"
           width="150"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="coin_address"
           align="center"
-          label="Wallet address"
+          :label="$t('promotion.Walletaddress')"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
-          prop="discount"
           align="center"
-          label="Discount"
+          :label="$t('promotion.Newcommissionrate')"
           width="150"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">{{scope.row.discount_fee}}%</template>
+        </el-table-column>
+        <el-table-column
+          prop="machine_name_list"
+          align="center"
+          :label="$t('promotion.MachineList')"
+          width="200"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="status_lable"
           align="center"
-          label="Status"
+          :label="$t('promotion.Status')"
           width="250"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
+          prop="system_fee"
+          align="center"
+          :label="$t('promotion.Systemfee')"
+          width="150"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">{{scope.row.system_fee+"%"}}</template>
+        </el-table-column>
+        <el-table-column
           prop="create_time"
           align="center"
-          label="Creat time"
+          :label="$t('promotion.Creattime')"
           width="200"
           show-overflow-tooltip
         ></el-table-column>
@@ -67,15 +84,15 @@
           width="300"
           fixed="right"
           align="center"
-          label="Operation"
+          :label="$t('common.Operation')"
           class-name="edit"
         >
           <template slot-scope="scope">
             <span
               @click="handleStatus(scope.$index, scope.row)"
-            >{{scope.row.status==1?'Disable':scope.row.status==2?'Enable':'Disable'}}</span>
-            <span @click="handleEdit(scope.$index, scope.row)">Edit</span>
-            <span @click="handleDelete(scope.$index, scope.row)">Delete</span>
+            >{{scope.row.status==1?$t('promotion.Disable'):scope.row.status==2?$t('promotion.Enable'):$t('promotion.Disable')}}</span>
+            <span @click="handleEdit(scope.$index, scope.row)">{{$t('common.Edit')}}</span>
+            <span @click="handleDelete(scope.$index, scope.row)">{{$t('common.Delete')}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -117,12 +134,15 @@ export default {
     }
   },
   methods: {
+    search() {
+      this.changepage(this.currentpage, this.pagesize, this.keyword);
+    },
     alldelete(param) {
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/admin_api/user.discount/deleteDiscount`,
+          `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/deleteCoinAddressFee`,
           {
-            discount_id: param
+            coin_address_fee_id: param
           }
         )
         .then(res => {
@@ -133,43 +153,43 @@ export default {
         });
     },
     beforeDelect() {
-      let discount_idArr = [];
+      let coin_address_fee_idArr = [];
       if (this.multipleSelection.length > 0) {
         this.multipleSelection.forEach(item => {
-          discount_idArr.push(item.discount_id);
+          coin_address_fee_idArr.push(item.coin_address_fee_id);
         });
         this.$confirm(
-          "This will permanently delete the file. Continue?",
-          "Warning",
+          this.$t("common.DeleteWarning"),
+          this.$t("common.Warning"),
           {
-            confirmButtonText: "OK",
-            cancelButtonText: "Cancel",
+            confirmButtonText: this.$t("common.OK"),
+            cancelButtonText: this.$t("common.Cancel"),
             type: "warning"
           }
         )
           .then(() => {
-            this.alldelete(discount_idArr);
+            this.alldelete(coin_address_fee_idArr);
           })
           .catch(() => {});
       } else {
-        this.msg = "Please select";
+        this.msg = this.$t("common.PleaseSelect");
         this.$message({
-          message: "Please select",
+          message: this.$t("common.PleaseSelect"),
           type: "warning"
         });
       }
     },
     alledit(num) {
-      let discount_idArr = [];
+      let coin_address_fee_idArr = [];
       if (this.multipleSelection.length > 0) {
         this.multipleSelection.forEach(item => {
-          discount_idArr.push(item.discount_id);
+          coin_address_fee_idArr.push(item.coin_address_fee_id);
         });
         this.$global
           .post_encapsulation(
-            `${this.$axios.defaults.baseURL}/admin_api/user.discount/editDiscountStatus`,
+            `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/editCoinAddressFeeStatus`,
             {
-              discount_id: discount_idArr,
+              coin_address_fee_id: coin_address_fee_idArr,
               status: num
             }
           )
@@ -181,7 +201,7 @@ export default {
           });
       } else {
         this.$message({
-          message: "Please select",
+          message: this.$t("common.PleaseSelect"),
           type: "warning"
         });
       }
@@ -198,9 +218,9 @@ export default {
       }
       this.$global
         .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/admin_api/user.discount/editDiscountStatus`,
+          `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/editCoinAddressFeeStatus`,
           {
-            discount_id: row.discount_id,
+            coin_address_fee_id: row.coin_address_fee_id,
             status: tostatus
           }
         )
@@ -221,21 +241,21 @@ export default {
       // console.log(this.currentpage, this.pagesize)
       this.$routerto("promotionAdd", {
         type: 2,
-        discount_id: row.discount_id
+        coin_address_fee_id: row.coin_address_fee_id
       });
     },
     handleDelete(index, row) {
       this.$confirm(
-        "This will permanently delete the file. Continue?",
-        "Warning",
+        this.$t("common.DeleteWarning"),
+        this.$t("common.Warning"),
         {
-          confirmButtonText: "OK",
-          cancelButtonText: "Cancel",
+          confirmButtonText: this.$t("common.OK"),
+          cancelButtonText: this.$t("common.Cancel"),
           type: "warning"
         }
       )
         .then(() => {
-          this.alldelete(row.discount_id);
+          this.alldelete(row.coin_address_fee_id);
         })
         .catch(() => {});
     },
@@ -253,21 +273,21 @@ export default {
     changepage(currentpage, pagesize, keyword) {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/admin_api/user.discount/getDiscountList`,
+          `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/getCoinAddressFeeList`,
           { page: currentpage, size: pagesize, keyword: keyword }
         )
         .then(res => {
           if (res.data.ret == 0) {
             this.pagetotal = res.data.data.total;
             this.tableData = [...res.data.data.data];
+            console.log(this.tableData);
             this.tableData.forEach(item => {
               item.status_lable = item.status == 1 ? "Normal" : "Ban";
               item.create_time = this.$global.timestampToTime(item.create_time);
             });
             // console.log(this.tableData);
           }
-        })
-        .catch(error => {});
+        });
     },
     fromchildren1(data) {
       this.currentpage = data.currentpage;
@@ -334,7 +354,6 @@ export default {
   }
   nav {
     display: flex;
-
     margin: 20px 0 0 0;
     justify-content: space-between;
     padding: 0 50px 0 20px;

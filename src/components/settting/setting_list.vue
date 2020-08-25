@@ -1,7 +1,7 @@
 <template>
   <div class="Setting">
     <header>
-      <h2>Setting</h2>
+      <h2>{{$t('home.SETTING')}}</h2>
     </header>
     <nav></nav>
     <el-main>
@@ -15,19 +15,19 @@
         :data="tableData"
         style="width:100%;margin:0 auto;"
       >
-        <el-table-column label="Type" align="center">
+        <el-table-column :label="$t('Report.Type')" align="center">
           <template slot-scope="scope" width="160">
             <div>{{scope.row.productType}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="Content" align="center">
+        <el-table-column :label="$t('Report.Content')" align="center">
           <template slot-scope="scope">
             <p>{{scope.row.productName}}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="updateTime" label="Operation" align="center">
+        <el-table-column prop="updateTime" :label="$t('common.Operation')" align="center">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">Edit</el-button>
+            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">{{$t('common.Edit')}}</el-button>
           </template>
         </el-table-column>
         
@@ -49,24 +49,24 @@ export default {
       input: "",
       tableData: [
         {
-          productType: "General",
-          productName: "Cash Outbox"
+          productType: this.$t('Report.General'),
+          productName:  this.$t('Report.CashOutbox'),
         },
         {
-          productType: "General",
-          productName: "Cash Inbox"
+          productType: this.$t('Report.General'),
+          productName: this.$t('Report.CashInbox'),
         },
         {
-          productType: "Transaction",
-          productName: "Transaction Timeout"
+          productType:  this.$t('Transactions.Transactions'),
+          productName: this.$t('Report.TransactionTimeout'),
         },
         // {
         //   productType: "Coin & Price",
         //   productName: 'Transaction Price & Fee',
         // },
         {
-          productType: "Receipts",
-          productName: "Website , E-mail , Contact Number"
+          productType:this.$t('Report.Receipts'),
+          productName: this.$t('Report.ReceiptsContent'),
         },
         // {
         //   productType: "Receipts",
@@ -76,20 +76,20 @@ export default {
         //   productName: 'Contact Number',
         // },
         {
-          productType: "Advanced Setting",
-          productName: "Ethereum"
+          productType: this.$t('Report.AdvancedSetting'),
+          productName: this.$t('Report.Ethereum'),
         },
         {
-          productType: "Advanced Setting",
-          productName: "Bitgo"
+          productType: this.$t('Report.AdvancedSetting'),
+          productName: this.$t('Report.Bitgo'),
         },
          {
-          productType: "Order SMS",
-          productName: "Order SMS"
+          productType: this.$t('Report.OrderSMS'),
+          productName: this.$t('Report.OrderSMS'),
         },
          {
-          productType: "Order mail",
-          productName: "Order mail"
+          productType:this.$t('Report.OrderMail'),
+          productName: this.$t('Report.OrderMail'),
         }
         // {
         //   productType:"Advanced Setting",

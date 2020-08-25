@@ -15,7 +15,7 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 //   process.env.NODE_ENV === "testing"
 //     ? require("../config/test.env")
 //     : require("../config/prod.env");
-const env=config.build[process.env.env_config+'Env']
+const env = config.build[process.env.env_config + "Env"];
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -110,14 +110,14 @@ const webpackConfig = merge(baseWebpackConfig, {
       minChunks: 3
     }),
 
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_debugger: true,
-        drop_console: true
-      },
-      // sourceMap: true
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     drop_debugger: true
+    //     // drop_console: true
+    //   }
+    //   // sourceMap: true
+    // }),
 
     // copy custom static assets
     new CopyWebpackPlugin([

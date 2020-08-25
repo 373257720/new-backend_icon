@@ -2,7 +2,7 @@
   <div class="account_setting">
     <header>
       <h2>
-        <span>Atm Technical Support</span>
+        <span>{{$t('user.AtmTechnicalSupport')}}</span>
         <i class="el-icon-arrow-right"></i>
         <span>{{title}}</span>
       </h2>
@@ -16,10 +16,10 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="User Name" prop="username">
+        <el-form-item :label="$t('user.UserName')+':'">
           <el-input v-model="ruleForm.username" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Password" prop="password">
+        <el-form-item :label="$t('user.Password')+':'" prop="password">
           <el-input
             type="password"
             v-model="ruleForm.password"
@@ -28,7 +28,7 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="Confirm password" prop="repassword">
+        <el-form-item :label="$t('user.Confirmpassword')+':'" prop="repassword">
           <el-input
             type="password"
             v-model="ruleForm.repassword"
@@ -37,19 +37,19 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="Nickname" prop="nickname">
+        <el-form-item :label="$t('user.Nickname')+':'" prop="nickname">
           <el-input v-model="ruleForm.nickname" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Email" prop="email">
+        <el-form-item :label="$t('user.Email')+':'" prop="email">
           <el-input v-model="ruleForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="Phone" prop="mobile">
+        <el-form-item :label="$t('user.Phone')+':'" prop="mobile">
           <el-input v-model="ruleForm.mobile" clearable></el-input>
         </el-form-item>
-        <el-form-item label="State" prop="status">
+        <el-form-item :label="$t('user.State')+':'" prop="status">
           <template>
-            <el-radio v-model="ruleForm.status" :label="1">Enable</el-radio>
-            <el-radio v-model="ruleForm.status" :label="2">Disable</el-radio>
+            <el-radio v-model="ruleForm.status" :label="1">{{$t('promotion.Enable')}}</el-radio>
+            <el-radio v-model="ruleForm.status" :label="2">{{$t('promotion.Disable')}}</el-radio>
           </template>
         </el-form-item>
         <!--        <el-form-item>-->
@@ -58,8 +58,8 @@
         <!--        </el-form-item>-->
       </el-form>
       <section>
-        <button @click="$routerto('atm_support')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('atm_support')">{{$t('common.Cancel')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <dialogReminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialogReminder>
@@ -173,9 +173,8 @@ export default {
                 this.ruleForm[key] = res.data.data[key];
                 if (key == "status") {
                   // console.log(this.ruleForm[key] );
-                  this.ruleForm[key] = this.ruleForm[key]* 1;
+                  this.ruleForm[key] = this.ruleForm[key] * 1;
                 }
-                
               }
             }
           }

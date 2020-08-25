@@ -24,6 +24,30 @@ import "../static/UE/ueditor.all.min.js";
 import "../static/UE/lang/en/en.js";
 // import  '../static/UE/lang/zh-cn/zh-cn.js'
 // console.log(UE.I18N);
+import Locale from "element-ui/lib/locale";
+import enLocale from "element-ui/lib/locale/lang/en";
+import zhLocale from "element-ui/lib/locale/lang/zh-CN";
+import { i18n } from "./lan/i18";
+function locales(lan) {
+  switch (lan) {
+    case "en_US":
+      Locale.use(enLocale);
+      break;
+    case "zh_CN":
+      Locale.use(zhLocale);
+      break;
+    default:
+      Locale.use(enLocale);
+  }
+}
+Vue.prototype.$Local = locales;
+let z = window.localStorage.getItem("lan")
+  ? window.localStorage.getItem("lan")
+  : "en_US";
+locales(z);
+i18n.locale = window.localStorage.getItem("lan")
+  ? window.localStorage.getItem("lan")
+  : "en_US";
 
 import "../static/UE/ueditor.parse.min";
 Vue.config.productionTip = false;
@@ -116,6 +140,7 @@ new Vue({
   el: "#app",
   router,
   store,
+  i18n,
   components: {
     App
   },

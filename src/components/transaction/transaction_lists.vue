@@ -4,17 +4,17 @@
       <h2>
         <!--      <span @click="$routerto('audit_log')">Audit Logs</span>-->
         <!--      <i class="el-icon-arrow-right"></i>-->
-        <span>Transactions</span>
+        <span>{{$t('Transactions.Transactions')}}</span>
       </h2>
     </header>
     <nav>
       <div>
         <section>
-          <span class="keyword">Keyword:</span>
-          <el-input placeholder="Machine Name" v-model="formdata.keyword" clearable></el-input>
+          <span class="keyword">{{$t('common.Keyword')}}:</span>
+          <el-input :placeholder="$t('common.MachineName')" v-model="formdata.keyword" clearable></el-input>
         </section>
         <section>
-          <span class="keyword">Status:</span>
+          <span class="keyword">{{$t('Transactions.Status')}}:</span>
           <template>
             <el-select clearable v-model="formdata.Statu" placeholder>
               <el-option
@@ -29,11 +29,11 @@
       </div>
       <div>
         <section>
-          <span class="keyword">Transaction ID:</span>
+          <span class="keyword">{{$t('Transactions.TransactionID')}}:</span>
           <el-input placeholder v-model="formdata.TransactionID" clearable></el-input>
         </section>
         <section>
-          <span class="keyword">Type:</span>
+          <span class="keyword">{{$t('Transactions.Type')}}:</span>
           <template>
             <el-select clearable v-model="formdata.trade_type" placeholder>
               <el-option
@@ -48,7 +48,7 @@
       </div>
       <div>
         <section>
-          <span class="keyword">Location:</span>
+          <span class="keyword">{{$t('machines.Location')}}:</span>
           <el-select v-model="formdata.Location" clearable placeholder>
             <el-option
               v-for="item in Locationlist"
@@ -64,7 +64,7 @@
           <!--          </el-input>-->
         </section>
         <section>
-          <span class="keyword">Time:</span>
+          <span class="keyword">{{$t('common.Time')}}:</span>
           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
@@ -76,8 +76,8 @@
         </section>
       </div>
       <div>
-        <p class="button" @click="searcher">Search</p>
-        <p class="button" @click="export_excel">Export</p>
+        <p class="button" @click="searcher">{{$t('common.Search')}}</p>
+        <p class="button" @click="export_excel">{{$t('common.Export')}}</p>
       </div>
     </nav>
     <el-main>
@@ -91,7 +91,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column
-          label="Transaction ID"
+          :label="$t('Transactions.TransactionID')"
           align="center"
           width="200"
           class-name="edit"
@@ -102,17 +102,27 @@
           </template>
           <!--          <template slot-scope="scope"></template>-->
         </el-table-column>
-        <el-table-column label="Machine" align="center" class-name="edit" width="150">
+        <el-table-column
+          :label="$t('machines.Machine')"
+          align="center"
+          class-name="edit"
+          width="150"
+        >
           <template slot-scope="scope">
             <span
               @click="$routerto('machines_edit',{machine_id:scope.row.machine_id})"
             >{{ scope.row.machine_name}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="Photo" width="150" show-overflow-tooltip>
+        <el-table-column
+          align="center"
+          :label="$t('Transactions.Picture')"
+          width="150"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
-            <el-popover placement="right" popper-class="PopPic"  trigger="click">
-                <img
+            <el-popover placement="right" popper-class="PopPic" trigger="click">
+              <img
                 slot="reference"
                 class="imgsize"
                 v-if="scope.row.machine_picture==null?false:true"
@@ -121,31 +131,38 @@
               />
               <img
                 class="bigpic"
-         
                 v-if="scope.row.machine_picture==null?false:true"
                 :src="$axios.defaults.baseURL+scope.row.machine_picture.original"
                 alt
               />
-            
             </el-popover>
           </template>
         </el-table-column>
         <el-table-column
           prop="coin_status"
           align="center"
-          label="Status"
+          :label="$t('Transactions.Status')"
           width="100"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="trade_type"
           align="center"
-          label="Type"
+          :label="$t('Transactions.Type')"
           width="100"
           show-overflow-tooltip
         ></el-table-column>
-        <el-table-column align="center" label="Cash" show-overflow-tooltip>
+        <el-table-column align="center" :label="$t('Transactions.Cash')" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.money}}{{scope.row.currency_name}}</template>
+        </el-table-column>
+        <el-table-column
+          prop="discount_fee"
+          align="center"
+          width="100"
+          :label="$t('Transactions.Discount')"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">{{ scope.row.discount_fee}}%</template>
         </el-table-column>
         <el-table-column
           prop="coin_number"
@@ -157,14 +174,14 @@
         <el-table-column
           prop="create_time"
           align="center"
-          label="Transaction Date"
+          :label="$t('Report.TransactionDate')"
           width="200"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="country_name"
           align="center"
-          label="Location"
+          :label="$t('machines.Location')"
           width="200"
           show-overflow-tooltip
         ></el-table-column>
@@ -218,19 +235,19 @@ export default {
       options1: [
         {
           value: "1",
-          label: "Buy"
+          label: this.$t("machines.Buy")
         },
         {
           value: "2",
-          label: "Sell"
+          label: this.$t("machines.Sell")
         }
       ],
       Statulist: {
-        "1": "Unpaid",
-        "2": "Paid",
-        "3": "Part Payment",
-        "4": "Canceled",
-        "5": "Transastioning"
+        "1": this.$t("Transactions.Unpaid"),
+        "2": this.$t("Transactions.Paid"),
+        "3": this.$t("Transactions.PartPayment"),
+        "4": this.$t("Transactions.Canceled"),
+        "5": this.$t("Transactions.Transastioning")
       },
       // 1未支付2已支付3部分支付4取消交易5正在交
       Locationlist: []
@@ -263,9 +280,8 @@ export default {
         this.formdata.timerange == null ? 0 : this.formdata.timerange[0];
       let end_time =
         this.formdata.timerange == null ? 0 : this.formdata.timerange[1];
-        // console.log(this.formdata);
-        window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportOrder?token=${this.$store.state.token}&keyword=${this.formdata.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.formdata.keyword}&trade_type=${this.formdata.Type}&country_id=${this.formdata.Location}&coin_status=${this.formdata.Statu}`;
-      
+      // console.log(this.formdata);
+      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportOrder?token=${this.$store.state.token}&keyword=${this.formdata.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.formdata.keyword}&trade_type=${this.formdata.Type}&country_id=${this.formdata.Location}&coin_status=${this.formdata.Statu}`;
 
       // window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportOrder?token=${this.$store.state.token}&keyword=${this.formdata.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.formdata.keyword}&trade_type=${this.formdata.Type}&country_id=${this.formdata.Location}&coin_status=${this.formdata.Statu}`;
     },
@@ -337,7 +353,7 @@ export default {
             this.tableData = [...res.data.data.data];
             this.tableData.forEach(item => {
               item.create_time = this.$global.timestampToTime(item.create_time);
-              item.trade_type = item.trade_type == 1 ? "Buy" : "Sell";
+              item.trade_type = item.trade_type == 1 ? this.$t("machines.Buy") : this.$t("machines.Sell");
               item.coin_status = this.Statulist[item.coin_status];
             });
             // console.log(this.tableData)
@@ -382,10 +398,10 @@ export default {
 /*.el-input--suffix .el-input__inner {*/
 /*  padding: 0;*/
 /*}*/
-.PopPic{
-      overflow-y: auto;
-    width: 600px;
-    height: 700px;
+.PopPic {
+  overflow-y: auto;
+  width: 600px;
+  height: 700px;
 }
 .el-input--suffix .el-input__inner {
   padding: 0 15px;

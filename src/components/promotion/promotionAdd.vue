@@ -1,8 +1,8 @@
 <template>
-  <div class="account_setting">
+  <div class="promotionAdd">
     <header>
       <h2>
-        <span>Promotion</span>
+        <span>{{$t('promotion.Promotion')}}</span>
         <i class="el-icon-arrow-right"></i>
         <span>{{title}}</span>
       </h2>
@@ -16,7 +16,7 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="Select currency type:" prop="region">
+        <el-form-item :label="$t('promotion.SelectCurrencytype')" prop="region">
           <el-select :popper-append-to-body="false" v-model="ruleForm.coin_type" placeholder>
             <el-option
               v-for="item in groupList"
@@ -27,7 +27,7 @@
           </el-select>
         </el-form-item>
         <el-form-item v-if="title=='Add'" prop="region">
-          <span style="color: #606266;">Wallet addresses:</span>
+          <span style="color: #606266;">{{$t('promotion.WalletAddresses')}}:</span>
           <i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
           <div class="Currencyrange">
             <div class="additem" v-for="(item,index) in ruleForm.coin_address" :key="index">
@@ -43,8 +43,8 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item v-else-if="title=='Edit'" prop="region">
-          <span style="color: #606266;">Wallet addresses:</span>
+        <el-form-item v-else-if="title=='Edit'">
+          <span style="color: #606266;">{{$t('promotion.WalletAddresses')}}:</span>
           <div class="Currencyrange">
             <div class="additem">
               <el-form-item>
@@ -53,19 +53,33 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="Discount(eg. Enjoy 10-percent discount, enter 10):">
-          <el-input v-model="ruleForm.discount" clearable autocomplete="off"></el-input>
+        <el-form-item :label="$t('promotion.Newcommissionrate')">
+          <el-input v-model="ruleForm.discount_fee" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="State:">
+        <el-form-item :label="$t('promotion.PleaseSelect')">
+          <el-checkbox-group v-model="ruleForm.machine_id_list">
+            <el-checkbox
+              v-for="item in machineList"
+              :label="item.machine_id"
+              :key="item.machine_id"
+            >
+              <span>{{item.name}}</span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <!-- <el-form-item label="System fee（Percentage of order amount charged）">
+          <el-input v-model="ruleForm.system_fee" clearable autocomplete="off"></el-input>
+        </el-form-item>-->
+        <el-form-item :label="$t('promotion.Status')">
           <el-radio-group v-model="ruleForm.status">
-            <el-radio :label="1">Normal</el-radio>
-            <el-radio :label="2">Prohibit</el-radio>
+            <el-radio :label="1">{{$t('promotion.Normal')}}</el-radio>
+            <el-radio :label="2">{{$t('promotion.Prohibit')}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('promotionList')">Cancel</button>
-        <button @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('promotionList')">{{$t('common.Cancel')}}</button>
+        <button @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
     <dialogReminder :msg="msg" :successto="successto" :remindervisible.sync="remindervisible"></dialogReminder>
@@ -84,55 +98,81 @@ export default {
       msg: "",
       remindervisible: false,
       successto: "",
+      machineList: [],
       ruleForm: {
-        coin_type: "",
+        machine_id_list: [],
+        coin_type: "bitcoin",
         coin_address: [
           {
             text: ""
           }
         ],
-        discount: "",
+        discount_fee: "",
+        system_fee: null,
         status: null
       },
       rules: {
-        username: [{ required: true, message: "Please input", trigg: "change" }]
+        // username: [{ required: true, message: "Please input", trigg: "change" }]
       }
     };
   },
   created() {
+    this.getmachineList();
     if (this.$route.query.type == 1) {
-      this.title = "Add";
+      this.title = this.$t('common.Add');
       this.ruleForm.status = 1;
     } else if (this.$route.query.type == 2) {
-      this.title = "Edit";
-      this.ruleForm.discount_id = this.$route.query.discount_id;
+      this.title =  this.$t('common.Edit');
+      this.ruleForm.coin_address_fee_id = this.$route.query.coin_address_fee_id;
       this.ruleForm.coin_address;
       this.$set(this.ruleForm, "coin_address", "");
-      this.getdata();
     }
   },
   methods: {
+    getmachineList() {
+      this.$global
+        .get_encapsulation(
+          `${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineList`
+        )
+        .then(res => {
+          if (res.data.ret == 0) {
+            this.machineList = [...res.data.data.data];
+            // console.log(this.ruleForm);
+            this.getdata();
+          }
+        });
+    },
     getdata() {
       this.$global
         .get_encapsulation(
-          `${this.$axios.defaults.baseURL}/admin_api/user.discount/getDiscountInfo`,
+          `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/getCoinAddressFeeInfo`,
           {
-            discount_id: this.$route.query.discount_id
+            coin_address_fee_id: this.$route.query.coin_address_fee_id
           }
         )
         .then(res => {
           if (res.data.ret == 0) {
-            console.log(res);
             for (let key in res.data.data) {
               if (this.ruleForm.hasOwnProperty(key)) {
                 this.ruleForm[key] = res.data.data[key];
+                if (key == "machine_id_list") {
+                  if (this.ruleForm[key] === null) {
+                    this.ruleForm[key] = [];
+                  } else {
+                    let arr = this.ruleForm[key].split(",");
+                    this.ruleForm[key] = arr.map(item => {
+                      return parseInt(item);
+                    });
+                  }
+                }
+
                 if (key == "status") {
                   this.ruleForm[key] = this.ruleForm[key] * 1;
                 }
               }
             }
           }
-          //   console.log(this.ruleForm);
+          console.log(this.ruleForm);
         });
     },
     additem() {
@@ -154,7 +194,7 @@ export default {
           if (this.$route.query.type == 1) {
             this.$global
               .post_encapsulation(
-                `${this.$axios.defaults.baseURL}/admin_api/user.discount/addDiscount`,
+                `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/addCoinAddressFee`,
                 this.ruleForm
               )
               .then(res => {
@@ -167,7 +207,7 @@ export default {
           } else if (this.$route.query.type == 2) {
             this.$global
               .post_encapsulation(
-                `${this.$axios.defaults.baseURL}/admin_api/user.discount/editDiscount`,
+                `${this.$axios.defaults.baseURL}/admin_api/user.coin_address_fee/editCoinAddressFee`,
                 this.ruleForm
               )
               .then(res => {
@@ -192,9 +232,30 @@ export default {
 </script>
 
 <style lang='scss'>
-.account_setting {
+.promotionAdd {
   margin: 0 0 0 50px;
   width: 90%;
+  .el-checkbox__input.is-checked .el-checkbox__inner,
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background: #2abee2;
+    border-radius: 50%;
+    border-color: #2abee2;
+  }
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #2ab4e2;
+  }
+  .el-checkbox__input.is-focus {
+    .el-checkbox__inner {
+      border-color: #dcdfe6;
+      &:hover {
+        border-color: #2ab4e2;
+      }
+    }
+  }
+  .el-checkbox__inner {
+    border-radius: 50%;
+    transition: none;
+  }
   .el-radio__input.is-checked .el-radio__inner {
     border-color: #2abee2;
     background: #2abee2;
@@ -220,16 +281,7 @@ export default {
     position: absolute;
     top: 1px;
     border-radius: 0;
-    /*!*-webkit-transform: rotate(45deg) scaleY(0);*!*/
-    /*!*transform: rotate(45deg) scaleY(0);*!*/
     width: 3px;
-    /*-webkit-transition: -webkit-transform .15s ease-in .05s;*/
-    /*transition: -webkit-transform .15s ease-in .05s;*/
-    /*transition: transform .15s ease-in .05s;*/
-    /*transition: transform .15s ease-in .05s, -webkit-transform .15s ease-in .05s;*/
-    /*transition: transform .15s ease-in .05s,-webkit-transform .15s ease-in .05s;*/
-    /*-webkit-transform-origin: center;*/
-    /*transform-origin: center;*/
   }
   header {
     position: relative;
@@ -268,6 +320,7 @@ export default {
       }
       .el-button--primary {
         background: none !important;
+        margin-left: 10px;
       }
       .el-input {
         /*width:125px;*/
@@ -286,7 +339,7 @@ export default {
         align-items: center;
         .el-form-item {
           margin-bottom: 0;
-          margin-right: 10px;
+          // margin-right: 10px;
         }
         i {
           /*width: 20%;*/

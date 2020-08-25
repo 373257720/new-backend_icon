@@ -1,7 +1,7 @@
 <template>
   <div class="wallet">
     <header>
-      <h2>Wallet</h2>
+      <h2>{{$t("WalletSetting.Wallet")}}</h2>
     </header>
     <nav></nav>
     <!--    v-loading="pictLoading"-->
@@ -16,27 +16,32 @@
         <el-table-column label="Crypto Currency" align="center" width="150">
           <template slot-scope="scope">{{ scope.row.coin_type}}</template>
         </el-table-column>
-        <el-table-column label="Wallet Address" width="200" show-overflow-tooltip align="center">
+        <el-table-column
+          :label="$t('promotion.Walletaddress')"
+          width="200"
+          show-overflow-tooltip
+          align="center"
+        >
           <template slot-scope="scope">{{ scope.row.address}}</template>
         </el-table-column>
         <el-table-column
           prop="balance"
           align="center"
           width="200"
-          label="Account Balance"
+          :label="$t('WalletSetting.AccountBalance')"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           align="center"
           prop="platform"
           width="200"
-          label="Hedge Platform"
+          :label="$t('WalletSetting.HedgePlatform')"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="coin_number"
           align="center"
-          label="Hedge Balance"
+          :label="$t('WalletSetting.HedgeBalance')"
           width="200"
           show-overflow-tooltip
         ></el-table-column>
@@ -44,11 +49,16 @@
           prop="interval_time"
           align="center"
           width="200"
-          label="Hedge Interval(mins)"
+          :label="$t('WalletSetting.HedgeInterval')"
           show-overflow-tooltip
         ></el-table-column>
 
-        <el-table-column align="center" label="API Parameter" width="200" show-overflow-tooltip>
+        <el-table-column
+          align="center"
+          :label="$t('WalletSetting.APIParameter')"
+          width="200"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.api_parameter?JSON.parse(scope.row.api_parameter).key+','+JSON.parse(scope.row.api_parameter).secret:'-'}}</span>
           </template>
@@ -56,12 +66,12 @@
         <el-table-column
           fixed="right"
           align="center"
-          label="Operation"
+            :label="$t('common.Operation')"
           class-name="edit"
           min-width="200"
         >
           <template slot-scope="scope">
-            <span @click="handleedit(scope.$index, scope.row)">Edit</span>
+            <span @click="handleedit(scope.$index, scope.row)">{{$t('common.Edit')}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -110,7 +120,6 @@ export default {
       }
     },
     changepage(currentpage, pagesize) {
-
       this.$global
         .get_encapsulation(
           `${this.$axios.defaults.baseURL}/admin_api/content.hedge_config/getHedgeConfigList`,

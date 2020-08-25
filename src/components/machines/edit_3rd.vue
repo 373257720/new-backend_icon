@@ -8,24 +8,21 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item
-        label="Need to register:  (Everyone need to register an account in CryptoGo to buy/sell cryptocurrency)"
-        prop="name"
-      >
+      <el-form-item :label="$t('machines.NeedToregister')" prop="name">
         <el-radio-group v-model="ruleForm.is_register">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
+          <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
+          <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Know your customer authentication:">
+      <el-form-item :label="$t('machines.KnowAuthentication')+':'">
         <el-radio-group v-model="ruleForm.is_money_range">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
+          <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
+          <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-show="ruleForm.is_money_range==1">
-        <span style="color: #606266;">Currency range:</span>
-        <span style="color: #606266;">(Fill in the minimum in the front and the maximum in the back)</span>
+        <span style="color: #606266;">{{$t('machines.CurrencyRange')}}:</span>
+        <span style="color: #606266;">{{$t('machines.FillIN')}}</span>
         <i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
         <div class="Currencyrange">
           <div class="additem" v-for="(item,index) in ruleForm.arr" :key="index">
@@ -68,22 +65,22 @@
           </div>
         </div>
       </el-form-item>
-      <el-form-item label="Whether to support redemption coins:">
+      <el-form-item :label="$t('machines.supportCoupons')">
         <el-radio-group v-model="ruleForm.is_redeem_coin">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
+          <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
+          <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Whether to support redemption of money:">
+      <el-form-item :label="$t('machines.supportRedemption')">
         <el-radio-group v-model="ruleForm.is_redeem_money">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
+          <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
+          <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Whether to support the use of coupons:">
         <el-radio-group v-model="ruleForm.is_coupon">
-          <el-radio :label="1">Yes</el-radio>
-          <el-radio :label="2">No</el-radio>
+          <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
+          <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Language configuration:" prop="name">
@@ -120,8 +117,8 @@
       </el-form-item>
     </el-form>
     <section>
-      <button @click="$global.previous">BACK</button>
-      <button @click="submitForm('ruleForm')">SUBMIT</button>
+      <button @click="$global.previous">{{$t('common.BACK')}}</button>
+      <button @click="submitForm('ruleForm')">{{$t('common.SUBMIT')}}</button>
     </section>
     <dialogReminder :msg="msg" :remindervisible.sync="remindervisible"></dialogReminder>
   </div>
@@ -247,19 +244,19 @@ export default {
       options: [
         {
           value: "",
-          label: "Please choose"
+          label: this.$t("machines.PleaseChoose")
         },
         {
           value: "picture",
-          label: "Picture"
+          label: this.$t("machines.Picture")
         },
         {
           value: "fingerprint",
-          label: "Fingerprint"
+          label: this.$t("machines.Fingerprint")
         },
         {
           value: "certificate",
-          label: "Certificate"
+          label: this.$t("machines.Certificate")
         }
       ],
       arr: [

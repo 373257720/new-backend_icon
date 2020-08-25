@@ -2,7 +2,7 @@
   <div class="report_lists">
     <header>
       <h2>
-        <span @click="$routerto('audit_log')">Reports</span>
+        <span @click="$routerto('audit_log')">{{$t('Report.Report')}}</span>
         <!--    <i class="el-icon-arrow-right"></i>-->
         <!--      <span>Cry</span>-->
       </h2>
@@ -10,7 +10,7 @@
     <nav>
       <div>
         <section>
-          <span class="keyword">Machine:</span>
+          <span class="keyword">{{$t('machines.Machine')}}:</span>
           <template>
             <el-select clearable v-model="formdata.machine_id" placeholder>
               <el-option
@@ -23,7 +23,7 @@
           </template>
         </section>
         <section>
-          <span class="keyword">Transaction Date:</span>
+          <span class="keyword">{{$t('Report.TransactionDate')}}:</span>
           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
@@ -35,8 +35,8 @@
         </section>
       </div>
       <div>
-        <p class="button" @click="drawLineChart">Search</p>
-        <p class="button" @click="export_excel">Export</p>
+        <p class="button" @click="drawLineChart">{{$t('common.Search')}}</p>
+        <p class="button" @click="export_excel">{{$t('common.Export')}}</p>
       </div>
     </nav>
     <div id="myChart" :style="{width: '100%', height: '400px'}"></div>
@@ -51,14 +51,19 @@
         tooltip-effect="dark"
         style="width: 100%"
       >
-        <el-table-column label="Transaction Date" align="center" width="200">
+        <el-table-column :label="$t('Report.TransactionDate')" align="center" width="200">
           <template slot-scope="scope">{{ scope.row.day}}</template>
         </el-table-column>
-        <el-table-column label="Purchase Amount" prop="buy_money" align="center" width="200"></el-table-column>
+        <el-table-column
+          :label="$t('Report.PurchaseAmount')"
+          prop="buy_money"
+          align="center"
+          width="200"
+        ></el-table-column>
         <el-table-column
           prop="sell_money"
           align="center"
-          label="Sell Amount"
+          :label="$t('Report.SellAmount')"
           width="200"
           show-overflow-tooltip
         ></el-table-column>
@@ -66,26 +71,25 @@
           prop="fee"
           align="center"
           width="300"
-          label="Cumulative Revenve"
+          :label="$t('Report.CumulativeRevenve')"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="system_fee"
           align="center"
           width="300"
-          label="CryptoGo Commision"
+          :label="$t('Report.CryptoGoCommision')"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="profit"
           align="center"
-          label="Net profit"
+          :label="$t('Report.Netprofit')"
           min-width="200"
           show-overflow-tooltip
         ></el-table-column>
       </el-table>
     </el-main>
-
     <pagevue
       v-on:passtoparent="export_excel"
       :pagenum="pagetotal"
@@ -238,7 +242,7 @@ export default {
         this.formdata.timerange == null ? 0 : this.formdata.timerange[0];
       let end_time =
         this.formdata.timerange == null ? 0 : this.formdata.timerange[1];
-        window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
+      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
 
       // window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
     },

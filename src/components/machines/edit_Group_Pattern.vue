@@ -2,34 +2,34 @@
   <div class="edit_group_edit">
     <header>
       <h2>
-        <span>Machines</span>
+        <span>{{$t('machines.Machines')}}</span>
         <i class="el-icon-arrow-right"></i>
-        <span>Edit Group</span>
+        <span>{{$t('machines.EditGroup')}}</span>
       </h2>
     </header>
     <main>
       <el-tabs v-if="status" v-model="activeName" :stretch="true" @tab-click="handleClick">
-        <el-tab-pane label="Group Pattern" name="first">
-          <add_1st :tochind="MachineInfo" v-on:getchildren="fromchildren"></add_1st>
+        <el-tab-pane :label="$t('machines.GroupPattern')" name="first">
+          <add1st :tochind="MachineInfo" v-on:getchildren="fromchildren"></add1st>
         </el-tab-pane>
-        <el-tab-pane label="Price & Fee" name="second">
-          <add_2nd :tochind="MachineInfo" v-on:getchildren="fromchildren" v-on:back="back_fromson"></add_2nd>
+        <el-tab-pane :label="$t('machines.PriceFee')" name="second">
+          <add2nd :tochind="MachineInfo" v-on:getchildren="fromchildren" v-on:back="back_fromson"></add2nd>
         </el-tab-pane>
-        <el-tab-pane label="Operator" name="third">
-          <add_3rd
+        <el-tab-pane :label="$t('machines.Operator')" name="third">
+          <add3rd
             :tochind="MachineInfo"
             :submitfordata="submitfordata"
             v-on:back="back_fromson"
             v-on:getchildren="fromchildren"
-          ></add_3rd>
+          ></add3rd>
         </el-tab-pane>
-        <el-tab-pane label="Advertisement" name="fourth">
-          <add_4th
+        <el-tab-pane :label="$t('machines.Advertisement')" name="fourth">
+          <add4th
             :tochind="MachineInfo"
             :submitfordata="submitfordata"
             v-on:back="back_fromson"
             v-on:getchildren="fromchildren"
-          ></add_4th>
+          ></add4th>
         </el-tab-pane>
       </el-tabs>
     </main>
@@ -37,10 +37,10 @@
 </template>
 
 <script>
-import add_1st from "@/components/machines/add_1st";
-import add_2nd from "@/components/machines/add_2nd";
-import add_3rd from "@/components/machines/add_3rd";
-import add_4th from "@/components/machines/add_4th";
+import add1st from "@/components/machines/add_1st";
+import add2nd from "@/components/machines/add_2nd";
+import add3rd from "@/components/machines/add_3rd";
+import add4th from "@/components/machines/add_4th";
 export default {
   data() {
     return {
@@ -94,10 +94,10 @@ export default {
     };
   },
   components: {
-    add_1st,
-    add_2nd,
-    add_3rd,
-    add_4th
+    add1st,
+    add2nd,
+    add3rd,
+    add4th
   },
 
   watch: {
@@ -168,7 +168,7 @@ export default {
           this.MachineInfo[item] = parseInt(this.MachineInfo[item]);
         });
         //  console.log(this.MachineInfo['machine_group_id']);
-        console.log(this.MachineInfo);
+        // console.log(this.MachineInfo);
 
         this.status = true;
       });

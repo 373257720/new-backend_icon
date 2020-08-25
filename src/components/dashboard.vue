@@ -4,30 +4,30 @@
       <div class="top">
         <aside>
           <div class="myChart_top">
-            <h2>Machines Overview</h2>
+            <h2>{{$t('dashboard.MachinesOverview')}}</h2>
             <div class="myChart_top_right">
-              <span>30 Days Volume</span>
+              <span>{{$t('dashboard.Volume')}}</span>
               <span>
-                Sell
+                {{$t('machines.Sell')}}
                 <span class="num">{{chart_sell}}</span>
               </span>
               <span>
-                Buy
+                {{$t('machines.Buy')}}
                 <span class="num">{{chart_buy}}</span>
               </span>
             </div>
           </div>
           <div id="myChart"></div>
           <div class="myChart_top_button">
-            <span>30 Days Cumulative Revenue</span>
-            <span @click="$routerto('report')">SEE ALL</span>
+            <span>{{$t('dashboard.CumulativeRevenue')}}</span>
+            <span @click="$routerto('report')">{{$t('dashboard.SEEALL')}}</span>
           </div>
         </aside>
 
         <article>
           <header>
-            <span>Recent Transactions</span>
-            <span @click="$routerto('transaction')">SEE ALL</span>
+            <span>{{$t('dashboard.RecentTransactions')}}</span>
+            <span @click="$routerto('transaction')">{{$t('dashboard.SEEALL')}}</span>
           </header>
           <el-main>
             <el-table
@@ -40,7 +40,7 @@
               <el-table-column
                 class-name="edit"
                 show-overflow-tooltip
-                label="Transation ID"
+                :label="$t('dashboard.TransationID')"
                 align="center"
               >
                 <template slot-scope="scope" class="edit">
@@ -49,14 +49,17 @@
                   >{{ scope.row.trade_id}}</span>
                 </template>
               </el-table-column>
-              <el-table-column show-overflow-tooltip prop="coin_status" label="Type" align="center"></el-table-column>
-              <el-table-column show-overflow-tooltip prop="create_time" label="Days" align="center"></el-table-column>
+              <el-table-column show-overflow-tooltip prop="coin_status" 
+                    :label="$t('Report.Type')"
+              align="center"></el-table-column>
+              <el-table-column show-overflow-tooltip prop="create_time" :label="$t('dashboard.Days')"
+               align="center"></el-table-column>
             </el-table>
           </el-main>
         </article>
       </div>
       <div class="bottom">
-        <header>Machine Information</header>
+        <header>{{$t('dashboard.MachineInformation')}}</header>
         <main>
           <el-main>
             <el-table
@@ -67,7 +70,7 @@
               tooltip-effect="dark"
               style="width: 100%"
             >
-              <el-table-column label="Machine" align="center" class-name="edit">
+              <el-table-column :label="$t('machines.Machine')" align="center" class-name="edit">
                 <template slot-scope="scope" class="edit">
                   <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.name}}</span>
                 </template>
@@ -75,25 +78,28 @@
               <el-table-column
                 prop="address"
                 align="center"
-                label="ATM Address"
+        
+                :label="$t('dashboard.ATMAddress')"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 prop="incashbox_money"
                 align="center"
-                label="Cash Inbox"
+      
+                :label="$t('dashboard.CashInbox')"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 prop="outcashbox_money"
                 align="center"
-                label="Cash Outbox"
+
+                     :label="$t('dashboard.CashOutbox')"
                 show-overflow-tooltip
               ></el-table-column>
-              <el-table-column align="center" label="Operation" class-name="edit" width="200">
+              <el-table-column align="center"   :label="$t('common.Operation')" class-name="edit" width="200">
                 <template slot-scope="scope">
-                  <span @click="handleDelete(scope.$index, scope.row)">Transactions</span>
-                  <span class="left" @click="handleEdit(scope.$index, scope.row)">Setting</span>
+                  <span @click="handleDelete(scope.$index, scope.row)">{{$t('Transactions.Transactions')}}</span>
+                  <span class="left" @click="handleEdit(scope.$index, scope.row)">{{$t('Report.Setting')}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -414,71 +420,6 @@ export default {
       if (pageindex == 1) {
         this.currentpage = 1;
       }
-      // this.$axios({
-      //   method: "post",
-      //   url: `${this.$axios.defaults.baseURL}/bsl_admin_web/project/getProject`,
-      //   data: this.$qs.stringify({
-      //     signStatus: status,
-      //     searchKey: this.searchkey,
-      //     startCreateTime: start,
-      //     endCreateTime: end,
-      //     pageIndex: pageindex,
-      //     pageSize: size
-      //   }),
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded"
-      //   }
-      // })
-
-      this.$global
-        .post_encapsulation(
-          `${this.$axios.defaults.baseURL}/bsl_admin_web/project/getProject`,
-          {
-            signStatus: status,
-            searchKey: this.searchkey,
-            startCreateTime: start,
-            endCreateTime: end,
-            pageIndex: pageindex,
-            pageSize: size
-          }
-        )
-        .then(res => {
-          console.log(res);
-          if (res.data.resultCode == 10090) {
-            this.$store.dispatch("commondialogfunctionaysn", true);
-            // console.log( this.$store.state.commondialog);
-          } else if (res.data.resultCode == 10000) {
-            // if (res.data.data.lists.length > 0) {
-            this.tableData = [...res.data.data.lists];
-            console.log(this.tableData);
-
-            this.tableData.forEach(item => {
-              item.createTime = this.$global.timestampToTime(item.createTime);
-              if (item.signStatus === 0) {
-                item.signstatus = "待签约";
-              } else if (item.signStatus === 1) {
-                item.signstatus = "中介已意向签约";
-              } else if (item.signStatus === 2) {
-                item.signstatus = "项目方同意签约";
-              } else if (item.signStatus === 3) {
-                item.signstatus = "项目方拒接签约";
-              } else if (item.signStatus === 3) {
-                item.signstatus = "项目方拒接签约";
-              } else if (item.signStatus === 3) {
-                item.signstatus = "项目方拒接签约";
-              }
-              // 待审核项目->1 待签约项目->2  已签约待发送->4    待确认项目->5  成功签约项目->6   拒绝签约项目->3，7
-              if (item.projectLifeCycle === 0) {
-                item.projectstatus = "正常";
-              } else if (item.projectLifeCycle === -1) {
-                item.projectstatus = "已删除";
-              }
-            });
-            this.pagetotal = res.data.data.pageTotal;
-            // var rescode = res.data.resultCode;
-            // }
-          }
-        });
     }
   }
 };
@@ -514,7 +455,7 @@ export default {
         padding: 0 20px;
         height: 486px;
         flex: 0 0 100%;
-        
+
         max-width: 100%;
         box-sizing: border-box;
         position: relative;

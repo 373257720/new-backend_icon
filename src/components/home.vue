@@ -24,7 +24,7 @@
             <i>
               <img :src="color_icon.dashboard" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.dashboard}">DASHBOARD</span>
+            <span slot="title" :class="{textisactive:text.dashboard}">{{$t('home.DASHBOARD')}}</span>
           </el-menu-item>
           <el-submenu
             :class="{bgisactive:text.user}"
@@ -36,16 +36,16 @@
               <i>
                 <img :src="color_icon.user" alt />
               </i>
-              <span :class="{textisactive:text.user}">USER</span>
+              <span :class="{textisactive:text.user}">{{$t('home.USER')}}</span>
             </template>
             <el-menu-item
               @click="routerto('/home/user/atm_support')"
               index="atm_support"
-            >TECHNICAL SUPPORT</el-menu-item>
+            >{{$t('home.TECHNICALSUPPORT')}}</el-menu-item>
             <el-menu-item
               @click="routerto('/home/user/customer_data')"
               index="customer_data"
-            >CUSTOMER DATA</el-menu-item>
+            >{{$t('home.CUSTOMERDATA')}}</el-menu-item>
           </el-submenu>
           <el-submenu
             :class="{bgisactive:text.machines}"
@@ -57,16 +57,16 @@
               <i>
                 <img :src="color_icon.machines" alt />
               </i>
-              <span :class="{textisactive:text.machines}">MACHINES</span>
+              <span :class="{textisactive:text.machines}">{{$t('home.MACHINES')}}</span>
             </template>
             <el-menu-item
               @click="routerto('/home/machines/machine_subtitle')"
               index="machine_subtitle"
-            >MACHINES</el-menu-item>
+            >{{$t('home.MACHINES')}}</el-menu-item>
             <el-menu-item
               @click="routerto('/home/machines/group_subtitle')"
               index="group_subtitle"
-            >GROUP PATTERN</el-menu-item>
+            >{{$t('home.GROUPPATTERN')}}</el-menu-item>
           </el-submenu>
           <el-menu-item
             :class="{bgisactive:text.transaction}"
@@ -78,7 +78,8 @@
             <i>
               <img :src="color_icon.transaction" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.transaction}">TRANSACTIONS</span>
+            <span slot="title" :class="{textisactive:text.transaction}">
+              {{$t('home.TRANSACTIONS')}}</span>
           </el-menu-item>
           <el-menu-item
             :class="{bgisactive:text.wallet}"
@@ -90,7 +91,7 @@
             <i>
               <img :src="color_icon.wallet" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.wallet}">WALLET</span>
+            <span slot="title" :class="{textisactive:text.wallet}">{{$t('home.WALLET')}}</span>
           </el-menu-item>
           <el-submenu
             :class="{bgisactive:text.report}"
@@ -102,16 +103,16 @@
               <i>
                 <img :src="color_icon.report" alt />
               </i>
-              <span slot="title" :class="{textisactive:text.report}">REPORT</span>
+              <span slot="title" :class="{textisactive:text.report}">{{$t('home.REPORT')}}</span>
             </template>
             <el-menu-item index="report_lists" @click="routerto('/home/report')">
-              <span slot="title">REPORTS</span>
+              <span slot="title">{{$t('home.REPORTS')}}</span>
             </el-menu-item>
             <el-menu-item
               index="report_crytocurrency"
               @click="routerto('/home/report/report_crytocurrency')"
             >
-              <span slot="title">CRYPTOCURRENCY</span>
+              <span slot="title">{{$t('home.CRYPTOCURRENCY')}}</span>
             </el-menu-item>
           </el-submenu>
           <el-menu-item
@@ -124,7 +125,9 @@
             <i>
               <img :src="color_icon.promotion" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.promotion}">PROMOTION</span>
+            <span slot="title" :class="{textisactive:text.promotion}">
+              {{$t('home.PROMOTION')}}
+              </span>
           </el-menu-item>
           <el-menu-item
             @mouseenter.native="changeImageSrc('setting', 'hover')"
@@ -136,7 +139,9 @@
             <i>
               <img :src="color_icon.setting" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.setting}">SETTING</span>
+            <span slot="title" :class="{textisactive:text.setting}">
+              {{$t('home.SETTING')}}
+              </span>
           </el-menu-item>
           <el-menu-item
             @mouseenter.native="changeImageSrc('alerts', 'hover')"
@@ -148,7 +153,7 @@
             <i>
               <img :src="color_icon.alerts" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.alerts}">ALERTS</span>
+            <span slot="title" :class="{textisactive:text.alerts}">{{$t('home.ALERTS')}}</span>
           </el-menu-item>
           <el-menu-item
             @mouseenter.native="changeImageSrc('audit_log', 'hover')"
@@ -160,7 +165,7 @@
             <i>
               <img :src="color_icon.audit_log" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.audit_log}">AUDIT LOG</span>
+            <span slot="title" :class="{textisactive:text.audit_log}">{{$t('home.AUDITLOG')}}</span>
           </el-menu-item>
         </el-menu>
       </div>
