@@ -81,13 +81,13 @@
         </section>
         <section>
           <span class="keyword">{{$t('Report.TransactionDate')}}:</span>
-          <el-date-picker
+           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
-            range-separator="to"
+            :range-separator="$t('machines.to')"
             value-format="yyyy-MM-dd"
-            start-placeholder="Start"
-            end-placeholder="End"
+            :start-placeholder="$t('machines.Start')"
+            :end-placeholder="$t('machines.End')"
           ></el-date-picker>
         </section>
       </div>
@@ -187,7 +187,7 @@ export default {
           }
         },
         legend: {
-          data: ["Buy", "Sell"]
+          data: [this.$t('machines.Buy') ,this.$t('machines.Sell')]
         },
         // calculable: true,
         xAxis: {
@@ -222,7 +222,7 @@ export default {
         },
         series: [
           {
-            name: "Buy",
+            name: this.$t('machines.Buy'),
             type: "bar",
             itemStyle: {
               normal: {
@@ -236,7 +236,7 @@ export default {
             data: []
           },
           {
-            name: "Sell",
+            name: this.$t('machines.Sell'),
             type: "bar",
             itemStyle: {
               normal: {
@@ -283,7 +283,7 @@ export default {
       //   machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
       window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsCoinOrder?
         token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&
-        machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}`;
+        machine_id=${this.formdata.machine_id}&coin_type=${this.formdata.coin_type}&lang=${localStorage.getItem("lan")?localStorage.getItem("lan"):'en-us'}`;
     },
     resizeHandler() {
       this.chart.resize();
@@ -466,7 +466,7 @@ export default {
                 }
               ],
               title: {
-                subtext: "Price:" + this.currency_name
+                subtext: this.$t('common.Price') +":" + this.currency_name
               }
             });
           }, 300);

@@ -73,24 +73,10 @@ export default {
   props: ["tochind"],
   data() {
     var validatePass = (rule, value, callback) => {
-      // if
-      // (value === '') {
-      //   callback(new Error('请输入密码'));
-      // } else {
       if (value !== "") {
         this.$refs.ruleForm.validateField("checkPass");
       }
       callback();
-      // }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
     };
     return {
       ruleForm: {
@@ -108,13 +94,12 @@ export default {
         withdraw_password: ""
       },
       rules: {
-        username: [{ required: true, message: "不能为空", trigg: "change" }],
         safe_password: [
           { validator: validatePass, trigger: "blur" },
           {
             min: 5,
             max: 16,
-            message: "Length should be 5 to 16",
+            message: this.$t("machines.Length5to16"),
             trigger: "blur"
           }
         ],
@@ -123,21 +108,21 @@ export default {
           {
             min: 5,
             max: 16,
-            message: "Length should be 5 to 16",
+            message: this.$t("machines.Length5to16"),
             trigger: "blur"
           }
         ],
-        nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
         customer_service_email: [
-          { message: "Please input email address", trigger: "blur" },
+          {
+            message: this.$t("machines.PleaseInputEmailAddress"),
+            trigger: "blur"
+          },
           {
             type: "email",
-            message: "Please input correct email address",
+            message: this.$t("machines.PleaseInputCorrectEmailAddress"),
             trigger: ["blur", "change"]
           }
-        ],
-        mobile: [{ required: true, message: "不能为空", trigger: "blur" }],
-        status: [{ required: true }]
+        ]
       }
     };
   },
@@ -152,11 +137,12 @@ export default {
   },
   mounted() {
     // console.log()
-    Object.keys(this.tochind.company_name).forEach(key => {
-      let newkey = "company_name_" + key;
-      this.tochind[newkey] = this.tochind.company_name[key];
-    });
+
     if (this.$route.query.type == 2) {
+      Object.keys(this.tochind.company_name).forEach(key => {
+        let newkey = "company_name_" + key;
+        this.tochind[newkey] = this.tochind.company_name[key];
+      });
       for (let i in this.ruleForm) {
         if (this.tochind.hasOwnProperty(i)) {
           this.ruleForm[i] = this.tochind[i];
@@ -170,14 +156,6 @@ export default {
     },
     submitForm() {
       this.$emit("getchildren", "", "fourth");
-      //       this.ruleForm.token=this.$store.state.token;
-      // this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,this.ruleForm)
-      //   .then(res=>{
-      //     if(res.data.ret==0){
-      //       this.$emit('getchildren');
-      //       this.$routerto('edit_4th',{machine_id:this.$route.query.machine_id});
-      //     }
-      //   })
     }
   }
 };

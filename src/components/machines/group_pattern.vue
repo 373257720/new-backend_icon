@@ -135,6 +135,9 @@ export default {
   created() {},
   activated() {
     this.changepage(this.currentpage, this.pagesize, this.keyword);
+    this.$nextTick(() => {
+      this.$refs.multipleTable.doLayout();
+    });
   },
   methods: {
     apply() {
@@ -168,13 +171,13 @@ export default {
     },
     alldelete() {
       if (this.multipleSelection.length > 0) {
-        this.msg = "This will permanently delete the file";
+        this.msg = this.$t("common.DeleteWarning");
         this.remindervisible1 = true;
       } else {
-        this.msg = "Please select";
+        this.msg = this.$t("common.PleaseSelect");
         // this.remindervisible=true;
         this.$message({
-          message: "Please select",
+          message: this.$t("common.PleaseSelect"),
           type: "warning"
         });
       }

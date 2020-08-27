@@ -18,10 +18,10 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('machines.CashInboxDenomination')" prop="name">
+      <el-form-item :label="$t('machines.CashInboxDenomination')+':'" prop="name">
         <el-input :label="num" v-model="ruleForm.in_support_money"></el-input>
       </el-form-item>
-      <el-form-item :label="$t('machines.CashOutboxDenomination')" prop="name">
+      <el-form-item :label="$t('machines.CashOutboxDenomination')+':'" prop="name">
         <el-input v-model="ruleForm.out_support_money"></el-input>
       </el-form-item>
       <el-form-item :label="$t('machines.FastWithdrawDenomination')+':'" prop="name">
@@ -158,20 +158,7 @@ export default {
         buy_ethereum_fee: "",
         sell_ethereum_fee: ""
       },
-      rules: {
-        username: [{ required: true, message: "不能为空", trigg: "change" }],
-        nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-        email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
-        ],
-        mobile: [{ required: true, message: "不能为空", trigger: "blur" }],
-        status: [{ required: true }]
-      },
+      rules: {},
       num: ""
     };
   },
@@ -213,35 +200,11 @@ export default {
     }
   },
   methods: {
-    toThousands(num) {
-      var num = (num || 0).toString(),
-        result = "";
-      while (num.length > 3) {
-        result = "," + num.slice(-3) + result;
-        num = num.slice(0, num.length - 3);
-      }
-      if (num) {
-        result = num + result;
-      }
-      console.log(result);
-      this.num = result;
-    },
     goback() {
-      // this.$emit('sontodad', 2);
-      // this.$global.previous();
       this.$emit("back", "first");
     },
     submitForm() {
-      // console.log(this.ruleForm);
       this.$emit("getchildren", "", "third");
-      // this.ruleForm.token=this.$store.state.token;
-      // this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,this.ruleForm)
-      //   .then(res=>{
-      //     if(res.data.ret==0){
-      //       this.$emit('getchildren');
-      //       this.$routerto('edit_3rd',{machine_id:this.$route.query.machine_id});
-      //     }
-      //   })
     },
     appear3() {
       this.handleRemove(

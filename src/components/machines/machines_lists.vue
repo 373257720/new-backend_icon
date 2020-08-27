@@ -9,7 +9,7 @@
       </div>
       <div>
         <span class="keyword">{{$t('common.Keyword')}}:</span>
-        <el-input placeholder v-model="keyword" clearable></el-input>
+        <el-input  :placeholder="$t('common.MachineName')"  v-model="keyword" clearable></el-input>
         <i @click="searcher" class="el-icon-search"></i>
       </div>
     </nav>
@@ -129,9 +129,9 @@
     </el-dialog>
     <el-dialog :visible.sync="centerDialogVisible" width="30%" :modal="false" center>
       <span slot="title" class="dialog-footer">{{$t('machines.Group')}}</span>
-      <p class="thick">Select:</p>
+      <p class="thick">{{$t('common.PleaseSelect')}}:</p>
       <p class="select" v-html="machine_name"></p>
-      <p class="thick">Please Choose ONE Group:</p>
+      <p class="thick">{{$t('machines.PleaseChooseONEGroup')}}:</p>
       <template>
         <el-select v-model="machine_group_id" placeholder>
           <el-option
@@ -274,8 +274,8 @@ export default {
         this.centerDialogVisible = true;
       } else {
         // this.remindervisible = true;
-        this.$message({
-          message: "Please select",
+       this.$message({
+          message: this.$t("common.PleaseSelect"),
           type: "warning"
         });
       }
@@ -630,11 +630,12 @@ export default {
       }
 
       span.keyword {
-        line-height: 40px;
-        /*height: 40px;*/
+          line-height: 40px;
+        display: block;
+        width: 120px;
         color: #777777;
         text-align: center;
-        margin-right: 20px;
+        margin-right: 10px;
       }
 
       i {

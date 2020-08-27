@@ -4,6 +4,10 @@
   </div>
 </template>
 <script>
+import "../../static/UE/ueditor.config.js";
+import "../../static/UE/ueditor.all.min.js";
+import "../../static/UE/lang/en/en.js";
+import "../../static/UE/lang/zh-cn/zh-cn.js";
 export default {
   name: "UE",
   props: {
@@ -34,7 +38,6 @@ export default {
         // console.log(123);
         // this.editor = UE.getEditor(this.id, this.config);
         this.editor.setContent(val);
-        
       }
     }
   },
@@ -46,10 +49,8 @@ export default {
       const _this = this;
       //dom元素已经挂载上去了
       this.$nextTick(() => {
-        // console.log(UE);
-        // this.config.set lang(this.config.lang)
         this.editor = UE.getEditor(this.id, this.config);
-        // console.log( this.editor ,this.config);
+        this.editor.options.lang = this.config.lang;
         // 绑定事件，当 UEditor 初始化完成后，将编辑器实例通过自定义的 ready 事件交出去
         this.editor.addListener("ready", () => {
           this.ready = true;

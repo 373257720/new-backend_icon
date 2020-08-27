@@ -1,26 +1,26 @@
 <template>
   <div class="account">
     <header><h2>
-      <span>Account Setting</span>
+      <span>{{$t('AccountSetting.AccountSetting')}}</span>
       <!--      <i class="el-icon-arrow-right"></i>-->
       <!--      <span>{{title}}</span>-->
     </h2>
     </header>
     <main>
       <el-form  label-position="top" :model="ruleForm"  :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item  label="Nickname:(please enter a new nickname)" prop="nickname">
+        <el-form-item  :label="$t('AccountSetting.Nickname')+':'" prop="nickname">
           <el-input  v-model="ruleForm.nickname" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="New password:" prop="password" >
+        <el-form-item :label="$t('AccountSetting.Newpassword')+':'" prop="password" >
           <el-input type="password" v-model="ruleForm.password" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Confirm new password:" prop="repassword">
+        <el-form-item :label="$t('AccountSetting.ConfirmNewpassword')+':'" prop="repassword">
           <el-input type="password" v-model="ruleForm.repassword" show-password   clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <section>
-        <button @click="$routerto('atm_support')">Cancel</button>
-        <button  @click="submitForm('ruleForm')">Save</button>
+        <button @click="$routerto('atm_support')">{{$t('common.Cancel')}}</button>
+        <button  @click="submitForm('ruleForm')">{{$t('common.save')}}</button>
       </section>
     </main>
 
@@ -32,7 +32,7 @@
     data() {
       var validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please input the password'));
+          callback(new Error(this.$t('user.Pleasepassword')));
         } else {
           if (this.ruleForm.repassword !== '') {
             this.$refs.ruleForm.validateField('repassword');
@@ -43,9 +43,9 @@
       var validatePass2 = (rule, value, callback) => {
         console.log(value,this.ruleForm.password)
         if (value === '') {
-          callback(new Error('Please input the password again'));
+          callback(new Error(this.$t('user.Pleasepasswordagain')));
         } else if (value !== this.ruleForm.password) {
-          callback(new Error('Two inputs don\'t match!'));
+          callback(new Error(this.$t('user.Twoinputsdonotmatch')));
         } else {
           callback();
         }
@@ -58,33 +58,17 @@
           nickname: '',
         },
         rules: {
-          username: [
-            { required: true, message: 'Please input', trigger: 'change' }
-          ],
           password: [
             {required: true, validator: validatePass, trigger: 'blur' },
-            { min: 6, max: 16, message: 'Length should be 6 to 16', trigger: 'blur' }
+            { min: 6, max: 16, message:  this.$t('user.Length6to16'), trigger: 'blur' }
           ],
           repassword: [
             { required: true,min: 6, max: 16,validator: validatePass2, trigger: 'blur' },
           ],
           nickname:[
-            { required: true, message: 'Please input  the nickname', trigger: 'blur' }
+            { required: true, message: this.$t('common.PleaseInput'), trigger: 'blur' }
           ],
-          email: [
-            { required: true, message: "Please input", trigger: "blur" },
-            {
-              type: "email",
-              message: "请输入正确的邮箱地址",
-              trigger: ["blur", "change"]
-            }
-          ],
-          mobile:[
-            { required: true, message: '不能为空', trigger: 'blur' }
-          ],
-          status:[
-            { required: true,},
-          ]
+  
         }
       };
     },

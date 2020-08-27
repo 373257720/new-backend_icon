@@ -354,7 +354,7 @@ export default {
       },
       config1: {
         initialFrameWidth: null,
-        initialFrameHeight: 300,
+        initialFrameHeight: 500,
         lang: "zh-cn"
       },
       config: {

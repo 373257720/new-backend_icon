@@ -68,10 +68,10 @@
           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
-            range-separator="to"
+            :range-separator="$t('machines.to')"
             value-format="yyyy-MM-dd"
-            start-placeholder="Start"
-            end-placeholder="End"
+            :start-placeholder="$t('machines.Start')"
+            :end-placeholder="$t('machines.End')"
           ></el-date-picker>
         </section>
       </div>
@@ -221,15 +221,15 @@ export default {
       options: [
         {
           value: "2",
-          label: "Paid"
+          label: this.$t("Transactions.Paid")
         },
         {
           value: "1",
-          label: "Unpaid"
+          label: this.$t("Transactions.Unpaid")
         },
         {
           value: "4",
-          label: "Cancelled"
+          label: this.$t("Transactions.Canceled")
         }
       ],
       options1: [
@@ -281,7 +281,19 @@ export default {
       let end_time =
         this.formdata.timerange == null ? 0 : this.formdata.timerange[1];
       // console.log(this.formdata);
-      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportOrder?token=${this.$store.state.token}&keyword=${this.formdata.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.formdata.keyword}&trade_type=${this.formdata.Type}&country_id=${this.formdata.Location}&coin_status=${this.formdata.Statu}`;
+      window.location.href = `${
+        this.$axios.defaults.baseURL
+      }/admin_api/machine.order/exportOrder?token=${
+        this.$store.state.token
+      }&keyword=${
+        this.formdata.keyword
+      }&start_time=${start_time}&end_time=${end_time}&keyword=${
+        this.formdata.keyword
+      }&trade_type=${this.formdata.Type}&country_id=${
+        this.formdata.Location
+      }&coin_status=${this.formdata.Statu}&lang=${
+        localStorage.getItem("lan") ? localStorage.getItem("lan") : "en-us"
+      }`;
 
       // window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportOrder?token=${this.$store.state.token}&keyword=${this.formdata.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.formdata.keyword}&trade_type=${this.formdata.Type}&country_id=${this.formdata.Location}&coin_status=${this.formdata.Statu}`;
     },
@@ -353,7 +365,10 @@ export default {
             this.tableData = [...res.data.data.data];
             this.tableData.forEach(item => {
               item.create_time = this.$global.timestampToTime(item.create_time);
-              item.trade_type = item.trade_type == 1 ? this.$t("machines.Buy") : this.$t("machines.Sell");
+              item.trade_type =
+                item.trade_type == 1
+                  ? this.$t("machines.Buy")
+                  : this.$t("machines.Sell");
               item.coin_status = this.Statulist[item.coin_status];
             });
             // console.log(this.tableData)

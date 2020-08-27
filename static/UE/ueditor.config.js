@@ -13,20 +13,20 @@
   var serverApi = "";
   //serverApi = "/dist/static/UE/config/getConfig"
   // console.log(getUEBasePath());
-  // if (process.env.NODE_ENV === "production") {
-  //   // 生产环境
-  //   // if (process.env.basepath === "https://master.cryptogolab.com") {
-  //   //   window.UEDITOR_HOME_URL = "/newBackstagedist/static/UE/";
-  //   // } else {
-  //   window.UEDITOR_HOME_URL = "/static/UE/";
-  //   // }
-  // } else if (process.env.NODE_ENV === "testing") {
-  //   // 测试环境
-  //   window.UEDITOR_HOME_URL = "/dist/static/UE/";
-  // } else {
-  //   // 开发环境
-  //   window.UEDITOR_HOME_URL = "/static/UE/";
-  // }
+  if (process.env.NODE_ENV === "production") {
+    // 生产环境
+    // if (process.env.basepath === "https://master.cryptogolab.com") {
+    //   window.UEDITOR_HOME_URL = "/newBackstagedist/static/UE/";
+    // } else {
+    // window.UEDITOR_HOME_URL = "/static/UE/";
+    // }
+  } else if (process.env.NODE_ENV === "testing") {
+    // 测试环境
+    window.UEDITOR_HOME_URL = "/dist/static/UE/";
+  } else {
+    // 开发环境
+    window.UEDITOR_HOME_URL = "/static/UE/";
+  }
 
   /**
    * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
@@ -39,17 +39,17 @@
    */
   // window.UEDITOR_HOME_URL = "/static/UE/";
   var URL = window.UEDITOR_HOME_URL || getUEBasePath();
-  console.log(URL);
+  console.log("uedtior:"+ URL);
   if (URL == "https://master.cryptogolab.com") {
     URL = "/newBackstagedist/static/UE/";
-  } else if(URL == "https://www.cryptogolab.com"){
+  } else if (URL == "https://www.cryptogolab.com") {
     URL = "/master/static/UE/";
-  }else{
-    URL = "/static/UE/";
   }
   /**
    * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
    */
+  // console.log(URL);
+
   window.UEDITOR_CONFIG = {
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
@@ -126,7 +126,7 @@
 
     //语言配置项,默认是zh-cn。有需要的话也可以使用如下这样的方式来自动多语言切换，当然，前提条件是lang文件夹下存在对应的语言文件：
     //lang值也可以通过自动获取 (navigator.language||navigator.browserLanguage ||navigator.userLanguage).toLowerCase()
-    lang: "en",
+    lang: "",
     langPath: URL + "lang/",
     //主题配置项,默认是default。有需要的话也可以使用如下这样的方式来自动多主题切换，当然，前提条件是themes文件夹下存在对应的主题文件：
     //现有如下皮肤:default

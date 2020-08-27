@@ -1,5 +1,5 @@
 // 导入自己需要的组件
-import Vue from 'vue'
+import Vue from "vue";
 import {
   Aside,
   Menu,
@@ -14,29 +14,30 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
-   RadioGroup,
+  RadioGroup,
   Dialog,
   Table,
-    CheckboxGroup,
+  CheckboxGroup,
   Tabs,
-    TabPane,
+  TabPane,
   TableColumn,
   Loading,
-    Form,
-      Upload,
-    FormItem,
-      Radio,Popover,
+  Form,
+  Upload,
+  FormItem,
+  Radio,
+  Popover,
   MessageBox,
-    Collapse,
-    Button,
-    CollapseItem,
+  Collapse,
+  Button,
+  CollapseItem,
   Message,
-    Pagination,
-      Checkbox,
-        DatePicker,
+  Pagination,
+  Checkbox,
+  DatePicker
   // Row,
   // Col
-} from 'element-ui'
+} from "element-ui";
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;
@@ -70,17 +71,17 @@ const element = {
     Vue.use(Table);
     Vue.use(DatePicker);
     Vue.use(TableColumn);
-    
+
     Vue.use(Loading.directive);
     // Vue.prototype.$msgbox = MessageBox;
 
     // Vue.use(Option)
-    // Vue.use(OptionGroup)
+    Vue.use(OptionGroup);
     // Vue.use(Input)
     // Vue.use(Tree)
-    Vue.use(Dialog)
+    Vue.use(Dialog);
     // Vue.use(Row)
     // Vue.use(Col)
   }
-}
-export default element
+};
+export default element;

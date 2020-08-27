@@ -8,13 +8,13 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item :label="$t('machines.Group')" prop="name">
+      <el-form-item :label="$t('machines.Group')+':'">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
-      <el-form-item :label="$t('machines.WarningEmailAddress')" prop="alert_email">
+      <el-form-item :label="$t('machines.WarningEmailAddress')+':'" prop="alert_email">
         <el-input v-model="ruleForm.alert_email"></el-input>
       </el-form-item>
-      <el-form-item :label="$t('machines.EmergentContactNumber')" prop="name">
+      <el-form-item :label="$t('machines.EmergentContactNumber')+':'">
         <el-input v-model="ruleForm.alert_mobile"></el-input>
       </el-form-item>
     </el-form>
@@ -29,25 +29,6 @@
 export default {
   props: ["tochind"],
   data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       CountryList: [],
       groupList: [],
@@ -61,45 +42,27 @@ export default {
         alert_mobile: ""
       },
       rules: {
-        username: [{ required: true, message: "不能为空", trigg: "change" }],
-        password: [
-          { required: true, validator: validatePass, trigger: "blur" },
-          { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
-        ],
-        repassword: [
-          {
-            required: true,
-            min: 6,
-            max: 16,
-            validator: validatePass2,
-            trigger: "blur"
-          }
-        ],
-        nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
         alert_email: [
-          { message: "Please input email address", trigger: "blur" },
+          {
+            message: this.$t("machines.PleaseInputEmailAddress"),
+            trigger: "blur"
+          },
           {
             type: "email",
-            message: "Please input correct email address",
+            message: this.$t("machines.PleaseInputCorrectEmailAddress"),
             trigger: ["blur", "change"]
           }
         ],
-        mobile: [{ required: true, message: "不能为空", trigger: "blur" }],
-        status: [{ required: true }]
       }
     };
   },
   mounted() {
     if (this.$route.query.type == 2) {
-      // console.log(this.tochind)
       for (let i in this.ruleForm) {
         if (this.tochind.hasOwnProperty(i)) {
           this.ruleForm[i] = this.tochind[i];
-          // console.log(this.tochind)
         }
       }
-      // ({alert_email} = this.tochind);
-      // console.log(this.alert_email);
     }
   },
   created() {
@@ -107,7 +70,7 @@ export default {
       this.$axios.get(
         `${this.$axios.defaults.baseURL}/admin_api/content.country/getCountryList`,
         {
-          params: { token: this.$store.state.token, lang: "en-us" }
+          params: { token: this.$store.state.token, lang:localStorage.getItem("lan") || "en-us"}
         }
       ),
       this.$axios.get(
@@ -132,7 +95,6 @@ export default {
               label: res1.data.data.data[i].name
             });
           }
-          // console.log(this.CountryList  )
         }
         if (res2) {
           this.groupList.push({ value: "0", label: "-" });
@@ -149,7 +111,6 @@ export default {
   watch: {
     ruleForm: {
       handler(newValue, oldValue) {
-        // console.log(newValue)
         this.$emit("getchildren", this.ruleForm);
       },
       deep: true
@@ -157,16 +118,7 @@ export default {
   },
   methods: {
     submitForm() {
-      // console.log(this.ruleForm);
       this.$emit("getchildren", "", "second");
-      // this.ruleForm.token=this.$store.state.token;
-      // this.$global.post_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/editMachine`,this.ruleForm)
-      //   .then(res=>{
-      //     if(res.data.ret==0){
-      //       this.$emit('getchildren');
-      //       this.$routerto('edit_2nd',{machine_id:this.$route.query.machine_id});
-      //     }
-      //   })
     }
   }
 };

@@ -16,11 +16,12 @@
             @change="searcher"
             v-model="timerange"
             type="daterange"
-            range-separator="to"
+            :range-separator="$t('machines.to')"
             value-format="yyyy-MM-dd"
-            start-placeholder="Start"
-            end-placeholder="End"
+           :start-placeholder="$t('machines.Start')"
+            :end-placeholder="$t('machines.End')"
           ></el-date-picker>
+  
         </div>
       </nav>
       <el-main>

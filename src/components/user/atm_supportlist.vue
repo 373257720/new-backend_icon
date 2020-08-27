@@ -11,7 +11,7 @@
       </div>
       <div>
         <span class="keyword">{{$t('common.Keyword')}}:</span>
-        <el-input placeholder="ID,Account,Nickname" v-model="keyword" clearable></el-input>
+        <el-input :placeholder="$t('common.IDAccountNickname')" v-model="keyword" clearable></el-input>
         <i @click="searcher" class="el-icon-search"></i>
       </div>
     </nav>
@@ -150,24 +150,21 @@ export default {
             }
           });
       } else {
-        // this.$message("Please select");
         this.$message({
-          message: "Please select",
+          message: this.$t("common.PleaseSelect"),
           type: "warning"
         });
-        // this.msg="Please select"
-        // this.remindervisible=true;
       }
     },
     handleEdit(index, row) {
-      console.log(index, row);
+      // console.log(index, row);
       let tostatus;
       if (row.status == 1) {
         tostatus = 2;
       } else if (row.status == 2) {
         tostatus = 1;
       }
-      console.log(row.status);
+      // console.log(row.status);
       this.$global
         .post_encapsulation(
           `${this.$axios.defaults.baseURL}/admin_api/user.atm_user/editAtmUserStatus`,
@@ -181,10 +178,10 @@ export default {
           if (res.data.ret == 0) {
             if (row.status == 1) {
               this.tableData[index].status = 2;
-              this.tableData[index].status_lable = "Ban";
+              this.tableData[index].status_lable = this.$t("user.Ban");
             } else if (row.status == 2) {
               this.tableData[index].status = 1;
-              this.tableData[index].status_lable = "Normal";
+              this.tableData[index].status_lable = this.$t("user.Normal");
             }
             // this.msg=res.data.msg;
             // this.remindervisible=true;
@@ -193,7 +190,6 @@ export default {
         });
     },
     handleDelete(index, row) {
-      // console.log(this.currentpage, this.pagesize)
       this.$routerto("account_setting", {
         type: 2,
         atm_user_id: row.atm_user_id
@@ -205,15 +201,6 @@ export default {
         return "ban-row";
       } else if (index % 2 == 0) {
         return "warning-row";
-      }
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
       }
     },
     handleSelectionChange(val) {
@@ -230,20 +217,13 @@ export default {
             this.pagetotal = res.data.data.total;
             this.tableData = [...res.data.data.data];
             this.tableData.forEach(item => {
-              item.status_lable = item.status == 1 ? "Normal" : "Ban";
+              item.status_lable =
+                item.status == 1 ? this.$t("user.Normal") : this.$t("user.Ban");
               item.create_time = this.$global.timestampToTime(item.create_time);
             });
-            // console.log(this.tableData)
           }
         })
         .catch(error => {});
-    },
-    handleClick(row) {
-      this.$router.push({
-        name: "usercheck",
-        query: { idx: row.userId, userIdentityType: row.userIdentityType }
-      });
-      // this.$router.push("/home/userlist/verified_user/usercheck");
     },
     fromchildren1(data) {
       // console.log(data)
@@ -342,10 +322,11 @@ export default {
       }
       span.keyword {
         line-height: 40px;
-        /*height: 40px;*/
+        display: block;
+        width: 120px;
         color: #777777;
         text-align: center;
-        margin-right: 20px;
+        margin-right: 10px;
       }
       i {
         height: 40px;

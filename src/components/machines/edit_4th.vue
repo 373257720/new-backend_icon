@@ -39,23 +39,6 @@
           <el-input clearable v-model="ruleForm.company_name_thai"></el-input>
         </el-form-item>
       </div>
-
-      <!--
-      <el-form-item  prop="name">
-        <el-input v-model="ruleForm.company_name"></el-input>
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input v-model="ruleForm.company_name"></el-input>
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input v-model="ruleForm.company_name"></el-input>
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input v-model="ruleForm.company_name"></el-input>
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input v-model="ruleForm.company_name"></el-input>
-      </el-form-item>-->
       <el-form-item :label="$t('machines.Tel')+':'" prop="name">
         <el-input clearable v-model="ruleForm.customer_service_mobile"></el-input>
       </el-form-item>
@@ -101,15 +84,6 @@ export default {
       callback();
       // }
     };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       msg: "",
       remindervisible: false,
@@ -128,14 +102,6 @@ export default {
         withdraw_password: ""
       },
       rules: {
-        username: [
-          {
-            required: true,
-            message: "不能为空",
-            trigg: "change"
-          }
-        ],
-
         safe_password: [
           {
             validator: validatePass,
@@ -144,7 +110,7 @@ export default {
           {
             min: 5,
             max: 16,
-            message: "Length should be 5 to 16",
+            message: this.$t("machines.Length5to16"),
             trigger: "blur"
           }
         ],
@@ -156,47 +122,19 @@ export default {
           {
             min: 5,
             max: 16,
-            message: "Length should be 5 to 16",
-            trigger: "blur"
-          }
-        ],
-        repassword: [
-          {
-            required: true,
-            min: 6,
-            max: 16,
-            validator: validatePass2,
-            trigger: "blur"
-          }
-        ],
-        nickname: [
-          {
-            required: true,
-            message: "不能为空",
+            message: this.$t("machines.Length5to16"),
             trigger: "blur"
           }
         ],
         customer_service_email: [
           {
-            message: "Please input email address",
+            message: this.$t("machines.PleaseInputEmailAddress"),
             trigger: "blur"
           },
           {
             type: "email",
-            message: "Please input correct email address",
+            message: this.$t("machines.PleaseInputCorrectEmailAddress"),
             trigger: ["blur", "change"]
-          }
-        ],
-        mobile: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur"
-          }
-        ],
-        status: [
-          {
-            required: true
           }
         ]
       }

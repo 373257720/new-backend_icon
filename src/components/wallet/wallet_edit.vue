@@ -60,10 +60,14 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item v-show="ruleForm.platform=='binance'"    label="Key:" prop="key">
+        <el-form-item v-show="ruleForm.platform=='binance'" label="Key:" prop="key">
           <el-input v-model="ruleForm.key" clearable autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item v-show="ruleForm.platform=='binance'"   :label="$t('WalletSetting.Secret')"  prop="secret">
+        <el-form-item
+          v-show="ruleForm.platform=='binance'"
+          :label="$t('WalletSetting.Secret')"
+          prop="secret"
+        >
           <el-input v-model="ruleForm.secret" show-password clearable autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -118,18 +122,38 @@ export default {
         },
         {
           value: "none",
-          label: "Non Hedge"
+          label: this.$t("common.NonHedge")
         }
       ],
       rules: {
         coin_number: [
-          { required: true, message: this.$t('common.PleaseInput'), trigger: "blur" }
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigger: "blur"
+          }
         ],
         interval_time: [
-          { required: true, message: this.$t('common.PleaseInput'), trigger: "blur" }
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigger: "blur"
+          }
         ],
-        key: [{ required: true, message: this.$t('common.PleaseInput'), trigger: "blur" }],
-        secret: [{ required: true, message: this.$t('common.PleaseInput'), trigger: "blur" }]
+        key: [
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigger: "blur"
+          }
+        ],
+        secret: [
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigger: "blur"
+          }
+        ]
       }
     };
   },

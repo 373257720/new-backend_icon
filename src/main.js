@@ -16,38 +16,23 @@ import element from "./element.js";
 Vue.use(element);
 import global from "../src/global";
 Vue.prototype.$global = global;
-import lang from "element-ui/lib/locale/lang/en";
-import locale from "element-ui/lib/locale";
-locale.use(lang);
-import "../static/UE/ueditor.config.js";
-import "../static/UE/ueditor.all.min.js";
-import "../static/UE/lang/en/en.js";
-// import  '../static/UE/lang/zh-cn/zh-cn.js'
-// console.log(UE.I18N);
+
 import Locale from "element-ui/lib/locale";
 import enLocale from "element-ui/lib/locale/lang/en";
 import zhLocale from "element-ui/lib/locale/lang/zh-CN";
 import { i18n } from "./lan/i18";
 function locales(lan) {
-  switch (lan) {
-    case "en_US":
-      Locale.use(enLocale);
-      break;
-    case "zh_CN":
-      Locale.use(zhLocale);
-      break;
-    default:
-      Locale.use(enLocale);
+  if (lan == "en-us") {
+    Locale.use(enLocale);
+  }
+  if (lan == "zh-cn") {
+    Locale.use(zhLocale);
   }
 }
 Vue.prototype.$Local = locales;
-let z = window.localStorage.getItem("lan")
-  ? window.localStorage.getItem("lan")
-  : "en_US";
+let z = window.localStorage.getItem("lan") || "en-us";
 locales(z);
-i18n.locale = window.localStorage.getItem("lan")
-  ? window.localStorage.getItem("lan")
-  : "en_US";
+i18n.locale = z;
 
 import "../static/UE/ueditor.parse.min";
 Vue.config.productionTip = false;
@@ -67,13 +52,21 @@ axios.interceptors.response.use(
   res => {
     if (res.data.ret) {
       let code = res.data.ret;
+      let errMes;
+      // 1000 您的账号已在别的设备登录。
+      // 1001 登录已超时,请重新登录
       if (code > 999) {
+        if (code == 1000) {
+          errMes = i18n.t("common.error1000");
+        } else if (code == 1001) {
+          errMes = i18n.t("common.error1001");
+        }
         if (isShowLoading) {
           isShowLoading = false;
           Vue.prototype
             .$msgbox({
-              title: "Reminder",
-              message: res.data.msg
+              title: i18n.t("common.Reminder"),
+              message: errMes
             })
             .then(() => {
               window.sessionStorage.clear();
@@ -90,8 +83,8 @@ axios.interceptors.response.use(
   },
   error => {
     Vue.$msgbox({
-      title: "Reminder",
-      message: "Network exception, please try again later"
+      title: i18n.t("common.Reminder"),
+      message: i18n.t("common.Network")
     }).then(() => {
       window.sessionStorage.clear();
       store.dispatch("reset_actions", this.$restore_obj);

@@ -3,7 +3,7 @@
     <div class="logo con">
         <header><img src="static/logo.png" alt=""></header>
         <nav>CRYPTOGO</nav>
-        <p>WELCOME TO CRYPTOGO BACKEND ADMIN SYSTEM</p>
+        <p>{{$t("home.WELCOME")}}</p>
     </div>
   </div>
 </template>

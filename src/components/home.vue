@@ -78,8 +78,7 @@
             <i>
               <img :src="color_icon.transaction" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.transaction}">
-              {{$t('home.TRANSACTIONS')}}</span>
+            <span slot="title" :class="{textisactive:text.transaction}">{{$t('home.TRANSACTIONS')}}</span>
           </el-menu-item>
           <el-menu-item
             :class="{bgisactive:text.wallet}"
@@ -125,9 +124,7 @@
             <i>
               <img :src="color_icon.promotion" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.promotion}">
-              {{$t('home.PROMOTION')}}
-              </span>
+            <span slot="title" :class="{textisactive:text.promotion}">{{$t('home.PROMOTION')}}</span>
           </el-menu-item>
           <el-menu-item
             @mouseenter.native="changeImageSrc('setting', 'hover')"
@@ -139,9 +136,7 @@
             <i>
               <img :src="color_icon.setting" alt />
             </i>
-            <span slot="title" :class="{textisactive:text.setting}">
-              {{$t('home.SETTING')}}
-              </span>
+            <span slot="title" :class="{textisactive:text.setting}">{{$t('home.SETTING')}}</span>
           </el-menu-item>
           <el-menu-item
             @mouseenter.native="changeImageSrc('alerts', 'hover')"
@@ -178,6 +173,16 @@
     <div class="main">
       <div class="top">
         <div class="top_right">
+          <el-dropdown @command="handleCommandlang" trigger="click" class="language">
+            <span class="el-dropdown-link">
+              {{language}}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="en-us">English</el-dropdown-item>
+              <el-dropdown-item command="zh-cn">中文</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <el-dropdown @command="handleCommand" trigger="click">
             <span class="el-dropdown-link">
               {{this.$store.state.currentUser}}
@@ -185,16 +190,16 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="account">
-                <i>
-                  <img src="../../static/my account.png" alt />
+                <i class="el-icon-user-solid">
+                  <!-- <img src="../../static/myaccount.png" alt /> -->
                 </i>
-                <span>My account</span>
+                <span>{{$t('home.Myaccount')}}</span>
               </el-dropdown-item>
               <el-dropdown-item command="login">
-                <i>
-                  <img src="../../static/logout.png" alt />
+                <i class="el-icon-back">
+                  <!-- <img src="../../static/logout.png" alt /> -->
                 </i>
-                <span>Log out</span>
+                <span>{{$t('home.Logout')}}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -202,7 +207,10 @@
       </div>
       <div class="layer" v-loading="Loading">
         <div class="maincontent">
-          <router-view></router-view>
+          <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          </el-breadcrumb> -->
+          <router-view v-if="isalive"></router-view>
         </div>
       </div>
     </div>
@@ -214,6 +222,8 @@ import { log } from "util";
 export default {
   data() {
     return {
+      isalive: true,
+      language: "",
       levelList: null,
       Loading: false,
       LoadingCount: 0,
@@ -287,20 +297,25 @@ export default {
     };
   },
   created() {
+    if (this.$i18n.locale == "en-us") {
+      this.language = "English";
+    } else if (this.$i18n.locale == "zh-cn") {
+      this.language = "中文";
+    }
     let href = window.location.href;
-    // console.log(href.split("#")[1])
     let path = href
       .split("#")[1]
       .substr(1)
       .split("/");
+
     if (path[1] == "user" || path[1] == "machines" || path[1] == "report") {
       this.activeName = path[2];
     } else {
       this.activeName = path[1];
     }
+
     this.text[path[1]] = true;
     this.color_icon[path[1]] = this.new_icon[path[1]];
-
     let self = this;
     this.$axios.interceptors.request.use(
       config => {
@@ -336,6 +351,21 @@ export default {
     // console.log(document.querySelector('.maincontent'));
   },
   methods: {
+    handleCommandlang(command) {
+      if (command == "en-us") {
+        this.language = "English";
+      } else if (command == "zh-cn") {
+        this.language = "中文";
+      }
+
+      window.localStorage.setItem("lan", command);
+      this.$Local(command);
+      this.$i18n.locale = command;
+      this.isalive = false;
+      this.$nextTick(() => {
+        this.isalive = true; // DOM更新后再通过v-if添加router-view节点
+      });
+    },
     addLoading() {
       this.Loading = true;
       this.LoadingCount++;

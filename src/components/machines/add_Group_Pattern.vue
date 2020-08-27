@@ -15,9 +15,6 @@
         <el-tab-pane :label="$t('machines.PriceFee')" name="second">
           <add2nd v-on:getchildren="fromchildren" v-on:back="back_fromson"></add2nd>
         </el-tab-pane>
-        <!--            <el-tab-pane label="Flow" name="fifth">-->
-        <!--              <add_5th v-on:getchildren="fromchildren" v-on:back="back_fromson"></add_5th>-->
-        <!--            </el-tab-pane>-->
         <el-tab-pane :label="$t('machines.Operator')" name="third">
           <add3rd v-on:getchildren="fromchildren" v-on:back="back_fromson"></add3rd>
         </el-tab-pane>
@@ -35,19 +32,15 @@ import add1st from "@/components/machines/add_1st";
 import add2nd from "@/components/machines/add_2nd";
 import add3rd from "@/components/machines/add_3rd";
 import add4th from "@/components/machines/add_4th";
-// import add_5th from '@/components/machines/add_5th';
 export default {
   data() {
     return {
       activeName: "first",
-      title: "",
-      status: false,
       MachineInfo: {
-        token: this.$store.state.token,
         name: "",
-        currency_id: "",
         alert_mobile: "",
         alert_email: "",
+        currency_id: "",
         country_id: "",
         address: "",
         longitude: "",
@@ -78,8 +71,7 @@ export default {
         advertisement_picture_id: "",
         advertisement_language: "",
         machine_picture_id: ""
-      },
-      status: false
+      }
     };
   },
   components: {
@@ -89,28 +81,8 @@ export default {
     add4th
   },
 
-  watch: {
-    // $route(to,from){
-    //   switch(to.name) {
-    //     case 'add_1st':
-    //       this.activeName='first';
-    //       break;
-    //     case 'add_2nd':
-    //       this.activeName='second';
-    //       break;
-    //     case  'add_3rd':
-    //       this.activeName='third';
-    //       break;
-    //     case  'add_4th':
-    //       this.activeName='fourth';
-    //       break;
-    //   }
-    // }
-  },
-  created() {
-    // this.fromchildren();
-    //   this.getdata();
-  },
+  watch: {},
+  created() {},
   methods: {
     fromchildren(a, b) {
       if (a) {
@@ -119,46 +91,11 @@ export default {
       if (b) {
         this.activeName = b;
       }
-      console.log(this.MachineInfo);
     },
     back_fromson(num) {
-      // console.log(num)
       this.activeName = num;
     },
-    // getdata(){
-    //   this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
-    //   ).then(res=>{
-    //     console.log(res)
-    //     this.MachineInfo=res.data.data;
-    //     this.MachineInfo['is_register']=parseInt(this.MachineInfo['is_register']);
-    //     this.MachineInfo['is_support_ethereum']=parseInt(this.MachineInfo['is_support_ethereum']);
-    //     this.MachineInfo['is_support_bitcoin']=parseInt(this.MachineInfo['is_support_bitcoin']);
-    //     this.status = true;
-    //   })
-    // },
-    handleClick(tab, event) {
-      // console.log(tab, event);
-      // if(tab.name=='first'){
-      //   this.$routerto('add_1st',{machine_id:this.$route.query.machine_id});
-      // }
-      // if(tab.name=='second'){
-      //   this.$routerto('add_2nd',{machine_id:this.$route.query.machine_id});
-      // };
-      // if(tab.name=='third'){
-      //   this.$routerto('add_3rd',{machine_id:this.$route.query.machine_id});
-      // }
-      // if(tab.name=='fourth'){
-      //   this.$routerto('add_4th',{machine_id:this.$route.query.machine_id});
-      // }
-    }
-    // fromchildren(data) {
-    //   this.$global.get_encapsulation(`${this.$axios.defaults.baseURL}/admin_api/machine.machine/getMachineInfo`,{token:this.$store.state.token,machine_id:this.$route.query.machine_id}
-    //   ).then(res=>{
-    //     console.log(res )
-    //     this.MachineInfo=res.data.data;
-    //   })
-    //
-    // },
+    handleClick(tab, event) {}
   }
 };
 </script>

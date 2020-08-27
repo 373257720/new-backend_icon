@@ -5,12 +5,11 @@ Vue.use(VueI18n);
 import chinese from "../assets/lan/chinese";
 import english from "../assets/lan/en";
 export const i18n = new VueI18n({
-  locale:"zh_CN",
-//    window.localStorage.getItem("language")
-//     ? window.localStorage.getItem("language")
-//     : "en_US",
+  locale: window.localStorage.getItem("lan")
+    ? window.localStorage.getItem("lan")
+    : "en-us",
   messages: {
-    zh_CN: chinese,
-    en_US: english
+    "zh-cn": chinese,
+    "en-us": english
   }
 });

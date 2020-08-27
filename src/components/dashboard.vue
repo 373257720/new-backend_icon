@@ -49,11 +49,18 @@
                   >{{ scope.row.trade_id}}</span>
                 </template>
               </el-table-column>
-              <el-table-column show-overflow-tooltip prop="coin_status" 
-                    :label="$t('Report.Type')"
-              align="center"></el-table-column>
-              <el-table-column show-overflow-tooltip prop="create_time" :label="$t('dashboard.Days')"
-               align="center"></el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                prop="coin_status"
+                :label="$t('Report.Type')"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                prop="create_time"
+                :label="$t('dashboard.Days')"
+                align="center"
+              ></el-table-column>
             </el-table>
           </el-main>
         </article>
@@ -78,28 +85,35 @@
               <el-table-column
                 prop="address"
                 align="center"
-        
                 :label="$t('dashboard.ATMAddress')"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 prop="incashbox_money"
                 align="center"
-      
                 :label="$t('dashboard.CashInbox')"
                 show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 prop="outcashbox_money"
                 align="center"
-
-                     :label="$t('dashboard.CashOutbox')"
+                :label="$t('dashboard.CashOutbox')"
                 show-overflow-tooltip
               ></el-table-column>
-              <el-table-column align="center"   :label="$t('common.Operation')" class-name="edit" width="200">
+              <el-table-column
+                align="center"
+                :label="$t('common.Operation')"
+                class-name="edit"
+                width="200"
+              >
                 <template slot-scope="scope">
-                  <span @click="handleDelete(scope.$index, scope.row)">{{$t('Transactions.Transactions')}}</span>
-                  <span class="left" @click="handleEdit(scope.$index, scope.row)">{{$t('Report.Setting')}}</span>
+                  <span
+                    @click="handleDelete(scope.$index, scope.row)"
+                  >{{$t('Transactions.Transactions')}}</span>
+                  <span
+                    class="left"
+                    @click="handleEdit(scope.$index, scope.row)"
+                  >{{$t('Report.Setting')}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -258,11 +272,11 @@ export default {
       },
       // 打币状态1未支付2已支付3部分支付4取消交易5正在交易',
       coin_status: {
-        "1": "Unpaid",
-        "2": "Paid",
+        "1": this.$t("Transactions.Unpaid"),
+        "2": this.$t("Transactions.Paid"),
         "3": "",
-        "4": "Canceled",
-        "5": "Pending"
+        "4": this.$t("Transactions.Canceled"),
+        "5": this.$t("Transactions.Transastioning")
       }
     };
   },

@@ -71,7 +71,7 @@ export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the password"));
+        callback(new Error(this.$t("user.Pleasepassword")));
       } else {
         if (this.ruleForm.checkPass !== "") {
           this.$refs.ruleForm.validateField("checkPass");
@@ -81,9 +81,9 @@ export default {
     };
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the password again"));
+        callback(new Error(this.$t("user.Pleasepasswordagain")));
       } else if (value !== this.ruleForm.password) {
-        callback(new Error("Two inputs do not match!"));
+        callback(new Error(this.$t("user.Twoinputsdonotmatch")));
       } else {
         callback();
       }
@@ -104,7 +104,11 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: "Please input", trigg: "change" }
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigg: "change"
+          }
         ],
 
         password: [
@@ -112,7 +116,7 @@ export default {
           {
             min: 6,
             max: 16,
-            message: "Length should be 6 to 16",
+            message: this.$t("user.Length6to16"),
             trigger: "blur"
           }
         ],
@@ -126,21 +130,31 @@ export default {
           }
         ],
         nickname: [
-          { required: true, message: "Please input", trigger: "blur" }
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigger: "blur"
+          }
         ],
         email: [
           {
             required: true,
-            message: "Please input email address",
+            message: this.$t("machines.PleaseInputEmailAddress"),
             trigger: "blur"
           },
           {
             type: "email",
-            message: "Please input correct email address",
+            message: this.$t("machines.PleaseInputCorrectEmailAddress"),
             trigger: ["blur", "change"]
           }
         ],
-        mobile: [{ required: true, message: "Please input", trigger: "blur" }],
+        mobile: [
+          {
+            required: true,
+            message: this.$t("common.PleaseInput"),
+            trigger: "blur"
+          }
+        ],
         status: [{ required: true }]
       }
     };

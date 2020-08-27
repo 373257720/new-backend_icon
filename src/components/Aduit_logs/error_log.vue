@@ -5,7 +5,7 @@
       <h2>
         <span>{{$t('auditLog.AuditLogs')}}</span>
         <i class="el-icon-arrow-right"></i>
-        <span>{{$t('auditLog.MachineConnectStatus')}}</span>
+        <span>{{$t('auditLog.ErrorLogs')}}</span>
       </h2>
     </header>
     <nav>
@@ -21,8 +21,8 @@
             type="daterange"
             range-separator="to"
             value-format="yyyy-MM-dd"
-            start-placeholder="Start"
-            end-placeholder="End"
+                  :start-placeholder="$t('machines.Start')"
+            :end-placeholder="$t('machines.End')"
           ></el-date-picker>
         </div>
         <div>
@@ -49,16 +49,36 @@
         <el-table-column :label="$t('common.MachineName')" width="150" align="center">
           <template slot-scope="scope">{{ scope.row.machine_name}}</template>
         </el-table-column>
-        <el-table-column prop="level" align="center" :label="$t('auditLog.ErrorLevel')" show-overflow-tooltip></el-table-column>
+        <el-table-column
+          prop="level"
+          align="center"
+          :label="$t('auditLog.ErrorLevel')"
+          show-overflow-tooltip
+        ></el-table-column>
         <el-table-column
           align="center"
           :label="$t('auditLog.ErrorType')"
           prop="category_name"
           show-overflow-tooltip
         ></el-table-column>
-        <el-table-column prop="content" align="center" :label="$t('auditLog.Details')" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="create_time" align="center" :label="$t('common.Date')" show-overflow-tooltip></el-table-column>
-        <el-table-column align="center" :label="$t('common.Operation')" class-name="edit" width="150">
+        <el-table-column
+          prop="content"
+          align="center"
+          :label="$t('auditLog.Details')"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          prop="create_time"
+          align="center"
+          :label="$t('common.Date')"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          :label="$t('common.Operation')"
+          class-name="edit"
+          width="150"
+        >
           <template slot-scope="scope">
             <span @click="handleDelete(scope.$index, scope.row)">{{$t('common.Delete')}}</span>
           </template>
@@ -141,15 +161,15 @@ export default {
       }
     },
     handleDelete(index, row) {
-        this.$confirm(
-          this.$t("common.DeleteWarning"),
-          this.$t("common.Warning"),
-          {
-            confirmButtonText: this.$t("common.OK"),
-            cancelButtonText: this.$t("common.Cancel"),
-            type: "warning"
-          }
-        )
+      this.$confirm(
+        this.$t("common.DeleteWarning"),
+        this.$t("common.Warning"),
+        {
+          confirmButtonText: this.$t("common.OK"),
+          cancelButtonText: this.$t("common.Cancel"),
+          type: "warning"
+        }
+      )
         .then(() => {
           this.beforedelete(row.user_machine_error_id);
         })
@@ -357,8 +377,15 @@ export default {
       span.keyword {
         line-height: 40px;
         color: #777777;
-        text-align: center;
+        // text-align: center;
         margin: 0 20px;
+
+        //    line-height: 40px;
+        display: block;
+        width: 120px;
+        // color: #777777;
+        text-align: center;
+        // margin-right: 10px;
       }
       /*div{*/
       /*  flex:1;*/

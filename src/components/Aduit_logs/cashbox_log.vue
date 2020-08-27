@@ -18,10 +18,10 @@
           <el-date-picker
             v-model="timerange"
             type="daterange"
-            range-separator="to"
+            :range-separator="$t('machines.to')"
             value-format="yyyy-MM-dd"
-            start-placeholder="Start"
-            end-placeholder="End"
+            :start-placeholder="$t('machines.Start')"
+            :end-placeholder="$t('machines.End')"
           ></el-date-picker>
         </div>
         <div>
@@ -166,13 +166,13 @@ export default {
   },
   methods: {
     export_excel() {
-      let start_time = this.timerange == null ? 0 : this.timerange[0];
-      let end_time = this.timerange == null ? 0 : this.timerange[1];
-      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.keyword}`;
+      let start_time = this.timerange === null ? 0 : this.timerange[0];
+      let end_time = this.timerange === null ? 0 : this.timerange[1];
+      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.machine_money_log/exportMachineMoneyLog?token=${this.$store.state.token}&keyword=${this.keyword}&start_time=${start_time}&end_time=${end_time}&keyword=${this.keyword}&lang=${localStorage.getItem("lan")?localStorage.getItem("lan"):'en-us'}`;
     },
     searcher() {
       this.currentpage = 1;
-      if (this.timerange == null) {
+      if (this.timerange === null) {
         this.changepage(this.currentpage, this.pagesize, this.keyword, "", "");
       } else {
         this.changepage(
@@ -284,7 +284,6 @@ export default {
         )
         .then(res => {
           if (res.data.ret == 0) {
-            // console.log(res)
             this.pagetotal = res.data.data.total;
             this.tableData = [...res.data.data.data];
             this.tableData.forEach(item => {

@@ -1,28 +1,45 @@
 <template>
   <div id="login">
+    <div class="lan">
+      <el-dropdown @command="handleCommandlang" trigger="click" class="language">
+        <span class="el-dropdown-link">
+          {{language}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="en-us">English</el-dropdown-item>
+          <el-dropdown-item command="zh-cn">中文</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
     <div class="login con" v-loading="loading">
       <h2>
         <img src="../../static/sign.png" alt />
       </h2>
       <p :class="{'reminder':reminder}">{{remind}}</p>
       <div class="username">
-        <el-input placeholder="Email Account" v-model.trim="username" clearable>
+        <el-input :placeholder="$t('machines.Email')" v-model.trim="username" clearable>
           <i slot="prefix" class="icon-user"></i>
         </el-input>
       </div>
       <div class="password">
-        <el-input placeholder="Password" show-password clearable v-model.trim="password">
+        <el-input
+          :placeholder="$t('user.Password')"
+          show-password
+          clearable
+          v-model.trim="password"
+        >
           <i slot="prefix" class="icon-password"></i>
         </el-input>
       </div>
       <div class="email">
-        <el-input placeholder="Email Verification Code" v-model.trim="code" clearable>
+        <el-input :placeholder="$t('home.VerificationCode')" v-model.trim="code" clearable>
           <i slot="prefix" class="icon-email"></i>
-          <i slot="append" class="sendout" @click="getcode">Send out</i>
+          <i slot="append" class="sendout" @click="getcode">{{$t('home.Sendout')}}</i>
           <!--          <span class="sendout">Send out</span>-->
         </el-input>
       </div>
-      <button @click="login">SIGN IN</button>
+      <button @click="login">{{$t('home.SIGNIN')}}</button>
     </div>
   </div>
 </template>
@@ -34,6 +51,7 @@ export default {
     return {
       username: "",
       password: "",
+      language: "",
       remind: "",
       code: "",
       loading: false,
@@ -41,11 +59,24 @@ export default {
     };
   },
   created() {
-    //
+    if (this.$i18n.locale == "en-us") {
+      this.language = "English";
+    } else if (this.$i18n.locale == "zh-cn") {
+      this.language = "中文";
+    }
   },
   methods: {
+    handleCommandlang(command) {
+      if (command == "en-us") {
+        this.language = "English";
+      } else if (command == "zh-cn") {
+        this.language = "中文";
+      }
+      window.localStorage.setItem("lan", command);
+      this.$Local(command);
+      this.$i18n.locale = command;
+    },
     getcode() {
-      // console.log(this.username);
       this.remind = "";
       this.loading = true;
       this.reminder = false;
@@ -97,11 +128,11 @@ export default {
             })
             .catch(error => {});
         } else {
-          this.remind = "Please enter password";
+          this.remind = this.$t("home.PleaseEnterPassword");
         }
       } else {
         // this.loading = false;
-        this.remind = "Please enter email account";
+        this.remind = this.$t("home.PleaseEnterEmailAccount");
       }
     }
   }
@@ -141,7 +172,11 @@ export default {
   /*top: 50px;*/
   /*height: calc(100% - 50px);*/
 }
-
+div.lan {
+  position: absolute;
+  top: 20px;
+  right: 10%;
+}
 .login {
   width: 890px;
   height: 680px;

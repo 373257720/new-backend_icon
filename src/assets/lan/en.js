@@ -1,5 +1,12 @@
 export default {
   common: {
+    IDcoinwalletaddress:"ID,coin wallet address",
+    Price:"Price",
+    NonHedge:"Non Hedge",
+    IDAccountNickname:"ID,Account,Nickname",
+    Network:"Network exception, please try again later",
+    error1000: "Your account is already logged in to another device",
+    error1001: "Login has timed out. Please login again",
     save:'Save',
     PleaseSelect:"Please select",
     View: "View",
@@ -56,9 +63,18 @@ export default {
     unread:'unread',
   },
   machines: {
+    uploadedpictur:"The uploaded picture must be equal to or greater than",
+    JPEGJPGPNG: "The image type must be one of  JPEG, JPG, PNG",
+    to:'to',
+    RemoteControlRecord:"Remote Control Record",
+    LocalTransactionRegulation: "Local Transaction Regulation",
+    CryptoGo:"CryptoGo",
+    Flow:'Flow',
+    PleaseChooseONEGroup:"Please Choose one group",
     LanguageConfiguration:"Language configuration",
     supportCoupons:"Whether to support the use of coupons",
     supportRedemption:"Whether to support redemption coins",
+    supportRedemptionMoney:"Whether to support redemption money",
     Group: "Group",
     Machines: "Machines",
     Machine: "Machine",
@@ -78,7 +94,6 @@ export default {
     Sell: "Sell",
     Both: "Both",
     BTC: "BTC",
-    LocalTransactionRegulation: "Local Transaction Regulation",
     NotAllow: "Not allow",
     CommissionRate: "Commission Rate",
     PurchaseLimitationMin: "Purchase Limitation (Minimum)",
@@ -228,7 +243,12 @@ export default {
     Transastioning: "Transastioning"
   },
   user: {
-
+    Ban:'Ban',
+    Normal:"Normal",
+    Length6to16:'Length should be 6 to 16',
+    Pleasepassword:"Please input the password",
+    Pleasepasswordagain:"Please input the password again",
+    Twoinputsdonotmatch:"Two inputs do not match",
     AtmTechnicalSupport: "Atm Technical Support",
     UserName: "User Name",
     Password: "Password",
@@ -298,6 +318,7 @@ export default {
     Logout: "Log out",
     SIGNIN: "SIGN IN",
     Sendout: "Send out",
+    VerificationCode:"Email Verification Code",
     PleaseEnterPassword: "Please enter password",
     PleaseEnterEmailAccount: "Please enter email account",
     WELCOME: "WELCOME TO CRYPTOGO BACKEND ADMIN SYSTEM"

@@ -24,13 +24,13 @@
         </section>
         <section>
           <span class="keyword">{{$t('Report.TransactionDate')}}:</span>
-          <el-date-picker
+           <el-date-picker
             v-model="formdata.timerange"
             type="daterange"
-            range-separator="to"
+            :range-separator="$t('machines.to')"
             value-format="yyyy-MM-dd"
-            start-placeholder="Start"
-            end-placeholder="End"
+            :start-placeholder="$t('machines.Start')"
+            :end-placeholder="$t('machines.End')"
           ></el-date-picker>
         </section>
       </div>
@@ -242,7 +242,7 @@ export default {
         this.formdata.timerange == null ? 0 : this.formdata.timerange[0];
       let end_time =
         this.formdata.timerange == null ? 0 : this.formdata.timerange[1];
-      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
+      window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}&lang=${localStorage.getItem("lan")?localStorage.getItem("lan"):'en-us'}`;
 
       // window.location.href = `${this.$axios.defaults.baseURL}/admin_api/machine.order/exportStatisticsMachineOrder?token=${this.$store.state.token}&start_time=${start_time}&end_time=${end_time}&machine_id=${this.formdata.machine_id}`;
     },
@@ -407,7 +407,7 @@ export default {
                 }
               ],
               title: {
-                subtext: "Price:" + this.currency_name
+            subtext: this.$t('common.Price') +":" + this.currency_name
               }
             });
           }, 300);

@@ -70,10 +70,10 @@
         <!-- <el-form-item label="System fee（Percentage of order amount charged）">
           <el-input v-model="ruleForm.system_fee" clearable autocomplete="off"></el-input>
         </el-form-item>-->
-        <el-form-item :label="$t('promotion.Status')">
+        <el-form-item :label="$t('promotion.Status')+':'">
           <el-radio-group v-model="ruleForm.status">
-            <el-radio :label="1">{{$t('promotion.Normal')}}</el-radio>
-            <el-radio :label="2">{{$t('promotion.Prohibit')}}</el-radio>
+            <el-radio :label="1">{{$t('promotion.Enable')}}</el-radio>
+            <el-radio :label="2">{{$t('promotion.Disable')}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>

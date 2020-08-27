@@ -228,10 +228,10 @@ export default {
           if (res.data.ret == 0) {
             if (row.status == 1) {
               this.tableData[index].status = 2;
-              this.tableData[index].status_lable = "Ban";
+              this.tableData[index].status_lable = this.$t('promotion.Prohibit');
             } else if (row.status == 2) {
               this.tableData[index].status = 1;
-              this.tableData[index].status_lable = "Normal";
+              this.tableData[index].status_lable =  this.$t('promotion.Normal');
             }
             this.$message(res.data.msg);
           }
@@ -374,11 +374,12 @@ export default {
         margin-right: 20px;
       }
       span.keyword {
-        line-height: 40px;
-        /*height: 40px;*/
+         line-height: 40px;
+        display: block;
+        width: 120px;
         color: #777777;
         text-align: center;
-        margin-right: 20px;
+        margin-right: 10px;
       }
       i {
         height: 40px;

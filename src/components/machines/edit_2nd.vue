@@ -37,7 +37,7 @@
       </el-form-item>
       <el-form-item :label="$t('machines.CryptocurrencyType')+':'">
         <el-collapse accordion>
-          <el-collapse-item>
+          <el-collapse-item v-if="ruleForm.trade_coin_list.bitcoin">
             <template slot="title">BTC</template>
             <el-form-item :label="$t('machines.LocalTransactionRegulation')+':'" prop="name">
               <el-radio-group v-model="ruleForm.is_support_bitcoin">
@@ -78,9 +78,9 @@
               ></el-input>
             </el-form-item>
           </el-collapse-item>
-          <el-collapse-item>
+          <el-collapse-item v-if="ruleForm.trade_coin_list.ethereum">
             <template slot="title">{{$t('machines.ETH')}}</template>
-            <el-form-item label="Local Transaction Regulation:" prop="name">
+            <el-form-item :label="$t('machines.LocalTransactionRegulation')+':'" prop="name">
               <el-radio-group v-model="ruleForm.is_support_ethereum">
                 <el-radio :label="2">{{$t('machines.Buy')}}</el-radio>
                 <el-radio :label="3">{{$t('machines.Sell')}}</el-radio>
@@ -119,6 +119,88 @@
               ></el-input>
             </el-form-item>
           </el-collapse-item>
+          <el-collapse-item v-if="ruleForm.trade_coin_list.usdt">
+            <template slot="title">USDT</template>
+            <el-form-item :label="$t('machines.LocalTransactionRegulation')+':'"  prop="name">
+              <el-radio-group v-model="ruleForm.is_support_usdt">
+                <el-radio :label="2">{{$t('machines.Buy')}}</el-radio>
+                <el-radio :label="3">{{$t('machines.Sell')}}</el-radio>
+                <el-radio :label="1">{{$t('machines.Both')}}</el-radio>
+                <el-radio :label="4">{{$t('machines.NotAllow')}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('machines.CommissionRate')+'(%):'" prop="name">
+              <div class="flexbox">
+                <div class="box">
+                  <span>{{$t('machines.Buy')}}:</span>
+                  <el-input
+                    oninput="value=value.replace(/[^\d.]/g,'')"
+                    v-model="ruleForm.buy_usdt_fee"
+                  ></el-input>
+                </div>
+                <div class="box">
+                  <span>{{$t('machines.Sell')}}:</span>
+                  <el-input
+                    oninput="value=value.replace(/[^\d.]/g,'')"
+                    v-model="ruleForm.sell_usdt_fee"
+                  ></el-input>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item :label="$t('machines.PurchaseLimitationMin')" prop="name">
+              <el-input
+                oninput="value=value.replace(/[^\d.]/g,'')"
+                v-model="ruleForm.minimum_usdt_buy"
+              ></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('machines.PurchaseLimitationMax')" prop="name">
+              <el-input
+                oninput="value=value.replace(/[^\d.]/g,'')"
+                v-model="ruleForm.maximum_usdt_buy"
+              ></el-input>
+            </el-form-item>
+          </el-collapse-item>
+          <el-collapse-item v-if="ruleForm.trade_coin_list.bm">
+            <template slot="title">BM</template>
+            <el-form-item :label="$t('machines.LocalTransactionRegulation')+':'"  prop="name">
+              <el-radio-group v-model="ruleForm.is_support_bm">
+                <el-radio :label="2">{{$t('machines.Buy')}}</el-radio>
+                <el-radio :label="3">{{$t('machines.Sell')}}</el-radio>
+                <el-radio :label="1">{{$t('machines.Both')}}</el-radio>
+                <el-radio :label="4">{{$t('machines.NotAllow')}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('machines.CommissionRate')+'(%):'" prop="name">
+              <div class="flexbox">
+                <div class="box">
+                  <span>{{$t('machines.Buy')}}:</span>
+                  <el-input
+                    oninput="value=value.replace(/[^\d.]/g,'')"
+                    v-model="ruleForm.buy_bm_fee"
+                  ></el-input>
+                </div>
+                <div class="box">
+                  <span>{{$t('machines.Sell')}}:</span>
+                  <el-input
+                    oninput="value=value.replace(/[^\d.]/g,'')"
+                    v-model="ruleForm.sell_bm_fee"
+                  ></el-input>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item :label="$t('machines.PurchaseLimitationMin')" prop="name">
+              <el-input
+                oninput="value=value.replace(/[^\d.]/g,'')"
+                v-model="ruleForm.minimum_bm_buy"
+              ></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('machines.PurchaseLimitationMax')" prop="name">
+              <el-input
+                oninput="value=value.replace(/[^\d.]/g,'')"
+                v-model="ruleForm.maximum_bm_buy"
+              ></el-input>
+            </el-form-item>
+          </el-collapse-item>
         </el-collapse>
       </el-form-item>
     </el-form>
@@ -138,6 +220,7 @@ export default {
       remindervisible: false,
       currencypList: [],
       ruleForm: {
+        trade_coin_list: {},
         machine_id: "",
         currency_id: "",
         in_support_money: "",
@@ -154,7 +237,17 @@ export default {
         minimum_ethereum_buy: "",
         maximum_ethereum_buy: "",
         buy_ethereum_fee: "",
-        sell_ethereum_fee: ""
+        sell_ethereum_fee: "",
+        is_support_bm: "",
+        sell_bm_fee: "",
+        buy_bm_fee: "",
+        maximum_bm_buy: "",
+        minimum_bm_buy: "",
+        is_support_usdt: "",
+        sell_usdt_fee: "",
+        buy_usdt_fee: "",
+        maximum_usdt_buy: "",
+        minimum_usdt_buy: ""
       },
       rules: {
         username: [{ required: true, message: "不能为空", trigg: "change" }],

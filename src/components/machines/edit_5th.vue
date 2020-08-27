@@ -8,9 +8,7 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item 
-      :label="$t('machines.BackgroundPic')" 
-      >
+      <el-form-item :label="$t('machines.BackgroundPic')">
         <div class="background_picture">
           <el-upload
             action
@@ -27,9 +25,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item 
-        :label="$t('machines.Logo1')" 
-      >
+      <el-form-item :label="$t('machines.Logo1')">
         <div class="logo_picture">
           <el-upload
             action
@@ -46,9 +42,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item 
-      :label="$t('machines.Logo2')" 
-      >
+      <el-form-item :label="$t('machines.Logo2')">
         <div class="logo2_picture">
           <el-upload
             action
@@ -65,7 +59,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="Advertising (256 * 256)">
+      <el-form-item :label="$t('machines.Advertising')">
         <div class="advertisement_picture">
           <el-upload
             action
@@ -82,9 +76,7 @@
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item 
-      :label="$t('machines.Slogan')" 
-      >
+      <el-form-item :label="$t('machines.Slogan')">
         <el-input
           type="textarea"
           :autosize="{ minRows: 10, maxRows: 10}"
@@ -107,25 +99,6 @@
 export default {
   props: ["MachineInfo"],
   data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       msg: "",
       successto: "",
@@ -148,34 +121,7 @@ export default {
         advertisement_picture_id: "",
         advertisement_language: ""
       },
-      rules: {
-        username: [{ required: true, message: "不能为空", trigg: "change" }],
-
-        password: [
-          { required: true, validator: validatePass, trigger: "blur" },
-          { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
-        ],
-        repassword: [
-          {
-            required: true,
-            min: 6,
-            max: 16,
-            validator: validatePass2,
-            trigger: "blur"
-          }
-        ],
-        nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-        email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
-        ],
-        mobile: [{ required: true, message: "不能为空", trigger: "blur" }],
-        status: [{ required: true }]
-      }
+      rules: {}
     };
   },
   mounted() {
@@ -208,7 +154,8 @@ export default {
       this.choose(".advertisement_picture .el-upload--picture-card");
       this.fileList4.push({
         name: "advertisement_picture",
-        url: this.$axios.defaults.baseURL + this.MachineInfo.advertisement_picture
+        url:
+          this.$axios.defaults.baseURL + this.MachineInfo.advertisement_picture
       });
     }
   },
@@ -229,184 +176,83 @@ export default {
         });
     },
     appear3(params, picname) {
-      if (picname == "logo_picture") {
-        this.handleRemove(
-          ".logo_picture .el-upload--picture-card",
-          ".logo_picture .el-upload-list__item"
-        );
-        this.ruleForm.logo_picture_id = "";
-      } else if (picname == "background_picture") {
-        this.handleRemove(
-          ".background_picture .el-upload--picture-card",
-          ".background_picture .el-upload-list__item"
-        );
-        this.ruleForm.background_picture_id = "";
-      } else if (picname == "logo2_picture") {
-        this.handleRemove(
-          ".logo2_picture .el-upload--picture-card",
-          ".logo2_picture .el-upload-list__item"
-        );
-        this.ruleForm.logo2_picture_id = "";
-      } else if (picname == "advertisement_picture") {
-        this.handleRemove(
-          ".advertisement_picture .el-upload--picture-card",
-          ".advertisement_picture .el-upload-list__item"
-        );
-        this.ruleForm.advertisement_picture_id = "";
-      }
+      this.handleRemove(
+        `.${picname} .el-upload--picture-card`,
+        `.${picname} .el-upload-list__item`
+      );
+      this.ruleForm[`${picname}_id`] = "";
+      // if (picname == "logo_picture") {
+      //   this.handleRemove(
+      //     ".logo_picture .el-upload--picture-card",
+      //     ".logo_picture .el-upload-list__item"
+      //   );
+      //   this.ruleForm.logo_picture_id = "";
+      // } else if (picname == "background_picture") {
+      //   this.handleRemove(
+      //     ".background_picture .el-upload--picture-card",
+      //     ".background_picture .el-upload-list__item"
+      //   );
+      //   this.ruleForm.background_picture_id = "";
+      // } else if (picname == "logo2_picture") {
+      //   this.handleRemove(
+      //     ".logo2_picture .el-upload--picture-card",
+      //     ".logo2_picture .el-upload-list__item"
+      //   );
+      //   this.ruleForm.logo2_picture_id = "";
+      // } else if (picname == "advertisement_picture") {
+      //   this.handleRemove(
+      //     ".advertisement_picture .el-upload--picture-card",
+      //     ".advertisement_picture .el-upload-list__item"
+      //   );
+      //   this.ruleForm.advertisement_picture_id = "";
+      // }
     },
     dispear3(file, picname) {
-      // console.log(file,picname)
-      if (picname == "logo_picture") {
-        const isSize = new Promise(function(resolve, reject) {
-            if (!/.(jpg|jpeg|png)$/.test(file.type)) {
-            return reject("type_error");
-          }
-          let width = 192;
-          let height = 78;
-          let _URL = window.URL || window.webkitURL;
-          let img = new Image();
-          img.onload = function() {
-            let valid = img.width >= width && img.height >= height;
-            valid ? resolve() : reject();
-          };
-          img.src = _URL.createObjectURL(file);
-        }).then(
-          () => {
-            this.choose(
-              ".logo_picture .el-upload--picture-card",
-              ".logo_picture .el-upload-list__item"
+      let width;
+      let height;
+      const isSize = new Promise(function(resolve, reject) {
+        if (!/.(jpg|jpeg|png)$/.test(file.type)) {
+          return reject("type_error");
+        }
+        if (picname == "logo_picture") {
+          width = 192;
+          height = 78;
+        } else if (picname == "background_picture") {
+          width = 1440;
+          height = 900;
+        } else if (picname == "logo2_picture") {
+          width = 256;
+          height = 256;
+        } else if (picname == "advertisement_picture") {
+          width = 256;
+          height = 256;
+        }
+        let _URL = window.URL || window.webkitURL;
+        let img = new Image();
+        img.onload = function() {
+          let valid = img.width >= width && img.height >= height;
+          valid ? resolve() : reject();
+        };
+        img.src = _URL.createObjectURL(file);
+      })
+        .then(() => {
+          this.choose(
+            `.${picname} .el-upload--picture-card`,
+            `.${picname} .el-upload-list__item`
+          );
+          return file;
+        })
+        .catch(err => {
+          if (err === "type_error") {
+            this.$message.error(this.$t("machines.JPEGJPGPNG"));
+          } else {
+            this.$message.error(
+              this.$t("machines.uploadedpictur") + width + "*" + height
             );
-            return file;
-          },
-          err => {
-            if (err === "type_error") {
-              this.$message.error(
-                "The image type must be one of  JPEG, JPG, PNG"
-              );
-            } else {
-              this.$message.error(
-                "The uploaded picture must be equal to or greater than 192 * 78!"
-              );
-            }
-
-            return Promise.reject();
           }
-        );
-        return isSize;
-      } else if (picname == "background_picture") {
-        const isSize = new Promise(function(resolve, reject) {
-          if (!/.(jpg|jpeg|png)$/.test(file.type)) {
-            return reject("type_error");
-          }
-
-          let width = 1440;
-          let height = 900;
-          let _URL = window.URL || window.webkitURL;
-          let img = new Image();
-          img.onload = function() {
-            let valid = img.width >= width && img.height >= height;
-            valid ? resolve() : reject();
-          };
-          img.src = _URL.createObjectURL(file);
-        }).then(
-          () => {
-            this.choose(
-              ".background_picture .el-upload--picture-card",
-              ".background_picture .el-upload-list__item"
-            );
-            return file;
-          },
-          err => {
-            if (err === "type_error") {
-              this.$message.error(
-                "The image type must be one of  JPEG, JPG, PNG"
-              );
-            } else {
-              this.$message.error(
-                "The uploaded picture must be equal to or greater than 1440 * 900!"
-              );
-            }
-            return Promise.reject();
-          }
-        );
-        return isSize;
-      } else if (picname == "logo2_picture") {
-        const isSize = new Promise(function(resolve, reject) {
-            if (!/.(jpg|jpeg|png)$/.test(file.type)) {
-            return reject("type_error");
-          }
-          let width = 256;
-          let height = 256;
-          let _URL = window.URL || window.webkitURL;
-          let img = new Image();
-          img.onload = function() {
-            let valid = img.width >= width && img.height >= height;
-            valid ? resolve() : reject();
-          };
-          img.src = _URL.createObjectURL(file);
-        }).then(
-          () => {
-            this.choose(
-              ".logo2_picture .el-upload--picture-card",
-              ".logo2_picture .el-upload-list__item"
-            );
-            return file;
-          },
-          err => {
-            if (err === "type_error") {
-              this.$message.error(
-                "The image type must be one of   JPEG, JPG, PNG"
-              );
-            } else {
-              this.$message.error(
-                "The uploaded picture must be equal to or greater than 256 * 256!"
-              );
-            }
-
-            return Promise.reject();
-          }
-        );
-        return isSize;
-      } else if (picname == "advertisement_picture") {
-        const isSize = new Promise(function(resolve, reject) {
-             if (!/.(jpg|jpeg|png)$/.test(file.type)) {
-            return reject("type_error");
-          }
-          let width = 256;
-          let height = 256;
-          let _URL = window.URL || window.webkitURL;
-          let img = new Image();
-          img.onload = function() {
-            let valid = img.width >= width && img.height >= height;
-            valid ? resolve() : reject();
-          };
-          img.src = _URL.createObjectURL(file);
-        }).then(
-          () => {
-            this.choose(
-              ".advertisement_picture .el-upload--picture-card",
-              ".advertisement_picture .el-upload-list__item"
-            );
-            return file;
-          },
-
-          (err) => {
-            if (err === "type_error") {
-              this.$message.error(
-                "The image type must be one of JPEG, JPG, PNG"
-              );
-            } else {
-              this.$message.error(
-                "The uploaded picture must be equal to or greater than 256 * 256!"
-              );
-            }
-
-            return Promise.reject();
-          }
-        );
-        return isSize;
-      }
+          return Promise.reject();
+        });
+      return isSize;
     },
     handleRemove(a, b) {
       document.querySelector(a).style =

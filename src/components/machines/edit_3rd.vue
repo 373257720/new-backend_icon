@@ -22,7 +22,7 @@
       </el-form-item>
       <el-form-item v-show="ruleForm.is_money_range==1">
         <span style="color: #606266;">{{$t('machines.CurrencyRange')}}:</span>
-        <span style="color: #606266;">{{$t('machines.FillIN')}}</span>
+        <span style="color: #606266;">（{{$t('machines.FillIN')}}）</span>
         <i @click="additem" class="el-icon-circle-plus-outline addsymbol"></i>
         <div class="Currencyrange">
           <div class="additem" v-for="(item,index) in ruleForm.arr" :key="index">
@@ -65,25 +65,25 @@
           </div>
         </div>
       </el-form-item>
-      <el-form-item :label="$t('machines.supportCoupons')">
+      <el-form-item :label="$t('machines.supportRedemption')">
         <el-radio-group v-model="ruleForm.is_redeem_coin">
           <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
           <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('machines.supportRedemption')">
+      <el-form-item :label="$t('machines.supportRedemptionMoney')">
         <el-radio-group v-model="ruleForm.is_redeem_money">
           <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
           <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Whether to support the use of coupons:">
+      <el-form-item :label="$t('machines.supportCoupons')">
         <el-radio-group v-model="ruleForm.is_coupon">
           <el-radio :label="1">{{$t('common.Yes')}}</el-radio>
           <el-radio :label="2">{{$t('common.No')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Language configuration:" prop="name">
+      <el-form-item :label="$t('machines.LanguageConfiguration')+':'" prop="name">
         <el-checkbox-group v-model="ruleForm.language_name">
           <el-checkbox label="zh-cn">
             <span>中文简体</span>
@@ -195,7 +195,6 @@ export default {
         }
       } else if (a.money_range_maximum && a.money_range_minimum == "") {
         if (order > 0 && this.ruleForm.arr[order - 1]) {
-          // console.log(this.ruleForm.arr[order - 1]);
           if (
             this.ruleForm.arr[order - 1].money_range_maximum.replace(
               /,/gi,
@@ -444,7 +443,6 @@ export default {
               "Content-Type": "application/x-www-form-urlencoded"
             }
           }).then(res => {
-            // console.log('back')
             if (res.data.ret === 0) {
               // this.$emit('getchildren');
               this.$routerto("edit_4th", {

@@ -6,11 +6,11 @@
       :modal="false"
       :before-close="handleClose"
       center>
-      <span slot="title" class="dialog-footer">Reminder</span>
+      <span slot="title" class="dialog-footer">{{$t('common.Reminder')}}</span>
       <p class="thick">{{msg}}</p>
       <span slot="footer" class="dialog-footer">
-        <button  @click="handleClose">Cancel</button>
-        <button @click="handledele">Yes</button>
+        <button  @click="handleClose">{{$t('common.Cancel')}}</button>
+        <button @click="handledele">{{$t('common.Yes')}}</button>
     </span>
     </el-dialog>
   </div>

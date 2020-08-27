@@ -11,7 +11,6 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
-        @selection-change="handleSelectionChange"
       >
         <el-table-column align="center" class-name="pic">
           <template slot-scope="scope">
@@ -53,8 +52,7 @@ export default {
           address: this.$t("auditLog.ErrorLogs"),
           pic: "./static/Error Logs.png"
         }
-      ],
-      multipleSelection: []
+      ]
     };
   },
   created() {
@@ -62,27 +60,22 @@ export default {
   },
   methods: {
     view(index, row) {
-      if (index == 0) {
-        this.$routerto("cashbox_log");
-      } else if (index == 1) {
-        this.$routerto("machine_connect_status");
-      } else if (index == 2) {
-        this.$routerto("error_log");
+      switch (index) {
+        case 0: {
+          this.$routerto("cashbox_log");
+          break;
+        }
+        case 1: {
+          this.$routerto("machine_connect_status");
+          break;
+        }
+        case 2: {
+          this.$routerto("error_log");
+          break;
+        }
       }
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
     }
   }
-  // watch: {
-  //   $route(to, from) {
-  //     if (to.name == "usercheck") {
-  //       this.ischeck = !this.ischeck;
-  //     } else {
-  //       this.ischeck = false;
-  //     }
-  //   }
-  // }
 };
 </script>
 

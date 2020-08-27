@@ -9,8 +9,8 @@
         <section @click="alledit(2)">{{$t('promotion.Disable')}}</section>
       </div>
       <div>
-        <span class="keyword">{{$t('promotion.Keyword')}}:</span>
-        <el-input placeholder="ID,Account numbers" v-model="keyword" clearable></el-input>
+        <span class="keyword">{{$t('common.Keyword')}}:</span>
+        <el-input :placeholder="$t('common.IDAccountNickname')" v-model="keyword" clearable></el-input>
         <i @click="searcher" class="el-icon-search"></i>
       </div>
     </nav>
@@ -147,10 +147,8 @@ export default {
             }
           });
       } else {
-        // this.msg="Please select"
-        // this.$message("Please select");
         this.$message({
-          message: "Please select",
+          message: this.$t("common.PleaseSelect"),
           type: "warning"
         });
       }
@@ -175,7 +173,10 @@ export default {
           // this.msg=res.data.msg;
           // this.remindervisible=true;
           if (res.data.ret == 0) {
-            this.$message(res.data.msg);
+            this.$message(res
+            
+            
+            .data.msg);
             if (row.status == 1) {
               this.tableData[index].status = 2;
               this.tableData[index].status_lable = "Banned";
@@ -214,7 +215,7 @@ export default {
     handleDelete(index, row) {
       // console.log(index, row);
       this.rowuser_id = row.user_id;
-      this.msg = "This will permanently delete the file, Continue?";
+      this.msg =  this.$t('common.DeleteWarning');
       this.remindervisible = true;
     },
     tabRowClassName({ row, rowIndex }) {
@@ -251,7 +252,7 @@ export default {
             this.pagetotal = res.data.data.total;
             this.tableData = [...res.data.data.data];
             this.tableData.forEach(item => {
-              item.status_lable = item.status == 1 ? "Normal" : "Banned";
+              item.status_lable = item.status == 1 ?  this.$t('promotion.Normal') :this.$t('promotion.Prohibit');
               item.create_time = this.$global.timestampToTime(item.create_time);
             });
             // console.log(this.tableData)
@@ -387,11 +388,12 @@ export default {
       }
 
       span.keyword {
-        line-height: 40px;
-        /*height: 40px;*/
+         line-height: 40px;
+        display: block;
+        width: 120px;
         color: #777777;
         text-align: center;
-        margin-right: 20px;
+        margin-right: 10px;
       }
 
       i {

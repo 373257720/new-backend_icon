@@ -2,18 +2,18 @@
   <div id="machines_edit">
     <header>
       <h2>
-        <span>{{$t('Machines')}}</span>
+        <span>{{$t('machines.Machines')}}</span>
         <i class="el-icon-arrow-right"></i>
         <span>{{$t('common.Edit')}}</span>
       </h2>
     </header>
     <main>
       <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
-        <el-tab-pane label="CryptoGo" name="edit_1st"></el-tab-pane>
-        <el-tab-pane label="Price & Fee" name="edit_2nd"></el-tab-pane>
-        <el-tab-pane label="Flow" name="edit_3rd"></el-tab-pane>
-        <el-tab-pane label="Operator" name="edit_4th"></el-tab-pane>
-        <el-tab-pane label="Advertisement" name="edit_5th"></el-tab-pane>
+        <el-tab-pane :label="$t('machines.CryptoGo')" name="edit_1st"></el-tab-pane>
+        <el-tab-pane  :label="$t('machines.PriceFee')"  name="edit_2nd"></el-tab-pane>
+        <el-tab-pane :label="$t('machines.Flow')" name="edit_3rd"></el-tab-pane>
+        <el-tab-pane :label="$t('machines.Operator')" name="edit_4th"></el-tab-pane>
+        <el-tab-pane  :label="$t('machines.Advertisement')" name="edit_5th"></el-tab-pane>
       </el-tabs>
       <keep-alive>
         <router-view v-if="status" v-on:getchildren="fromchildren" :MachineInfo="MachineInfo"></router-view>
@@ -27,10 +27,10 @@ export default {
   data() {
     return {
       activeName: "",
-      title: "",
+      // title: "",
       MachineInfo: {},
       status: false,
-      isupdated: false,
+      // isupdated: false,
       machineId: this.$route.query.machine_id
     };
   },
@@ -43,7 +43,6 @@ export default {
     if (this.$route.name) {
       this.activeName = this.$route.name;
     }
-
     this.getInfor();
   },
   methods: {
@@ -57,7 +56,7 @@ export default {
           { machine_id: this.machineId }
         )
         .then(res => {
-          console.log(res)
+          // console.log(res)
           this.MachineInfo = res.data.data;
           [
             "is_register",

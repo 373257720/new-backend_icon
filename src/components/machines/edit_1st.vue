@@ -141,7 +141,7 @@ export default {
       this.$axios.get(
         `${this.$axios.defaults.baseURL}/admin_api/content.country/getCountryList`,
         {
-          params: { token: this.$store.state.token, lang: "en-us" }
+          params: { token: this.$store.state.token,lang:localStorage.getItem("lan") || "en-us" }
         }
       ),
       this.$axios.get(
